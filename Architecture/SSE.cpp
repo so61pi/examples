@@ -4,8 +4,8 @@
 
 // this program shows how to add 2 arrays using SSE intrinsic functions
 int main() {
-    int a[4]{1, 2, 3, 4};
-    int b[4]{10, 20, 30, 40};
+    alignas(16) int a[4]{1, 2, 3, 4};
+    alignas(16) int b[4]{10, 20, 30, 40};
     __m128i x{};
     __m128i y{};
     __m128i z{};
