@@ -31,7 +31,7 @@ int main() {
     auto x = a.data();
     auto y = b.data();
     auto z = c.data();
-    for (int i = 0; i < a.size() / 4; ++i) {
+    for (decltype(a.size()) i = 0; i < a.size() / 4; ++i) {
         *reinterpret_cast<__m128i *>(&z[i * 4]) = _mm_add_epi32(
             *reinterpret_cast<__m128i *>(&x[i * 4]),
             *reinterpret_cast<__m128i *>(&y[i * 4]));
