@@ -2,12 +2,31 @@
 #include <iostream>
 #include <vector>
 #include <immintrin.h>
+#include <malloc.h>
+
+
+template <typename T>
+class my_allocator {
+public:
+    using value_type = T;
+
+
+    T *allocate(std::size_t n) {
+        // allocate 16-byte aligned memory
+        return static_cast<T *>(_aligned_malloc(n * sizeof(T), 16));
+    }
+
+
+    void deallocate(T *p, std::size_t n) {
+        _aligned_free(p);
+    }
+};
 
 
 int main() {
-    std::vector<int> a(100, 2);
-    std::vector<int> b(100, 3);
-    std::vector<int> c(100);
+    std::vector<int, my_allocator<int>> a(100, 2);
+    std::vector<int, my_allocator<int>> b(100, 3);
+    std::vector<int, my_allocator<int>> c(100);
 
     auto x = a.data();
     auto y = b.data();
