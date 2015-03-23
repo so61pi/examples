@@ -1,5 +1,6 @@
 #include <algorithm>
 #include <iostream>
+#include <stdexcept>
 #include <vector>
 #include <immintrin.h>
 #include <malloc.h>
@@ -13,7 +14,11 @@ public:
 
     T *allocate(std::size_t n) {
         // allocate 16-byte aligned memory
-        return static_cast<T *>(_aligned_malloc(n * sizeof(T), 16));
+        T *p = static_cast<T *>(_aligned_malloc(n * sizeof(T), 16));
+        if (p == nullptr) {
+            throw std::bad_alloc();
+        }
+        return p;
     }
 
 
