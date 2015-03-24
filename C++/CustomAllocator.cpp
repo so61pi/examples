@@ -1,4 +1,5 @@
 #include <iostream>
+#include <stdexcept>
 #include <vector>
 
 
@@ -7,10 +8,16 @@ class my_allocator {
 public:
     using value_type = T;
 
+
     T *allocate(std::size_t n) {
         std::cout << "allocate\n";
-        return static_cast<T *>(::operator new(n * sizeof(T)));
+        T *p = static_cast<T *>(::operator new(n * sizeof(T), std::nothrow));
+        if (p == nullptr) {
+            throw std::bad_alloc();
+        }
+        return p;
     }
+
 
     void deallocate(T *p, std::size_t n) {
         std::cout << "deallocate\n";
