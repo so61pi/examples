@@ -11,11 +11,7 @@ public:
 
     T *allocate(std::size_t n) {
         std::cout << "allocate\n";
-        T *p = static_cast<T *>(::operator new(n * sizeof(T), std::nothrow));
-        if (p == nullptr) {
-            throw std::bad_alloc();
-        }
-        return p;
+        return static_cast<T *>(::operator new(n * sizeof(T)));
     }
 
 
