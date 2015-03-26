@@ -15,7 +15,8 @@ std::wstring GetErrorMessage(DWORD error) {
         0,
         nullptr))
     {
-        std::wstring errorMessage(pszErrorMessage);
+        std::wstring errorMessage = L"Error " + std::to_wstring(error) + L" : ";
+        errorMessage += pszErrorMessage;
         LocalFree(pszErrorMessage);
 
         return errorMessage;
