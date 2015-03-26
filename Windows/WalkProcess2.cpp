@@ -1,5 +1,4 @@
 #include <iostream>
-#include <string>
 #include <Windows.h>
 #include <TlHelp32.h>
 
@@ -7,7 +6,6 @@
 void PrintProcessList();
 void PrintModuleList(DWORD processId);
 void PrintThreadList(DWORD processId);
-std::wstring FormatError(DWORD error);
 
 
 int main() {
