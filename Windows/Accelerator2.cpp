@@ -76,7 +76,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
             10, 10, 100, 50,
             hWnd,
             (HMENU)IDM_OK,
-            (HINSTANCE)GetWindowLong(hWnd, GWL_HINSTANCE),
+            (HINSTANCE)GetWindowLongPtr(hWnd, GWLP_HINSTANCE),
             NULL);
         if (hButton == NULL)
             MessageBox(hWnd, L"Cannot create button.", L"Message", MB_ICONINFORMATION);
