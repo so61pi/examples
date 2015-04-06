@@ -1,10 +1,31 @@
 #include <Windows.h>
+#include <CommCtrl.h>
+
+#pragma comment(lib, "Comctl32.lib")
+
+// enable visual style
+#pragma comment(linker, "\"/manifestdependency:type='win32' \
+    name='Microsoft.Windows.Common-Controls' version='6.0.0.0' \
+    processorArchitecture='*' publicKeyToken='6595b64144ccf1df' \
+    language='*'\"")
 
 
-const WORD IDM_OK = 1;
+const WORD IDM_EDIT = 1;
 
+LRESULT CALLBACK WndProc(
+    HWND hWnd,
+    UINT message,
+    WPARAM wParam,
+    LPARAM lParam);
 
-LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
+const UINT_PTR FilterId = 1;
+LRESULT CALLBACK FilterProc(
+    HWND hEdit,
+    UINT uMsg,
+    WPARAM wParam,
+    LPARAM lParam,
+    UINT_PTR uIdSubclass,
+    DWORD_PTR dwRefData);
 
 
 int APIENTRY wWinMain(
@@ -43,24 +64,11 @@ int APIENTRY wWinMain(
     ShowWindow(hWnd, nCmdShow);
     UpdateWindow(hWnd);
 
-    // create accelerator table   
-    ACCEL accel{};
-    // Alt + O
-    accel.fVirt = FALT | FVIRTKEY;
-    accel.key = 'O';
-    accel.cmd = IDM_OK;
-    auto hAccel = CreateAcceleratorTable(&accel, 1);
-    if (hAccel == NULL) {
-        MessageBox(NULL, L"Cannot create accelerator table.", L"Message", MB_ICONINFORMATION);
-    }
-
     // enter message loop
     MSG msg{};
     while (GetMessage(&msg, NULL, 0, 0)) {
-        if (!TranslateAccelerator(msg.hwnd, hAccel, &msg)) {
-            TranslateMessage(&msg);
-            DispatchMessage(&msg);
-        }
+        TranslateMessage(&msg);
+        DispatchMessage(&msg);
     }
 
     return (int)msg.wParam;
@@ -70,32 +78,26 @@ int APIENTRY wWinMain(
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {
     switch (message) {
     case WM_CREATE: {
-        HWND hButton = CreateWindow(
-            L"BUTTON", L"OK",
-            WS_TABSTOP | WS_VISIBLE | WS_CHILD | BS_DEFPUSHBUTTON,
-            10, 10, 100, 50,
+        auto hEdit = CreateWindow(
+            L"EDIT", L"",
+            WS_TABSTOP | WS_CHILD | WS_VISIBLE | WS_BORDER | ES_LEFT | ES_AUTOHSCROLL | ES_WANTRETURN,
+            10, 10, 500, 50,
             hWnd,
-            (HMENU)IDM_OK,
+            (HMENU)IDM_EDIT,
             (HINSTANCE)GetWindowLongPtr(hWnd, GWLP_HINSTANCE),
             NULL);
-        if (hButton == NULL)
-            MessageBox(hWnd, L"Cannot create button.", L"Message", MB_ICONINFORMATION);
+        if (hEdit == NULL) {
+            MessageBox(hWnd, L"Cannot create edit box.", L"Message", MB_ICONINFORMATION);
+            break;
+        }
+
+        if (SetWindowSubclass(hEdit, FilterProc, FilterId, 0) == FALSE) {
+            MessageBox(hWnd, L"Cannot subclass edit box.", L"Message", MB_ICONINFORMATION);
+            break;
+        }
+
         break;
     }
-
-    case WM_COMMAND:
-        if (LOWORD(wParam) == IDM_OK) {
-            switch (HIWORD(wParam)) {
-            case 0:
-                MessageBox(hWnd, L"OK is pressed.", L"Message", MB_ICONINFORMATION);
-                break;
-
-            case 1:
-                MessageBox(hWnd, L"OK is pressed using accelerator.", L"Message", MB_ICONINFORMATION);
-                break;
-            }
-        }
-        break;
 
     case WM_DESTROY:
         PostQuitMessage(0);
@@ -106,4 +108,23 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
     }
 
     return 0;
+}
+
+
+LRESULT CALLBACK FilterProc(
+    HWND hEdit,
+    UINT uMsg,
+    WPARAM wParam,
+    LPARAM lParam,
+    UINT_PTR uIdSubclass,
+    DWORD_PTR dwRefData)
+{
+    if (uMsg == WM_CHAR) {
+        if (wParam == VK_BACK)
+            return DefSubclassProc(hEdit, uMsg, wParam, lParam);
+        else if (wParam < '0' || wParam > '9')
+            return 0;
+    }
+
+    return DefSubclassProc(hEdit, uMsg, wParam, lParam);
 }
