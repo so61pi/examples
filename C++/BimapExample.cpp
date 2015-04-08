@@ -54,7 +54,7 @@ int main() {
 
     // find value from key
     std::cout << m.left.find(1)->second << "\n";
-    std::cout << m.left.at(2) << "\n\n"; // cannot use m.left[1]
+    std::cout << m.left.at(2) << "\n\n"; // cannot use m.left[2]
 
 
     //
@@ -66,5 +66,5 @@ int main() {
 
     // find value from key
     std::cout << m.right.find("three")->second << "\n";
-    std::cout << m.right.at("four") << "\n\n"; // cannot use m.left[1]
+    std::cout << m.right.at("four") << "\n\n"; // cannot use m.right["four"]
 }
