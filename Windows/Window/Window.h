@@ -12,12 +12,12 @@
 
 class Window {
 public:
-    using MESSAGEHANDLER = std::function<LRESULT(Window *const, UINT, WPARAM, LPARAM, LPVOID)>;
+    using MESSAGEHANDLER = std::function<LRESULT(Window *const, UINT, WPARAM, LPARAM)>;
 
     // start message loop
     WPARAM DoMessageLoop();
 
-    void AddMessageHandler(UINT message, LPVOID param, MESSAGEHANDLER handler);
+    void AddMessageHandler(UINT message, MESSAGEHANDLER handler);
     void RemoveMessageHandler(UINT message);
 
     // get associated window handle
@@ -50,7 +50,7 @@ private:
 
 private: // data
     HWND m_hWnd = nullptr;
-    std::map<UINT, std::pair<MESSAGEHANDLER, LPVOID>> m_messageHandlers;
+    std::map<UINT, MESSAGEHANDLER> m_messageHandlers;
 };
 
 

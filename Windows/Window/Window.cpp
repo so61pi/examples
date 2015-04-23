@@ -40,7 +40,7 @@ LRESULT CALLBACK Window::WndProc(
     try {
         if (m_messageHandlers.find(message) != m_messageHandlers.end()) {
             auto handler = m_messageHandlers[message];
-            return handler.first(this, message, wParam, lParam, handler.second);
+            return handler(this, message, wParam, lParam);
         }
         else if (message == WM_DESTROY) {
             PostQuitMessage(0);
@@ -126,11 +126,11 @@ WPARAM Window::DoMessageLoop() {
 }
 
 
-void Window::AddMessageHandler(UINT message, LPVOID param, MESSAGEHANDLER handler) {
+void Window::AddMessageHandler(UINT message, MESSAGEHANDLER handler) {
     if (handler == nullptr)
         throw std::invalid_argument("Message handler cannot be null.");
 
-    m_messageHandlers[message] = std::make_pair(handler, param);
+    m_messageHandlers[message] = handler;
 }
 
 

@@ -1,4 +1,5 @@
 #include <exception>
+#include <functional>
 
 #include <Windows.h>
 #include "Window.h"
@@ -14,19 +15,23 @@ int APIENTRY wWinMain(
         wchar_t message[] = L"Hello";
         Window window;
 
-        // add message handler for WM_CREATE and WM_DESTROY
-        window.AddMessageHandler(
-            WM_CREATE,
-            reinterpret_cast<LPVOID>(message),
+        auto createHandler =
             [](Window *const window, UINT, WPARAM, LPARAM, LPVOID param) -> LRESULT {
                 auto message = reinterpret_cast<wchar_t *>(param);
                 MessageBox(window->GetHWND(), message, L"Title", MB_ICONINFORMATION);
                 return 0;
-            });
+            };
+
+        // add message handler for WM_CREATE and WM_DESTROY
+        window.AddMessageHandler(
+            WM_CREATE,
+            std::bind(createHandler,
+                std::placeholders::_1, std::placeholders::_2,
+                std::placeholders::_3, std::placeholders::_4,
+                reinterpret_cast<LPVOID>(message)));
         window.AddMessageHandler(
             WM_DESTROY,
-            nullptr,
-            [](Window *const window, UINT, WPARAM, LPARAM, LPVOID) -> LRESULT {
+            [](Window *const window, UINT, WPARAM, LPARAM) -> LRESULT {
                 MessageBox(window->GetHWND(), L"Goodbye", L"Title", MB_ICONINFORMATION);
                 PostQuitMessage(0);
                 return 0;
