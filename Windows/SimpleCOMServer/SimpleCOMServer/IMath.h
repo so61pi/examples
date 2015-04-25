@@ -1,0 +1,37 @@
+#ifndef IMATH_H
+#define IMATH_H
+
+
+#include <Windows.h>
+#include <comdef.h>
+
+
+class DECLSPEC_UUID("F6124E58-C6FB-4BF7-BA21-21849D93C43F")
+CMath;
+
+
+MIDL_INTERFACE("D1507DEB-84E0-482E-8277-12757B595B7C")
+IAdd : public IUnknown {
+    virtual HRESULT STDMETHODCALLTYPE Add(LONG a, LONG b, LONG *c) = 0;
+};
+
+
+MIDL_INTERFACE("BF9E5604-8BCD-4E79-AA9D-8366D078ABDA")
+ISub : public IUnknown {
+    virtual HRESULT STDMETHODCALLTYPE Sub(LONG a, LONG b, LONG *c) = 0;
+};
+
+
+MIDL_INTERFACE("E943CFBD-9171-446E-81D0-28C95EB53115")
+IMul : public IUnknown {
+    virtual HRESULT STDMETHODCALLTYPE Mul(LONG a, LONG b, LONG *c) = 0;
+};
+
+
+MIDL_INTERFACE("BE4C77A3-007E-4D7E-8B91-FED59B26661E")
+IDiv : public IUnknown {
+    virtual HRESULT STDMETHODCALLTYPE Div(LONG a, LONG b, LONG *c) = 0;
+};
+
+
+#endif // IMATH_H
