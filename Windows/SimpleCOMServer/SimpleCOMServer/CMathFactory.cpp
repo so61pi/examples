@@ -23,16 +23,14 @@ HRESULT STDMETHODCALLTYPE CMathFactory::QueryInterface(REFIID riid, void **ppvOb
 
 
 ULONG STDMETHODCALLTYPE CMathFactory::AddRef(void) {
-    ++m_RefCount;
-    return static_cast<ULONG>(m_RefCount);
+    // non-heap object, never delete
+    return 1;
 }
 
 
 ULONG STDMETHODCALLTYPE CMathFactory::Release(void) {
-    auto retval = --m_RefCount;
-    if (m_RefCount == 0)
-        delete this;
-    return static_cast<ULONG>(retval);
+    // non-heap object, never delete
+    return 1;
 }
 
 

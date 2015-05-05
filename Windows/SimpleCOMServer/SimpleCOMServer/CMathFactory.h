@@ -22,9 +22,6 @@ public:
     // IClassFactory
     virtual HRESULT STDMETHODCALLTYPE CreateInstance(_In_opt_ IUnknown *pUnkOuter, _In_ REFIID riid, _COM_Outptr_ void **ppvObject) override;
     virtual HRESULT STDMETHODCALLTYPE LockServer(BOOL fLock) override;
-
-private:
-    std::atomic<long long> m_RefCount = 0;
 };
 
 
