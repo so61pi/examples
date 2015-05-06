@@ -6,7 +6,7 @@
 template<typename T,
     typename std::enable_if<std::is_integral<T>::value>::type * = nullptr>
         // create nullptr of void * if T is a integral type
-        // otherwise remove this function from overloading set
+        // otherwise create nullptr of <nothing> * -> REMOVE this function from overloading set
         //
         // use enable_if this way instead of #2 way
 void f(const T&) {
@@ -18,7 +18,7 @@ void f(const T&) {
 template<typename T,
     typename = typename std::enable_if<std::is_floating_point<T>::value>::type>
         // create type of void if T is a floating point type
-        // otherwise remove this function from overloading set
+        // otherwise create type of <nothing> -> REMOVE this function from overloading set
         //
         // but don't use enable_if this way, because if the user explicitly
         // provides template arguments like this
