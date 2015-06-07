@@ -31,12 +31,12 @@ public:
         start = name >> '@' >> host;
 
         name = +(qi::alnum | qi::char_('.') | qi::char_('_'));
-        host = qi::lexeme[+qi::alnum >> +(qi::char_('.') >> +qi::alnum)];
+        host = +qi::alnum >> +(qi::char_('.') >> +qi::alnum);
         // Cannot define host parser like below
         //
-        //   host = qi::lexeme[+(+qi::alnum >> qi::char_('.')) >> +qi::alnum];
+        //   host = +(+qi::alnum >> qi::char_('.')) >> +qi::alnum;
         //
-        // Part '+(+qi::alnum >> qi::char_('.'))' will eat all characters.
+        // The '+(+qi::alnum >> qi::char_('.'))' part will eat all characters.
     }
 
     qi::rule<Iterator, email()> start;
