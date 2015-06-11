@@ -13,7 +13,7 @@ public:
     {}
 
     ~Array() {
-        delete m_array;
+        delete[] m_array;
     }
 
     Array(const Array& other)
