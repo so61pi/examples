@@ -10,7 +10,7 @@ std::ostream& operator<<(std::ostream& os, const my_class&) {
 
 
 void print(std::ostream& os) {
-    // recursion end here
+    os << "recursion end here\n";
 }
 
 template<typename FirstType, typename... Args>
