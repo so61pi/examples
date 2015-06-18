@@ -30,10 +30,10 @@ Some examples in C++ folder require C++11 or even C++14 compliant compiler, in t
 
 * Visual Studio 2013
     * Nearly all C++11 features.
-    * Several C++14 features
+    * Several C++14 features.
 
 * Visual Studio 2015
-    * Nearly all C++14 features
+    * Nearly all C++14 features.
 
 * [MinGW](http://nuwen.net/mingw.html)
     * GCC.
