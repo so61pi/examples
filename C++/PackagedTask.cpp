@@ -7,8 +7,9 @@ int main() {
     // create a packaged task with a lambda
     std::packaged_task<int(int, int)> task(
         [](int a, int b) -> int {
-        return a + b;
-    });
+            return a + b;
+        }
+    );
 
     // get future to get returned value of task later
     std::future<int> ft = task.get_future();
