@@ -18,7 +18,7 @@ This repository contains several simple code snippets for demonstration purpose.
     * *Windows programming examples (Windows API, COM, Hook...).*
 
 * Others
-    * *Other examples that doesn't fit to any above folders.*
+    * *Other examples that don't fit to any above folders.*
 
 ### How do I run examples? ###
 
