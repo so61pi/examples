@@ -20,7 +20,7 @@ public:
 
 
 Test::Test()
-    : impl(new Impl{ "hello\n" })
+    : impl(std::make_unique<Impl>("hello\n"))
 {}
 
 
