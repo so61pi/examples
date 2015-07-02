@@ -1,14 +1,48 @@
+#include <algorithm>
 #include <exception>
+#include <ios>
 #include <iostream>
+#include <sstream>
 #include <stdexcept>
 #include <string>
+
+
+template<typename CharType = char, typename T>
+auto to_hex_string(T const& value, bool upper = true, bool showbase = true, bool upper_base = false) {
+    using string_type = std::basic_string<CharType>;
+    using stream_type = std::basic_stringstream<CharType>;
+    
+    string_type str;
+    stream_type ss;
+    if (upper)
+        ss << std::hex << std::uppercase << value;
+    else
+        ss << std::hex << value;
+    ss >> str;
+    
+    if (showbase) {
+        std::reverse(str.begin(), str.end());
+        str.push_back(upper_base ? CharType('X') : CharType('x'));
+        str.push_back(CharType('0'));
+        std::reverse(str.begin(), str.end());
+    }
+
+    return str;
+}
 
 
 int main() {
     try {
         // convert a number to std::string
-        auto str = std::to_string(123456789.0);
-        std::cout << "str = " << str << "\n";
+        auto s1 = std::to_string(123456789.0);
+        std::cout << "s1 = " << s1 << "\n";
+        
+        // convert to hex format
+        auto s2 = to_hex_string(127);
+        std::cout << "s2 = " << s2 << "\n";
+        
+        auto s3 = to_hex_string<wchar_t>(127);
+        std::wcout << L"s3 = " << s3 << L"\n";
         
         // convert a std::string to integer
         auto n1 = std::stoi("-123456");
