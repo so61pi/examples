@@ -38,6 +38,8 @@ LRESULT CALLBACK Window::WndProc(
     LPARAM lParam)
 {
     try {
+        std::lock_guard<std::mutex> lg{ m_mutex };
+
         if (m_messageHandlers.find(message) != m_messageHandlers.end()) {
             auto handler = m_messageHandlers[message];
             return handler(this, message, wParam, lParam);
@@ -55,12 +57,12 @@ LRESULT CALLBACK Window::WndProc(
 }
 
 
-HWND Window::GetHWND() {
+HWND Window::GetHWND() const {
     return m_hWnd;
 }
 
 
-void Window::Register(const std::wstring& windowClassName) {
+void Window::Register(const std::wstring& windowClassName) const {
     // register class
     WNDCLASSEX wcex{};
     wcex.cbSize = sizeof(wcex);
@@ -69,8 +71,8 @@ void Window::Register(const std::wstring& windowClassName) {
     wcex.cbClsExtra = 0;
     wcex.cbWndExtra = 0;
     wcex.hInstance = GetModuleHandle(nullptr);
-    wcex.hCursor = LoadCursor(NULL, IDC_ARROW);
-    wcex.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
+    wcex.hCursor = LoadCursor(nullptr, IDC_ARROW);
+    wcex.hbrBackground = reinterpret_cast<HBRUSH>(COLOR_WINDOW + 1);
     wcex.lpszClassName = windowClassName.c_str();
     if (!RegisterClassEx(&wcex))
         throw std::runtime_error("Cannot register class.");
@@ -108,16 +110,16 @@ HWND Window::Create(
 }
 
 
-void Window::Show(int flags) {
+void Window::Show(int flags) const {
     ShowWindow(m_hWnd, flags);
     UpdateWindow(m_hWnd);
 }
 
 
-WPARAM Window::DoMessageLoop() {
+WPARAM Window::DoMessageLoop() const {
     // enter message loop
     MSG msg{};
-    while (GetMessage(&msg, NULL, 0, 0)) {
+    while (GetMessage(&msg, nullptr, 0, 0)) {
         TranslateMessage(&msg);
         DispatchMessage(&msg);
     }
@@ -127,6 +129,8 @@ WPARAM Window::DoMessageLoop() {
 
 
 void Window::AddMessageHandler(UINT message, MESSAGEHANDLER handler) {
+    std::lock_guard<std::mutex> lg{ m_mutex };
+
     if (handler == nullptr)
         throw std::invalid_argument("Message handler cannot be null.");
 
@@ -135,6 +139,8 @@ void Window::AddMessageHandler(UINT message, MESSAGEHANDLER handler) {
 
 
 void Window::RemoveMessageHandler(UINT message) {
+    std::lock_guard<std::mutex> lg{ m_mutex };
+
     m_messageHandlers.erase(message);
 }
 
