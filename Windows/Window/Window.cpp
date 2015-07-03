@@ -38,7 +38,7 @@ LRESULT CALLBACK Window::WndProc(
     LPARAM lParam)
 {
     try {
-        std::lock_guard<std::mutex> lg{ m_mutex };
+        std::lock_guard<mutex_type> lg{ m_mutex };
 
         if (m_messageHandlers.find(message) != m_messageHandlers.end()) {
             auto handler = m_messageHandlers[message];
@@ -129,7 +129,7 @@ WPARAM Window::DoMessageLoop() const {
 
 
 void Window::AddMessageHandler(UINT message, MESSAGEHANDLER handler) {
-    std::lock_guard<std::mutex> lg{ m_mutex };
+    std::lock_guard<mutex_type> lg{ m_mutex };
 
     if (handler == nullptr)
         throw std::invalid_argument("Message handler cannot be null.");
@@ -139,7 +139,7 @@ void Window::AddMessageHandler(UINT message, MESSAGEHANDLER handler) {
 
 
 void Window::RemoveMessageHandler(UINT message) {
-    std::lock_guard<std::mutex> lg{ m_mutex };
+    std::lock_guard<mutex_type> lg{ m_mutex };
 
     m_messageHandlers.erase(message);
 }

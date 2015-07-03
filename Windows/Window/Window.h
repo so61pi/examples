@@ -52,8 +52,10 @@ private:
 private: // data
     HWND m_hWnd = nullptr;
 
+    using mutex_type = std::recursive_mutex;
+
     // mutex for m_messageHandlers
-    std::mutex m_mutex;
+    mutex_type m_mutex;
     std::map<UINT, MESSAGEHANDLER> m_messageHandlers;
 };
 
