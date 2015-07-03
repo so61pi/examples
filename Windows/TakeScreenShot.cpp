@@ -57,7 +57,7 @@ bool FindImageEncoder(const std::wstring& mimeType, CLSID& clsid) {
 // save image to file
 //
 void SaveImage(const std::wstring& fileName, HBITMAP hBitmap, const std::wstring& mimeType) {
-    Gdiplus::Bitmap bm{ hBitmap, NULL };
+    Gdiplus::Bitmap bm{ hBitmap, nullptr };
     CLSID clsid{};
     if (FindImageEncoder(mimeType, clsid)) {
         if (bm.Save(fileName.c_str(), &clsid) != Gdiplus::Status::Ok)

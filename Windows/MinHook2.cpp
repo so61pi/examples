@@ -34,7 +34,7 @@ int main() {
 
     HookMessageBoxW();
 
-    MessageBoxW(NULL, L"Text", L"Caption", MB_ICONINFORMATION | MB_OK);
+    MessageBoxW(nullptr, L"Text", L"Caption", MB_ICONINFORMATION | MB_OK);
 
     MH_Uninitialize();
 }

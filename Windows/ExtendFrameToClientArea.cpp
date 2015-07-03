@@ -32,19 +32,19 @@ int APIENTRY wWinMain(
     wcex.cbClsExtra = 0;
     wcex.cbWndExtra = 0;
     wcex.hInstance = hInstance;
-    wcex.hCursor = LoadCursor(NULL, IDC_ARROW);
+    wcex.hCursor = LoadCursor(nullptr, IDC_ARROW);
     wcex.hbrBackground = (HBRUSH)GetStockObject(BLACK_BRUSH);
     wcex.lpszClassName = szWindowClass;
     if (!RegisterClassEx(&wcex)) {
-        MessageBox(NULL, L"Cannot register class.", L"Message", MB_ICONINFORMATION);
+        MessageBox(nullptr, L"Cannot register class.", L"Message", MB_ICONINFORMATION);
         return -1;
     }
 
     // create window
     auto hWnd = CreateWindow(szWindowClass, szWindowTitle, WS_OVERLAPPEDWINDOW,
-        CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, NULL, NULL, hInstance, NULL);
-    if (hWnd == NULL) {
-        MessageBox(NULL, L"Cannot create window.", L"Message", MB_ICONINFORMATION);
+        CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, nullptr, nullptr, hInstance, nullptr);
+    if (hWnd == nullptr) {
+        MessageBox(nullptr, L"Cannot create window.", L"Message", MB_ICONINFORMATION);
         return -1;
     }
 
@@ -53,7 +53,7 @@ int APIENTRY wWinMain(
 
     // enter message loop
     MSG msg{};
-    while (GetMessage(&msg, NULL, 0, 0)) {
+    while (GetMessage(&msg, nullptr, 0, 0)) {
         TranslateMessage(&msg);
         DispatchMessage(&msg);
     }

@@ -77,11 +77,11 @@ HRESULT STDMETHODCALLTYPE CSimpleShortcutMenuHandler::Initialize(
     // extract the file name
     if (pDataObj) {
         STGMEDIUM medium{};
-        FORMATETC fe = { CF_HDROP, NULL, DVASPECT_CONTENT, -1, TYMED_HGLOBAL };
+        FORMATETC fe = { CF_HDROP, nullptr, DVASPECT_CONTENT, -1, TYMED_HGLOBAL };
 
         if (SUCCEEDED(pDataObj->GetData(&fe, &medium))) {
             // Get the count of files dropped.
-            auto uCount = DragQueryFile((HDROP)medium.hGlobal, -1, NULL, 0);
+            auto uCount = DragQueryFile((HDROP)medium.hGlobal, -1, nullptr, 0);
 
             // Get the first file name from the CF_HDROP.
             if (uCount) {

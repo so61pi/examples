@@ -25,19 +25,19 @@ int APIENTRY wWinMain(
     wcex.cbClsExtra = 0;
     wcex.cbWndExtra = 0;
     wcex.hInstance = hInstance;
-    wcex.hCursor = LoadCursor(NULL, IDC_ARROW);
+    wcex.hCursor = LoadCursor(nullptr, IDC_ARROW);
     wcex.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
     wcex.lpszClassName = szWindowClass;
     if (!RegisterClassEx(&wcex)) {
-        MessageBox(NULL, L"Cannot register class.", L"Message", MB_ICONINFORMATION);
+        MessageBox(nullptr, L"Cannot register class.", L"Message", MB_ICONINFORMATION);
         return -1;
     }
 
     // create window
     auto hWnd = CreateWindow(szWindowClass, szWindowTitle, WS_OVERLAPPEDWINDOW,
-        CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, NULL, NULL, hInstance, NULL);
-    if (hWnd == NULL) {
-        MessageBox(NULL, L"Cannot create window.", L"Message", MB_ICONINFORMATION);
+        CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, nullptr, nullptr, hInstance, nullptr);
+    if (hWnd == nullptr) {
+        MessageBox(nullptr, L"Cannot create window.", L"Message", MB_ICONINFORMATION);
         return -1;
     }
 
@@ -55,13 +55,13 @@ int APIENTRY wWinMain(
     accel[1].key = 'P';
     accel[1].cmd = IDM_ATL_P;
     auto hAccel = CreateAcceleratorTable(accel, 2);
-    if (hAccel == NULL) {
-        MessageBox(NULL, L"Cannot create accelerator table.", L"Message", MB_ICONINFORMATION);
+    if (hAccel == nullptr) {
+        MessageBox(nullptr, L"Cannot create accelerator table.", L"Message", MB_ICONINFORMATION);
     }
 
     // enter message loop
     MSG msg{};
-    while (GetMessage(&msg, NULL, 0, 0)) {
+    while (GetMessage(&msg, nullptr, 0, 0)) {
         if (!TranslateAccelerator(msg.hwnd, hAccel, &msg)) {
             TranslateMessage(&msg);
             DispatchMessage(&msg);

@@ -6,7 +6,7 @@ int main() {
     auto xScreen = GetSystemMetrics(SM_CXSCREEN);
     auto yScreen = GetSystemMetrics(SM_CYSCREEN);
     if (xScreen == 0 || yScreen == 0) {
-        MessageBox(NULL, L"Cannot get screen's size.", L"Message", MB_ICONINFORMATION);
+        MessageBox(nullptr, L"Cannot get screen's size.", L"Message", MB_ICONINFORMATION);
         return -1;
     }
 

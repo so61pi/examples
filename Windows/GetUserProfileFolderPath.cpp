@@ -7,7 +7,7 @@ int main() {
     wchar_t *szPath{};
     auto hr = SHGetKnownFolderPath(FOLDERID_Profile, KF_FLAG_DEFAULT_PATH, NULL, &szPath);
     if (hr != S_OK) {
-        MessageBox(NULL, L"Cannot get folder path.", L"Message", MB_ICONINFORMATION);
+        MessageBox(nullptr, L"Cannot get folder path.", L"Message", MB_ICONINFORMATION);
         return -1;
     }
 
