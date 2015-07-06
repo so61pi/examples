@@ -1,5 +1,6 @@
 #include <array>
 #include <iostream>
+#include <type_traits>
 
 
 template<typename T>
@@ -23,8 +24,10 @@ int main() {
     double a[10];
     std::cout << array_size<decltype(a)>::value << "\n";
     std::cout << array_size<decltype(a)>::bytes << "\n";
+    std::cout << std::extent<decltype(a)>::value << "\n";
     
     std::array<short, 5> b;
     std::cout << array_size<decltype(b)>::value << "\n";
     std::cout << array_size<decltype(b)>::bytes << "\n";
+    std::cout << std::tuple_size<decltype(b)>::value << "\n"; // cannot use std::extent for std::array
 }
