@@ -1,32 +1,15 @@
 #include <iostream>
 #include <string>
-#include <typeinfo>
+#include <boost/type_index.hpp>
 
-
-#ifdef _MSC_VER
 
 template<typename T>
-std::string get_type() {
-    T* temp = nullptr;
-    return typeid(*temp).name();
+std::string get_type_name() {
+    return boost::typeindex::type_id_with_cvr<T>().pretty_name();
 }
-
-#elif defined(__GNUC__)
-
-#include <cxxabi.h>
-
-template<typename T>
-std::string get_type() {
-    int status = -1;
-    
-    T* temp = nullptr;
-    return abi::__cxa_demangle(typeid(*temp).name(), nullptr, nullptr, &status);
-}
-
-#endif
 
 
 int main() {
-    std::cout << get_type<const int *>() << "\n";
-    std::cout << get_type<std::string *>() << "\n";
+    std::cout << get_type_name<const int *>() << "\n";
+    std::cout << get_type_name<std::string&>() << "\n";
 }
