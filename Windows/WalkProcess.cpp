@@ -28,6 +28,7 @@ int main() {
                 QueryFullProcessImageName(hProcess, 0, fileName, &size);
 
                 std::wcout << fileName << "\n";
+                CloseHandle(hProcess);
             }
             else {
                 std::wcout << FormatError(GetLastError());
