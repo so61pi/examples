@@ -30,41 +30,12 @@ namespace detail {
         }
     };
 
-
-    template<typename Object, typename MemFun>
-    struct memfun_wrapper {
-        static_assert(std::is_reference<Object>::value, "object type must be reference type");
-        static_assert(std::is_member_function_pointer<MemFun>::value, "member function must be a pointer type");
-
-        memfun_wrapper(Object obj, MemFun func) :
-            m_obj{ std::forward<Object>(obj) },
-            m_func{ func }
-        {}
-
-        template<typename... Args>
-        decltype(auto) operator()(Args&&... args) const {
-            // if you get an error about const qualifier here
-            // then the constness of m_func is not compatible with m_obj
-            return (m_obj.*m_func)(std::forward<Args>(args)...);
-        }
-
-        Object m_obj;
-        MemFun m_func;
-    };
-
 } // namespace detail
 
 
 template<typename Function, typename Tuple>
 decltype(auto) expand(Function&& f, Tuple&& t) {
     return detail::helper<0, std::tuple_size<std::remove_reference_t<Tuple>>::value>{}(std::forward<Function>(f), std::forward<Tuple>(t));
-}
-
-
-template<typename Object, typename MemFun, typename Tuple>
-decltype(auto) expand(Object&& obj, MemFun memfun, Tuple&& t) {
-    detail::memfun_wrapper<Object&&, MemFun> f{ std::forward<Object>(obj), memfun };
-    return expand(f, std::forward<Tuple>(t));
 }
 
 
@@ -82,6 +53,10 @@ public:
     void display(int a, char b, double c, std::string& d) {
         std::cout << "test_t::display : " << a << " " << b << " " << c << " " << d << "\n";
     }
+
+    void display(int a, char b, double c, std::string& d) const {
+        std::cout << "test_t const::display : " << a << " " << b << " " << c << " " << d << "\n";
+    }
 };
 
 
@@ -90,7 +65,8 @@ int main() {
     expand(display, t);
 
     test_t test{};
-    expand([&test](auto&&... args) { test.display(args...); }, t);
-    expand(test, &test_t::display, t);
-    expand(test_t::create(), &test_t::display, t);
+    expand([&test](auto&&... args) { test.display(std::forward<decltype(args)>(args)...); }, t);
+
+    test_t const& ctest = test;
+    expand([&ctest](auto&&... args) { ctest.display(std::forward<decltype(args)>(args)...); }, t);
 }
