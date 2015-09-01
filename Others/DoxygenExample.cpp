@@ -34,7 +34,7 @@ public:
         Brief description.
 
     @details
-        Detail description for set_cursor() function.
+        Detail description.
 
     @tparam     AType       Template parameter description.
     @tparam     BType       Template parameter description.
