@@ -1,6 +1,5 @@
 #include <algorithm>
 #include <array>
-#include <cassert>
 #include <iostream>
 #include <tuple>
 #include <vector>
@@ -10,23 +9,22 @@
 The backtrack function below is similar to this function,
 excepts it doesn't use recursion.
 
-void backtrack(current, visitor) {
-    if (visitor.is_solution(current)) {
-        visitor.proccess_solution(visitor);
-        return;
+void backtrack(current, functions_set) {
+    if (functions_set.is_solution(current)) {
+        functions_set.proccess_solution(current);
     }
     else {
-        auto its = visitor.construct_solution(current);
+        auto its = functions_set.build(current);
         for (auto it = std::get<0>(its), eit = std::get<1>(its); it != eit; ++it) {
-            visitor.pre_backtrack(*it);
-            backtrack(*it, visitor);
-            visitor.post_backtrack(*it);
+            functions_set.enter(*it);
+            backtrack(*it, functions_set);
+            functions_set.exit(*it);
         }
     }
 }
 */
-template<typename ForwardIt, typename Visitor>
-void backtrack(Visitor&& visitor) {
+template<typename ForwardIt, typename FunctionsSet>
+void backtrack(FunctionsSet&& funs) {
     enum {
         current_iterator,
         end_iterator,
@@ -34,7 +32,7 @@ void backtrack(Visitor&& visitor) {
     };
 
     std::vector<std::tuple<ForwardIt, ForwardIt, bool>> stack;
-    stack.push_back(std::tuple_cat(visitor.first_construct(), std::make_tuple(true)));
+    stack.push_back(std::tuple_cat(funs.first_construct(), std::make_tuple(true)));
 
     while (!stack.empty()) {
         auto& back = stack.back();
@@ -45,17 +43,17 @@ void backtrack(Visitor&& visitor) {
             std::get<is_first_time>(back) = false;
         }
         else {
-            visitor.post_backtrack(*it);
+            funs.exit(*it);
             ++it;
         }
 
         if (it != eit) {
-            visitor.pre_backtrack(*it);
-            if (visitor.is_solution(*it)) {
-                visitor.process_solution(*it);
+            funs.enter(*it);
+            if (funs.is_solution(*it)) {
+                funs.process_solution(*it);
             }
             else {
-                stack.push_back(std::tuple_cat(visitor.construct_solution(*it), std::make_tuple(true)));
+                stack.push_back(std::tuple_cat(funs.build(*it), std::make_tuple(true)));
             }
         }
         else {
@@ -88,7 +86,7 @@ struct iterator {
         }
     }
 
-    auto operator!=(iterator const& other) const -> bool {
+    auto operator!=(iterator const&) const -> bool {
         return !m_is_end;
     }
 
@@ -114,11 +112,12 @@ private:
 };
 
 
-class visitor {
+class functions_set {
 public:
-    visitor(std::array<int, 6>& array, int& counter) :
+    functions_set(std::array<int, 6>& array, int& counter, int& solution_counter) :
         m_array{ array },
-        m_counter{ counter }
+        m_counter{ counter },
+        m_solution_counter{ solution_counter }
     {}
 
 
@@ -127,7 +126,7 @@ public:
     }
 
 
-    auto construct_solution(working_object wo) {
+    auto build(working_object const& wo) {
         if (wo.pos >= 6) {
             return std::make_pair(iterator{}, iterator{});
         }
@@ -137,11 +136,12 @@ public:
     }
 
 
-    void pre_backtrack(working_object const&) {
+    void enter(working_object const& wo) {
+        ++m_counter;
     }
 
 
-    void post_backtrack(working_object const&) {
+    void exit(working_object const& wo) {
     }
 
 
@@ -160,7 +160,7 @@ public:
 
 
     void process_solution(working_object const& wo) {
-        ++m_counter;
+        ++m_solution_counter;
         for (auto& e : *wo.array) {
             std::cout << e << ' ';
         }
@@ -171,13 +171,15 @@ public:
 private:
     std::array<int, 6>& m_array;
     int& m_counter;
+    int& m_solution_counter;
 };
 
 
 int main() {
-    std::array<int, 6> temp;
+    std::array<int, 6> temp{};
     int counter{ 0 };
-    visitor vis{ temp, counter };
-    backtrack<iterator>(vis);
-    std::cout << counter;
+    int solution_counter{ 0 };
+    functions_set funs{ temp, counter, solution_counter };
+    backtrack<iterator>(funs);
+    std::cout << counter << ' ' << solution_counter;
 }
