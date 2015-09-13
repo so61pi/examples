@@ -32,7 +32,7 @@ void backtrack(FunctionsSet&& funs) {
     };
 
     std::vector<std::tuple<ForwardIt, ForwardIt, bool>> stack;
-    stack.push_back(std::tuple_cat(funs.first_construct(), std::make_tuple(true)));
+    stack.push_back(std::tuple_cat(funs.first_build(), std::make_tuple(true)));
 
     while (!stack.empty()) {
         auto& back = stack.back();
@@ -121,7 +121,7 @@ public:
     {}
 
 
-    std::pair<iterator, iterator> first_construct() {
+    std::pair<iterator, iterator> first_build() {
         return std::make_pair(iterator{ &m_array, 0 }, iterator{});
     }
 
