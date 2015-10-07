@@ -12,17 +12,17 @@ class tuple_printer {
     template<std::size_t Index, std::size_t PrevEnd, typename Ignore = void>
     struct helper {
         template<typename Tuple>
-        void operator()(this_type const& outer, std::ostream& os, Tuple&& tuple) const {
-            os << std::get<Index>(std::forward<Tuple>(tuple)) << outer.m_separate_str;
-            helper<Index + 1, PrevEnd>{}(outer, os, std::forward<Tuple>(tuple));
+        void operator()(this_type const& outer, std::ostream& os, Tuple const& tuple) const {
+            os << std::get<Index>(tuple) << outer.m_separate_str;
+            helper<Index + 1, PrevEnd>{}(outer, os, tuple);
         }
     };
 
     template<std::size_t PrevEnd, typename Ignore>
     struct helper<PrevEnd, PrevEnd, Ignore> {
         template<typename Tuple>
-        void operator()(this_type const&, std::ostream& os, Tuple&& tuple) const {
-            os << std::get<PrevEnd>(std::forward<Tuple>(tuple));
+        void operator()(this_type const&, std::ostream& os, Tuple const& tuple) const {
+            os << std::get<PrevEnd>(tuple);
         }
     };
 
@@ -36,16 +36,16 @@ public:
     {}
 
 
-    template<typename Tuple, std::enable_if_t<std::tuple_size<std::remove_reference_t<Tuple>>::value != 0> * = nullptr>
-    void operator()(std::ostream& os, Tuple&& tuple) const {
+    template<typename Tuple, std::enable_if_t<std::tuple_size<Tuple>::value != 0> * = nullptr>
+    void operator()(std::ostream& os, Tuple const& tuple) const {
         os << m_open_str;
-        helper<0, std::tuple_size<std::remove_reference_t<Tuple>>::value - 1>{}(*this, os, std::forward<Tuple>(tuple));
+        helper<0, std::tuple_size<Tuple>::value - 1>{}(*this, os, tuple);
         os << m_close_str;
     }
 
 
-    template<typename Tuple, std::enable_if_t<std::tuple_size<std::remove_reference_t<Tuple>>::value == 0> * = nullptr>
-    void operator()(std::ostream& os, Tuple&& tuple) const {
+    template<typename Tuple, std::enable_if_t<std::tuple_size<Tuple>::value == 0> * = nullptr>
+    void operator()(std::ostream& os, Tuple const& tuple) const {
         os << m_open_str << m_close_str;
     }
 
@@ -57,9 +57,9 @@ private:
 };
 
 
-template<typename Tuple>
-std::ostream& operator<<(std::ostream& os, Tuple&& tuple) {
-    tuple_printer{}(os, std::forward<Tuple>(tuple));
+template<typename... Ts>
+std::ostream& operator<<(std::ostream& os, std::tuple<Ts...> const& tuple) {
+    tuple_printer{}(os, tuple);
     return os;
 }
 
