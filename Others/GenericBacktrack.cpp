@@ -20,24 +20,26 @@ void backtrack(current, functions_set) {
             backtrack(*it, functions_set);
             functions_set.exit(*it);
         }
+        functions_set.complete(its);
     }
 }
 */
 template<typename ForwardIt, typename FunctionsSet>
 void backtrack(FunctionsSet&& funs) {
     enum {
-        current_iterator,
-        end_iterator,
-        is_first_time
+        iterators = 0,
+            current_iterator = 0,
+            end_iterator = 1,
+        is_first_time = 1
     };
 
-    std::vector<std::tuple<ForwardIt, ForwardIt, bool>> stack;
-    stack.push_back(std::tuple_cat(funs.first_build(), std::make_tuple(true)));
+    std::vector<std::tuple<std::tuple<ForwardIt, ForwardIt>, bool>> stack;
+    stack.emplace_back(funs.build(), true);
 
     while (!stack.empty()) {
         auto& back = stack.back();
-        auto& it = std::get<current_iterator>(back);
-        auto& eit = std::get<end_iterator>(back);
+        auto& it = std::get<current_iterator>(std::get<iterators>(back));
+        auto& eit = std::get<end_iterator>(std::get<iterators>(back));
 
         if (std::get<is_first_time>(back)) {
             std::get<is_first_time>(back) = false;
@@ -53,10 +55,11 @@ void backtrack(FunctionsSet&& funs) {
                 funs.process_solution(*it);
             }
             else {
-                stack.push_back(std::tuple_cat(funs.build(*it), std::make_tuple(true)));
+                stack.emplace_back(funs.build(*it), true);
             }
         }
         else {
+            funs.complete(std::get<iterators>(back));
             stack.pop_back();
         }
     }
@@ -121,31 +124,35 @@ public:
     {}
 
 
-    std::pair<iterator, iterator> first_build() {
-        return std::make_pair(iterator{ &m_array, 0 }, iterator{});
+    auto build() -> std::tuple<iterator, iterator> {
+        return std::make_tuple(iterator{ &m_array, 0 }, iterator{});
     }
 
 
     auto build(working_object const& wo) {
         if (wo.pos >= 6) {
-            return std::make_pair(iterator{}, iterator{});
+            return std::make_tuple(iterator{}, iterator{});
         }
         else {
-            return std::make_pair(iterator{ wo.array, wo.pos + 1 }, iterator{});
+            return std::make_tuple(iterator{ wo.array, wo.pos + 1 }, iterator{});
         }
     }
 
 
-    void enter(working_object const& wo) {
+    void complete(std::tuple<iterator, iterator> const&) {
+    }
+
+
+    void enter(working_object const&) {
         ++m_counter;
     }
 
 
-    void exit(working_object const& wo) {
+    void exit(working_object const&) {
     }
 
 
-    bool is_solution(working_object const& wo) {
+    auto is_solution(working_object const& wo) -> bool {
         auto temp = *wo.array;
         std::sort(begin(temp), end(temp));
 
