@@ -16,5 +16,5 @@ int main() {
     std::cout << dis(gen) << std::endl;
 
     // generate a number in [1, 10] range
-    std::cout << dis(gen, { 1, 10 }) << std::endl;
+    std::cout << dis(gen, decltype(dis)::param_type{ 1, 10 }) << std::endl;
 }
