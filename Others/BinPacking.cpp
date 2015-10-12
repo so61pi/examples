@@ -53,6 +53,7 @@ auto bin_packing(std::set<object>& objs) -> std::vector<bin> {
             // if we cannot find a good object even if nothing is in bin
             // then all left objects are too big
             if (current_bin.objects.empty()) {
+                bins.pop_back();
                 break;
             }
 
