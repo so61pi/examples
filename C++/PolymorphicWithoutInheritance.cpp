@@ -3,6 +3,8 @@
 #include <string>
 #include <vector>
 
+// Drawable concept
+//     void draw(T const& value, std::ostream& os, int pos);
 
 //
 // used from object::model<t>::draw_ to draw a known thing (e.g. int, std::string)
@@ -45,6 +47,8 @@ public:
         std::swap(m_val, other.m_val);
     }
 
+    // we use friend draw function to have single calling way (draw(...))
+    // therefore, writing algorithm is easier
     friend void draw(const object& o, std::ostream& os, int pos);
 
 private:
