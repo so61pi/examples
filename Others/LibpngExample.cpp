@@ -1,5 +1,6 @@
 #include <cstdio>
 #include <exception>
+#include <fstream>
 #include <iostream>
 #include <stdexcept>
 #include <string>
@@ -7,13 +8,16 @@
 #include <utility>
 #include <vector>
 
+#include <boost/multi_array.hpp>
 #include <boost/scope_exit.hpp>
 
 #include <zlib.h>
 #include <png.h>
 
 
-template <typename T> using matrix = std::vector<std::vector<T>>;
+template <typename T> using matrix = boost::multi_array<T, 2>;
+
+using file_stream_type = std::fstream;
 
 
 struct png_ihdr {
@@ -27,7 +31,9 @@ struct png_ihdr {
 };
 
 
+//
 // call back functions
+//
 void user_error_fn(png_structp, png_const_charp error_msg) {
     throw std::runtime_error(error_msg);
 }
@@ -45,20 +51,34 @@ void write_row_callback(png_structp, png_uint_32 row, int) {
 }
 
 
+//
+// alternative read write functions
+//
+void PNGAPI read_data_fn(png_structp png_ptr, png_bytep buffer, png_size_t size) {
+    auto& fs = *reinterpret_cast<file_stream_type *>(png_get_io_ptr(png_ptr));
+    fs.read(reinterpret_cast<file_stream_type::char_type *>(buffer), size);
+    // png_error(png_ptr, "Error msg")
+}
+
+
+void PNGAPI write_data_fn(png_structp png_ptr, png_bytep buffer, png_size_t size) {
+    auto& fs = *reinterpret_cast<file_stream_type *>(png_get_io_ptr(png_ptr));
+    fs.write(reinterpret_cast<file_stream_type::char_type *>(buffer), size);
+}
+
+
+void PNGAPI flush_fn(png_structp png_ptr) {
+    auto& fs = *reinterpret_cast<file_stream_type *>(png_get_io_ptr(png_ptr));
+    fs.flush();
+}
+
+
+//
+// read png to a matrix
+//
 auto read_png(const std::string& file)
     -> std::tuple<matrix<png_byte>, png_ihdr> {
-    FILE* fp = nullptr;
-    BOOST_SCOPE_EXIT_ALL(&) {
-        if (fp)
-            fclose(fp);
-    };
-
-    //
-    // open file for reading
-    //
-    fp = fopen(file.c_str(), "rb");
-    if (!fp)
-        throw std::runtime_error("Cannot open file.");
+    file_stream_type fs{ file, std::ios::in | std::ios::binary };
 
     //
     // read first 8 bytes to check if a file is png or not
@@ -66,7 +86,7 @@ auto read_png(const std::string& file)
     const int num_of_sig_bytes             = 8;
     unsigned char header[num_of_sig_bytes] = {};
 
-    fread(header, 1, num_of_sig_bytes, fp);
+    fs.read(reinterpret_cast<file_stream_type::char_type *>(header), num_of_sig_bytes);
 
     auto is_png = !png_sig_cmp(header, 0, num_of_sig_bytes);
     if (!is_png)
@@ -108,14 +128,14 @@ auto read_png(const std::string& file)
     //
     // init
     //
-    png_init_io(png_ptr, fp);
+    png_set_read_fn(png_ptr, reinterpret_cast<png_voidp>(&fs), read_data_fn);
     png_set_sig_bytes(png_ptr, num_of_sig_bytes);
 
     png_set_read_status_fn(
         png_ptr,
         read_row_callback // will be called when a row is read
         );
-
+        
     //
     // read header
     //
@@ -146,12 +166,12 @@ auto read_png(const std::string& file)
 
     // write a whole image
     matrix<png_byte> image;
+    image.resize(boost::extents[ihdr.height][rowbytes]);
+    
     std::vector<png_bytep> row_ptrs;
-
-    image.resize(ihdr.height);
-    for (auto& row : image) {
-        row.resize(rowbytes);
-        row_ptrs.push_back(row.data());
+    
+    for (auto&& row : image) {
+        row_ptrs.push_back(row.origin());
     }
 
     png_read_image(png_ptr, row_ptrs.data());
@@ -171,23 +191,18 @@ auto read_png(const std::string& file)
 }
 
 
+//
+// write png to file
+//
 void write_png(const std::string& file,
                std::tuple<matrix<png_byte>, png_ihdr>& data) {
-    FILE* fp = nullptr;
-    BOOST_SCOPE_EXIT_ALL(&) {
-        if (fp)
-            fclose(fp);
-    };
-
     auto& image = std::get<matrix<png_byte>>(data);
     auto& ihdr  = std::get<png_ihdr>(data);
 
     //
     // open file for writing
     //
-    fp = fopen(file.c_str(), "wb");
-    if (!fp)
-        throw std::runtime_error("Cannot open file.");
+    file_stream_type fs{ file, std::ios::out | std::ios::binary };
 
     //
     // create necessary structs
@@ -223,7 +238,8 @@ void write_png(const std::string& file,
     //
     // init
     //
-    png_init_io(png_ptr, fp);
+    png_set_write_fn(png_ptr, reinterpret_cast<png_voidp>(&fs), write_data_fn,
+                     flush_fn);
 
     // set write callback
     png_set_write_status_fn(
@@ -249,9 +265,8 @@ void write_png(const std::string& file,
 
     // write a whole image
     std::vector<png_bytep> row_ptrs;
-
-    for (auto& row : image) {
-        row_ptrs.push_back(row.data());
+    for (auto&& row : image) {
+        row_ptrs.push_back(row.origin());
     }
 
     png_write_image(png_ptr, row_ptrs.data());
