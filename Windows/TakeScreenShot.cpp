@@ -81,12 +81,12 @@ void TakeScreenShot(HWND hWnd, const std::wstring& fileName) {
     
     // release resources
     BOOST_SCOPE_EXIT_ALL(&) {
-        if (hDC)
-            ReleaseDC(hWnd, hDC);
-        if (hMemoryDC)
-            DeleteDC(hMemoryDC);
         if (hBitmap)
             DeleteObject(hBitmap);
+        if (hMemoryDC)
+            DeleteDC(hMemoryDC);
+        if (hDC)
+            ReleaseDC(hWnd, hDC);
     };
 
     RECT windowSize{};
