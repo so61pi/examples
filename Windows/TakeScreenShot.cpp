@@ -75,6 +75,20 @@ void TakeScreenShot(HWND hWnd, const std::wstring& fileName) {
     if (!hWnd)
         throw std::runtime_error{ "Invalid window handle." };
 
+    HDC hDC         = nullptr;
+    HDC hMemoryDC   = nullptr;
+    HBITMAP hBitmap = nullptr;
+    
+    // release resources
+    BOOST_SCOPE_EXIT_ALL(&) {
+        if (hDC)
+            ReleaseDC(hWnd, hDC);
+        if (hMemoryDC)
+            DeleteDC(hMemoryDC);
+        if (hBitmap)
+            DeleteObject(hBitmap);
+    };
+
     RECT windowSize{};
     if (GetWindowRect(hWnd, &windowSize) == FALSE)
         throw std::runtime_error{ "Cannot take window screen shot." };
@@ -83,17 +97,17 @@ void TakeScreenShot(HWND hWnd, const std::wstring& fileName) {
     auto windowHeight = windowSize.bottom - windowSize.top;
 
     // get device context from the given window
-    auto hDC = GetDC(hWnd);
+    hDC = GetDC(hWnd);
     if (!hDC)
         throw std::runtime_error{ "Cannot take window screen shot." };
 
     // create memory DC
-    auto hMemoryDC = CreateCompatibleDC(hDC);
+    hMemoryDC = CreateCompatibleDC(hDC);
     if (!hMemoryDC)
         throw std::runtime_error{ "Cannot take window screen shot." };
 
     // create bitmap
-    auto hBitmap = CreateCompatibleBitmap(hDC, windowWidth, windowHeight);
+    hBitmap = CreateCompatibleBitmap(hDC, windowWidth, windowHeight);
     if (!hBitmap)
         throw std::runtime_error{ "Cannot take window screen shot." };
 
@@ -111,18 +125,6 @@ void TakeScreenShot(HWND hWnd, const std::wstring& fileName) {
 
     // save image to file
     SaveImage(fileName, hBitmap);
-
-    // release resources
-    BOOST_SCOPE_EXIT_ALL(&) {
-        if (hDC)
-            ReleaseDC(hWnd, hDC);
-
-        if (hMemoryDC)
-            DeleteDC(hMemoryDC);
-
-        if (hBitmap)
-            DeleteObject(hBitmap);
-    };
 }
 
 
