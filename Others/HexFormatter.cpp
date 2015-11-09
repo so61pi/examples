@@ -94,32 +94,32 @@ private:
 };
 
 
-int main() {
-    char data[500]{};
-    std::iota(std::begin(data), std::end(data), 0);
+void format(std::ostream& os, char const* data, std::size_t begin_off,
+            std::size_t end_off, std::size_t line_size = 16) {
+    assert(end_off >= begin_off);
 
-    auto data_begin = 0;
-    auto data_end   = 500;
-    auto line_size  = 16;
-
-    assert(data_end >= data_begin);
-
-    auto data_aligned_begin = data_begin / line_size * line_size;
-    auto data_aligned_end   = (data_end / line_size + 1) * line_size;
+    auto data_aligned_begin = begin_off / line_size * line_size;
+    auto data_aligned_end   = (end_off / line_size + 1) * line_size;
 
     for (auto i = data_aligned_begin; i < data_aligned_end; i += line_size) {
         auto row_aligned_begin = i;
         auto row_aligned_end   = row_aligned_begin + line_size;
 
         auto row_begin =
-            row_aligned_begin < data_begin ? data_begin : row_aligned_begin;
-        auto row_end = row_aligned_end > data_end ? data_end : row_aligned_end;
+            row_aligned_begin < begin_off ? begin_off : row_aligned_begin;
+        auto row_end   = row_aligned_end > end_off ? end_off : row_aligned_end;
 
-        formatter{std::cout}.line(row_aligned_begin,
-                                  row_begin - row_aligned_begin,
-                                  row_aligned_end - row_end,
-                                  data + row_begin, row_end - row_begin);
-
-        std::cout << "\n";
+        formatter{os}.line(row_aligned_begin, row_begin - row_aligned_begin,
+                           row_aligned_end - row_end, data + row_begin,
+                           row_end - row_begin);
+        os << "\n";
     }
+}
+
+
+int main() {
+    char data[500]{};
+    std::iota(std::begin(data), std::end(data), 0);
+
+    format(std::cout, data, 0, 500);
 }
