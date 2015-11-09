@@ -31,8 +31,8 @@ struct mandelbrot_fn {
             return ((val - r1_from) / (r1_to - r1_from)) * (r2_to - r2_from) + r2_from;
         };
 
-        // map x to [-2, -1] and y to [-1.5, 1.5]
-        std::complex<double> c{ map(p.x, 0, m_size.x, -2, 1), map(p.y, 0, m_size.y, -1.5, 1.5) };
+        // map x to [-2, -1] and y to [1.5, -1.5]
+        std::complex<double> c{ map(p.x, 0, m_size.x, -2, 1), map(p.y, 0, m_size.y, 1.5, -1.5) };
         auto lc = c;
         for (auto i = 0; i < 100; ++i) {
             lc = std::pow(lc, 2) + c;
