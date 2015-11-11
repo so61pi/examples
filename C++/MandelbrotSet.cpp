@@ -35,10 +35,10 @@ struct mandelbrot_fn {
         std::complex<double> c{ map(p.x, 0, m_size.x, -2, 1), map(p.y, 0, m_size.y, 1.5, -1.5) };
         auto lc = c;
         for (auto i = 0; i < 100; ++i) {
-            lc = std::pow(lc, 2) + c;
             if (std::pow(lc.real(), 2) + std::pow(lc.imag(), 2) > 4) {
                 return result_type{ static_cast<gil::bits8>(i / 100.0 * 255) };
             }
+            lc = std::pow(lc, 2) + c;
         }
 
         return result_type{ 0 };

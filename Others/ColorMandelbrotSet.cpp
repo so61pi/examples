@@ -98,14 +98,14 @@ private:
     // negative result if the point is in the set
     auto get_color_level(point_t const& point) const -> int {
         // map x to [-2, 1] and y to [1.5, -1.5]
-        std::complex<double> c{ map_value(point.x, 0, m_size.x, -2, 1),
-                                map_value(point.y, 0, m_size.y, 1.5, -1.5) };
+        std::complex<double> c{map_value(point.x, 0, m_size.x, -2, 1),
+                               map_value(point.y, 0, m_size.y, 1.5, -1.5)};
         int level = 0;
         for (auto lc = c; level < 64; ++level) {
-            lc = std::pow(lc, 2) + c;
             if (std::pow(lc.real(), 2) + std::pow(lc.imag(), 2) > 4) {
                 return level;
             }
+            lc = std::pow(lc, 2) + c;
         }
         return -1;
     }
