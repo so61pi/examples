@@ -6,15 +6,37 @@
 #include <numeric>
 
 
-class formatter {
+class iosflags_preserver {
 public:
-    formatter(std::ostream& os)
+    iosflags_preserver(std::ios& os) : m_os{os} { m_flags = m_os.flags(); }
+
+    ~iosflags_preserver() {
+        try {
+            m_os.flags(m_flags);
+        } catch (...) {
+        }
+    }
+
+private:
+    std::ios& m_os;
+    std::ios::fmtflags m_flags;
+};
+
+
+class hex_table_formatter {
+public:
+    using this_type = hex_table_formatter;
+
+
+    hex_table_formatter(std::ostream& os)
         : m_os{os} {}
 
 
     // format data as hex
     auto hex(std::size_t prepend, std::size_t append, char const* data,
-             std::size_t size) const -> formatter const& {
+             std::size_t size) const -> this_type const& {
+        iosflags_preserver ifp{m_os};
+
         int i = 0;
         for (; prepend > 0; --prepend, ++i) {
             if (i % 2 == 0 && i != 0) m_os << ' ';
@@ -38,7 +60,7 @@ public:
 
     // format data
     auto data(std::size_t prepend, std::size_t append, char const* data,
-              std::size_t size) const -> formatter const& {
+              std::size_t size) const -> this_type const& {
         for (; prepend > 0; --prepend) {
             m_os << ".";
         }
@@ -59,28 +81,30 @@ public:
 
 
     // format address
-    auto address(std::size_t addr) const -> formatter const& {
+    auto address(std::size_t addr) const -> this_type const& {
+        iosflags_preserver ifp{m_os};
+
         m_os << std::setw(8) << std::hex << addr;
         return *this;
     }
 
 
     // address - hex fence
-    auto ahfence() const -> formatter const& {
+    auto ahfence() const -> this_type const& {
         m_os << "  |  ";
         return *this;
     }
 
 
     // hex - data fence
-    auto hdfence() const -> formatter const& {
+    auto hdfence() const -> this_type const& {
         return ahfence();
     }
 
 
     //
     auto line(std::size_t addr, std::size_t prepend, std::size_t append,
-              char const* data, std::size_t size) const -> formatter const& {
+              char const* data, std::size_t size) const -> this_type const& {
         return  address(addr)
                .ahfence()
                .hex(prepend, append, data, size)
@@ -94,8 +118,8 @@ private:
 };
 
 
-void format(std::ostream& os, char const* data, std::size_t begin_off,
-            std::size_t end_off, std::size_t line_size = 16) {
+void hex_table_format(std::ostream& os, char const* data, std::size_t begin_off,
+                      std::size_t end_off, std::size_t line_size = 16) {
     assert(end_off >= begin_off);
 
     auto data_aligned_begin = begin_off / line_size * line_size;
@@ -107,11 +131,12 @@ void format(std::ostream& os, char const* data, std::size_t begin_off,
 
         auto row_begin =
             row_aligned_begin < begin_off ? begin_off : row_aligned_begin;
-        auto row_end   = row_aligned_end > end_off ? end_off : row_aligned_end;
+        auto row_end = row_aligned_end > end_off ? end_off : row_aligned_end;
 
-        formatter{os}.line(row_aligned_begin, row_begin - row_aligned_begin,
-                           row_aligned_end - row_end, data + row_begin,
-                           row_end - row_begin);
+        hex_table_formatter{os}.line(row_aligned_begin,
+                                     row_begin - row_aligned_begin,
+                                     row_aligned_end - row_end,
+                                     data + row_begin, row_end - row_begin);
         os << "\n";
     }
 }
@@ -121,5 +146,5 @@ int main() {
     char data[500]{};
     std::iota(std::begin(data), std::end(data), 0);
 
-    format(std::cout, data, 0, 500);
+    hex_table_format(std::cout, data, 0, 500);
 }
