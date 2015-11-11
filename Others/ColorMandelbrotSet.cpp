@@ -58,15 +58,15 @@ public:
     explicit mandelbrot_fn(point_t const& size) :
         m_size{ size }
     {
-        m_colors.emplace_back( 0,   0,   0,  64 );
-        m_colors.emplace_back( 8,   0, 255, 255 );
-        m_colors.emplace_back(16,   0, 255,   0 );
-        m_colors.emplace_back(24, 255, 128,   0 );
-        m_colors.emplace_back(32,   0,   0, 255 );
-        m_colors.emplace_back(40, 255, 255,   0 );
-        m_colors.emplace_back(48, 255, 255, 255 );
-        m_colors.emplace_back(56, 255, 255, 255 );
-        m_colors.emplace_back(64, 255, 255, 255 );
+        m_colors.emplace_back( 0,   0,   0,  64);
+        m_colors.emplace_back( 8,   0, 255, 255);
+        m_colors.emplace_back(16,   0, 255,   0);
+        m_colors.emplace_back(24, 255, 128,   0);
+        m_colors.emplace_back(32,   0,   0, 255);
+        m_colors.emplace_back(40, 255, 255,   0);
+        m_colors.emplace_back(48, 255, 255, 255);
+        m_colors.emplace_back(56, 255, 255, 255);
+        m_colors.emplace_back(64, 255, 255, 255);
         sort(begin(m_colors), end(m_colors));
     }
 
@@ -97,7 +97,7 @@ private:
     // get color level of given point
     // negative result if the point is in the set
     auto get_color_level(point_t const& point) const -> int {
-        // map x to [-2, -1] and y to [1.5, -1.5]
+        // map x to [-2, 1] and y to [1.5, -1.5]
         std::complex<double> c{ map_value(point.x, 0, m_size.x, -2, 1),
                                 map_value(point.y, 0, m_size.y, 1.5, -1.5) };
         int level = 0;
