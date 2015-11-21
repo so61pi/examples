@@ -75,7 +75,8 @@ namespace json {
 
 struct printer_visitor : boost::static_visitor<> {
     void operator()(json::null_t) {
-        std::cout << std::string(m_align, ' ') << "null\n";
+        std::cout << std::string(m_align, ' ') << R"("null")"
+                  << "\n";
     }
     void operator()(json::bool_t const& val) {
         std::cout << std::string(m_align, ' ') << val << "\n";
@@ -117,6 +118,88 @@ struct printer_visitor : boost::static_visitor<> {
 };
 
 
+struct compact_printer_visitor : boost::static_visitor<> {
+    void operator()(json::null_t) const { std::cout << R"("null")"; }
+    void operator()(json::bool_t const& val) const { std::cout << val; }
+    void operator()(json::number_t const& val) const { std::cout << val; }
+    void operator()(json::string_t const& val) const {
+        std::cout << '"' << val << '"';
+    }
+
+    void operator()(json::object_t const& val) const {
+        std::cout << "{";
+        for (auto it = cbegin(val), eit = cend(val); it != eit; ++it) {
+            std::cout << '"' << it->first << '"' << ":";
+            boost::apply_visitor(*this, it->second);
+            if (std::next(it) != eit) std::cout << ",";
+        }
+        std::cout << "}";
+    }
+
+    void operator()(json::array_t const& val) const {
+        std::cout << "[";
+        for (auto it = cbegin(val), eit = cend(val); it != eit; ++it) {
+            boost::apply_visitor(*this, *it);
+            if (std::next(it) != eit) std::cout << ",";
+        }
+        std::cout << "]";
+    }
+};
+
+
+struct pretty_printer_visitor : boost::static_visitor<> {
+    void operator()(json::null_t) { std::cout << R"("null")"; }
+    void operator()(json::bool_t const& val) { std::cout << val; }
+    void operator()(json::number_t const& val) { std::cout << val; }
+    void operator()(json::string_t const& val) {
+        std::cout << '"' << val << '"';
+    }
+
+    void operator()(json::object_t const& val) {
+        if (val.empty()) {
+            std::cout << "{}";
+            return;
+        }
+
+        std::cout << "{\n";
+        m_align += 4;
+        for (auto it = cbegin(val), eit = cend(val); it != eit; ++it) {
+            std::cout << std::string(m_align, ' ') << '"' << it->first << '"'
+                      << " : ";
+            boost::apply_visitor(*this, it->second);
+            if (std::next(it) != eit)
+                std::cout << ",\n";
+            else
+                std::cout << "\n";
+        }
+        m_align -= 4;
+        std::cout << std::string(m_align, ' ') << "}";
+    }
+
+    void operator()(json::array_t const& val) {
+        if (val.empty()) {
+            std::cout << "[]";
+            return;
+        }
+
+        std::cout << "[\n";
+        m_align += 4;
+        for (auto it = cbegin(val), eit = cend(val); it != eit; ++it) {
+            std::cout << std::string(m_align, ' ');
+            boost::apply_visitor(*this, *it);
+            if (std::next(it) != eit)
+                std::cout << ",\n";
+            else
+                std::cout << "\n";
+        }
+        m_align -= 4;
+        std::cout << std::string(m_align, ' ') << "]";
+    }
+
+    std::size_t m_align = 0;
+};
+
+
 int main() {
     char const str[] =
 R"({"firstName": "John",
@@ -145,10 +228,10 @@ R"({"firstName": "John",
 
     try {
         json::value_t value;
-        auto success= phrase_parse(std::cbegin(str), std::cend(str),
-                                   json::parser::value, space, value);
+        auto success = phrase_parse(std::cbegin(str), std::cend(str),
+                                    json::parser::value, space, value);
         if (success) {
-            printer_visitor printer;
+            pretty_printer_visitor printer;
             boost::apply_visitor(printer, value);
         } else {
             std::cout << "parse failed\n";
