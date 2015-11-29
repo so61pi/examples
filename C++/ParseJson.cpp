@@ -75,7 +75,7 @@ namespace json {
 
 struct printer_visitor : boost::static_visitor<> {
     void operator()(json::null_t) {
-        std::cout << std::string(m_align, ' ') << R"("null")"
+        std::cout << std::string(m_align, ' ') << "null"
                   << "\n";
     }
     void operator()(json::bool_t const& val) {
@@ -119,7 +119,7 @@ struct printer_visitor : boost::static_visitor<> {
 
 
 struct compact_printer_visitor : boost::static_visitor<> {
-    void operator()(json::null_t) const { std::cout << R"("null")"; }
+    void operator()(json::null_t) const { std::cout << "null"; }
     void operator()(json::bool_t const& val) const { std::cout << val; }
     void operator()(json::number_t const& val) const { std::cout << val; }
     void operator()(json::string_t const& val) const {
@@ -148,7 +148,7 @@ struct compact_printer_visitor : boost::static_visitor<> {
 
 
 struct pretty_printer_visitor : boost::static_visitor<> {
-    void operator()(json::null_t) { std::cout << R"("null")"; }
+    void operator()(json::null_t) { std::cout << "null"; }
     void operator()(json::bool_t const& val) { std::cout << val; }
     void operator()(json::number_t const& val) { std::cout << val; }
     void operator()(json::string_t const& val) {
