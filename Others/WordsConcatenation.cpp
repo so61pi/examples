@@ -15,42 +15,59 @@ std::vector<std::string> wordsList{
 };
 
 
-int main() {
-    for (auto& word : wordsList) {
-        word = '"' + word + '"';
+class intermediate_formatter {
+public:
+    intermediate_formatter(std::string const& prefix, std::string const& suffix)
+        : m_prefix{prefix}, m_suffix{suffix} {}
+
+    auto operator()(std::string const& origin) const -> std::string {
+        return m_prefix + origin + m_suffix;
     }
 
-    // add comma after each quoted word, except for the last word
-    for (auto i = 0U; i + 1 < wordsList.size(); ++i) {
-        wordsList[i].push_back(',');
-    }
+private:
+    std::string const m_prefix;
+    std::string const m_suffix;
+};
+
+
+int main() {
+    intermediate_formatter const wordFormatter{"\"", "\","};
+    intermediate_formatter const lastWordFormatter{"\"", "\""};
 
     // concatenate sufficient number of words to create a line
     // without exceeding the maximum length
-    auto createLine = [](auto first, auto last, std::size_t lineMaxLen,
-                         std::string const& separator, std::string& line) {
+    auto createLine = [](auto first, auto last, auto formatter,
+                         std::size_t lineMaxLen, std::string const& separator,
+                         std::string& line) {
         if (first == last) return last;
 
         auto it = first;
-        line += *it++;
+        line += formatter(it++);
         for (; it != last; ++it) {
-            auto tryLen = line.size() + separator.size() + it->size();
+            auto&& formattedWord = formatter(it);
+            auto tryLen = line.size() + separator.size() + formattedWord.size();
             if (tryLen > lineMaxLen) {
                 break;
             }
-            line += separator + *it;
+            line += separator + formattedWord;
         }
 
         return it;
     };
 
+    // format word bases on its position
+    auto formatter = [&](auto it) {
+        if (it + 1 == wordsList.cend()) // last word
+            return lastWordFormatter(*it);
+        return wordFormatter(*it);
+    };
 
     std::vector<std::string> lines;
-    auto it  = wordsList.begin();
-    auto eit = wordsList.end();
+    auto it  = wordsList.cbegin();
+    auto eit = wordsList.cend();
     while (it != eit) {
         std::string line{"    "};
-        it = createLine(it, eit, 80, " ", line);
+        it = createLine(it, eit, formatter, 80, " ", line);
         lines.emplace_back(line);
     }
 
