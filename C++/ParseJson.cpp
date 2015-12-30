@@ -41,17 +41,20 @@ namespace json {
 
     namespace parser {
 
+        // rule types
         // use "elaborated type specifier" syntax
-        using value_type  = rule<class value_class, value_t>;
-        using pair_type   = rule<class pair_class, pair_t>;
+        using value_type  = rule<class value_class , value_t>;
+        using pair_type   = rule<class pair_class  , pair_t>;
         using object_type = rule<class object_class, object_t>;
-        using array_type  = rule<class array_class, array_t>;
+        using array_type  = rule<class array_class , array_t>;
 
-        value_type const value   = "value";
-        pair_type const pair     = "pair";
+        // rules
+        value_type  const value  = "value";
+        pair_type   const pair   = "pair";
         object_type const object = "object";
-        array_type const array   = "array";
+        array_type  const array  = "array";
 
+        // rule definitions
         auto const string_def = lexeme['"' >> *(char_ - '"') >> '"'];
         auto const number_def = double_;
         auto const bool_def   = bool_;
@@ -67,6 +70,9 @@ namespace json {
         auto const object_def = '{' >> -(pair % ",") >> '}';
         auto const array_def  = '[' >> -(value % ",") >> ']';
 
+        // connect rules to rule definitions
+        // that's why we have to follow naming convention
+        // (rule definitions end with _def)
         BOOST_SPIRIT_DEFINE(value, pair, object, array)
     }
 
