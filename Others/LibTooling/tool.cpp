@@ -29,6 +29,7 @@ struct ErrorDeclInfo {
     unsigned int column     = -1;
     unsigned int blockBegin = -1;
     unsigned int blockEnd   = -1;
+    bool found              = false;
 };
 
 
@@ -64,7 +65,7 @@ public:
             auto it = std::find_if(rbegin(m_errorDeclInfos), rend(m_errorDeclInfos), [&](ErrorDeclInfo const& info) {
                 return objName == info.name && line >= info.line && (info.blockBegin <= line && line <= info.blockEnd);
             });
-            if (it != rend(m_errorDeclInfos)) m_errorDeclInfos.erase(std::next(it).base());
+            if (it != rend(m_errorDeclInfos)) it->found = true;
         }
         return true;
     }
@@ -84,7 +85,7 @@ public:
             info.line       = fullLoc.getSpellingLineNumber();
             info.column     = fullLoc.getSpellingColumnNumber();
             info.blockBegin = blockBeginLoc.getSpellingLineNumber();
-            info.blockEnd = blockEndLoc.getSpellingLineNumber();
+            info.blockEnd   = blockEndLoc.getSpellingLineNumber();
             m_errorDeclInfos.emplace_back(std::move(info));
         }
         return true;
@@ -105,8 +106,10 @@ public:
         m_visitor.TraverseDecl(context.getTranslationUnitDecl());
         llvm::outs().changeColor(llvm::raw_ostream::Colors::RED, true);
         for (auto const& info : m_errorDeclInfos) {
-            llvm::outs() << "MyError instance (" << info.name << ") is not checked, at " << info.file << ":"
-                         << info.line << ":" << info.column << "\n";
+            if (!info.found) {
+                llvm::outs() << "MyError instance (" << info.name << ") is not checked, at "
+                             << info.file << ":" << info.line << ":" << info.column << "\n";
+            }
         }
         llvm::outs().resetColor();
     }

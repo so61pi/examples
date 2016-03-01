@@ -12,7 +12,11 @@ int main() {
     {
         myspace::MyError error;
         if (error) {
-            
+            if (error) {
+            }
+        }
+
+        if (error) {
         }
     }
 }
