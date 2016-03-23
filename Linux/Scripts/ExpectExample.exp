@@ -1,0 +1,61 @@
+#!/usr/bin/expect -f
+
+
+#
+# read password
+#
+send_user "Password: "
+stty -echo
+
+expect_user -re "(.*)\n"
+send_user "\n"
+
+set password $expect_out(1,string)
+
+stty echo
+
+
+#
+# open ssh connection
+#
+spawn ssh nhthi@192.168.81.151
+
+
+#
+# login
+#
+expect {
+	timeout {
+		send_user "Timed out.\n"
+		exit
+	}
+
+	"assword" {
+		send "$password\n"
+		exp_continue
+	}
+
+	"$ " {}
+
+	default {
+		send_user "Login failed.\n"
+		exit
+	}
+}
+
+
+#
+# execute commands
+#
+send "ls -alh\n"
+
+send "exit\n"
+
+
+#
+# check the end of the output
+#
+expect eof
+
+
+exit
