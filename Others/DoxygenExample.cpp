@@ -35,6 +35,13 @@ public:
 
     @details
         Detail description.
+        Concatenated with above line by a space.
+
+        New paragraph.
+            -# Number 1.
+            -# Number 2,
+               end.
+            -# Number 3.
 
     @tparam     AType       Template parameter description.
     @tparam     BType       Template parameter description.
