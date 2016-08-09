@@ -206,6 +206,8 @@ int main() {
                         std::cerr << "[error] nonblockread : " << std::strerror(errno) << std::endl;
                         close(fd);
                     } else if (status == 0) {
+                        std::cerr << "[error] nonblockread : " << std::strerror(errno) << std::endl;
+                        display(std::cout, fd, buffer);
                         close(fd);
                     } else {
                         display(std::cout, fd, buffer);
