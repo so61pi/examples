@@ -32,8 +32,9 @@ bool IsValidName(std::string const& name) {
 
 inline bool IsValidNsUri(std::string const& uri) {
     // old gcc version cannot handle this regex and throw exception, be careful
-    static std::regex const rule(R"(^(([^:/?#]+):)?(//([^/?#]*))?([^?#]*)(\?([^#]*))?(#(.*))?)");
-    return std::regex_match(uri, rule);
+    //static std::regex const rule(R"(^(([^:/?#]+):)?(//([^/?#]*))?([^?#]*)(\?([^#]*))?(#(.*))?)");
+    //return std::regex_match(uri, rule);
+    return true;
 }
 
 
@@ -102,16 +103,46 @@ enum class NodeType {
 class XmlParser;
 
 
+struct AttributeKey {
+    std::string Uri;
+    std::string Key;
+};
+bool operator<(AttributeKey const& lhs, AttributeKey const& rhs) {
+    // return (lhs.Uri + ':' + lhs.Key) < (rhs.Uri + ':' + rhs.Key);
+    return (lhs.Uri + lhs.Key) < (rhs.Uri + rhs.Key);
+}
+
+
 class Node {
     friend class XmlParser;
 
 public:
+    class const_iterator : public std::vector<std::unique_ptr<Node>>::const_iterator {
+    public:
+        typedef std::vector<std::unique_ptr<Node>>::const_iterator base_type;
+
+        const_iterator() = default;
+        explicit const_iterator(base_type it) : base_type(it) {}
+
+        Node const* operator->() const {
+            return base_type::operator->()->get();
+        }
+
+        Node const& operator*() const {
+            return *(base_type::operator*().get());
+        }
+    };
+
+public:
     /**
      */
-    explicit Node(NodeType type, std::string input, Node* parent) : mType(type), mParent(parent) {
+    explicit Node(NodeType type, std::string input, Node* parent)
+        : mType(type),
+          mParent(parent)
+    {
         switch (mType) {
         case NodeType::Element:
-            assert(IsValidName(input));
+            if (!IsValidName(input)) throw std::runtime_error("invalid name");
             mName = std::move(input);
             break;
 
@@ -128,16 +159,18 @@ public:
     /**
      * @brief Constructor for node.
      */
-    explicit Node(std::string name, std::string const& uri, Node* parent)
-        : mType(NodeType::Element), mParent(parent), mName(std::move(name))
+    explicit Node(std::string name, std::string uri, Node* parent)
+        : mType(NodeType::Element),
+          mParent(parent),
+          mName(std::move(name)),
+          mNsUri(std::move(uri))
     {
         if (!IsValidName(mName)) throw std::runtime_error("invalid name");
-        if (!IsValidNsUri(uri)) throw std::runtime_error("invalid uri");
+        if (!IsValidNsUri(mNsUri)) throw std::runtime_error("invalid uri");
 
         if (parent == nullptr) throw std::runtime_error("cannot look-up namespace prefix");
         auto prefixes = parent->LookupNsPrefix(uri);
         if (prefixes.empty()) throw std::runtime_error("cannot look-up namespace prefix");
-        mNsPrefix = prefixes.front();
     }
 
 
@@ -145,63 +178,61 @@ public:
      * @brief Constructor for node.
      */
     explicit Node(std::string name, std::pair<std::string, std::string> ns, Node* parent)
-        : mType(NodeType::Element), mParent(parent), mName(std::move(name))
+        : mType(NodeType::Element),
+          mParent(parent),
+          mName(std::move(name))
     {
         if (!IsValidName(mName)) throw std::runtime_error("invalid name");
         if (!IsValidNamespace(ns)) throw std::runtime_error("invalid namespace");
 
-        mNsPrefix              = std::move(ns.first);
-        mNamespaces[mNsPrefix] = std::move(ns.second);
-    }
-
-
-    /**
-     */
-    explicit Node(std::string name, std::map<std::string, std::string> namespaces, std::string const& uri, Node* parent)
-        : mType(NodeType::Element), mParent(parent), mName(std::move(name)), mNamespaces(std::move(namespaces))
-    {
-        if (!IsValidName(mName)) throw std::runtime_error("invalid name");
-        if (!IsValidNamespaces(mNamespaces)) throw std::runtime_error("invalid namespaces");
-        if (!IsValidNsUri(uri)) throw std::runtime_error("invalid uri");
-
-        auto prefixes = LookupNsPrefix(uri);
-        if (prefixes.empty()) throw std::runtime_error("cannot find namespace");
-        mNsPrefix = prefixes.front();
+        mNamespaces[std::move(ns.first)] = ns.second;
+        mNsUri = std::move(ns.second);
     }
 
 
     /**
      */
     explicit Node(std::string name, std::map<std::string, std::string> namespaces, Node* parent)
-        : mType(NodeType::Element), mParent(parent), mName(std::move(name)), mNamespaces(std::move(namespaces))
+        : mType(NodeType::Element),
+          mParent(parent),
+          mName(std::move(name)),
+          mNamespaces(std::move(namespaces))
     {
         if (!IsValidName(mName)) throw std::runtime_error("invalid name");
         if (!IsValidNamespaces(mNamespaces)) throw std::runtime_error("invalid namespaces");
     }
 
 
+    /**
+     */
+    explicit Node(std::string name, std::map<std::string, std::string> namespaces, std::string uri, Node* parent)
+        : mType(NodeType::Element),
+          mParent(parent),
+          mName(std::move(name)),
+          mNsUri(std::move(uri)),
+          mNamespaces(std::move(namespaces))
+    {
+        if (!IsValidName(mName)) throw std::runtime_error("invalid name");
+        if (!IsValidNsUri(mNsUri)) throw std::runtime_error("invalid uri");
+        if (!IsValidNamespaces(mNamespaces)) throw std::runtime_error("invalid namespaces");
+
+        // make sure we have prefix
+        auto prefixes = LookupNsPrefix(mNsUri);
+        if (prefixes.empty()) throw std::runtime_error("cannot find namespace");
+    }
+
+
     NodeType           Type() const { return mType; }
     std::string const& Name() const { return mName; }
     std::string const& String() const { return mString; }
-    std::string const& NsPrefix() const { return mNsPrefix; }
     Node const*        Parent() const { return mParent; }
+    std::string const& NsUri() const { return mNsUri; }
 
 private: // for XML parser
     Node* Parent() { return mParent; }
 
 
 public:
-    bool GetNsUri(std::string& uri) const {
-        if (!IsValidNsUri(uri)) return false;
-
-        if (LookupNsUri(mNsPrefix, uri) == false) {
-            assert(mNsPrefix.empty());
-            return true;
-        }
-        return true;
-    }
-
-
     bool AddNamespace(std::string prefix, std::string uri) {
         if (!IsValidNamespace(prefix, uri)) return false;
         if (mNamespaces.find(prefix) != mNamespaces.end()) return false;
@@ -217,9 +248,24 @@ public:
 
 
     bool AddAttribute(std::string key, std::string value) {
-        if (key.empty() || mAttrs.find(key) != mAttrs.end()) return false;
+        AttributeKey akey{ "", std::move(key) };
+        if (akey.Key.empty() || mAttrs.find(akey) != mAttrs.end()) return false;
 
-        mAttrs[std::move(key)] = std::move(value);
+        mAttrs[std::move(akey)] = std::move(value);
+        return true;
+    }
+
+
+    bool AddAttribute(std::string uri, std::string key, std::string value) {
+        if (!IsValidNsUri(uri)) return false;
+
+        auto prefixes = LookupNsPrefix(uri);
+        if (prefixes.empty()) return false;
+
+        AttributeKey akey{ std::move(uri), std::move(key) };
+        if (akey.Key.empty() || mAttrs.find(akey) != mAttrs.end()) return false;
+
+        mAttrs[std::move(akey)] = std::move(value);
         return true;
     }
 
@@ -227,7 +273,17 @@ public:
     /**
      */
     bool FindAttr(std::string const& key, std::string& value) const {
-        auto it = mAttrs.find(key);
+        AttributeKey akey{ "", key };
+        auto it = mAttrs.find(akey);
+        if (it == mAttrs.end()) return false;
+        value = it->second;
+        return true;
+    }
+
+
+    bool FindAttr(std::string const& uri, std::string const& key, std::string& value) const {
+        AttributeKey fkey{ uri, key };
+        auto it = mAttrs.find(fkey);
         if (it == mAttrs.end()) return false;
         value = it->second;
         return true;
@@ -237,6 +293,13 @@ public:
     bool LookupAttr(std::string const& key, std::string& value) const {
         if (FindAttr(key, value) == true) return true;
         if (mParent) return mParent->LookupAttr(key, value);
+        return false;
+    }
+
+
+    bool LookupAttr(std::string const& uri, std::string const& key, std::string& value) const {
+        if (FindAttr(uri, key, value) == true) return true;
+        if (mParent) return mParent->LookupAttr(uri, key, value);
         return false;
     }
 
@@ -356,11 +419,11 @@ public:
 
     /**
      */
-    std::vector<std::unique_ptr<Node>>::const_iterator begin() const { return mVals.begin(); }
-    std::vector<std::unique_ptr<Node>>::const_iterator end() const { return mVals.end(); }
+    const_iterator begin() const { return const_iterator(mVals.begin()); }
+    const_iterator end() const { return const_iterator(mVals.end()); }
 
-    std::map<std::string, std::string>::const_iterator abegin() const { return mAttrs.begin(); }
-    std::map<std::string, std::string>::const_iterator aend() const { return mAttrs.end(); }
+    std::map<AttributeKey, std::string>::const_iterator abegin() const { return mAttrs.begin(); }
+    std::map<AttributeKey, std::string>::const_iterator aend() const { return mAttrs.end(); }
 
     std::map<std::string, std::string>::const_iterator nbegin() const { return mNamespaces.begin(); }
     std::map<std::string, std::string>::const_iterator nend() const { return mNamespaces.end(); }
@@ -374,9 +437,9 @@ private:
     std::string                        mString;
     std::vector<std::unique_ptr<Node>> mVals;
 
-    std::string mNsPrefix;
+    std::string mNsUri;
     std::map<std::string, std::string> mNamespaces; //!< std::map<prefix, uri>
-    std::map<std::string, std::string> mAttrs;      //!< std::map<key, value>
+    std::map<AttributeKey, std::string> mAttrs;      //!< std::map<key, value>
 };
 
 
@@ -388,15 +451,20 @@ bool xmlize(Node const& node, std::ostream& os, std::size_t level = 0) {
         return true;
     }
 
-    auto CreateNodeName = [](Node const& node) -> std::string {
-        if (node.NsPrefix().empty()) {
-            return node.Name();
+    auto CreateNodeName = [](Node const& node, std::string& name) -> bool {
+        if (node.NsUri().empty()) {
+            name = node.Name();
+            return true;
         } else {
-            return node.NsPrefix() + ':' + node.Name();
+            auto prefixes = node.LookupNsPrefix(node.NsUri());
+            if (prefixes.empty()) return false;
+            name = prefixes.front() + ':' + node.Name();
+            return true;
         }
     };
 
-    std::string nodeName = CreateNodeName(node);
+    std::string nodeName;
+    if (CreateNodeName(node, nodeName) == false) return false;
 
     // node name
     os << std::string(level, ' ') << '<' << nodeName;
@@ -412,7 +480,15 @@ bool xmlize(Node const& node, std::ostream& os, std::size_t level = 0) {
 
     // add attrs
     for (auto it = node.abegin(); it != node.aend(); ++it) {
-        os << ' ' << it->first << "=\"" << it->second << '"';
+        std::string attrName;
+        if (it->first.Uri.empty()) {
+            attrName = it->first.Key;
+        } else {
+            auto prefixes = node.LookupNsPrefix(it->first.Uri);
+            if (prefixes.empty()) return false;
+            attrName = prefixes.front() + ':' + it->first.Key;
+        }
+        os << ' ' << attrName << "=\"" << it->second << '"';
     }
 
     // node end
@@ -422,7 +498,7 @@ bool xmlize(Node const& node, std::ostream& os, std::size_t level = 0) {
         os << ">\n";
 
         for (auto it = node.begin(); it != node.end(); ++it) {
-            if (xmlize(*(it->get()), os, level + 4) == false) return false;
+            if (xmlize(*it, os, level + 4) == false) return false;
         }
 
         os << std::string(level, ' ') << "</" << nodeName << ">\n";
@@ -524,8 +600,15 @@ private:
             // reset container state after moving
             pData->namespaces.clear();
 
-            for (auto i = 0; attrs[i]; i += 2)
-                pNode->AddAttribute(attrs[i], attrs[i + 1]);
+            for (auto i = 0; attrs[i]; i += 2) {
+                std::string uri;
+                std::string name;
+                separate(attrs[i], NamespaceSeparator, uri, name);
+                if (uri.empty())
+                    pNode->AddAttribute(name, attrs[i + 1]);
+                else
+                    pNode->AddAttribute(uri, name, attrs[i + 1]);
+            }
 
             if (pData->parent == nullptr) {
                 pData->root   = std::move(pNode);
@@ -682,7 +765,7 @@ public:
 int main() {
     char const* text =
         R"(
-<_.abc xmlns="default:default" xmlns:u="kupi:so61pix" xmlns:h="kupi:so61pix" x="y" y="z">
+<_.abc xmlns="default:default" xmlns:u="kupi:so61pix" xmlns:h="kupi:so61pix" h:x="y" y="z">
     <u:l0 xmlns:h="kupi:so61pix" xmlns:k="kupi:so61pi">
         <u:k>ddd:ddd</u:k>
     </u:l0>
