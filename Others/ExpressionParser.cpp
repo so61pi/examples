@@ -1133,88 +1133,139 @@ namespace parser {
 } // namespace parser
 
 
-class MyVisitor : public ast::Visitor {
+namespace vm {
+
+    enum OpCode {
+        OpPush,
+        OpPop,
+        OpAdd,
+        OpSub,
+        OpMul,
+        OpDiv
+    };
+
+
+    class Program {
+    public:
+        void AddOp(OpCode op) { mProgram.push_back(op); }
+        void AddOp(OpCode op, int data) {
+            mProgram.push_back(op);
+            mProgram.push_back(data);
+        }
+
+        std::vector<int> const& Instructions() const { return mProgram; }
+
+    private:
+        std::vector<int> mProgram;
+    };
+
+
+    class VMachine {
+    public:
+        explicit VMachine(Program const& program) : mProgram(program) {}
+        void Execute() {
+            auto const& instructions = mProgram.Instructions();
+            for (auto i = 0UL; i < instructions.size(); ++i) {
+                auto op = instructions[i];
+                switch (op) {
+                case OpPush:
+                    mStack.push_back(instructions[++i]);
+                    break;
+
+                case OpPop:
+                    mStack.pop_back();
+                    break;
+
+                case OpAdd: {
+                    auto a = mStack[mStack.size() - 2];
+                    auto b = mStack[mStack.size() - 1];
+                    mStack.pop_back();
+                    mStack.pop_back();
+                    mStack.push_back(a + b);
+                    break;
+                }
+
+                case OpSub: {
+                    auto a = mStack[mStack.size() - 2];
+                    auto b = mStack[mStack.size() - 1];
+                    mStack.pop_back();
+                    mStack.pop_back();
+                    mStack.push_back(a - b);
+                    break;
+                }
+
+                case OpMul: {
+                    auto a = mStack[mStack.size() - 2];
+                    auto b = mStack[mStack.size() - 1];
+                    mStack.pop_back();
+                    mStack.pop_back();
+                    mStack.push_back(a * b);
+                    break;
+                }
+
+                case OpDiv: {
+                    auto a = mStack[mStack.size() - 2];
+                    auto b = mStack[mStack.size() - 1];
+                    mStack.pop_back();
+                    mStack.pop_back();
+                    mStack.push_back(a / b);
+                    break;
+                }
+                }
+            }
+        }
+
+        std::vector<int> const& Stack() const { return mStack; }
+
+    private:
+        Program const& mProgram;
+        std::vector<int> mStack;
+    };
+
+
+} // namespace vm
+
+
+class CompilerVisitor : public ast::Visitor {
 public:
+    explicit CompilerVisitor(vm::Program& program) : mProgram(program) {}
+
     virtual ast::VisitorTraverseOrder TraverseOrder() const {
         return ast::VisitorTraverseOrder::PostOrder;
     }
 
-    void PrintInfo(char const* func, ast::ASTNode const& node) {
-        std::cout << func << "\n"
-                  << "--- stack size : " << mStack.size() << "\n"
-                  << "--- expression : " << node.String() << "\n\n";
-    }
-
-    virtual bool Visit(ast::AddExpr const& addExpr) {
-        PrintInfo(__PRETTY_FUNCTION__, addExpr);
-
-        if (mStack.size() < 2) return false;
-        auto eit = mStack.end();
-        auto r   = *(eit - 2) + *(eit - 1);
-        mStack.pop_back();
-        mStack.pop_back();
-        mStack.push_back(r);
+    virtual bool Visit(ast::AddExpr const& /*addExpr*/) {
+        mProgram.AddOp(vm::OpAdd);
         return true;
     }
 
-    virtual bool Visit(ast::SubExpr const& subExpr) {
-        PrintInfo(__PRETTY_FUNCTION__, subExpr);
-
-        if (mStack.size() < 2) return false;
-        auto eit = mStack.end();
-        auto r   = *(eit - 2) - *(eit - 1);
-        mStack.pop_back();
-        mStack.pop_back();
-        mStack.push_back(r);
+    virtual bool Visit(ast::SubExpr const& /*subExpr*/) {
+        mProgram.AddOp(vm::OpSub);
         return true;
     }
 
-    virtual bool Visit(ast::MulTerm const& mulTerm) {
-        PrintInfo(__PRETTY_FUNCTION__, mulTerm);
-
-        if (mStack.size() < 2) return false;
-        auto eit = mStack.end();
-        auto r   = *(eit - 2) * *(eit - 1);
-        mStack.pop_back();
-        mStack.pop_back();
-        mStack.push_back(r);
+    virtual bool Visit(ast::MulTerm const& /*mulTerm*/) {
+        mProgram.AddOp(vm::OpMul);
         return true;
     }
 
-    virtual bool Visit(ast::DivTerm const& divTerm) {
-        PrintInfo(__PRETTY_FUNCTION__, divTerm);
-
-        if (mStack.size() < 2) return false;
-        auto eit = mStack.end();
-        auto r   = *(eit - 2) / *(eit - 1);
-        mStack.pop_back();
-        mStack.pop_back();
-        mStack.push_back(r);
+    virtual bool Visit(ast::DivTerm const& /*divTerm*/) {
+        mProgram.AddOp(vm::OpDiv);
         return true;
     }
 
     virtual bool Visit(ast::Number const& number) {
-        PrintInfo(__PRETTY_FUNCTION__, number);
-
-        mStack.push_back(number.Value());
+        mProgram.AddOp(vm::OpPush, number.Value());
         return true;
     }
 
-    int Result() const {
-        if (mStack.size() != 1) {
-            std::cout << "Eh!\n";
-            return -1;
-        }
-        return mStack.back();
-    }
-
 private:
-    std::vector<int> mStack;
+    vm::Program& mProgram;
 };
 
 
 int main() {
-    char const* const expression = "(1*(2*3)-4*(5 * 6))";
+    char const* const expression = "(1*(2*3)-4*(5 / 6))";
 
     Source               source(expression);
     lexer::Lexer         l(source);
@@ -1234,8 +1285,14 @@ int main() {
         return EXIT_FAILURE;
     } else {
         std::cout << "Parse OK.\n";
-        MyVisitor myVisitor;
-        myVisitor.Traverse(*parseResult.get());
-        std::cout << myVisitor.Result() << "\n";
+
+        vm::Program program;
+        CompilerVisitor compiler(program);
+        compiler.Traverse(*parseResult.get());
+
+        vm::VMachine vmachine(program);
+        vmachine.Execute();
+        std::cout << vmachine.Stack().size() << std::endl;
+        std::cout << vmachine.Stack().back() << std::endl;
     }
 }
