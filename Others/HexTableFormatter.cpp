@@ -28,7 +28,7 @@ public:
     using this_type = hex_table_formatter;
 
 
-    hex_table_formatter(std::ostream& os, std::size_t block)
+    hex_table_formatter(std::ostream& os, std::size_t block = 4)
         : m_os{os}, m_block{block} {}
 
 
