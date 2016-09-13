@@ -28,8 +28,8 @@ public:
     using this_type = hex_table_formatter;
 
 
-    hex_table_formatter(std::ostream& os)
-        : m_os{os} {}
+    hex_table_formatter(std::ostream& os, std::size_t block)
+        : m_os{os}, m_block{block} {}
 
 
     // format data as hex
@@ -37,20 +37,20 @@ public:
              std::size_t size) const -> this_type const& {
         iosflags_preserver ifp{m_os};
 
-        int i = 0;
+        std::size_t i = 0;
         for (; prepend > 0; --prepend, ++i) {
-            if (i % 2 == 0 && i != 0) m_os << ' ';
+            if (i % m_block == 0 && i != 0) m_os << ' ';
             m_os << "..";
         }
 
         for (auto j = 0U; j < size; ++j, ++i) {
-            if (i % 2 == 0 && i != 0) m_os << ' ';
+            if (i % m_block == 0 && i != 0) m_os << ' ';
             m_os << std::setw(2) << std::hex
                  << static_cast<unsigned int>(data[j] & 0xFF);
         }
 
         for (; append > 0; --append, ++i) {
-            if (i % 2 == 0 && i != 0) m_os << ' ';
+            if (i % m_block == 0 && i != 0) m_os << ' ';
             m_os << "..";
         }
 
@@ -115,6 +115,7 @@ public:
 
 private:
     std::ostream& m_os;
+    std::size_t m_block;
 };
 
 
