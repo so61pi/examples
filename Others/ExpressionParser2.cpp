@@ -1,19 +1,24 @@
 #include <algorithm>
 #include <cassert>
 #include <cctype>
+#include <cstdlib>
 #include <iostream>
 #include <memory>
 #include <string>
+#include <unordered_map>
 #include <utility>
 #include <vector>
+
+#include <sys/mman.h>
+#include <unistd.h>
 
 
 namespace std { // very hacky
 
-template <typename T, typename... Args>
-std::unique_ptr<T> make_unique(Args&&... args) {
-    return std::unique_ptr<T>(new T(std::forward<Args>(args)...));
-}
+    template <typename T, typename... Args>
+    std::unique_ptr<T> make_unique(Args&&... args) {
+        return std::unique_ptr<T>(new T(std::forward<Args>(args)...));
+    }
 
 } // namespace std
 
@@ -21,12 +26,10 @@ std::unique_ptr<T> make_unique(Args&&... args) {
 template <typename Pointer>
 class nonull_ptr {
 public:
-    typedef typename Pointer::pointer pointer;
-    typedef typename Pointer::element_type element_type;
+    using pointer      = typename Pointer::pointer;
+    using element_type = typename Pointer::element_type;
 
-    static pointer pointer_to(element_type& r) {
-        return std::pointer_traits<Pointer>::pointer_to(r);
-    }
+    static pointer pointer_to(element_type& r) { return std::pointer_traits<Pointer>::pointer_to(r); }
 
 public:
     template <typename T>
@@ -42,46 +45,44 @@ private:
     Pointer mPointer;
 };
 
-
 template <typename T>
 using nonull_unique_ptr = nonull_ptr<std::unique_ptr<T>>;
 
 
 /**
-  <expression> ::= <term> + <expression> | <term> - <expression> | <term>
-  <term> ::= <factor> * <term> | <factor> / <term> | <factor>
-  <factor> ::= (<expression>) | <number> | <var>
-
-  Expr = AddExpr | SubExpr | Term
-  AddExpr = Term + Expr
-  SubExpr = Term - Expr
-  Term = MulTerm | DivTerm | Factor
-  MulTerm = Factor * Term
-  DivTerm = Factor / Term
-  Factor = ParenExpr | Number | Var
-  ParenExpr = (Expr)
-
-  CompoundStmt = *Stmt
-  Stmt = PrintStmt;
-       | AssignStmt;
-  PrintStmt = print Var;
-  AssignStmt = LeftVar '=' Expr;
+ * <expression> ::= <term> + <expression> | <term> - <expression> | <term>
+ * <term> ::= <factor> * <term> | <factor> / <term> | <factor>
+ * <factor> ::= (<expression>) | <number> | <var>
+ *
+ * Expr = AddExpr | SubExpr | Term
+ * AddExpr = Term + Expr
+ * SubExpr = Term - Expr
+ * Term = MulTerm | DivTerm | Factor
+ * MulTerm = Factor * Term
+ * DivTerm = Factor / Term
+ * Factor = ParenExpr | Number | Var
+ * ParenExpr = (Expr)
+ *
+ * CompoundStmt = *Stmt
+ * Stmt = PrintStmt;
+ * | AssignStmt;
+ * PrintStmt = print Var;
+ * AssignStmt = LeftVar '=' Expr;
 */
 
-
-#define TokenTypes                  \
-        EnumString(EndOfSource),    \
-        EnumString(Number),         \
-        EnumString(OpAdd),          \
-        EnumString(OpSub),          \
-        EnumString(OpMul),          \
-        EnumString(OpDiv),          \
-        EnumString(LParen),         \
-        EnumString(RParen),         \
-        EnumString(Var),            \
-        EnumString(Equal),          \
-        EnumString(SemiColon),      \
-        EnumString(KwPrint),        \
+#define TokenTypes                      \
+        EnumString(EndOfSource),        \
+        EnumString(Number),             \
+        EnumString(OpAdd),              \
+        EnumString(OpSub),              \
+        EnumString(OpMul),              \
+        EnumString(OpDiv),              \
+        EnumString(LParen),             \
+        EnumString(RParen),             \
+        EnumString(Var),                \
+        EnumString(Equal),              \
+        EnumString(SemiColon),          \
+        EnumString(KwPrint),            \
         /**/
 
 enum class TokType {
@@ -99,13 +100,12 @@ static char const* gTokTypeString[] = {
 struct Keyword {
     char const* string;
     std::size_t length;
-    TokType type;
+    TokType     type;
 };
 
 static Keyword const gKeywords[] = {
     {"print", sizeof("print") - 1, TokType::KwPrint}
 };
-
 
 bool GetKeyword(char const* p, Keyword& keyword) {
     for (auto const& kw : gKeywords) {
@@ -124,16 +124,11 @@ bool GetKeyword(char const* p, Keyword& keyword) {
     return false;
 }
 
-
-char const* to_string(TokType type) {
-    return gTokTypeString[static_cast<int>(type)];
-}
+char const* to_string(TokType type) { return gTokTypeString[static_cast<int>(type)]; }
 
 
-typedef std::pair<unsigned, unsigned> LineColumn;
-std::string to_string(LineColumn const& loc) {
-    return std::to_string(loc.first) + ':' + std::to_string(loc.second);
-}
+using LineColumn = std::pair<unsigned, unsigned>;
+std::string to_string(LineColumn const& loc) { return std::to_string(loc.first) + ':' + std::to_string(loc.second); }
 
 
 class Source {
@@ -161,8 +156,8 @@ public:
     }
 
     std::string GetSourceLine(char const* ptr) const {
-        auto lineBegin = begin();
-        char const* lineEnd = nullptr;
+        auto        lineBegin = begin();
+        char const* lineEnd   = nullptr;
         do {
             lineEnd = std::find(lineBegin, end(), '\n');
             if (lineBegin <= ptr && ptr <= lineEnd) {
@@ -179,7 +174,6 @@ private:
     std::string mFileName;
     std::string mSource;
 };
-
 
 ///
 ///
@@ -216,7 +210,6 @@ std::ostream& operator<<(std::ostream& os, SourceRange const& range) {
 }
 
 
-
 ///
 ///
 ///
@@ -224,14 +217,14 @@ class Token {
 public:
     explicit Token(TokType type, SourceRange range) : mType(type), mSourceRange(range) {}
 
-    TokType   Type() const { return mType; }
+    TokType     Type() const { return mType; }
     SourceRange GetSourceRange() const { return mSourceRange; }
 
     bool Is(TokType type) const { return type == mType; }
     bool IsNot(TokType type) const { return !Is(type); }
 
 private:
-    TokType   mType;
+    TokType     mType;
     SourceRange mSourceRange;
 };
 
@@ -265,9 +258,25 @@ std::ostream& Dump(std::ostream& os, token_container_type const& tokens) {
 class Storage {
 public:
     template <typename T, typename... Args>
-    T* Allocate(Args&&... args) {
+    T const* Allocate(Args&&... args) {
+#if 0
+        auto pagesize = sysconf(_SC_PAGE_SIZE);
+        if (pagesize == -1) {
+            perror("sysconf");
+            exit(EXIT_FAILURE);
+        }
+        auto size = (sizeof(T) / pagesize + 1) * pagesize;
+        auto buffer = aligned_alloc(pagesize, size);
+        new (buffer) T(std::forward<Args>(args)...);
+        if (mprotect(buffer, size, PROT_READ) == -1) {
+            perror("mprotect");
+            exit(EXIT_FAILURE);
+        }
+        return reinterpret_cast<T const*>(buffer);
+#else
         mMemory.emplace_back(std::make_shared<T>(std::forward<Args>(args)...));
-        return reinterpret_cast<T*>(mMemory.back().get());
+        return reinterpret_cast<T const*>(mMemory.back().get());
+#endif
     }
 
 private:
@@ -279,6 +288,7 @@ private:
 ///
 ///
 enum class DiagnosticKind { Warning, Error };
+
 char const* to_string(DiagnosticKind kind) {
     switch (kind) {
     case DiagnosticKind::Warning:
@@ -290,6 +300,10 @@ char const* to_string(DiagnosticKind kind) {
     return "unknown";
 }
 
+
+///
+/// \brief The Diagnostic class
+///
 class Diagnostic {
 public:
     explicit Diagnostic(DiagnosticKind kind, SourceRange range, std::string message)
@@ -297,8 +311,8 @@ public:
 
     virtual ~Diagnostic() = default;
 
-    DiagnosticKind Kind() const { return mKind; }
-    SourceRange const& GetSourceRange() const { return mSourceRange; }
+    DiagnosticKind      Kind() const { return mKind; }
+    SourceRange const&  GetSourceRange() const { return mSourceRange; }
     virtual std::string GetMessage() const { return Message(); }
 
 protected:
@@ -306,14 +320,19 @@ protected:
 
 private:
     DiagnosticKind mKind;
-    SourceRange mSourceRange;
-    std::string mMessage;
+    SourceRange    mSourceRange;
+    std::string    mMessage;
 };
+
 
 std::string to_string(Diagnostic const& diag) {
     return to_string(diag.GetSourceRange()) + ": " + to_string(diag.Kind()) + ": " + diag.GetMessage();
 }
 
+
+///
+///
+///
 template <typename... Args>
 std::unique_ptr<Diagnostic> make_diag(Args&&... args) {
     return std::make_unique<Diagnostic>(std::forward<Args>(args)...);
@@ -330,9 +349,12 @@ std::unique_ptr<Diagnostic> make_error_diag(Args&&... args) {
 }
 
 
+///
+/// \brief The DiagnosticContainer class
+///
 class DiagnosticContainer {
 public:
-    typedef std::vector<nonull_ptr<std::unique_ptr<Diagnostic>>> container_type;
+    using container_type = std::vector<nonull_ptr<std::unique_ptr<Diagnostic>>>;
 
 public:
     bool HaveDiag() const { return !mDiags.empty(); }
@@ -350,9 +372,11 @@ public:
 
     std::ostream& Print(std::ostream& os) const {
         for (auto const& diag : mDiags) {
+            std::size_t spaces = diag->GetSourceRange().BeginLocation().second;
+            if (spaces) --spaces;
             os << to_string(*diag) << '\n'
                << diag->GetSourceRange().GetSourceLine() << '\n'
-               << std::string(diag->GetSourceRange().BeginLocation().second - 1, ' ') << '^' << '\n';
+               << std::string(spaces, ' ') << '^' << '\n';
         }
         return os;
     }
@@ -366,20 +390,15 @@ DiagnosticContainer& operator<<(DiagnosticContainer& diagContainer, std::unique_
     return diagContainer;
 }
 
-std::ostream& operator<<(std::ostream& os, DiagnosticContainer const& diagContainer) {
-    return diagContainer.Print(os);
-}
+std::ostream& operator<<(std::ostream& os, DiagnosticContainer const& diagContainer) { return diagContainer.Print(os); }
 
 
-///
-///
-///
 namespace lexer {
+
     class Lexer {
     public:
         explicit Lexer(DiagnosticContainer& diagContainer, Source& source)
-            : mDiagContainer(diagContainer), mSource(source)
-        {
+            : mDiagContainer(diagContainer), mSource(source) {
             mCurrent = mSource.begin();
         }
 
@@ -396,63 +415,46 @@ namespace lexer {
             SkipWhitespace();
             switch (*mCurrent) {
             case '\0':
-                tokens.push_back(Token(TokType::EndOfSource,
-                                       SourceRange(mSource, mCurrent, mCurrent)));
+                tokens.push_back(Token(TokType::EndOfSource, SourceRange(mSource, mCurrent, mCurrent)));
                 break;
 
             case '(':
-                tokens.push_back(
-                    Token(TokType::LParen,
-                          SourceRange(mSource, mCurrent, mCurrent + 1)));
+                tokens.push_back(Token(TokType::LParen, SourceRange(mSource, mCurrent, mCurrent + 1)));
                 ++mCurrent;
                 break;
 
             case ')':
-                tokens.push_back(
-                    Token(TokType::RParen,
-                          SourceRange(mSource, mCurrent, mCurrent + 1)));
+                tokens.push_back(Token(TokType::RParen, SourceRange(mSource, mCurrent, mCurrent + 1)));
                 ++mCurrent;
                 break;
 
             case '+':
-                tokens.push_back(
-                    Token(TokType::OpAdd,
-                          SourceRange(mSource, mCurrent, mCurrent + 1)));
+                tokens.push_back(Token(TokType::OpAdd, SourceRange(mSource, mCurrent, mCurrent + 1)));
                 ++mCurrent;
                 break;
 
             case '-':
-                tokens.push_back(
-                    Token(TokType::OpSub,
-                          SourceRange(mSource, mCurrent, mCurrent + 1)));
+                tokens.push_back(Token(TokType::OpSub, SourceRange(mSource, mCurrent, mCurrent + 1)));
                 ++mCurrent;
                 break;
 
             case '*':
-                tokens.push_back(
-                    Token(TokType::OpMul,
-                          SourceRange(mSource, mCurrent, mCurrent + 1)));
+                tokens.push_back(Token(TokType::OpMul, SourceRange(mSource, mCurrent, mCurrent + 1)));
                 ++mCurrent;
                 break;
 
             case '/':
-                tokens.push_back(
-                    Token(TokType::OpDiv,
-                          SourceRange(mSource, mCurrent, mCurrent + 1)));
+                tokens.push_back(Token(TokType::OpDiv, SourceRange(mSource, mCurrent, mCurrent + 1)));
                 ++mCurrent;
                 break;
 
             case '=':
-                tokens.push_back(
-                    Token(TokType::Equal,
-                          SourceRange(mSource, mCurrent, mCurrent + 1)));
+                tokens.push_back(Token(TokType::Equal, SourceRange(mSource, mCurrent, mCurrent + 1)));
                 ++mCurrent;
                 break;
 
             case ';':
-                tokens.push_back(
-                    Token(TokType::SemiColon,
-                          SourceRange(mSource, mCurrent, mCurrent + 1)));
+                tokens.push_back(Token(TokType::SemiColon, SourceRange(mSource, mCurrent, mCurrent + 1)));
                 ++mCurrent;
                 break;
 
@@ -479,7 +481,8 @@ namespace lexer {
                         return LexVar(tokens);
                     }
                 } else {
-                    mDiagContainer << make_error_diag(SourceRange(mSource, mCurrent, mCurrent + 1), "unknown character");
+                    mDiagContainer << make_error_diag(SourceRange(mSource, mCurrent, mCurrent + 1),
+                                                      "unknown character");
                     return false;
                 }
             }
@@ -490,7 +493,8 @@ namespace lexer {
         bool LexNumber(token_container_type& tokens) {
             auto begin = mCurrent;
             auto end   = mCurrent;
-            while (std::isdigit(*end)) ++end;
+            while (std::isdigit(*end))
+                ++end;
             mCurrent = end;
             tokens.push_back(Token(TokType::Number, SourceRange(mSource, begin, end)));
             return true;
@@ -499,7 +503,8 @@ namespace lexer {
         bool LexVar(token_container_type& tokens) {
             auto begin = mCurrent;
             auto end   = mCurrent;
-            while (std::isalpha(*end)) ++end;
+            while (std::isalpha(*end))
+                ++end;
             mCurrent = end;
             tokens.push_back(Token(TokType::Var, SourceRange(mSource, begin, end)));
             return true;
@@ -549,9 +554,7 @@ namespace ast {
     public:
         virtual ~Visitor();
 
-        virtual VisitorTraverseOrder TraverseOrder() const {
-            return VisitorTraverseOrder::PreOrder;
-        }
+        virtual VisitorTraverseOrder TraverseOrder() const { return VisitorTraverseOrder::PreOrder; }
 
         virtual bool Visit(Expr const&) { return true; }
         virtual bool Visit(AddExpr const&) { return true; }
@@ -604,23 +607,20 @@ namespace ast {
 
     Visitor::~Visitor() = default;
 
-
     ///
     /// \brief The ASTNode class
     /// [begin, end]
     ///
     class ASTNode {
     public:
-        explicit ASTNode(token_const_iterator begin, token_const_iterator end)
-            : mBegin(begin), mEnd(end) {}
+        explicit ASTNode(token_const_iterator begin, token_const_iterator end) : mBegin(begin), mEnd(end) {}
 
         virtual ~ASTNode();
 
         Token const& TokenBegin() const { return *mBegin; }
         Token const& TokenEnd() const { return *mEnd; }
         std::string  String() const {
-            return std::string(mBegin->GetSourceRange().begin(),
-                               mEnd->GetSourceRange().end());
+            return std::string(mBegin->GetSourceRange().begin(), mEnd->GetSourceRange().end());
         }
         virtual char const* NodeName() const = 0;
 
@@ -631,102 +631,104 @@ namespace ast {
 
     ASTNode::~ASTNode() = default;
 
-
     ///
     /// \brief The ExprKind enum
     ///
     enum class ExprKind { AddExpr, SubExpr, Term };
 
-    class Expr : public ASTNode {
+    class Expr : public ast::ASTNode {
     public:
-        explicit Expr(token_const_iterator begin, token_const_iterator end,
-                      ExprKind kind);
-        ExprKind Kind() const;
+        explicit Expr(token_const_iterator begin, token_const_iterator end, ExprKind kind)
+            : ast::ASTNode(begin, end), mKind(kind) {}
+
+        ExprKind Kind() const { return mKind; }
 
     private:
         ExprKind mKind;
     };
 
-
-    class AddExpr : public Expr {
+    class AddExpr : public ast::Expr {
     public:
-        explicit AddExpr(token_const_iterator begin, token_const_iterator end,
-                         ast::Term* lTerm, ast::Expr* rExpr);
+        explicit AddExpr(token_const_iterator begin, token_const_iterator end, ast::Term const& lTerm,
+                         ast::Expr const& rExpr)
+            : ast::Expr(begin, end, ExprKind::AddExpr), mLTerm(lTerm), mRExpr(rExpr) {}
 
-        ast::Term*          Left() const;
-        ast::Expr*          Right() const;
-        ast::Term*          Term() const;
-        ast::Expr*          Expr() const;
+        ast::Term const&    Left() const { return Term(); }
+        ast::Expr const&    Right() const { return Expr(); }
+        ast::Term const&    Term() const { return mLTerm; }
+        ast::Expr const&    Expr() const { return mRExpr; }
         virtual const char* NodeName() const { return "AddExpr"; }
 
     private:
-        ast::Term* mLTerm;
-        ast::Expr* mRExpr;
+        ast::Term const& mLTerm;
+        ast::Expr const& mRExpr;
     };
 
-
-    class SubExpr : public Expr {
+    class SubExpr : public ast::Expr {
     public:
-        explicit SubExpr(token_const_iterator begin, token_const_iterator end,
-                         ast::Term* lTerm, ast::Expr* rExpr);
+        explicit SubExpr(token_const_iterator begin, token_const_iterator end, ast::Term const& lTerm,
+                         ast::Expr const& rExpr)
+            : ast::Expr(begin, end, ExprKind::SubExpr), mLTerm(lTerm), mRExpr(rExpr) {}
 
-        ast::Term*          Left() const;
-        ast::Expr*          Right() const;
-        ast::Term*          Term() const;
-        ast::Expr*          Expr() const;
+        ast::Term const&    Left() const { return Term(); }
+        ast::Expr const&    Right() const { return Expr(); }
+        ast::Term const&    Term() const { return mLTerm; }
+        ast::Expr const&    Expr() const { return mRExpr; }
         virtual const char* NodeName() const { return "SubExpr"; }
 
     private:
-        ast::Term* mLTerm;
-        ast::Expr* mRExpr;
+        ast::Term const& mLTerm;
+        ast::Expr const& mRExpr;
     };
-
 
     ///
     ///
     ///
     enum class TermKind { MulTerm, DivTerm, Factor };
 
-    class Term : public Expr {
+    class Term : public ast::Expr {
     public:
-        explicit Term(token_const_iterator begin, token_const_iterator end,
-                      TermKind kind);
-        TermKind Kind() const;
+        explicit Term(token_const_iterator begin, token_const_iterator end, TermKind kind)
+            : ast::Expr(begin, end, ExprKind::Term), mKind(kind) {}
+
+        TermKind Kind() const { return mKind; }
 
     private:
         TermKind mKind;
     };
 
-    class MulTerm : public Term {
+    class MulTerm : public ast::Term {
     public:
-        explicit MulTerm(token_const_iterator begin, token_const_iterator end,
-                         Factor* lFactor, Term* rTerm);
+        explicit MulTerm(token_const_iterator begin, token_const_iterator end, ast::Factor const& lFactor,
+                         ast::Term const& rTerm)
+            : ast::Term(begin, end, TermKind::MulTerm), mLFactor(lFactor), mRTerm(rTerm) {}
 
-        ast::Factor*        Left() const;
-        ast::Term*          Right() const;
-        ast::Factor*        Factor() const;
-        ast::Term*          Term() const;
+        ast::Factor const&  Left() const { return Factor(); }
+        ast::Term const&    Right() const { return Term(); }
+        ast::Factor const&  Factor() const { return mLFactor; }
+        ast::Term const&    Term() const { return mRTerm; }
         virtual const char* NodeName() const { return "MulTerm"; }
 
     private:
-        ast::Factor* mLFactor;
-        ast::Term*   mRTerm;
+        ast::Factor const& mLFactor;
+        ast::Term const&   mRTerm;
     };
 
-    class DivTerm : public Term {
+    class DivTerm : public ast::Term {
     public:
-        explicit DivTerm(token_const_iterator begin, token_const_iterator end,
-                         ast::Factor* lFactor, ast::Term* rTerm);
+        explicit DivTerm(token_const_iterator begin, token_const_iterator end, ast::Factor const& lFactor,
+                         ast::Term const& rTerm)
+            : ast::Term(begin, end, TermKind::DivTerm), mLFactor(lFactor), mRTerm(rTerm) {}
 
-        ast::Factor*        Left() const;
-        ast::Term*          Right() const;
-        ast::Factor*        Factor() const;
-        ast::Term*          Term() const;
+        ast::Factor const&  Left() const { return Factor(); }
+        ast::Term const&    Right() const { return Term(); }
+        ast::Factor const&  Factor() const { return mLFactor; }
+        ast::Term const&    Term() const { return mRTerm; }
         virtual const char* NodeName() const { return "DivTerm"; }
 
     private:
-        ast::Factor* mLFactor;
-        ast::Term*   mRTerm;
+        ast::Factor const& mLFactor;
+        ast::Term const&   mRTerm;
     };
 
     ///
@@ -734,109 +736,33 @@ namespace ast {
     ///
     enum class FactorKind { ParenExpr, Number, Var };
 
-    class Factor : public Term {
+    class Factor : public ast::Term {
     public:
-        explicit Factor(token_const_iterator begin, token_const_iterator end,
-                        FactorKind kind);
-        FactorKind Kind() const;
+        explicit Factor(token_const_iterator begin, token_const_iterator end, FactorKind kind)
+            : ast::Term(begin, end, TermKind::Factor), mKind(kind) {}
+
+        FactorKind Kind() const { return mKind; }
 
     private:
         FactorKind mKind;
     };
 
-    class Number : public Factor {
+    class Number : public ast::Factor {
     public:
-        explicit Number(token_const_iterator begin, token_const_iterator end,
-                        int value);
-        int                 Value() const;
+        explicit Number(token_const_iterator begin, token_const_iterator end, int value)
+            : ast::Factor(begin, end, FactorKind::Number), mValue(value) {}
+
+        int                 Value() const { return mValue; }
         virtual const char* NodeName() const { return "Number"; }
 
     private:
         int mValue;
     };
 
-    class Var : public Factor {
+    class Var : public ast::Factor {
     public:
-        explicit Var(token_const_iterator begin, token_const_iterator end,
-                     std::string const& name);
-        std::string const&  Name() const;
-        virtual const char* NodeName() const { return "Var"; }
-
-    private:
-        std::string mName;
-    };
-
-    class ParenExpr : public Factor {
-    public:
-        explicit ParenExpr(token_const_iterator begin, token_const_iterator end,
-                           ast::Expr* expr);
-        ast::Expr*          Expr() const;
-        virtual const char* NodeName() const { return "ParenExpr"; }
-
-    private:
-        ast::Expr* mExpr;
-    };
-
-
-    ///
-    ///
-    ///
-    enum class StmtKind { Print, Assign };
-
-    class Stmt : public ASTNode {
-    public:
-        explicit Stmt(token_const_iterator begin, token_const_iterator end, StmtKind kind);
-        StmtKind Kind() const { return mKind; }
-
-    private:
-        StmtKind mKind;
-    };
-
-
-    class CompoundStmt : public ASTNode {
-    public:
-        explicit CompoundStmt(token_const_iterator begin, token_const_iterator end);
-
-        void AddStmt(Stmt& stmt) { mStmts.emplace_back(stmt); }
-        std::vector<std::reference_wrapper<Stmt>> const& Stmts() const { return mStmts; }
-
-        virtual const char* NodeName() const { return "CompoundStmt"; }
-
-    private:
-        std::vector<std::reference_wrapper<Stmt>> mStmts;
-    };
-
-
-    class PrintStmt : public Stmt {
-    public:
-        explicit PrintStmt(token_const_iterator begin, token_const_iterator end, ast::Var& var);
-
-        ast::Var& Var() const { return mVar; }
-
-        virtual const char* NodeName() const { return "PrintStmt"; }
-
-    private:
-        ast::Var& mVar;
-    };
-
-
-    class AssignStmt : public Stmt {
-    public:
-        explicit AssignStmt(token_const_iterator begin, token_const_iterator end, ast::LeftVar& leftVar, ast::Expr& expr);
-
-        ast::LeftVar& LeftVar() const { return mLeftVar; }
-        ast::Expr& Expr() const { return mExpr; }
-
-        virtual const char* NodeName() const { return "PrintStmt"; }
-
-    private:
-        ast::LeftVar& mLeftVar;
-        ast::Expr& mExpr;
-    };
-
-    class LeftVar : public ASTNode {
-    public:
-        explicit LeftVar(token_const_iterator begin, token_const_iterator end, std::string const& name);
+        explicit Var(token_const_iterator begin, token_const_iterator end, std::string const& name)
+            : ast::Factor(begin, end, FactorKind::Var), mName(name) {}
 
         std::string const&  Name() const { return mName; }
         virtual const char* NodeName() const { return "Var"; }
@@ -845,137 +771,88 @@ namespace ast {
         std::string mName;
     };
 
-    ///
-    /// Expr
-    ///
-    Expr::Expr(token_const_iterator begin, token_const_iterator end,
-               ExprKind kind)
-        : ASTNode(begin, end), mKind(kind) {}
-    ExprKind Expr::Kind() const { return mKind; }
+    class ParenExpr : public ast::Factor {
+    public:
+        explicit ParenExpr(token_const_iterator begin, token_const_iterator end, ast::Expr const& expr)
+            : ast::Factor(begin, end, FactorKind::ParenExpr), mExpr(expr) {}
 
+        ast::Expr const&    Expr() const { return mExpr; }
+        virtual const char* NodeName() const { return "ParenExpr"; }
 
-    ///
-    /// AddExpr
-    ///
-    AddExpr::AddExpr(token_const_iterator begin, token_const_iterator end,
-                     ast::Term* lTerm, ast::Expr* rExpr)
-        : ast::Expr(begin, end, ExprKind::AddExpr),
-          mLTerm(lTerm),
-          mRExpr(rExpr) {}
-
-    ast::Term* AddExpr::Left() const { return Term(); }
-    ast::Expr* AddExpr::Right() const { return Expr(); }
-    ast::Term* AddExpr::Term() const { return mLTerm; }
-    ast::Expr* AddExpr::Expr() const { return mRExpr; }
-
+    private:
+        ast::Expr const& mExpr;
+    };
 
     ///
     ///
     ///
-    SubExpr::SubExpr(token_const_iterator begin, token_const_iterator end,
-                     ast::Term* lTerm, ast::Expr* rExpr)
-        : ast::Expr(begin, end, ExprKind::SubExpr),
-          mLTerm(lTerm),
-          mRExpr(rExpr) {}
+    enum class StmtKind { Print, Assign };
 
-    ast::Term* SubExpr::Left() const { return Term(); }
-    ast::Expr* SubExpr::Right() const { return Expr(); }
-    ast::Term* SubExpr::Term() const { return mLTerm; }
-    ast::Expr* SubExpr::Expr() const { return mRExpr; }
+    class Stmt : public ast::ASTNode {
+    public:
+        explicit Stmt(token_const_iterator begin, token_const_iterator end, StmtKind kind)
+            : ASTNode(begin, end), mKind(kind) {}
 
+        StmtKind Kind() const { return mKind; }
 
-    ///
-    ///
-    ///
-    Term::Term(token_const_iterator begin, token_const_iterator end,
-               TermKind kind)
-        : Expr(begin, end, ExprKind::Term), mKind(kind) {}
-    TermKind Term::Kind() const { return mKind; }
+    private:
+        StmtKind mKind;
+    };
 
+    class CompoundStmt : public ast::ASTNode {
+    public:
+        using container_type = std::vector<std::reference_wrapper<Stmt const>>;
 
-    ///
-    ///
-    ///
-    MulTerm::MulTerm(token_const_iterator begin, token_const_iterator end,
-                     ast::Factor* lFactor, ast::Term* rTerm)
-        : ast::Term(begin, end, TermKind::MulTerm),
-          mLFactor(lFactor),
-          mRTerm(rTerm) {}
+        explicit CompoundStmt(token_const_iterator begin, token_const_iterator end) : ast::ASTNode(begin, end) {}
+        explicit CompoundStmt(token_const_iterator begin, token_const_iterator end, container_type stmts)
+            : ast::ASTNode(begin, end), mStmts(std::move(stmts)) {}
 
-    ast::Factor* MulTerm::Left() const { return Factor(); }
-    ast::Term*   MulTerm::Right() const { return Term(); }
-    ast::Factor* MulTerm::Factor() const { return mLFactor; }
-    ast::Term*   MulTerm::Term() const { return mRTerm; }
+        void                  AddStmt(Stmt& stmt) { mStmts.emplace_back(stmt); }
+        container_type const& Stmts() const { return mStmts; }
+        virtual const char*   NodeName() const { return "CompoundStmt"; }
 
+    private:
+        container_type mStmts;
+    };
 
-    ///
-    ///
-    ///
-    DivTerm::DivTerm(token_const_iterator begin, token_const_iterator end,
-                     ast::Factor* lFactor, ast::Term* rTerm)
-        : ast::Term(begin, end, TermKind::DivTerm),
-          mLFactor(lFactor),
-          mRTerm(rTerm) {}
+    class PrintStmt : public ast::Stmt {
+    public:
+        explicit PrintStmt(token_const_iterator begin, token_const_iterator end, ast::Var const& var)
+            : ast::Stmt(begin, end, StmtKind::Print), mVar(var) {}
 
-    ast::Factor* DivTerm::Left() const { return Factor(); }
-    ast::Term*   DivTerm::Right() const { return Term(); }
-    ast::Factor* DivTerm::Factor() const { return mLFactor; }
-    ast::Term*   DivTerm::Term() const { return mRTerm; }
+        ast::Var const&     Var() const { return mVar; }
+        virtual const char* NodeName() const { return "PrintStmt"; }
 
+    private:
+        ast::Var const& mVar;
+    };
 
-    ///
-    ///
-    ///
-    Factor::Factor(token_const_iterator begin, token_const_iterator end,
-                   FactorKind kind)
-        : Term(begin, end, TermKind::Factor), mKind(kind) {}
-    FactorKind Factor::Kind() const { return mKind; }
+    class AssignStmt : public ast::Stmt {
+    public:
+        explicit AssignStmt(token_const_iterator begin, token_const_iterator end, ast::LeftVar const& leftVar,
+                            ast::Expr const& expr)
+            : ast::Stmt(begin, end, StmtKind::Assign), mLeftVar(leftVar), mExpr(expr) {}
 
+        ast::LeftVar const& LeftVar() const { return mLeftVar; }
+        ast::Expr const&    Expr() const { return mExpr; }
+        virtual const char* NodeName() const { return "PrintStmt"; }
 
-    ///
-    ///
-    ///
-    Number::Number(token_const_iterator begin, token_const_iterator end,
-                   int value)
-        : Factor(begin, end, FactorKind::Number), mValue(value) {}
-    int Number::Value() const { return mValue; }
+    private:
+        ast::LeftVar const& mLeftVar;
+        ast::Expr const&    mExpr;
+    };
 
+    class LeftVar : public ast::ASTNode {
+    public:
+        explicit LeftVar(token_const_iterator begin, token_const_iterator end, std::string const& name)
+            : ast::ASTNode(begin, end), mName(name) {}
 
-    ///
-    ///
-    ///
-    Var::Var(token_const_iterator begin, token_const_iterator end,
-             std::string const& name)
-        : Factor(begin, end, FactorKind::Var), mName(name) {}
-    std::string const& Var::Name() const { return mName; }
+        std::string const&  Name() const { return mName; }
+        virtual const char* NodeName() const { return "LeftVar"; }
 
-
-    ///
-    ///
-    ///
-    ParenExpr::ParenExpr(token_const_iterator begin, token_const_iterator end,
-                         ast::Expr* expr)
-        : Factor(begin, end, FactorKind::ParenExpr), mExpr(expr) {}
-
-    ast::Expr* ParenExpr::Expr() const { return mExpr; }
-
-    ///
-    ///
-    ///
-    Stmt::Stmt(token_const_iterator begin, token_const_iterator end, StmtKind kind)
-        : ASTNode(begin, end), mKind(kind) {}
-
-    CompoundStmt::CompoundStmt(token_const_iterator begin, token_const_iterator end)
-        : ASTNode(begin, end) {}
-
-    PrintStmt::PrintStmt(token_const_iterator begin, token_const_iterator end, ast::Var& var)
-        : Stmt(begin, end, StmtKind::Print), mVar(var) {}
-
-    AssignStmt::AssignStmt(token_const_iterator begin, token_const_iterator end, ast::LeftVar& leftVar, ast::Expr& expr)
-        : Stmt(begin, end, StmtKind::Assign), mLeftVar(leftVar), mExpr(expr) {}
-
-    LeftVar::LeftVar(token_const_iterator begin, token_const_iterator end, std::string const& name)
-        : ASTNode(begin, end), mName(name) {}
+    private:
+        std::string mName;
+    };
 
     ///
     ///
@@ -987,9 +864,7 @@ namespace ast {
     bool Visitor::WalkUpFrom(SubExpr const& subExpr) {
         return WalkUpFrom(static_cast<Expr const&>(subExpr)) && Visit(subExpr);
     }
-    bool Visitor::WalkUpFrom(Term const& term) {
-        return WalkUpFrom(static_cast<Expr const&>(term)) && Visit(term);
-    }
+    bool Visitor::WalkUpFrom(Term const& term) { return WalkUpFrom(static_cast<Expr const&>(term)) && Visit(term); }
     bool Visitor::WalkUpFrom(MulTerm const& mulTerm) {
         return WalkUpFrom(static_cast<Term const&>(mulTerm)) && Visit(mulTerm);
     }
@@ -1002,26 +877,19 @@ namespace ast {
     bool Visitor::WalkUpFrom(Number const& number) {
         return WalkUpFrom(static_cast<Factor const&>(number)) && Visit(number);
     }
-    bool Visitor::WalkUpFrom(Var const& var) {
-        return WalkUpFrom(static_cast<Factor const&>(var)) && Visit(var);
-    }
+    bool Visitor::WalkUpFrom(Var const& var) { return WalkUpFrom(static_cast<Factor const&>(var)) && Visit(var); }
     bool Visitor::WalkUpFrom(ParenExpr const& parenExpr) {
-        return WalkUpFrom(static_cast<Factor const&>(parenExpr))
-               && Visit(parenExpr);
+        return WalkUpFrom(static_cast<Factor const&>(parenExpr)) && Visit(parenExpr);
     }
     bool Visitor::WalkUpFrom(Stmt const& stmt) { return Visit(stmt); }
     bool Visitor::WalkUpFrom(CompoundStmt const& compoundStmt) { return Visit(compoundStmt); }
     bool Visitor::WalkUpFrom(PrintStmt const& printStmt) {
-        return WalkUpFrom(static_cast<Stmt const&>(printStmt))
-               && Visit(printStmt);
+        return WalkUpFrom(static_cast<Stmt const&>(printStmt)) && Visit(printStmt);
     }
     bool Visitor::WalkUpFrom(AssignStmt const& assignStmt) {
-        return WalkUpFrom(static_cast<Stmt const&>(assignStmt))
-               && Visit(assignStmt);
+        return WalkUpFrom(static_cast<Stmt const&>(assignStmt)) && Visit(assignStmt);
     }
-    bool Visitor::WalkUpFrom(LeftVar const& leftVar) {
-        return Visit(leftVar);
-    }
+    bool Visitor::WalkUpFrom(LeftVar const& leftVar) { return Visit(leftVar); }
 
     ///
     ///
@@ -1030,37 +898,33 @@ namespace ast {
         // if (!WalkUpFrom(expr)) return false;
         switch (expr.Kind()) {
         case ExprKind::AddExpr:
-            return Traverse(*static_cast<AddExpr const*>(&expr));
+            return Traverse(dynamic_cast<AddExpr const&>(expr));
 
         case ExprKind::SubExpr:
-            return Traverse(*static_cast<SubExpr const*>(&expr));
+            return Traverse(dynamic_cast<SubExpr const&>(expr));
 
         case ExprKind::Term:
-            return Traverse(*static_cast<Term const*>(&expr));
+            return Traverse(dynamic_cast<Term const&>(expr));
         }
         return false;
     }
     bool Visitor::Traverse(AddExpr const& addExpr) {
         switch (TraverseOrder()) {
         case VisitorTraverseOrder::PreOrder:
-            return WalkUpFrom(addExpr) && Traverse(*addExpr.Left())
-                   && Traverse(*addExpr.Right());
+            return WalkUpFrom(addExpr) && Traverse(addExpr.Left()) && Traverse(addExpr.Right());
 
         case VisitorTraverseOrder::PostOrder:
-            return Traverse(*addExpr.Left()) && Traverse(*addExpr.Right())
-                   && WalkUpFrom(addExpr);
+            return Traverse(addExpr.Left()) && Traverse(addExpr.Right()) && WalkUpFrom(addExpr);
         }
         return true;
     }
     bool Visitor::Traverse(SubExpr const& subExpr) {
         switch (TraverseOrder()) {
         case VisitorTraverseOrder::PreOrder:
-            return WalkUpFrom(subExpr) && Traverse(*subExpr.Left())
-                   && Traverse(*subExpr.Right());
+            return WalkUpFrom(subExpr) && Traverse(subExpr.Left()) && Traverse(subExpr.Right());
 
         case VisitorTraverseOrder::PostOrder:
-            return Traverse(*subExpr.Left()) && Traverse(*subExpr.Right())
-                   && WalkUpFrom(subExpr);
+            return Traverse(subExpr.Left()) && Traverse(subExpr.Right()) && WalkUpFrom(subExpr);
         }
         return true;
     }
@@ -1068,51 +932,46 @@ namespace ast {
         // if (!WalkUpFrom(term)) return false;
         switch (term.Kind()) {
         case TermKind::DivTerm:
-            return Traverse(*static_cast<DivTerm const*>(&term));
+            return Traverse(dynamic_cast<DivTerm const&>(term));
 
         case TermKind::Factor:
-            return Traverse(*static_cast<Factor const*>(&term));
+            return Traverse(dynamic_cast<Factor const&>(term));
 
         case TermKind::MulTerm:
-            return Traverse(*static_cast<MulTerm const*>(&term));
+            return Traverse(dynamic_cast<MulTerm const&>(term));
         }
         return false;
     }
     bool Visitor::Traverse(MulTerm const& mulTerm) {
         switch (TraverseOrder()) {
         case VisitorTraverseOrder::PreOrder:
-            return WalkUpFrom(mulTerm) && Traverse(*mulTerm.Left())
-                   && Traverse(*mulTerm.Right());
+            return WalkUpFrom(mulTerm) && Traverse(mulTerm.Left()) && Traverse(mulTerm.Right());
 
         case VisitorTraverseOrder::PostOrder:
-            return Traverse(*mulTerm.Left()) && Traverse(*mulTerm.Right())
-                   && WalkUpFrom(mulTerm);
+            return Traverse(mulTerm.Left()) && Traverse(mulTerm.Right()) && WalkUpFrom(mulTerm);
         }
         return true;
     }
     bool Visitor::Traverse(DivTerm const& divTerm) {
         switch (TraverseOrder()) {
         case VisitorTraverseOrder::PreOrder:
-            return WalkUpFrom(divTerm) && Traverse(*divTerm.Left())
-                   && Traverse(*divTerm.Right());
+            return WalkUpFrom(divTerm) && Traverse(divTerm.Left()) && Traverse(divTerm.Right());
 
         case VisitorTraverseOrder::PostOrder:
-            return Traverse(*divTerm.Left()) && Traverse(*divTerm.Right())
-                   && WalkUpFrom(divTerm);
+            return Traverse(divTerm.Left()) && Traverse(divTerm.Right()) && WalkUpFrom(divTerm);
         }
         return true;
     }
     bool Visitor::Traverse(Factor const& factor) {
-        // if (!WalkUpFrom(factor)) return false;
         switch (factor.Kind()) {
         case FactorKind::Number:
-            return Traverse(*static_cast<Number const*>(&factor));
+            return Traverse(dynamic_cast<Number const&>(factor));
 
         case FactorKind::ParenExpr:
-            return Traverse(*static_cast<ParenExpr const*>(&factor));
+            return Traverse(dynamic_cast<ParenExpr const&>(factor));
 
         case FactorKind::Var:
-            return Traverse(*static_cast<Var const*>(&factor));
+            return Traverse(dynamic_cast<Var const&>(factor));
         }
         return false;
     }
@@ -1121,10 +980,10 @@ namespace ast {
     bool Visitor::Traverse(ParenExpr const& parenExpr) {
         switch (TraverseOrder()) {
         case VisitorTraverseOrder::PreOrder:
-            return WalkUpFrom(parenExpr) && Traverse(*parenExpr.Expr());
+            return WalkUpFrom(parenExpr) && Traverse(parenExpr.Expr());
 
         case VisitorTraverseOrder::PostOrder:
-            return Traverse(*parenExpr.Expr()) && WalkUpFrom(parenExpr);
+            return Traverse(parenExpr.Expr()) && WalkUpFrom(parenExpr);
         }
         return true;
     }
@@ -1132,16 +991,16 @@ namespace ast {
     bool Visitor::Traverse(Stmt const& stmt) {
         switch (stmt.Kind()) {
         case StmtKind::Assign:
-            return Traverse(static_cast<AssignStmt const&>(stmt));
+            return Traverse(dynamic_cast<AssignStmt const&>(stmt));
 
         case StmtKind::Print:
-            return Traverse(static_cast<PrintStmt const&>(stmt));
+            return Traverse(dynamic_cast<PrintStmt const&>(stmt));
         }
         return false;
     }
     bool Visitor::Traverse(CompoundStmt const& compoundStmt) {
         for (auto const stmt : compoundStmt.Stmts()) {
-            if (Traverse(const_cast<Stmt const&>(stmt.get())) == false) {
+            if (Traverse(stmt.get()) == false) {
                 return false;
             }
         }
@@ -1160,47 +1019,47 @@ namespace ast {
     bool Visitor::Traverse(AssignStmt const& assignStmt) {
         switch (TraverseOrder()) {
         case VisitorTraverseOrder::PreOrder:
-            return WalkUpFrom(assignStmt)
-                   && Traverse(assignStmt.Expr()) && Traverse(assignStmt.LeftVar());
+            return WalkUpFrom(assignStmt) && Traverse(assignStmt.Expr()) && Traverse(assignStmt.LeftVar());
 
         case VisitorTraverseOrder::PostOrder:
-            return Traverse(assignStmt.Expr()) && Traverse(assignStmt.LeftVar())
-                   && WalkUpFrom(assignStmt);
+            return Traverse(assignStmt.Expr()) && Traverse(assignStmt.LeftVar()) && WalkUpFrom(assignStmt);
         }
         return false;
     }
-    bool Visitor::Traverse(LeftVar const& leftVar) {
-        return WalkUpFrom(leftVar);
-    }
+    bool Visitor::Traverse(LeftVar const& leftVar) { return WalkUpFrom(leftVar); }
 
 } // namespace ast
 
 
 namespace parser {
 
-    template <typename T>
+    template <typename AST>
     class ParseResult {
     public:
-        ParseResult() : mPtr(nullptr) {}
+        using ast_node_type = AST;
+
+    public:
+        ParseResult() : mPointer(nullptr) {}
 
         template <typename U>
-        explicit ParseResult(U* ptr) : mPtr(ptr) {}
+        explicit ParseResult(U* u) : mPointer(u) {}
 
         template <typename U>
         ParseResult& operator=(ParseResult<U> const& rhs) {
-            mPtr = rhs.get();
+            mPointer = rhs.ptr();
             return *this;
         }
 
-        explicit operator bool() const { return mPtr != nullptr; }
+        bool IsOK() const { return mPointer != nullptr; }
+        explicit operator bool() const { return IsOK(); }
 
-        T& operator*() const { return *mPtr; }
-        T* get() const { return mPtr; }
+        operator ast_node_type const&() const { return ref(); }
+        ast_node_type const& ref() const { return *mPointer; }
+        ast_node_type const* ptr() const { return mPointer; }
 
     private:
-        T* mPtr;
+        ast_node_type const* mPointer;
     };
-
 
     class Parser {
     public:
@@ -1208,7 +1067,7 @@ namespace parser {
             : mDiagContainer(diagContainer), mTok(tok), mSuccess(true) {}
 
         ParseResult<ast::CompoundStmt> Parse() { return ParseCompoundStmt(mTok); }
-        bool Success() const { return mSuccess; }
+        bool                           Success() const { return mSuccess; }
 
     private:
         ParseResult<ast::Expr> ParseExpr(token_const_iterator& stok);
@@ -1221,7 +1080,6 @@ namespace parser {
         ParseResult<ast::Number> ParseNumber(token_const_iterator& stok);
         ParseResult<ast::Var> ParseVar(token_const_iterator& stok);
         ParseResult<ast::ParenExpr> ParseParenExpr(token_const_iterator& stok);
-
         ParseResult<ast::CompoundStmt> ParseCompoundStmt(token_const_iterator& stok);
         ParseResult<ast::Stmt> ParseStmt(token_const_iterator& stok);
         ParseResult<ast::Stmt> ParsePrintStmt(token_const_iterator& stok);
@@ -1232,13 +1090,11 @@ namespace parser {
         DiagnosticContainer& mDiagContainer;
         Storage              mStorage;
         token_const_iterator mTok;
-        bool mSuccess;
+        bool                 mSuccess;
     };
 
-
     ParseResult<ast::Expr> Parser::ParseExpr(token_const_iterator& stok) {
-        ParseResult<ast::Expr> r;
-        r = ParseAddExpr(stok);
+        auto r = ParseAddExpr(stok);
         if (r) return r;
 
         r = ParseSubExpr(stok);
@@ -1250,12 +1106,11 @@ namespace parser {
         return {};
     }
 
-
     ParseResult<ast::Expr> Parser::ParseAddExpr(token_const_iterator& stok) {
         auto btok = stok;
 
-        auto                   itok = btok;
-        ParseResult<ast::Term> term = ParseTerm(itok);
+        auto itok = btok;
+        auto term = ParseTerm(itok);
         if (!term) return {};
 
         if (itok->IsNot(TokType::OpAdd)) {
@@ -1269,11 +1124,8 @@ namespace parser {
         stok      = itok;
         auto etok = stok - 1;
 
-        return ParseResult<ast::Expr>(
-            mStorage.Allocate<ast::AddExpr>(btok, etok, term.get(),
-                                            expr.get()));
+        return ParseResult<ast::Expr>(mStorage.Allocate<ast::AddExpr>(btok, etok, term, expr));
     }
-
 
     ParseResult<ast::Expr> Parser::ParseSubExpr(token_const_iterator& stok) {
         auto btok = stok;
@@ -1296,11 +1148,8 @@ namespace parser {
         stok      = itok;
         auto etok = stok - 1;
 
-        return ParseResult<ast::Expr>(
-            mStorage.Allocate<ast::SubExpr>(btok, etok, term.get(),
-                                            expr.get()));
+        return ParseResult<ast::Expr>(mStorage.Allocate<ast::SubExpr>(btok, etok, term, expr));
     }
-
 
     ParseResult<ast::Term> Parser::ParseTerm(token_const_iterator& stok) {
         ParseResult<ast::Term> r;
@@ -1315,7 +1164,6 @@ namespace parser {
 
         return {};
     }
-
 
     ParseResult<ast::Term> Parser::ParseMulTerm(token_const_iterator& stok) {
         auto btok = stok;
@@ -1335,11 +1183,8 @@ namespace parser {
         stok      = itok;
         auto etok = stok - 1;
 
-        return ParseResult<ast::Term>(
-            mStorage.Allocate<ast::MulTerm>(btok, etok, factor.get(),
-                                            term.get()));
+        return ParseResult<ast::Term>(mStorage.Allocate<ast::MulTerm>(btok, etok, factor, term));
     }
-
 
     ParseResult<ast::Term> Parser::ParseDivTerm(token_const_iterator& stok) {
         auto btok = stok;
@@ -1359,11 +1204,8 @@ namespace parser {
         stok      = itok;
         auto etok = stok - 1;
 
-        return ParseResult<ast::Term>(
-            mStorage.Allocate<ast::DivTerm>(btok, etok, factor.get(),
-                                            term.get()));
+        return ParseResult<ast::Term>(mStorage.Allocate<ast::DivTerm>(btok, etok, factor, term));
     }
-
 
     ParseResult<ast::Factor> Parser::ParseFactor(token_const_iterator& stok) {
         ParseResult<ast::Factor> r;
@@ -1379,7 +1221,6 @@ namespace parser {
         return {};
     }
 
-
     ParseResult<ast::Number> Parser::ParseNumber(token_const_iterator& stok) {
         auto btok = stok;
         if (stok->IsNot(TokType::Number)) {
@@ -1389,10 +1230,8 @@ namespace parser {
         auto num = std::stoi(stok->GetSourceRange().GetSourceString());
         ++stok;
 
-        return ParseResult<ast::Number>(
-            mStorage.Allocate<ast::Number>(btok, stok - 1, num));
+        return ParseResult<ast::Number>(mStorage.Allocate<ast::Number>(btok, stok - 1, num));
     }
-
 
     ParseResult<ast::Var> Parser::ParseVar(token_const_iterator& stok) {
         auto btok = stok;
@@ -1401,13 +1240,10 @@ namespace parser {
         }
         ++stok;
         return ParseResult<ast::Var>(
-            mStorage.Allocate<ast::Var>(btok, stok - 1,
-                                        btok->GetSourceRange().GetSourceString()));
+            mStorage.Allocate<ast::Var>(btok, stok - 1, btok->GetSourceRange().GetSourceString()));
     }
 
-
-    ParseResult<ast::ParenExpr> Parser::ParseParenExpr(
-        token_const_iterator& stok) {
+    ParseResult<ast::ParenExpr> Parser::ParseParenExpr(token_const_iterator& stok) {
         auto btok = stok;
 
         auto itok  = btok;
@@ -1431,24 +1267,23 @@ namespace parser {
         stok      = itok;
         auto etok = stok - 1;
 
-        return ParseResult<ast::ParenExpr>(
-            mStorage.Allocate<ast::ParenExpr>(btok, etok, expr.get()));
+        return ParseResult<ast::ParenExpr>(mStorage.Allocate<ast::ParenExpr>(btok, etok, expr));
     }
 
     ParseResult<ast::CompoundStmt> Parser::ParseCompoundStmt(token_const_iterator& stok) {
         auto btok = stok;
 
-        std::vector<std::reference_wrapper<ast::Stmt>> stmts;
-        auto itok = btok;
+        ast::CompoundStmt::container_type stmts;
+        auto                              itok = btok;
         while (itok->IsNot(TokType::EndOfSource)) {
             auto r = ParseStmt(itok);
             if (!r) return {};
-            stmts.emplace_back(*r);
+            stmts.emplace_back(r.ref());
         }
-        auto compoundStmt = mStorage.Allocate<ast::CompoundStmt>(btok, itok - 1);
-        for (auto e : stmts) {
-            compoundStmt->AddStmt(e);
-        }
+        stok = itok;
+
+        auto compoundStmt = mStorage.Allocate<ast::CompoundStmt>(btok, itok - 1, std::move(stmts));
+        //compoundStmt->Replace(std::move(stmts));
         return ParseResult<ast::CompoundStmt>(compoundStmt);
     }
 
@@ -1458,11 +1293,11 @@ namespace parser {
         auto itok = btok;
         if (itok->Is(TokType::KwPrint)) {
             auto r = ParsePrintStmt(itok);
-            stok = itok;
+            stok   = itok;
             return r;
         } else if (itok->Is(TokType::Var)) {
             auto r = ParseAssignStmt(itok);
-            stok = itok;
+            stok   = itok;
             return r;
         } else {
             // error
@@ -1485,14 +1320,14 @@ namespace parser {
             mDiagContainer << make_error_diag((itok - 1)->GetSourceRange(), "need a semicolon after this");
             mSuccess = false;
 
-            // try to ignore ';' for now
+            // ignore ';'
             stok = itok;
-            return ParseResult<ast::Stmt>(mStorage.Allocate<ast::PrintStmt>(btok, itok - 1, *r));
+            return ParseResult<ast::Stmt>(mStorage.Allocate<ast::PrintStmt>(btok, itok - 1, r));
         }
         auto etok = itok++;
-        stok = itok;
+        stok      = itok;
 
-        return ParseResult<ast::Stmt>(mStorage.Allocate<ast::PrintStmt>(btok, etok, *r));
+        return ParseResult<ast::Stmt>(mStorage.Allocate<ast::PrintStmt>(btok, etok, r));
     }
 
     ParseResult<ast::Stmt> Parser::ParseAssignStmt(token_const_iterator& stok) {
@@ -1518,14 +1353,14 @@ namespace parser {
             mDiagContainer << make_error_diag((itok - 1)->GetSourceRange(), "need a semicolon after this");
             mSuccess = false;
 
-            // try to ignore ';' for now
+            // ignore ';'
             stok = itok;
-            return ParseResult<ast::Stmt>(mStorage.Allocate<ast::AssignStmt>(btok, itok - 1, *rLeftVar, *rExpr));
+            return ParseResult<ast::Stmt>(mStorage.Allocate<ast::AssignStmt>(btok, itok - 1, rLeftVar, rExpr));
         }
         auto etok = itok++;
-        stok = itok;
+        stok      = itok;
 
-        return ParseResult<ast::Stmt>(mStorage.Allocate<ast::AssignStmt>(btok, etok, *rLeftVar, *rExpr));
+        return ParseResult<ast::Stmt>(mStorage.Allocate<ast::AssignStmt>(btok, etok, rLeftVar, rExpr));
     }
 
     ParseResult<ast::LeftVar> Parser::ParseLeftVar(token_const_iterator& stok) {
@@ -1535,9 +1370,7 @@ namespace parser {
             return {};
         }
         ++stok;
-        return ParseResult<ast::LeftVar>(
-            mStorage.Allocate<ast::LeftVar>(btok, stok - 1,
-                                        btok->GetSourceRange().GetSourceString()));
+        return ParseResult<ast::LeftVar>(mStorage.Allocate<ast::LeftVar>(btok, stok - 1, btok->GetSourceRange().GetSourceString()));
     }
 
 } // namespace parser
@@ -1545,25 +1378,18 @@ namespace parser {
 
 namespace vm {
 
-    ///
-    /// SP : stack pointer (like ESP, RSP...)
-    /// FP : frame pointer (like EBP, RBP...)
-    /// IP : instruction pointer (like EIP, RIP...)
-    ///
+///
+/// SP : stack pointer (like ESP, RSP...)
+/// FP : frame pointer (like EBP, RBP...)
+/// IP : instruction pointer (like EIP, RIP...)
+///
 
-#define OpCodes \
-    /*  opcode                                  args */                         \
-        EnumString(OpPush),                                                     \
-        EnumString(OpPop),                                                      \
-        EnumString(OpLoad),                 /*  frame pointer offset */         \
-        EnumString(OpStore),                /*  frame pointer offset */         \
-        EnumString(OpAdd),                                                      \
-        EnumString(OpSub),                                                      \
-        EnumString(OpMul),                                                      \
-        EnumString(OpDiv),                                                      \
-        EnumString(OpAdjustSP),                                                 \
-        EnumString(OpPrint),                                                    \
-        /**/
+#define OpCodes                                                                                                        \
+    /* opcode args */                                                                                                  \
+    EnumString(OpPush), EnumString(OpPop), EnumString(OpLoad), /* frame pointer offset */                              \
+        EnumString(OpStore),                                   /* frame pointer offset */                              \
+        EnumString(OpAdd), EnumString(OpSub), EnumString(OpMul), EnumString(OpDiv), EnumString(OpAdjustSP),            \
+        EnumString(OpPrint), /**/
 
     enum OpCode {
 #undef EnumString
@@ -1574,10 +1400,10 @@ namespace vm {
     static char const* OpCodeString[] = {
 #undef EnumString
 #define EnumString(x) #x
-        OpCodes
-    };
+        OpCodes};
 
     char const* to_string(OpCode op) { return OpCodeString[op]; }
+
 
     class Program {
     public:
@@ -1602,7 +1428,7 @@ namespace vm {
 
     std::ostream& Dump(std::ostream& os, Program const& program, std::size_t indent = 4) {
         for (auto it = program.Instructions().begin(); it != program.Instructions().end(); ++it) {
-            std::cout << std::string(indent, ' ') << OpCodeString[*it];
+            std::cout << std::string(indent, ' ') << to_string(static_cast<OpCode>(*it));
             switch (*it) {
             case OpPush:
             case OpLoad:
@@ -1639,41 +1465,41 @@ namespace vm {
                     break;
 
                 case OpLoad: {
-                    auto val = mStack[mFP + instructions[++IP]];
+                    auto val      = mStack[mFP + instructions[++IP]];
                     mStack[++mSP] = val;
                     break;
                 }
 
                 case OpStore: {
-                    auto val = mStack[mSP--];
+                    auto val                         = mStack[mSP--];
                     mStack[mFP + instructions[++IP]] = val;
                     break;
                 }
 
                 case OpAdd: {
-                    auto b = mStack[mSP--];
-                    auto a = mStack[mSP];
+                    auto b      = mStack[mSP--];
+                    auto a      = mStack[mSP];
                     mStack[mSP] = a + b;
                     break;
                 }
 
                 case OpSub: {
-                    auto b = mStack[mSP--];
-                    auto a = mStack[mSP];
+                    auto b      = mStack[mSP--];
+                    auto a      = mStack[mSP];
                     mStack[mSP] = a - b;
                     break;
                 }
 
                 case OpMul: {
-                    auto b = mStack[mSP--];
-                    auto a = mStack[mSP];
+                    auto b      = mStack[mSP--];
+                    auto a      = mStack[mSP];
                     mStack[mSP] = a * b;
                     break;
                 }
 
                 case OpDiv: {
-                    auto b = mStack[mSP--];
-                    auto a = mStack[mSP];
+                    auto b      = mStack[mSP--];
+                    auto a      = mStack[mSP];
                     mStack[mSP] = a / b;
                     break;
                 }
@@ -1695,15 +1521,12 @@ namespace vm {
             }
         }
 
-        std::vector<int> const& Stack() const { return mStack; }
-
     private:
-        Program const& mProgram;
+        Program const&   mProgram;
         std::vector<int> mStack;
-        std::size_t mSP;
-        std::size_t mFP;
+        std::size_t      mSP;
+        std::size_t      mFP;
     };
-
 
 } // namespace vm
 
@@ -1713,9 +1536,7 @@ public:
     explicit CompilerVisitor(DiagnosticContainer& diagContainer, vm::Program& program)
         : mDiagContainer(diagContainer), mProgram(program), mSuccess(true) {}
 
-    virtual ast::VisitorTraverseOrder TraverseOrder() const {
-        return ast::VisitorTraverseOrder::PostOrder;
-    }
+    virtual ast::VisitorTraverseOrder TraverseOrder() const { return ast::VisitorTraverseOrder::PostOrder; }
 
     virtual bool Visit(ast::AddExpr const& /*addExpr*/) {
         mProgram.AddOp(vm::OpAdd);
@@ -1745,7 +1566,8 @@ public:
     virtual bool Visit(ast::Var const& var) {
         auto it = std::find(mVars.begin(), mVars.end(), var.Name());
         if (it == mVars.end()) {
-            mDiagContainer << make_error_diag(var.TokenBegin().GetSourceRange(), "use uninitialized variable '" + var.Name() + "'");
+            mDiagContainer << make_error_diag(var.TokenBegin().GetSourceRange(),
+                                              "use uninitialized variable '" + var.Name() + "'");
             mSuccess = false;
             return true;
         }
@@ -1757,7 +1579,8 @@ public:
     virtual bool Visit(ast::PrintStmt const& printStmt) {
         auto it = std::find(mVars.begin(), mVars.end(), printStmt.Var().Name());
         if (it == mVars.end()) {
-            // mDiagContainer << make_error_diag(printStmt.Var().TokenBegin().GetSourceRange(), "use uninitialized variable '" + printStmt.Var().Name() + "'");
+//            mDiagContainer << make_error_diag(printStmt.Var().TokenBegin().GetSourceRange(),
+//                                              "use uninitialized variable '" + printStmt.Var().Name() + "'");
             mSuccess = false;
             return true;
         }
@@ -1782,32 +1605,32 @@ public:
     }
 
     virtual bool Traverse(ast::CompoundStmt const& compoundStmt) {
-        auto location = mProgram.AddOp(vm::OpAdjustSP, 0);
+        auto index = mProgram.AddOp(vm::OpAdjustSP, 0);
         if (ast::Visitor::Traverse(compoundStmt) == false) {
             return false;
         }
-        mProgram.Change(location, mVars.size());
+        mProgram.Change(index + 1, mVars.size());
         return true;
     }
 
     bool Success() const { return mSuccess; }
 
 private:
-    DiagnosticContainer& mDiagContainer;
-    vm::Program& mProgram;
+    DiagnosticContainer&     mDiagContainer;
+    vm::Program&             mProgram;
     std::vector<std::string> mVars;
-    bool mSuccess;
+    bool                     mSuccess;
 };
 
 
 int main() {
     char const* const expression =
-            "   a = (1*(2*3)+4*(5 * 6 + 4));\n"
-            "   print a;\n"
-            "   b = a - 6;\n"
-            "   printc = a;\n"
-            "   print printc;"
-            ;
+        "   a = (1*(2*3)+4*(5 * 6 + 1));\n"
+        "   print a;\n"
+        "   b = a - 6;\n"
+        "   printc = a;\n"
+        "   print printc;"
+        "   print b;";
 
     DiagnosticContainer  diagContainer;
     Source               source(expression);
@@ -1831,9 +1654,9 @@ int main() {
     }
 
     std::cout << "Parse OK.\n";
-    vm::Program program;
+    vm::Program     program;
     CompilerVisitor compiler(diagContainer, program);
-    if (compiler.Traverse(*parseResult.get()) == false) {
+    if (compiler.Traverse(parseResult) == false) {
         std::cerr << "Traverse FAILED.\n";
         std::cerr << diagContainer << '\n';
         return EXIT_FAILURE;
