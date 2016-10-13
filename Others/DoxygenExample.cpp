@@ -10,6 +10,7 @@
 */
 
 #include <string>
+#include <utility>
 
 /**
 @brief
@@ -103,6 +104,18 @@ public:
     */
     void get(int row, int col, std::string& str);
 
+    ///@{
+    /**
+    @brief
+        Brief description for this group.
+
+    @details
+        Detail description for this group.
+        Group comment needs DISTRIBUTE_GROUP_DOC = YES.
+    */
+    void set(int row, int col);
+    void set(std::pair<int, int> rc);
+    ///@}
 
 public:
     /**
