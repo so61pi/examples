@@ -2,9 +2,6 @@
 #include <iostream>
 #include <string>
 
-#include <execinfo.h>
-
-
 // need compiler flag -finstrument-functions
 
 extern "C" {
