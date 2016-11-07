@@ -104,14 +104,29 @@ public:
     */
     void get(int row, int col, std::string& str);
 
+    /**
+    @name Name of this group.
+
+    @brief
+        Brief description for the whole group.
+
+    @details
+        Detail description for the whole group.
+
+    @note
+        Note for this group.
+    */
     ///@{
     /**
     @brief
-        Brief description for this group.
+        Brief description for each member of this group.
 
     @details
-        Detail description for this group.
+        Detail description for each member of this group.
         Group comment needs DISTRIBUTE_GROUP_DOC = YES.
+
+    @note
+        Note for each member of this group.
     */
     void set(int row, int col);
     void set(std::pair<int, int> rc);
