@@ -22,6 +22,17 @@ private:
 };
 
 
+bool SameNs(xmlNsPtr a, xmlNsPtr b) {
+    if (a == b) return true;
+    else {
+        if (a == NULL || b == NULL) {
+            return false;
+        }
+
+        return xmlStrcmp(a->href, b->href) == 0;
+    }
+}
+
 void PrintElementNames(xmlDocPtr doc, xmlNsPtr ns, xmlNodePtr n) {
     if (!n) return;
 
@@ -31,7 +42,8 @@ void PrintElementNames(xmlDocPtr doc, xmlNsPtr ns, xmlNodePtr n) {
         std::cout << "  Content  : " << content << std::endl;
     }
     std::cout << "  Type     : " << n->type << std::endl
-              << "  Ns       : " << n->ns << " - " << (n->ns == ns ? "Recognized" : "Unrecognized") << std::endl
+              << "  Ns       : " << n->ns << " - " << (SameNs(n->ns, ns) ? "Recognized" : "Unrecognized") << std::endl
+              << "  NsDef    : " << n->nsDef << std::endl
               << "  Children : " << xmlChildElementCount(n) << std::endl
               << std::endl;
 
@@ -49,15 +61,15 @@ int main(int argc, char *argv[]) {
     /// If libxml2 detected a non-blank text node at the same level
     /// it will keep all further text nodes, assuming a mixed content element.
     ///
-    /// To avoid that, we can use xmlNextElementSibling and xmlFirstElementChild
+    /// To avoid that, we can use xmlFirstElementChild and xmlNextElementSibling
     /// although the text between the elements now are ignored.
     std::string const data = R"(
-            <a xmlns="http://example.org">
+            <a xmlns:u="http://example.org" xmlns="http://example.org">
               <b1>
                 <![CDATA[ cdata-1 ]]>
               </b1>
               <b2><![CDATA[ cdata-2 ]]></b2>
-              <b3>text</b3>
+              <u:b3>text</u:b3>
               <![CDATA[Testing 0 < 0]]>
             </a>
         )";
