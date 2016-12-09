@@ -29,7 +29,7 @@ bool SameNs(xmlNsPtr a, xmlNsPtr b) {
             return false;
         }
 
-        return xmlStrcmp(a->href, b->href) == 0;
+        return xmlStrEqual(a->href, b->href);
     }
 }
 
