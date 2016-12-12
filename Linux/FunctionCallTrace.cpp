@@ -1,10 +1,34 @@
 #include <cstdio>
 #include <cstdlib>
-#include <iostream>
-#include <string>
 
 #include <cxxabi.h>
 #include <dlfcn.h>
+
+
+#define HAVE_COLOR
+#ifdef HAVE_COLOR
+    char const* const Colors[] = {
+        "\033[96m",
+        "\033[91m",
+        "\033[92m",
+        "\033[95m",
+        "\033[93m",
+        "\033[94m",
+        "\033[97m"
+    };
+    char const* const NoColor = "\033[0m";
+#else
+    char const* const Colors[] = {
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        ""
+    };
+    char const* const NoColor = "";
+#endif
 
 
 // need compiler flag -finstrument-functions -rdymanic -ldl
@@ -25,10 +49,12 @@ static unsigned level;
 void __attribute__((__no_instrument_function__)) Indent(unsigned level);
 
 void Indent(unsigned level) {
-    while (level) {
-        printf("| ");
-        --level;
+    if (level == 0) return;
+
+    for (unsigned i = 1; i < level; ++i) {
+        printf("%s| ", Colors[i % 7]);
     }
+    printf("%s|%s", Colors[level % 7], NoColor);
 }
 
 
@@ -53,29 +79,32 @@ void __cyg_profile_func_enter(void* func, void* caller) {
     char* callerName = AddressToDemangledName(caller);
 
     Indent(level++);
-    printf("enter %p [ %s ], caller %p [ %s ]\n", func, funcName ? funcName : "", caller, callerName ? callerName : "");
+    printf("-enter [ %s ] from [ %s ] (enter %p from %p) \n", funcName ? funcName : "", callerName ? callerName : "", func, caller);
 
     free(funcName);
     free(callerName);
 }
 
 
-void __cyg_profile_func_exit(void* func, void* /*caller*/) {
+void __cyg_profile_func_exit(void* /*func*/, void* /*caller*/) {
     Indent(--level);
-    printf("`leave %p\n", func);
+    if (level) printf(" `---\n");
+    else printf("`---\n");
 }
 
 
-void B() {
+void B(int counter) {
+    if (counter) B(--counter);
 }
 
 
-void A() {
-    B();
+void A(int counter) {
+    B(counter);
 }
 
 
 int main() {
-    A();
+    for (unsigned i = 0; i < 10; ++i) {
+        A(i);
+    }
 }
-
