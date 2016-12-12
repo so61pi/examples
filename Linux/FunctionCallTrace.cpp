@@ -4,6 +4,13 @@
 #include <cxxabi.h>
 #include <dlfcn.h>
 
+#include <unistd.h>
+#include <sys/syscall.h>
+#define gettid() syscall(SYS_gettid)
+
+
+// need compiler flag -finstrument-functions -rdymanic -ldl
+
 
 #define HAVE_COLOR
 #ifdef HAVE_COLOR
@@ -31,8 +38,6 @@
 #endif
 
 
-// need compiler flag -finstrument-functions -rdymanic -ldl
-
 extern "C" {
 
 void __attribute__((__no_instrument_function__)) __cyg_profile_func_enter(void *func, void *caller);
@@ -49,12 +54,18 @@ static unsigned level;
 void __attribute__((__no_instrument_function__)) Indent(unsigned level);
 
 void Indent(unsigned level) {
-    if (level == 0) return;
-
-    for (unsigned i = 1; i < level; ++i) {
-        printf("%s| ", Colors[i % 7]);
+    if (level == 0) {
+        printf("%ld ", gettid());
+        return;
     }
-    printf("%s|%s", Colors[level % 7], NoColor);
+
+    unsigned i = 1;
+    printf("%ld%s | ", gettid(), Colors[i++ % 7]);
+    while (i < level) {
+        printf("%s| ", Colors[i++ % 7]);
+    }
+    if (i == level) printf("%s|", Colors[i % 7]);
+    printf("%s", NoColor);
 }
 
 
