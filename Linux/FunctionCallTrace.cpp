@@ -60,11 +60,11 @@ void Indent(unsigned level) {
     }
 
     unsigned i = 1;
-    printf("%ld%s | ", gettid(), Colors[i++ % 7]);
+    printf("%ld%s |", gettid(), Colors[i++ % 7]);
     while (i < level) {
-        printf("%s| ", Colors[i++ % 7]);
+        printf("%s |", Colors[i++ % 7]);
     }
-    if (i == level) printf("%s|", Colors[i % 7]);
+    if (i == level) printf("%s |", Colors[i % 7]);
     printf("%s", NoColor);
 }
 
