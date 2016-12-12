@@ -46,7 +46,7 @@ void __attribute__((__no_instrument_function__)) __cyg_profile_func_exit(void *f
 }
 
 
-static unsigned level;
+static __thread unsigned level = 0;
 
 
 // avoid infinite recursive calls
