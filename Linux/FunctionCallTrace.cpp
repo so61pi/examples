@@ -114,6 +114,8 @@ void __cyg_profile_func_exit(void* /*func*/, void* /*caller*/) {
     if (access(FILENAME, F_OK) == -1) return;
 #endif
 
+    if (level == 0) return;
+
     Indent(--level);
     if (level) printf(" `---\n");
     else printf("`---\n");
