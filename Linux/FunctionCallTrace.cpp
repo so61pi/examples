@@ -12,7 +12,15 @@
 // need compiler flag -finstrument-functions -rdymanic -ldl
 
 
+#define HAVE_FILE_EXISTENCE_CHECK
 #define HAVE_COLOR
+
+
+#ifdef HAVE_FILE_EXISTENCE_CHECK
+char const* const FILENAME = "/tmp/so61pi";
+#endif
+
+
 #ifdef HAVE_COLOR
     char const* const Colors[] = {
         "\033[96m",
@@ -82,6 +90,10 @@ char* AddressToDemangledName(void* address) {
 
 
 void __cyg_profile_func_enter(void* func, void* caller) {
+#ifdef HAVE_FILE_EXISTENCE_CHECK
+    if (access(FILENAME, F_OK) == -1) return;
+#endif
+
     // this function can be called before main,
     // and if we call std::cout int this function,
     // it can lead to SIGSEGV
@@ -98,6 +110,10 @@ void __cyg_profile_func_enter(void* func, void* caller) {
 
 
 void __cyg_profile_func_exit(void* /*func*/, void* /*caller*/) {
+#ifdef HAVE_FILE_EXISTENCE_CHECK
+    if (access(FILENAME, F_OK) == -1) return;
+#endif
+
     Indent(--level);
     if (level) printf(" `---\n");
     else printf("`---\n");
@@ -115,7 +131,10 @@ void A(int counter) {
 
 
 int main() {
-    for (unsigned i = 0; i < 10; ++i) {
-        A(i);
+    while (true) {
+        for (unsigned i = 0; i < 10; ++i) {
+            A(i);
+        }
+        sleep(1);
     }
 }
