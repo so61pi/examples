@@ -2,60 +2,118 @@
 #include <iostream>
 #include <string>
 
-#include <libxml/parser.h>
-#include <libxml/tree.h>
+#include <libxml2/libxml/parser.h>
+#include <libxml2/libxml/tree.h>
 
 
-struct LibXmlRAII {
-    LibXmlRAII() { LIBXML_TEST_VERSION }
-    ~LibXmlRAII() { xmlCleanupParser(); }
+struct libxml2RAII {
+    libxml2RAII() { LIBXML_TEST_VERSION }
+    ~libxml2RAII() { xmlCleanupParser(); }
 };
 
 
-class XmlDocRAII {
+class xmlDocRAII {
 public:
-    explicit XmlDocRAII(xmlDocPtr doc) : mDoc(doc) {}
-    ~XmlDocRAII() { xmlFreeDoc(mDoc); }
+    explicit xmlDocRAII(xmlDocPtr doc) : mDoc(doc) {}
+    ~xmlDocRAII() { xmlFreeDoc(mDoc); }
 
 private:
     xmlDocPtr mDoc;
 };
 
 
-bool SameNs(xmlNsPtr a, xmlNsPtr b) {
-    if (a == b) return true;
-    else {
-        if (a == NULL || b == NULL) {
-            return false;
-        }
+class XmlStringRAII {
+public:
+    explicit XmlStringRAII(xmlChar* mem) : mMem(mem) {}
+    ~XmlStringRAII() { xmlFree(mMem); }
 
-        return xmlStrEqual(a->href, b->href);
-    }
-}
+private:
+    xmlChar* mMem;
+};
 
-void PrintElementNames(xmlDocPtr doc, xmlNsPtr ns, xmlNodePtr n) {
-    if (!n) return;
 
-    std::cout << "* Name     : " << n->name << std::endl;
-    if (n->type == XML_TEXT_NODE) {
-        auto content = xmlNodeGetContent(n);
-        std::cout << "  Content  : " << content << std::endl;
-    }
-    std::cout << "  Type     : " << n->type << std::endl
-              << "  Ns       : " << n->ns << " - " << (SameNs(n->ns, ns) ? "Recognized" : "Unrecognized") << std::endl
-              << "  NsDef    : " << n->nsDef << std::endl
-              << "  Children : " << xmlChildElementCount(n) << std::endl
-              << std::endl;
+void ProcessDocument(xmlDocPtr doc) {
+    // Get root element of document.
+    xmlNodePtr root = xmlDocGetRootElement(doc);
 
-    for (xmlNodePtr node = n->children; node; node = node->next) {
-        PrintElementNames(doc, ns, node);
-    }
+    // Get root element name.
+    std::cout << "Root element name : " << root->name << std::endl;
 }
 
 
-int main(int argc, char *argv[]) {
-    LibXmlRAII libXmlRAII;
+void ParseXmlFromMemory(char const* buffer, std::size_t size, char const* encoding) {
+    xmlDocPtr doc = xmlReadMemory(buffer, size, nullptr, encoding, 0);
+    xmlDocRAII xmlDocRaii(doc);
+    if (doc == nullptr) {
+        std::cerr << "Malformed XML." << std::endl;
+        return;
+    }
+    ProcessDocument(doc);
+}
 
+
+void ParseXmlFromFile(char const* filename, char const* encoding) {
+    xmlDocPtr doc = xmlReadFile(filename, "UTF-8", 0);
+    xmlDocRAII xmlDocRaii(doc);
+    if (doc == nullptr) {
+        std::cerr << "Malformed XML." << std::endl;
+        return;
+    }
+    ProcessDocument(doc);
+}
+
+
+xmlDocPtr BuildXml() {
+    /// Create a document.
+    xmlDocPtr doc = xmlNewDoc(BAD_CAST "1.0");
+
+    /// Create root node, set it to document.
+    xmlNodePtr root = xmlNewNode(nullptr, BAD_CAST "root");
+    xmlDocSetRootElement(doc, root);
+
+    /// Create first child node under root name child.
+    /// It has namespace xmlns="http://www.example.com" and property key="value".
+    xmlNodePtr child = xmlNewNode(nullptr, BAD_CAST "child");
+    xmlNewNs(child, BAD_CAST "http://www.example.com", nullptr);
+    xmlNewProp(child, BAD_CAST "key", BAD_CAST "value");
+    xmlAddChild(root, child);
+
+    /// Create a second child node name child2.
+    /// It has a text element inside it.
+    xmlNodePtr child2 = xmlNewNode(nullptr, BAD_CAST "child2");
+    xmlNodePtr text = xmlNewText(BAD_CAST "text");
+    xmlAddChild(child2, text);
+    xmlAddChild(root, child2);
+
+    /// The XML tree looks like:
+    ///
+    /// <?xml version="1.0"?>
+    /// <root>
+    ///     <child xmlns="http://www.example.com" key="value"/>
+    ///     <child2>text</child2>
+    /// </root>
+
+    return doc;
+}
+
+
+void DumpXmlToFile(char const* filename, xmlDocPtr doc) {
+    xmlSaveFile(filename, doc);
+}
+
+
+void DumpXmlToStream(std::ostream& os, xmlDocPtr doc) {
+    xmlChar* mem = nullptr;
+    int size = 0;
+    xmlDocDumpMemory(doc, &mem, &size);
+    XmlStringRAII xmlStringRaii(mem);
+    if (mem) {
+        os << mem;
+    }
+}
+
+
+int main(int argc, char* argv[]) {
     /// https://mail.gnome.org/archives/xml/2009-December/msg00020.html
     ///
     /// If libxml2 detected a non-blank text node at the same level
@@ -63,27 +121,9 @@ int main(int argc, char *argv[]) {
     ///
     /// To avoid that, we can use xmlFirstElementChild and xmlNextElementSibling
     /// although the text between the elements now are ignored.
-    std::string const data = R"(
-            <a xmlns:u="http://example.org" xmlns="http://example.org">
-              <b1>
-                <![CDATA[ cdata-1 ]]>
-              </b1>
-              <b2><![CDATA[ cdata-2 ]]></b2>
-              <u:b3>text</u:b3>
-              <![CDATA[Testing 0 < 0]]>
-            </a>
-        )";
-    xmlDocPtr doc = xmlReadMemory(data.c_str(), data.size(), "noname.xml", "UTF-8",
-                                  XML_PARSE_NOERROR | XML_PARSE_NOWARNING |
-                                  XML_PARSE_NOBLANKS | XML_PARSE_NONET | XML_PARSE_NOCDATA);
-    if (!doc) {
-        std::cerr << "Malformed XML.\n";
-        return EXIT_FAILURE;
-    }
-    XmlDocRAII docRaii{ doc };
+    libxml2RAII libXmlRaii;
 
-    xmlNodePtr root = xmlDocGetRootElement(doc);
-    xmlNsPtr ns = xmlSearchNsByHref(doc, root, BAD_CAST "http://example.org");
-    PrintElementNames(doc, ns, root);
-    return EXIT_SUCCESS;
+    xmlDocPtr doc = BuildXml();
+    xmlDocRAII xmlDocRaii(doc);
+    DumpXmlToStream(std::cout, doc);
 }
