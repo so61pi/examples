@@ -9,7 +9,7 @@
 #define gettid() syscall(SYS_gettid)
 
 
-// need compiler flag -finstrument-functions -rdymanic -ldl
+// need compiler flag -finstrument-functions -rdynamic -ldl
 
 
 #define HAVE_FILE_EXISTENCE_CHECK
