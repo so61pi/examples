@@ -12,6 +12,9 @@ public:
         return std::shared_ptr<heap_only_t_1>{ new heap_only_t_1{ data } };
     }
 
+    heap_only_t_1(heap_only_t_1 const&) = delete;
+    heap_only_t_1(heap_only_t_1&&) = delete;
+
 private:
     heap_only_t_1(int)
     {}
@@ -28,6 +31,9 @@ public:
     static auto make(int data) {
         return std::make_shared<heap_only_t_2>(data, hide_tag{});
     }
+
+    heap_only_t_2(heap_only_t_2 const&) = delete;
+    heap_only_t_2(heap_only_t_2&&) = delete;
 
     // no one outside this class can use this constructor
     heap_only_t_2(int, hide_tag)
