@@ -1,5 +1,6 @@
 #include <algorithm>
 #include <cinttypes>
+#include <csignal>
 #include <cstring>
 #include <cstdlib>
 #include <iostream>
@@ -111,6 +112,9 @@ void display(std::ostream& os, int fd, std::vector<std::uint8_t> const& data) {
 int main() {
     constexpr int MAXCONN        = 10;
     constexpr std::uint16_t PORT = 12344;
+
+    // Make sure that write to a closed socket return EPIPE instead of raising SIGPIPE.
+    std::signal(SIGPIPE, SIG_IGN);
 
     auto listenfd = socket(AF_INET, SOCK_STREAM, 0);
     if (listenfd < 0) {
