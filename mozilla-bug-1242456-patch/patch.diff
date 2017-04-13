@@ -1,0 +1,409 @@
+diff --git a/embedding/components/printingui/win/nsPrintDialogUtil.cpp b/embedding/components/printingui/win/nsPrintDialogUtil.cpp
+--- a/embedding/components/printingui/win/nsPrintDialogUtil.cpp
++++ b/embedding/components/printingui/win/nsPrintDialogUtil.cpp
+@@ -50,16 +50,18 @@ WIN_LIBS=                               
+ #include "nsIStringBundle.h"
+ 
+ // For NS_CopyUnicodeToNative
+ #include "nsNativeCharsetUtils.h"
+ 
+ // This is for extending the dialog
+ #include <dlgs.h>
+ 
++#include "nsWindowsHelpers.h"
++
+ // Default labels for the radio buttons
+ static const char* kAsLaidOutOnScreenStr = "As &laid out on the screen";
+ static const char* kTheSelectedFrameStr  = "The selected &frame";
+ static const char* kEachFrameSeparately  = "&Each frame separately";
+ 
+ 
+ //-----------------------------------------------
+ // Global Data
+@@ -457,89 +459,62 @@ static UINT CALLBACK PrintHookProc(HWND 
+ //----------------------------------------------------------------------------------
+ // Returns a Global Moveable Memory Handle to a DevMode
+ // from the Printer by the name of aPrintName
+ //
+ // NOTE:
+ //   This function assumes that aPrintName has already been converted from 
+ //   unicode
+ //
+-HGLOBAL CreateGlobalDevModeAndInit(const nsXPIDLString& aPrintName, nsIPrintSettings* aPS)
++nsReturnRef<HGLOBAL> CreateGlobalDevModeAndInit(const nsXPIDLString& aPrintName, nsIPrintSettings* aPS)
+ {
+-  HGLOBAL hGlobalDevMode = nullptr;
+-
+-  HANDLE hPrinter = nullptr;
++  HPRINTER hPrinter = nullptr;
+   // const cast kludge for silly Win32 api's
+   LPWSTR printName = const_cast<wchar_t*>(static_cast<const wchar_t*>(aPrintName.get()));
+   BOOL status = ::OpenPrinterW(printName, &hPrinter, nullptr);
+-  if (status) {
++  if (!status) return nullptr;
+ 
+-    LPDEVMODEW  pNewDevMode;
+-    DWORD       dwNeeded, dwRet;
++  // Make sure hPrinter is closed on all paths
++  nsAutoPrinter autoPrinter(hPrinter);
+ 
+-    // Get the buffer size
+-    dwNeeded = ::DocumentPropertiesW(gParentWnd, hPrinter, printName, nullptr, nullptr, 0);
+-    if (dwNeeded == 0) {
+-      return nullptr;
+-    }
++  // Get the buffer size
++  DWORD dwNeeded = ::DocumentPropertiesW(gParentWnd, hPrinter, printName, nullptr, nullptr, 0);
++  if (dwNeeded == 0) return nullptr;
+ 
+-    // Allocate a buffer of the correct size.
+-    pNewDevMode = (LPDEVMODEW)::HeapAlloc (::GetProcessHeap(), HEAP_ZERO_MEMORY, dwNeeded);
+-    if (!pNewDevMode) return nullptr;
++  // Allocate a buffer of the correct size.
++  nsAutoDevMode newDevMode((LPDEVMODEW)::HeapAlloc (::GetProcessHeap(), HEAP_ZERO_MEMORY, dwNeeded));
++  if (!newDevMode) return nullptr;
+ 
+-    hGlobalDevMode = (HGLOBAL)::GlobalAlloc(GHND, dwNeeded);
+-    if (!hGlobalDevMode) {
+-      ::HeapFree(::GetProcessHeap(), 0, pNewDevMode);
+-      return nullptr;
+-    }
++  nsAutoGlobalMem globalDevMode((HGLOBAL)::GlobalAlloc(GHND, dwNeeded));
++  if (!globalDevMode) return nullptr;
+ 
+-    dwRet = ::DocumentPropertiesW(gParentWnd, hPrinter, printName, pNewDevMode, nullptr, DM_OUT_BUFFER);
++  DWORD dwRet = ::DocumentPropertiesW(gParentWnd, hPrinter, printName, newDevMode, nullptr, DM_OUT_BUFFER);
++  if (dwRet != IDOK) return nullptr;
+ 
+-    if (dwRet != IDOK) {
+-      ::HeapFree(::GetProcessHeap(), 0, pNewDevMode);
+-      ::GlobalFree(hGlobalDevMode);
+-      ::ClosePrinter(hPrinter);
+-      return nullptr;
+-    }
++  // Lock memory and copy contents from DEVMODE (current printer)
++  // to Global Memory DEVMODE
++  LPDEVMODEW devMode = (DEVMODEW *)::GlobalLock(globalDevMode);
++  if (!devMode) return nullptr;
+ 
+-    // Lock memory and copy contents from DEVMODE (current printer)
+-    // to Global Memory DEVMODE
+-    LPDEVMODEW devMode = (DEVMODEW *)::GlobalLock(hGlobalDevMode);
+-    if (devMode) {
+-      memcpy(devMode, pNewDevMode, dwNeeded);
+-      // Initialize values from the PrintSettings
+-      nsCOMPtr<nsIPrintSettingsWin> psWin = do_QueryInterface(aPS);
+-      MOZ_ASSERT(psWin);
+-      psWin->CopyToNative(devMode);
++  memcpy(devMode, newDevMode.get(), dwNeeded);
++  // Initialize values from the PrintSettings
++  nsCOMPtr<nsIPrintSettingsWin> psWin = do_QueryInterface(aPS);
++  MOZ_ASSERT(psWin);
++  psWin->CopyToNative(devMode);
+ 
+-      // Sets back the changes we made to the DevMode into the Printer Driver
+-      dwRet = ::DocumentPropertiesW(gParentWnd, hPrinter, printName, devMode, devMode, DM_IN_BUFFER | DM_OUT_BUFFER);
+-      if (dwRet != IDOK) {
+-        ::GlobalUnlock(hGlobalDevMode);
+-        ::GlobalFree(hGlobalDevMode);
+-        ::HeapFree(::GetProcessHeap(), 0, pNewDevMode);
+-        ::ClosePrinter(hPrinter);
+-        return nullptr;
+-      }
+-
+-      ::GlobalUnlock(hGlobalDevMode);
+-    } else {
+-      ::GlobalFree(hGlobalDevMode);
+-      hGlobalDevMode = nullptr;
+-    }
+-
+-    ::HeapFree(::GetProcessHeap(), 0, pNewDevMode);
+-
+-    ::ClosePrinter(hPrinter);
+-
+-  } else {
++  // Sets back the changes we made to the DevMode into the Printer Driver
++  dwRet = ::DocumentPropertiesW(gParentWnd, hPrinter, printName, devMode, devMode, DM_IN_BUFFER | DM_OUT_BUFFER);
++  if (dwRet != IDOK) {
++    ::GlobalUnlock(globalDevMode);
+     return nullptr;
+   }
+ 
+-  return hGlobalDevMode;
++  ::GlobalUnlock(globalDevMode);
++
++  return globalDevMode.out();
+ }
+ 
+ //------------------------------------------------------------------
+ // helper
+ static void GetDefaultPrinterNameFromGlobalPrinters(nsXPIDLString &printerName)
+ {
+   nsCOMPtr<nsIPrinterEnumerator> prtEnum = do_GetService("@mozilla.org/gfx/printerenumerator;1");
+   if (prtEnum) {
+@@ -571,19 +546,16 @@ static nsresult
+ ShowNativePrintDialog(HWND              aHWnd,
+                       nsIPrintSettings* aPrintSettings)
+ {
+   //NS_ENSURE_ARG_POINTER(aHWnd);
+   NS_ENSURE_ARG_POINTER(aPrintSettings);
+ 
+   gDialogWasExtended  = false;
+ 
+-  HGLOBAL hGlobalDevMode = nullptr;
+-  HGLOBAL hDevNames      = nullptr;
+-
+   // Get the Print Name to be used
+   nsXPIDLString printerName;
+   aPrintSettings->GetPrinterName(getter_Copies(printerName));
+ 
+   // If there is no name then use the default printer
+   if (printerName.IsEmpty()) {
+     GetDefaultPrinterNameFromGlobalPrinters(printerName);
+   } else {
+@@ -594,51 +566,48 @@ ShowNativePrintDialog(HWND              
+     } else {
+       ::ClosePrinter(hPrinter);
+     }
+   }
+ 
+   // Now create a DEVNAMES struct so the the dialog is initialized correctly.
+ 
+   uint32_t len = printerName.Length();
+-  hDevNames = (HGLOBAL)::GlobalAlloc(GHND, sizeof(wchar_t) * (len + 1) + 
+-                                     sizeof(DEVNAMES));
+-  if (!hDevNames) {
++  nsAutoGlobalMem autoDevNames((HGLOBAL)::GlobalAlloc(GHND, sizeof(wchar_t) * (len + 1) +
++                                                      sizeof(DEVNAMES)));
++  if (!autoDevNames) {
+     return NS_ERROR_OUT_OF_MEMORY;
+   }
+ 
+-  DEVNAMES* pDevNames = (DEVNAMES*)::GlobalLock(hDevNames);
++  DEVNAMES* pDevNames = (DEVNAMES*)::GlobalLock(autoDevNames);
+   if (!pDevNames) {
+-    ::GlobalFree(hDevNames);
+     return NS_ERROR_FAILURE;
+   }
+   pDevNames->wDriverOffset = sizeof(DEVNAMES)/sizeof(wchar_t);
+   pDevNames->wDeviceOffset = sizeof(DEVNAMES)/sizeof(wchar_t);
+   pDevNames->wOutputOffset = sizeof(DEVNAMES)/sizeof(wchar_t)+len;
+   pDevNames->wDefault      = 0;
+ 
+   memcpy(pDevNames+1, printerName, (len + 1) * sizeof(wchar_t));
+-  ::GlobalUnlock(hDevNames);
++  ::GlobalUnlock(autoDevNames);
+ 
+   // Create a Moveable Memory Object that holds a new DevMode
+   // from the Printer Name
+   // The PRINTDLG.hDevMode requires that it be a moveable memory object
+-  // NOTE: We only need to free hGlobalDevMode when the dialog is cancelled
+-  // When the user prints, it comes back in the printdlg struct and 
+-  // is used and cleaned up later
+-  hGlobalDevMode = CreateGlobalDevModeAndInit(printerName, aPrintSettings);
++  // NOTE: autoDevMode is automatically freed when any error occurred
++  nsAutoGlobalMem autoDevMode(CreateGlobalDevModeAndInit(printerName, aPrintSettings));
+ 
+   // Prepare to Display the Print Dialog
+   PRINTDLGW  prntdlg;
+   memset(&prntdlg, 0, sizeof(PRINTDLGW));
+ 
+   prntdlg.lStructSize = sizeof(prntdlg);
+   prntdlg.hwndOwner   = aHWnd;
+-  prntdlg.hDevMode    = hGlobalDevMode;
+-  prntdlg.hDevNames   = hDevNames;
++  prntdlg.hDevMode    = autoDevMode;
++  prntdlg.hDevNames   = autoDevNames;
+   prntdlg.hDC         = nullptr;
+   prntdlg.Flags       = PD_ALLPAGES | PD_RETURNIC | 
+                         PD_USEDEVMODECOPIESANDCOLLATE | PD_COLLATE;
+ 
+   // if there is a current selection then enable the "Selection" radio button
+   int16_t howToEnableFrameUI = nsIPrintSettings::kFrameEnableNone;
+   bool isOn;
+   aPrintSettings->GetPrintOptions(nsIPrintSettings::kEnableSelectionRB, &isOn);
+@@ -677,23 +646,21 @@ ShowNativePrintDialog(HWND              
+ 
+   BOOL result = ::PrintDlgW(&prntdlg);
+ 
+   if (TRUE == result) {
+     // check to make sure we don't have any nullptr pointers
+     NS_ENSURE_TRUE(aPrintSettings && prntdlg.hDevMode, NS_ERROR_FAILURE);
+ 
+     if (prntdlg.hDevNames == nullptr) {
+-      ::GlobalFree(hGlobalDevMode);
+       return NS_ERROR_FAILURE;
+     }
+     // Lock the deviceNames and check for nullptr
+     DEVNAMES *devnames = (DEVNAMES *)::GlobalLock(prntdlg.hDevNames);
+     if (devnames == nullptr) {
+-      ::GlobalFree(hGlobalDevMode);
+       return NS_ERROR_FAILURE;
+     }
+ 
+     char16_t* device = &(((char16_t *)devnames)[devnames->wDeviceOffset]);
+     char16_t* driver = &(((char16_t *)devnames)[devnames->wDriverOffset]);
+ 
+     // Check to see if the "Print To File" control is checked
+     // then take the name from devNames and set it in the PrintSettings
+@@ -711,17 +678,16 @@ ShowNativePrintDialog(HWND              
+     } else {
+       // clear "print to file" info
+       aPrintSettings->SetPrintToFile(false);
+       aPrintSettings->SetToFileName(nullptr);
+     }
+ 
+     nsCOMPtr<nsIPrintSettingsWin> psWin(do_QueryInterface(aPrintSettings));
+     if (!psWin) {
+-      ::GlobalFree(hGlobalDevMode);
+       return NS_ERROR_FAILURE;
+     }
+ 
+     // Setup local Data members
+     psWin->SetDeviceName(device);
+     psWin->SetDriverName(driver);
+ 
+ #if defined(DEBUG_rods) || defined(DEBUG_dcone)
+@@ -767,17 +733,16 @@ ShowNativePrintDialog(HWND              
+       aPrintSettings->SetPrintFrameType(nsIPrintSettings::kNoFrames);
+     }
+     // Unlock DeviceNames
+     ::GlobalUnlock(prntdlg.hDevNames);
+ 
+     // Transfer the settings from the native data to the PrintSettings
+     LPDEVMODEW devMode = (LPDEVMODEW)::GlobalLock(prntdlg.hDevMode);
+     if (!devMode || !prntdlg.hDC) {
+-      ::GlobalFree(hGlobalDevMode);
+       return NS_ERROR_FAILURE;
+     }
+     psWin->SetDevMode(devMode); // copies DevMode
+     psWin->CopyFromNative(prntdlg.hDC, devMode);
+     ::GlobalUnlock(prntdlg.hDevMode);
+     ::DeleteDC(prntdlg.hDC);
+ 
+ #if defined(DEBUG_rods) || defined(DEBUG_dcone)
+@@ -800,17 +765,16 @@ ShowNativePrintDialog(HWND              
+     } else {
+       printf("Printing from page no. %d to %d\n", fromPageNum, toPageNum);
+     }
+ #endif
+     
+   } else {
+     ::SetFocus(aHWnd);
+     aPrintSettings->SetIsCancelled(true);
+-    if (hGlobalDevMode) ::GlobalFree(hGlobalDevMode);
+     return NS_ERROR_ABORT;
+   }
+ 
+   return NS_OK;
+ }
+ 
+ //------------------------------------------------------------------
+ static void 
+diff --git a/embedding/components/printingui/win/nsPrintDialogUtil.h b/embedding/components/printingui/win/nsPrintDialogUtil.h
+--- a/embedding/components/printingui/win/nsPrintDialogUtil.h
++++ b/embedding/components/printingui/win/nsPrintDialogUtil.h
+@@ -1,14 +1,16 @@
+ /* -*- Mode: C++; tab-width: 2; indent-tabs-mode: nil; c-basic-offset: 2 -*- */
+ /* This Source Code Form is subject to the terms of the Mozilla Public
+  * License, v. 2.0. If a copy of the MPL was not distributed with this
+  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+ #ifndef nsFlyOwnDialog_h___
+ #define nsFlyOwnDialog_h___
+ 
++#include "nsWindowsHelpers.h"
++
+ nsresult NativeShowPrintDialog(HWND                aHWnd,
+                                nsIWebBrowserPrint* aWebBrowserPrint,
+                                nsIPrintSettings*   aPrintSettings);
+ 
+-HGLOBAL CreateGlobalDevModeAndInit(const nsXPIDLString& aPrintName, nsIPrintSettings* aPS);
++nsReturnRef<HGLOBAL> CreateGlobalDevModeAndInit(const nsXPIDLString& aPrintName, nsIPrintSettings* aPS);
+ 
+ #endif /* nsFlyOwnDialog_h___ */
+diff --git a/xpcom/base/nsWindowsHelpers.h b/xpcom/base/nsWindowsHelpers.h
+--- a/xpcom/base/nsWindowsHelpers.h
++++ b/xpcom/base/nsWindowsHelpers.h
+@@ -134,21 +134,81 @@ public:
+   static void Release(RawRef aDevMode)
+   {
+     if (aDevMode != Void()) {
+       ::HeapFree(::GetProcessHeap(), 0, aDevMode);
+     }
+   }
+ };
+ 
++
++template<>
++class nsAutoRefTraits<HGLOBAL>
++{
++public:
++  typedef HGLOBAL RawRef;
++  static RawRef Void()
++  {
++    return nullptr;
++  }
++
++  static void Release(RawRef hGlobal)
++  {
++    if (hGlobal != Void()) {
++      ::GlobalFree(hGlobal);
++    }
++  }
++};
++
++
++// because Printer's HANDLE uses ClosePrinter and
++// we already have nsAutoRef<HANDLE> which uses CloseHandle
++// so we need to create a wrapper class for HANDLE
++// to have another specialization for nsAutoRefTraits
++class HPRINTER {
++public:
++    HPRINTER(HANDLE hPrinter) : m_hPrinter(hPrinter) {}
++    operator HANDLE() const { return m_hPrinter; }
++    HANDLE* operator&() { return &m_hPrinter; }
++
++private:
++    HANDLE m_hPrinter;
++};
++
++// winspool.h header has macro AddMonitor, it conflicts with
++// AddMonitor member function in TaskbarPreview.cpp and TaskbarTabPreview.cpp
++// beside, we only need ClosePrinter here for Release function,
++// so having its prototype is enough
++BOOL WINAPI ClosePrinter(HANDLE hPrinter);
++
++template<>
++class nsAutoRefTraits<HPRINTER>
++{
++public:
++  typedef HPRINTER RawRef;
++  static RawRef Void()
++  {
++    return nullptr;
++  }
++
++  static void Release(RawRef hPrinter)
++  {
++    if (hPrinter != Void()) {
++      ::ClosePrinter(hPrinter);
++    }
++  }
++};
++
+ typedef nsAutoRef<HKEY> nsAutoRegKey;
+ typedef nsAutoRef<SC_HANDLE> nsAutoServiceHandle;
+ typedef nsAutoRef<HANDLE> nsAutoHandle;
+ typedef nsAutoRef<HMODULE> nsModuleHandle;
+ typedef nsAutoRef<DEVMODEW*> nsAutoDevMode;
++typedef nsAutoRef<HGLOBAL> nsAutoGlobalMem;
++typedef nsAutoRef<HPRINTER> nsAutoPrinter;
+ 
+ namespace {
+ 
+ HMODULE inline
+ LoadLibrarySystem32(LPCWSTR aModule)
+ {
+   WCHAR systemPath[MAX_PATH + 1] = { L'\0' };
+ 
+
