@@ -107,6 +107,13 @@ linux-install-modules() {
 
 
 rootfs-create-squashfs() {
+    mkdir -p "$ROOTFSDIR/dev"
+    mkdir -p "$ROOTFSDIR/etc"
+    mkdir -p "$ROOTFSDIR/proc"
+    mkdir -p "$ROOTFSDIR/root"
+    mkdir -p "$ROOTFSDIR/sys"
+    mkdir -p "$ROOTFSDIR/tmp"
+    mkdir -p "$ROOTFSDIR/var"
     mksquashfs "$ROOTFSDIR" "$OUTPUTDIR/rootfs.sqsh"
 }
 
