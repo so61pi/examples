@@ -58,9 +58,11 @@ busybox-install() {
 
 initramfs-create() {
     cd "$INITRAMFSDIR"
-    mkdir dev
+    mkdir -p dev
     chmod 755 dev
-    sudo mknod -m 600 dev/console c 5 1
+    if [ ! -e dev/console ]; then
+        sudo mknod -m 600 dev/console c 5 1
+    fi
     mkdir -p root
     chmod 700 root
 }
@@ -107,14 +109,16 @@ linux-install-modules() {
 
 
 rootfs-create-squashfs() {
-    mkdir -p "$ROOTFSDIR/dev"
-    mkdir -p "$ROOTFSDIR/etc"
-    mkdir -p "$ROOTFSDIR/proc"
-    mkdir -p "$ROOTFSDIR/root"
-    mkdir -p "$ROOTFSDIR/sys"
-    mkdir -p "$ROOTFSDIR/tmp"
-    mkdir -p "$ROOTFSDIR/var"
-    mksquashfs "$ROOTFSDIR" "$OUTPUTDIR/rootfs.sqsh"
+    cd "$ROOTFSDIR"
+    mkdir -p "dev"
+    mkdir -p "etc"
+    mkdir -p "proc"
+    mkdir -p "root"
+    mkdir -p "sys"
+    mkdir -p "tmp"
+    mkdir -p "var"
+    rm -f "$OUTPUTDIR/rootfs.sqsh"
+    mksquashfs . "$OUTPUTDIR/rootfs.sqsh"
 }
 
 
