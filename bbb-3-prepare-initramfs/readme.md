@@ -24,6 +24,8 @@ cd -
 ```
 #!/bin/sh
 
+mount -t devtmpfs none /dev
+
 [ -d /sys ]  || mkdir /sys
 [ -d /proc ] || mkdir /proc
 [ -d /tmp ]  || mkdir /tmp
