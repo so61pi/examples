@@ -146,6 +146,7 @@ bbb-build() {
     cp -R "$RUNTIMEDIR" "$ROOTFSDIR"
 
     uboot-build
+    uboot-install
     busybox-build
     busybox-install
     initramfs-create
