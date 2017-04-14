@@ -1,6 +1,5 @@
 #!/bin/bash
 
-
 CORES=4
 
 TARGETARCH=arm
@@ -60,7 +59,6 @@ mkdir -p "$SYSROOT/usr/lib"
 install csu/crt1.o csu/crti.o csu/crtn.o "$SYSROOT/usr/lib"
 $TARGET-gcc -nostdlib -nostartfiles -shared -x c /dev/null -o "$SYSROOT/usr/lib/libc.so"
 touch "$SYSROOT/usr/include/gnu/stubs.h"
-
 
 
 # Compile libgcc.
