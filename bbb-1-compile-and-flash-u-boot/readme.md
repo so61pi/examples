@@ -34,4 +34,4 @@ dd if=u-boot.img of=/dev/<disk> bs=512 seek=768 count=1024 conv=notrunc
 **Copy to FAT16/FAT32 instead of flashing**
 
 - BeagleBone Black can also load `MLO` from `FAT16`/`FAT32` primary partition so we can just copy `MLO` and `u-boot.img` to the `FAT16`/`FAT32` primary partition of the micro SD.
-- The `FAT16`/`FAT32` partition must be a boot partition (active partition).
+- The `FAT16`/`FAT32` partition **must** be a boot partition (active partition).
