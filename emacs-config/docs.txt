@@ -1,0 +1,7 @@
+https://www.gnu.org/software/emacs/refcards/pdf/refcard.pdf
+https://www.gnu.org/software/emacs/refcards/pdf/dired-ref.pdf
+https://www.gnu.org/software/emacs/refcards/pdf/orgcard.pdf
+https://www.gnu.org/software/emacs/refcards/pdf/gnus-refcard.pdf
+
+https://wiki.archlinux.org/index.php/emacs
+TimeoutStartSec=1000

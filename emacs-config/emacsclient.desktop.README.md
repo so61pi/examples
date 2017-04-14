@@ -1,0 +1,3 @@
+- The file `emacsclient.desktop` is created so user can (1) right-click on a file and select **Open With "GNU Emacsclient 24"** and (2) add it to launcher.
+- The file is created base on `/usr/share/applications/emacs24.desktop`.
+- The file should be put to `~/.local/share/applications/`.
