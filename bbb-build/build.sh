@@ -1,5 +1,7 @@
 #!/bin/bash
 
+CORES=4
+INTERNALINITRAMFS=y
 WORKINGDIR="$HOME/work/tmp/bbb"
 
 UBOOTDIR="$WORKINGDIR/u-boot-2017.01"
@@ -24,7 +26,7 @@ uboot-config() {
 
 uboot-build() {
     cd "$UBOOTDIR"
-    make CROSS_COMPILE=arm-linux-gnueabihf-
+    make -j $CORES CROSS_COMPILE=arm-linux-gnueabihf-
 }
 
 
@@ -45,14 +47,14 @@ busybox-config() {
 
 busybox-build() {
     cd "$BUSYBOXDIR"
-    make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf-
+    make -j $CORES ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf-
 }
 
 
 busybox-install() {
     cd "$BUSYBOXDIR"
-    make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- install CONFIG_PREFIX="$INITRAMFSDIR"
-    make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- install CONFIG_PREFIX="$ROOTFSDIR"
+    make -j $CORES ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- install CONFIG_PREFIX="$INITRAMFSDIR"
+    make -j $CORES ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- install CONFIG_PREFIX="$ROOTFSDIR"
 }
 
 
@@ -65,14 +67,14 @@ initramfs-create() {
     fi
     mkdir -p root
     chmod 700 root
+    find . | cpio -o --format=newc | gzip > "$OUTPUTDIR/initramfs.cpio.gz"
 }
 
 
 initramfs-install() {
     cd "$INITRAMFSDIR"
-    find . | cpio -o --format=newc | gzip > initramfs_data.cpio.gz
     mkdir -p "$LINUXDIR/usr"
-    mv initramfs_data.cpio.gz "$LINUXDIR/usr"
+    cp "$OUTPUTDIR/initramfs.cpio.gz" "$LINUXDIR/usr/initramfs_data.cpio.gz"
 }
 
 
@@ -86,13 +88,13 @@ linux-config() {
 
 linux-build() {
     cd "$LINUXDIR"
-    make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- uImage dtbs LOADADDR=0x80008000
+    make -j $CORES ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- uImage dtbs LOADADDR=0x80008000
 }
 
 
 linux-build-modules() {
     cd "$LINUXDIR"
-    make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- modules
+    make -j $CORES ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- modules
 }
 
 
@@ -104,7 +106,7 @@ linux-install() {
 
 linux-install-modules() {
     cd "$LINUXDIR"
-    make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- modules_install INSTALL_MOD_PATH="$ROOTFSDIR"
+    make -j $CORES ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- modules_install INSTALL_MOD_PATH="$ROOTFSDIR"
 }
 
 
@@ -154,8 +156,11 @@ bbb-build() {
     busybox-build
     busybox-install
     initramfs-create
-    initramfs-install
     linux-build
+    if [ $INTERNALINITRAMFS = "y" ]; then
+        initramfs-install
+        linux-build
+    fi
     linux-install
     linux-build-modules
     linux-install-modules
