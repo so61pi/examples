@@ -6,6 +6,9 @@
 #include <libxml2/libxml/tree.h>
 
 
+// g++ -std=c++11 Libxml2Example.cpp `xml2-config --cflags` `xml2-config --libs`
+
+
 struct libxml2RAII {
     libxml2RAII() { LIBXML_TEST_VERSION }
     ~libxml2RAII() { xmlCleanupParser(); }
