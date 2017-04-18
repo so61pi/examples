@@ -23,3 +23,6 @@ fc -R
 git config --global --add oh-my-zsh.hide-status 1
 git config --global --add oh-my-zsh.hide-dirty 1
 ```
+
+
+**Use `~/.zprofile` instead of `~/.profile`**
