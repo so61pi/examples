@@ -6,7 +6,10 @@ setopt      histignoredups              # Don't add duplicated commands.
 setopt      histexpiredupsfirst         # Save unique hist entries longer.
 setopt      histverify                  # Edit recalled history before running.
 setopt      extendedhistory             # Save timestamp on history entries.
+setopt      extendedglob				# Enable extended glob.
+setopt      autocd                      # Enable auto cd.
 unsetopt    sharehistory                # Disable share history across terminals.
+bindkey -e                              # Emacs mode.
 ```
 
 
