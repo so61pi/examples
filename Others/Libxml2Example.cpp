@@ -77,7 +77,8 @@ xmlDocPtr BuildXml() {
     /// Create first child node under root name child.
     /// It has namespace xmlns="http://www.example.com" and property key="value".
     xmlNodePtr child = xmlNewNode(nullptr, BAD_CAST "child");
-    xmlNewNs(child, BAD_CAST "http://www.example.com", nullptr);
+    xmlNsPtr ns = xmlNewNs(child, BAD_CAST "http://www.example.com", BAD_CAST "prefix");
+    xmlSetNs(child, ns);
     xmlNewProp(child, BAD_CAST "key", BAD_CAST "value");
     xmlAddChild(root, child);
 
@@ -87,6 +88,7 @@ xmlDocPtr BuildXml() {
     xmlNodePtr text = xmlNewText(BAD_CAST "text");
     xmlAddChild(child2, text);
     xmlAddChild(root, child2);
+    xmlSetNs(child2, ns);
 
     /// The XML tree looks like:
     ///
