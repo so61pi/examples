@@ -20,10 +20,9 @@ fc -R
 ```
 
 
-**Disable git status on prompt**
+**Disable git dirty on prompt**
 
 ```shel
-git config --global --add oh-my-zsh.hide-status 1
 git config --global --add oh-my-zsh.hide-dirty 1
 ```
 
