@@ -1,6 +1,9 @@
 **Add to `~/.zshrc`**
 
 ```shell
+HISTFILE=$HOME/.zsh_history
+HISTSIZE=1000000                        # Number of lines of history in memory.
+SAVEHIST=1000000                        # Number of lines of history in history file.
 setopt      incappendhistory            # Immediately append to the history file, not just when a term is killed.
 setopt      histignoredups              # Don't add duplicated commands.
 setopt      histexpiredupsfirst         # Save unique hist entries longer.
