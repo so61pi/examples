@@ -4,6 +4,10 @@ CORES=4
 INTERNALINITRAMFS=y
 WORKINGDIR="$HOME/work/tmp/bbb"
 
+# busybox must be built as static library.
+# linux must enable squashfs.
+# runtime contains runtime libraries for rootfs.
+# init is used in initramfs.
 UBOOTDIR="$WORKINGDIR/u-boot-2017.01"
 BUSYBOXDIR="$WORKINGDIR/busybox-1.26.2"
 LINUXDIR="$WORKINGDIR/linux"
