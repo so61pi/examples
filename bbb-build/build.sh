@@ -172,8 +172,25 @@ bbb-build() {
 }
 
 
+download-source() {
+    wget https://busybox.net/downloads/busybox-1.26.2.tar.bz2
+    wget ftp://ftp.denx.de/pub/u-boot/u-boot-2017.01.tar.bz2
+    wget https://releases.linaro.org/components/toolchain/binaries/latest/arm-linux-gnueabihf/runtime-gcc-linaro-6.3.1-2017.02-arm-linux-gnueabihf.tar.xz
+    git clone https://github.com/beagleboard/linux.git
+
+    tar xf busybox-1.26.2.tar.bz2
+    tar xf u-boot-2017.01.tar.bz2
+    tar xf runtime-gcc-linaro-6.3.1-2017.02-arm-linux-gnueabihf.tar.xz
+    mv runtime-gcc-linaro-6.3.1-2017.02-arm-linux-gnueabihf runtime
+}
+
+
 while :; do
     case "$1" in
+        --download)
+            download-source
+            break
+            ;;
         --config)
             bbb-config
             break
