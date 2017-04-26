@@ -1,4 +1,4 @@
-**Read [extend-qtcreator-go-back-steps-by-patching](https://bitbucket.org/snippets/so61pi/LqEXe)**
+**Read [extend-qtcreator-go-back-steps-by-patching](https://bitbucket.org/so61pi/snippets/src/master/qtcreator-extend-go-back-steps-by-patching/)**
 
 
 **Search for locator widget width 730 (measured by screenshot), we get here**
