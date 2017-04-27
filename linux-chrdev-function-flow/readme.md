@@ -1,4 +1,4 @@
-1. **register_chrdev**
+**register_chrdev**
 
         include/linux/fs.h::register_chrdev
             __register_chrdev
@@ -9,7 +9,7 @@
                     kobj_map(cdev_map, exact_match, exact_lock)
 
 
-2. **chrdev_open**
+**chrdev_open**
 
         chrdev_open
             p = inode->i_cdev
@@ -17,20 +17,20 @@
             replace_fops(filp, fops_get(p->ops));
 
 
-3. **cdev_init**
+**cdev_init**
 
         cdev_init
             kobject_init(ktype_cdev_default)
             cdev->ops = fops
 
 
-4. **chrdev_init**
+**chrdev_init**
 
         chrdev_init
             kobj_map_init
 
 
-5. **mknod**
+**mknod**
 
         fs/namei.c::SYSCALL_DEFINE3(mknod)
             sys_mknodat [SYSCALL_DEFINE4(mknodat)]
