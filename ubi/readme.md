@@ -34,9 +34,11 @@ UBI doesn't support read-write block devices (http://www.linux-mtd.infradead.org
 |       ubi1:rootfs ubi1:config       |
 +-------------------------------------+
 |                 UBI                 |
+|            (UBI devices)            |
 |         /dev/ubi0 /dev/ubi1         |
 +-------------------------------------+
 |                 MTD                 |
+|            (MTD devices)            |
 |         /dev/mtd0 /dev/mtd1         |
 +-------------------------------------+
 |            Flash Device             |
