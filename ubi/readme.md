@@ -23,7 +23,7 @@ The UBI is "a volume management system for raw flash devices which manages multi
 
 UBI supports read-only block devices (http://www.linux-mtd.infradead.org/faq/ubi.html#L_squashfs_over_ubi).
 
-UBI doesn't suppoer read-write block devices (http://www.linux-mtd.infradead.org/faq/ubi.html#L_ext2_over_ubi).
+UBI doesn't support read-write block devices (http://www.linux-mtd.infradead.org/faq/ubi.html#L_ext2_over_ubi).
 
 
 **nandsim**
