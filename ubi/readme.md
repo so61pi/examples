@@ -13,14 +13,16 @@
 
 `/dev/mtdX` presents an MTD partition (it's also called an MTD device).
 
-There is nothing like `/dev/mtd` for MTD device (like the relationship between `/dev/sda` and `/dev/sda0`). If the MTD device has 3 partitions, they are `/dev/mtd0`, `/dev/mtd1` and `/dev/mtd2`, and that's it.
+There is nothing like `/dev/mtd` for MTD devices (like the relationship between `/dev/sda` and `/dev/sda0`). If the MTD device has 3 partitions, they are `/dev/mtd0`, `/dev/mtd1` and `/dev/mtd2`, and that's it.
 
-There is also no MTD partition table in the MTD device, it's defined in the device tree or via kernel parameter `mtdparts`.
+There is also no MTD partition table in the MTD devices, it's defined in the device tree or via kernel parameter `mtdparts`.
 
 The UBI is "a volume management system for raw flash devices which manages multiple logical volumes on a single physical flash device and spreads the I/O load (i.e, wear-leveling) across whole flash chip". It works on top of the MTD sub-system.
 
-`/dev/ubi0` is called a UBI device.
+`/dev/ubiX` is called a UBI device, it is created when we attach an MTD device (partition) to UBI.
+
 UBI supports read-only block devices (http://www.linux-mtd.infradead.org/faq/ubi.html#L_squashfs_over_ubi).
+
 UBI doesn't suppoer read-write block devices (http://www.linux-mtd.infradead.org/faq/ubi.html#L_ext2_over_ubi).
 
 
