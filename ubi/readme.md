@@ -25,6 +25,25 @@ UBI supports read-only block devices (http://www.linux-mtd.infradead.org/faq/ubi
 
 UBI doesn't support read-write block devices (http://www.linux-mtd.infradead.org/faq/ubi.html#L_ext2_over_ubi).
 
+```
++-------------------------------------+
+|           UBIFS, SQUASHFS           |
++-------------------------------------+
+|             UBI volumes             |
+|       ubi0:rootfs ubi0:config       |
+|       ubi1:rootfs ubi1:config       |
++-------------------------------------+
+|                 UBI                 |
+|         /dev/ubi0 /dev/ubi1         |
++-------------------------------------+
+|                 MTD                 |
+|         /dev/mtd0 /dev/mtd1         |
++-------------------------------------+
+|            Flash Device             |
++-------------------------------------+
+
+```
+
 
 **nandsim**
 
