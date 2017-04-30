@@ -13,7 +13,7 @@
 
 `/dev/mtdX` presents an MTD partition (it's also called an MTD device).
 
-There is nothing like `/dev/mtd` for MTD devices (like the relationship between `/dev/sda` and `/dev/sda0`). If the MTD device has 3 partitions, they are `/dev/mtd0`, `/dev/mtd1` and `/dev/mtd2`, and that's it.
+There is nothing like `/dev/mtd` for MTD devices (like the relationship between `/dev/sda` and `/dev/sda0`). If an MTD device has 3 partitions, they are `/dev/mtd0`, `/dev/mtd1` and `/dev/mtd2`, and that's it.
 
 There is also no MTD partition table in the MTD devices, it's defined in the device tree or via kernel parameter `mtdparts`.
 
