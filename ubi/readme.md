@@ -17,7 +17,7 @@ There is nothing like `/dev/mtd` for MTD devices (like the relationship between 
 
 There is also no MTD partition table in the MTD devices, it's defined in the device tree or via kernel parameter `mtdparts`.
 
-The UBI is "a volume management system for raw flash devices which manages multiple logical volumes on a single physical flash device and spreads the I/O load (i.e, wear-leveling) across whole flash chip". It works on top of the MTD sub-system.
+The UBI is "a volume management system for raw flash devices which manages multiple logical volumes on a single physical flash device and spreads the I/O load (i.e, wear-leveling) across whole flash chip". It uses MTD sub-system to interact (reading, writing...) with the underlying MTD device (partition).
 
 `/dev/ubiX` is called a UBI device, it is created when we attach an MTD device (partition) to UBI.
 
