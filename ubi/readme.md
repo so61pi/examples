@@ -3,6 +3,7 @@
 - http://www.linux-mtd.infradead.org/doc/ubi.html
 - http://www.linux-mtd.infradead.org/faq/general.html
 - http://free-electrons.com/blog/managing-flash-storage-with-linux/
+- [UBI Usage in U-Boot](http://www.denx.de/wiki/publish/DULG/DULG-enbw_cmc.html#Section_5.9.3.6.)
 - drivers/mtd/nand/
 - drivers/mtd/ubi/
 
