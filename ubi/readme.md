@@ -85,3 +85,36 @@ rmdir /tmp/ubifs
 sudo rmmod ubi
 sudo rmmod nandsim
 ```
+
+
+**flow**
+
+```
+drivers/mtd/ubi/build.c::ubi_init
+    drivers/mtd/ubi/build.c::open_mtd_device
+    drivers/mtd/ubi/build.c::ubi_attach_mtd_dev
+        drivers/mtd/ubi/attach.c::ubi_attach
+            drivers/mtd/ubi/attach.c::scan_all
+                drivers/mtd/ubi/attach.c::scan_peb
+                    drivers/mtd/ubi/io.c::ubi_io_read_ec_hdr
+                        drivers/mtd/drivers/mtd/ubi/io.c::ubi_io_read
+                            drivers/mtd/mtdcore.c::mtd_read
+                        drivers/mtd/ubi/io.c::validate_ec_hdr
+                    drivers/mtd/ubi/io.c::ubi_io_read_vid_hdr
+                        drivers/mtd/drivers/mtd/ubi/io.c::ubi_io_read
+                            drivers/mtd/mtdcore.c::mtd_read
+                        drivers/mtd/ubi/io.c::validate_vid_hdr
+            drivers/mtd/ubi/vtbl.c::ubi_read_volume_table
+            drivers/mtd/ubi/wl.c::ubi_wl_init
+            drivers/mtd/ubi/eba.c::ubi_eba_init
+
+
+drivers/mtd/ubi/io.c::ubi_io_write_ec_hdr
+    drivers/mtd/ubi/io.c::ubi_io_write
+        drivers/mtd/mtdcore.c::mtd_write
+
+
+drivers/mtd/ubi/io.c::ubi_io_write_vid_hdr
+    drivers/mtd/ubi/io.c::ubi_io_write
+        drivers/mtd/mtdcore.c::mtd_write
+```
