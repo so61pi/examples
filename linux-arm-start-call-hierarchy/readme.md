@@ -45,18 +45,20 @@ init/main.c::start_kernel
                                 arch/arm/kernel/setup.c::customize_machine // `arch_initcall(customize_machine)`
                                     arch/arm/include/asm/mach/arch.h::machine_desc::init_machine = arch/arm/mach-omap2/board-generic.c::omap_generic_init
                                         arch/arm/mach-omap2/pdata-quirks.c::pdata_quirks_init
-                                            drivers/of/platform.c::of_platform_populate // load driver of all devices described in device tree.
-                                                include/linux/of.h::of_find_node_by_path
-                                                    drivers/of/base.c::of_find_node_opts_by_path
-                                                        drivers/of/dynamic.c::of_node_get
-                                                    drivers/of/platform.c::of_platform_bus_create
-                                                        drivers/of/platform.c::of_platform_device_create_pdata
-                                                            drivers/of/platform.c::of_device_alloc
-                                                                drivers/base/platform.c::platform_device_alloc
-                                                                drivers/of/address.c::of_address_to_resource
-                                                            drivers/of/device.c::of_device_add
-                                                                drivers/base/core.c::device_add // eventually calls struct platform_driver::probe
-                                                            drivers/of/platform.c::of_platform_bus_create // loop through all child nodes
+                                            drivers/of/platform.c::of_platform_populate
+
+drivers/of/platform.c::of_platform_populate // load driver of all devices described in device tree.
+    include/linux/of.h::of_find_node_by_path
+        drivers/of/base.c::of_find_node_opts_by_path
+            drivers/of/dynamic.c::of_node_get
+        drivers/of/platform.c::of_platform_bus_create
+            drivers/of/platform.c::of_platform_device_create_pdata
+                drivers/of/platform.c::of_device_alloc
+                    drivers/base/platform.c::platform_device_alloc
+                    drivers/of/address.c::of_address_to_resource
+                drivers/of/device.c::of_device_add
+                    drivers/base/core.c::device_add // eventually calls struct platform_driver::probe
+                drivers/of/platform.c::of_platform_bus_create // loop through all child nodes
 ```
 
 
