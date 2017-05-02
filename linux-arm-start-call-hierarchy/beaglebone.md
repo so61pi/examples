@@ -16,9 +16,9 @@ arch/arm/boot/bootp/init.S::_start
 
 **setup machine based on device tree**
 
-```
-The `machine_desc` array is placed in `.init.arch.info` section, between `__arch_info_begin` and `__arch_info_end`.
+- The `machine_desc` array is placed in `.init.arch.info` section, between `__arch_info_begin` and `__arch_info_end`.
 
+```
 init/main.c::start_kernel
     arch/arm/kernel/setup.c::setup_arch
         arch/arm/kernel/devtree.c::setup_machine_fdt
