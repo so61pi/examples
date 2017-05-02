@@ -17,7 +17,7 @@
 **Config FireFox**
 
 - Configure proxy manually.
-    + Open FireFox.
+    + Open Firefox.
     + Open `about:preferences#advanced` page, click `Settings...`.
     + Choose `Manual proxy configuration`.
     + Only fill `SOCKS Host`, leave other proxy fields empty.
@@ -36,7 +36,7 @@
                 return "DIRECT";
             }
 
-    + Open FireFox.
+    + Open Firefox.
     + Open `about:preferences#advanced` page, click `Settings...`.
     + Choose `Automatic proxy configuration URL`.
     + Fill `file:///proxy.pac`.
