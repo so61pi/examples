@@ -32,7 +32,7 @@ arch/arm/boot/bootp/init.S::_start
 init/main.c::start_kernel
     arch/arm/kernel/setup.c::setup_arch
         arch/arm/kernel/devtree.c::setup_machine_fdt
-            drivers/of/fdt.c::of_flat_dt_match_machine // get `/compatible` list and find the matching `machine_desc` entry.
+            drivers/of/fdt.c::of_flat_dt_match_machine // get `/compatible` list (in device tree) then find the matching `machine_desc` entry.
         drivers/of/fdt.c::unflatten_device_tree // create tree of `device_nodes` from flat blob passed by bootloader, the root node is `of_root`.
         arch/arm/include/asm/mach/arch.h::machine_desc::init_early = arch/arm/mach-omap2/io.c::am33xx_init_early
     init/main.c::rest_init
