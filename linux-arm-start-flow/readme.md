@@ -64,6 +64,8 @@ drivers/of/platform.c::of_platform_populate // load driver of all devices descri
 
 **arch/arm/mach-omap2/board-generic.c**
 
+- `DT_MACHINE_START` puts the `machine_desc` struct in `.arch.info.init` section which eventually is placed inside `.init.arch.info` section.
+
 ```c
 #ifdef CONFIG_SOC_AM33XX
 static const char *const am33xx_boards_compat[] __initconst = {
