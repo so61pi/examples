@@ -58,7 +58,7 @@ drivers/of/platform.c::of_platform_populate // load driver of all devices descri
                     drivers/of/address.c::of_address_to_resource
                 drivers/of/device.c::of_device_add
                     drivers/base/core.c::device_add // eventually calls struct platform_driver::probe
-                drivers/of/platform.c::of_platform_bus_create // loop through all child nodes
+                drivers/of/platform.c::of_platform_bus_create // recursively call to child node.
 ```
 
 
