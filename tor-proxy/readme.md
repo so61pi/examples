@@ -24,7 +24,6 @@
 - Using `proxy.pac`.
     + Create `proxy.pac` with the following content:
 
-            ```javascript
             function FindProxyForURL(url, host) {
                 if (shExpMatch(host, "*facebook.com")) {
                     return "SOCKS 127.0.0.1:9050";
@@ -34,7 +33,6 @@
                 }
                 return "DIRECT";
             }
-            ```
 
     + Open FireFox.
     + Open `about:preferences#advanced` page, click `Settings...`.
