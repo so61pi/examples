@@ -8,7 +8,7 @@
 - Linux [4.4](https://github.com/beagleboard/linux/tree/4.4).
 
 
-**arm start**
+**ARM start**
 
 ```
 arch/arm/boot/bootp/init.S::_start
@@ -24,7 +24,7 @@ arch/arm/boot/bootp/init.S::_start
 ```
 
 
-**setup machine based on device tree**
+**Setup machine based on device tree**
 
 - The `machine_desc` array is placed in `.init.arch.info` section, between `__arch_info_begin` and `__arch_info_end`.
 
