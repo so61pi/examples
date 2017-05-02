@@ -1,3 +1,13 @@
+**Hardware**
+
+- BeagleBone Black Rev C.
+
+
+**Software**
+
+- Linux [4.4](https://github.com/beagleboard/linux/tree/4.4).
+
+
 **arm start**
 
 ```
