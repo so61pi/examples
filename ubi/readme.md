@@ -90,6 +90,8 @@ sudo rmmod nandsim
 
 **flow**
 
+- Linux `v4.10.13`.
+
 ```
 drivers/mtd/ubi/build.c::ubi_init
     drivers/mtd/ubi/build.c::open_mtd_device
