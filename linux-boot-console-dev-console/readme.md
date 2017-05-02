@@ -13,7 +13,7 @@
 # 1st, set up the boot console when kernel starts.
 init/main.c::start_kernel
     drivers/tty/tty_io.c::console_init
-        drivers/tty/serial/8250/8250_core.c::univ8250_console_init
+        drivers/tty/serial/8250/8250_core.c::univ8250_console_init // `console_initcall(univ8250_console_init)`
             kernel/printk/printk.c::register_console
                 drivers/tty/serial/8250/8250_core.c::univ8250_console_match
                     drivers/tty/serial/serial_core.c::uart_parse_earlycon
