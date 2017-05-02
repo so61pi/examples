@@ -6,8 +6,10 @@
 **Run `tor`**
 
 - Linux
-    + `cd Browser/TorBrowser/Tor`
-    + `LD_LIBRARY_PATH=`pwd` ./tor`
+
+        cd Browser/TorBrowser/Tor
+        LD_LIBRARY_PATH=`pwd` ./tor
+
 - Windows
     + Go to `Browser\TorBrowser\Tor`, run `tor.exe`.
 
