@@ -40,7 +40,6 @@
     + Open `about:preferences#advanced` page, click `Settings...`.
     + Choose `Automatic proxy configuration URL`.
     + Fill `file:///proxy.pac`.
-    + Click OK.
 
 
 **Option for `tor` and `torrc` format**
