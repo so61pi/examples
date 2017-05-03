@@ -57,7 +57,7 @@ drivers/of/platform.c::of_platform_populate // load driver of all devices descri
                     drivers/base/platform.c::platform_device_alloc
                     drivers/of/address.c::of_address_to_resource
                 drivers/of/device.c::of_device_add
-                    drivers/base/core.c::device_add // eventually calls struct platform_driver::probe
+                    drivers/base/core.c::device_add // eventually calls `struct platform_driver::probe` (e.g. `drivers/net/ethernet/ti/cpsw.c::cpsw_probe`).
                 drivers/of/platform.c::of_platform_bus_create // recursively call to child node.
 ```
 
