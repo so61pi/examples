@@ -1,4 +1,4 @@
-**software**
+**softwares**
 
 - Linux v4.10.13.
 
