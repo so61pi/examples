@@ -1,4 +1,4 @@
-**software**
+**softwares**
 
 - Linux v4.10.13.
 
@@ -47,6 +47,8 @@ include/linux/sysfs.h::sysfs_create_file
 
 
 **attributes read/write functions**
+
+- `fs/sysfs/file.c`
 
 ```c
 static const struct kernfs_ops sysfs_file_kfops_empty = {
@@ -104,4 +106,4 @@ static const struct kernfs_ops sysfs_bin_kfops_mmap = {
 
 **references**
 
-- Documentation/filesystems/sysfs.txt
+- `Documentation/filesystems/sysfs.txt`
