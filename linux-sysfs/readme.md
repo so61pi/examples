@@ -5,7 +5,7 @@
 
 **intro**
 
-- `sysfs` is just a wrapper of `kernfs` which actually takes care of node creation.
+- `sysfs` is just a wrapper of `kernfs` which actually takes care of nodes creation.
 - files/links can be created by
     + `sysfs_create_file`
     + `sysfs_create_file_ns`
