@@ -3,6 +3,20 @@
 - Linux v4.10.13.
 
 
+**intro**
+
+- `sysfs` is just a wrapper of `kernfs` which actually takes care of node creation.
+- files/links can be created by
+    + `sysfs_create_file`
+    + `sysfs_create_file_ns`
+    + `sysfs_create_bin_file`
+    + `sysfs_create_link`
+- dirs can be created by
+    + `sysfs_create_dir_ns`
+- a group of files can be created by
+    + `sysfs_create_group`
+
+
 **flow**
 
 ```
