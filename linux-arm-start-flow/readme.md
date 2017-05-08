@@ -53,12 +53,15 @@ drivers/of/platform.c::of_platform_populate // load driver of all devices descri
             drivers/of/dynamic.c::of_node_get
         drivers/of/platform.c::of_platform_bus_create
             drivers/of/platform.c::of_platform_device_create_pdata
+                drivers/of/base.c::of_device_is_available // check `status` property.
+                    drivers/of/base.c::__of_device_is_available
+                        drivers/of/base.c::__of_get_property("status")
                 drivers/of/platform.c::of_device_alloc
                     drivers/base/platform.c::platform_device_alloc
                     drivers/of/address.c::of_address_to_resource
                 drivers/of/device.c::of_device_add
                     drivers/base/core.c::device_add // eventually calls `struct platform_driver::probe` (e.g. `drivers/net/ethernet/ti/cpsw.c::cpsw_probe`).
-                drivers/of/platform.c::of_platform_bus_create // recursively call to child node.
+            drivers/of/platform.c::of_platform_bus_create // recursively call to child node.
 ```
 
 
