@@ -3,7 +3,7 @@
 - Linux v4.11.
 
 
-**device resgiter**
+**device register**
 
 ```
 drivers/base/core.c::device_register
