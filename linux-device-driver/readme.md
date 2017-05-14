@@ -110,3 +110,9 @@ drivers/pinctrl/pinctrl-single.c::pcs_probe
     pcs->desc.pctlops = &pcs_pinctrl_ops;
     pcs->desc.pmxops = &pcs_pinmux_ops;
 ```
+
+
+**references**
+
+- Documentation/driver-model/device.txt
+- Documentation/pinctrl.txt
