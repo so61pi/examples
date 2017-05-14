@@ -15,3 +15,10 @@
 bitbake example
 bitbake core-image-minimal
 ```
+
+
+**run**
+
+```shell
+runqemu qemux86 tmp/deploy/images/qemux86/bzImage-qemux86.bin tmp/deploy/images/qemux86/core-image-minimal-qemux86.ext4
+```
