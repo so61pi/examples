@@ -34,7 +34,14 @@ drivers/base/core.c::device_register                                            
             kernel/notifier.c::__blocking_notifier_call_chain                                               |
                 kernel/notifier.c::notifier_call_chain                                                      |
                     struct notifier_block::notifier_call                                                    |
-        lib/kobject_uevent.c::kobject_uevent(KOBJ_ADD)                                                      |
+        lib/kobject_uevent.c::kobject_uevent(KOBJ_ADD)                                                      | notify userspace by sending an uevent
+            lib/kobject_uevent.c::kobject_uevent_env                                                        |
+                uevent_ops->filter                                                                          | skip the event, if the filter returns zero
+                lib/kobject_uevent.c::add_uevent_var("ACTION")                                              |
+                lib/kobject_uevent.c::add_uevent_var("DEVPATH")                                             |
+                lib/kobject_uevent.c::add_uevent_var("SUBSYSTEM")                                           |
+                uevent_ops->uevent                                                                          | let the kset specific function add its stuff
+                net/netlink/af_netlink.c::netlink_broadcast_filtered                                        | send netlink message
         drivers/base/bus.c::bus_probe_device                                                                |
             drivers/base/dd.c::device_initial_probe                                                         |
                 drivers/base/dd.c::__device_attach                                                          |
