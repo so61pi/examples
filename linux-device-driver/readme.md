@@ -59,7 +59,7 @@ drivers/base/core.c::device_register                                            
                                 struct bus_type::match                                                      |
                             drivers/base/dd.c::driver_probe_device                                          |
                                 drivers/base/dd.c::really_probe                                             |
-                                    drivers/base/pinctrl.c::pinctrl_bind_pins                               |
+                                    drivers/base/pinctrl.c::pinctrl_bind_pins                               | set pin multiplexing register to loaded values
                                     dev->driver = drv                                                       |
                                     drivers/base/dd.c::driver_sysfs_add                                     |
                                     struct bus_type::probe                                                  |
@@ -153,7 +153,7 @@ static const struct pinmux_ops pcs_pinmux_ops = {
 ```
 
 ```
-drivers/base/pinctrl.c::pinctrl_bind_pins                                                                           | set pin multiplexing resgiter to loaded values
+drivers/base/pinctrl.c::pinctrl_bind_pins                                                                           | set pin multiplexing register to loaded values
     drivers/pinctrl/core.c::devm_pinctrl_get                                                                        |
         drivers/pinctrl/core.c::pinctrl_get                                                                         |
             drivers/pinctrl/core.c::create_pinctrl                                                                  |
