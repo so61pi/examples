@@ -81,7 +81,7 @@ drivers/base/init.c::driver_init                                                
         firmware_kobj = kobject_create_and_add("firmware")                                      |
     drivers/base/hypervisor.c::hypervisor_init                                                  |
         hypervisor_kobj = kobject_create_and_add("hypervisor")                                  |
-    drivers/base/platform.c::platform_bus_init                                                  |
+    drivers/base/platform.c::platform_bus_init                                                  | register `platform_bus_type` to system
         drivers/base/core.c::device_register(&platform_bus)                                     |
         drivers/base/bus.c::bus_register(&platform_bus_type)                                    |
     drivers/base/cpu.c::cpu_dev_init                                                            |
