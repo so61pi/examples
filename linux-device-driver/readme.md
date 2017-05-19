@@ -22,7 +22,7 @@ drivers/base/core.c::device_register                                            
                 fs/sysfs/group.c::sysfs_create_groups                                                       |
             drivers/base/core.c::device_create_file                                                         |
                 include/linux/sysfs.h::sysfs_create_file                                                    |
-        drivers/base/bus.c::bus_add_device                                                                  |
+        drivers/base/bus.c::bus_add_device                                                                  | add device to the bus
             drivers/base/core.c::device_add_attrs                                                           |
             drivers/base/core.c::device_add_groups                                                          |
             fs/sysfs/symlink.c::sysfs_create_link(dev_name(dev))                                            |
