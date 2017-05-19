@@ -109,6 +109,8 @@ drivers/base/init.c::driver_init                                                
 
 **bus**
 
+- a bus is a place that contains drivers and corresponding devices
+
 ```
 drivers/base/bus.c::bus_register                                            | register a bus to the system
     // initialize bus devices_kset `struct subsys_private::devices_kset`    |
