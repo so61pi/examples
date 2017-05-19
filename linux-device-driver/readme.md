@@ -63,6 +63,50 @@ drivers/base/core.c::device_register                                            
 ```
 
 
+**driver init**
+
+```
+drivers/base/init.c::driver_init                                                                |
+    drivers/base/core.c::devices_init                                                           |
+        devices_kset = kset_create_and_add("devices", device_uevent_ops)                        | create `devices_kset`
+        dev_kobj = kobject_create_and_add("dev")                                                |
+        sysfs_dev_block_kobj = kobject_create_and_add("block", dev_kobj)                        |
+        sysfs_dev_char_kobj = kobject_create_and_add("char", dev_kobj)                          |
+    drivers/base/bus.c::buses_init                                                              |
+        bus_kset = kset_create_and_add("bus", bus_uevent_ops)                                   | create `bus_kset`
+        system_kset = kset_create_and_add("system", devices_kset->kobj)                         | create `system_kset`
+    drivers/base/class.c::classes_init                                                          |
+        class_kset = kset_create_and_add("class")                                               | create `class_kset`
+    drivers/base/firmware.c::firmware_init                                                      |
+        firmware_kobj = kobject_create_and_add("firmware")                                      |
+    drivers/base/hypervisor.c::hypervisor_init                                                  |
+        hypervisor_kobj = kobject_create_and_add("hypervisor")                                  |
+    drivers/base/platform.c::platform_bus_init                                                  |
+        drivers/base/core.c::device_register(&platform_bus)                                     |
+        drivers/base/bus.c::bus_register(&platform_bus_type)                                    |
+    drivers/base/cpu.c::cpu_dev_init                                                            |
+        drivers/base/bus.c::subsys_system_register(&cpu_subsys, cpu_root_attr_groups)           |
+        drivers/base/cpu.c::cpu_dev_register_generic                                            |
+            drivers/base/cpu.c::register_cpu                                                    |
+                drivers/base/core.c::device_register                                            |
+                drivers/base/node.c::register_cpu_under_node                                    |
+                    fs/sysfs/symlink.c::sysfs_create_link                                       |
+    drivers/base/memory.c::memory_dev_init                                                      |
+        drivers/base/bus.c::subsys_system_register(&memory_subsys, memory_root_attr_groups)     |
+    drivers/base/container.c::container_dev_init                                                |
+        drivers/base/bus.c::subsys_system_register(&container_subsys)                           |
+    drivers/of/base.c::of_core_init                                                             |
+        lib/kobject.c::kset_create_and_add("devicetree", firmware_kobj)                         |
+        drivers/of/base.c::__of_attach_node_sysfs                                               |
+            lib/kobject.c::kobject_add                                                          |
+            drivers/of/base.c::__of_add_property_sysfs                                          |
+                fs/sysfs/file.c::sysfs_create_bin_file                                          |
+        fs/proc/generic.c::proc_symlink("device-tree", "/sys/firmware/devicetree/base")         |
+            fs/proc/generic.c::__proc_create                                                    |
+            fs/proc/generic.c::proc_register                                                    |
+```
+
+
 **pinmux setup**
 
 ```c
