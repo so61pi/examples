@@ -114,10 +114,10 @@ drivers/base/bus.c::bus_register                                            | re
     // initialize bus devices_kset `struct subsys_private::devices_kset`    |
     // initialize bus drivers_kset `struct subsys_private::drivers_kset`    |
 
-bus_add_driver                                                                  | add a driver to the bus
+drivers/base/bus.c::bus_add_driver                                              | add a driver to the bus
     // initialize driver klist_devices `struct driver_private::klist_devices`   |
 
-bus_add_device  | add device to the bus
+drivers/base/bus.c::bus_add_device    | add device to the bus
 ```
 
 
