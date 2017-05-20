@@ -18,11 +18,11 @@ echo 8 > /sys/class/gpio/unexport
 ```
 
 ```
-drivers/gpio/gpiolib-sysfs.c::export_store
-    drivers/gpio/gpiolib.c::gpio_to_desc get pin description
-    drivers/gpio/gpiolib.c::gpiod_request
-    drivers/gpio/gpiolib-sysfs.c::gpiod_export
-        drivers/base/core.c::device_create_with_groups create /sys/class/gpio/gpio<n>/ directory, the function that change the value & diection are value_store & direction_store
+drivers/gpio/gpiolib-sysfs.c::export_store                  |
+    drivers/gpio/gpiolib.c::gpio_to_desc                    | get pin description
+    drivers/gpio/gpiolib.c::gpiod_request                   |
+    drivers/gpio/gpiolib-sysfs.c::gpiod_export              |
+        drivers/base/core.c::device_create_with_groups      | create /sys/class/gpio/gpio<n>/ directory, the function that change the value & diection are value_store & direction_store
 
 drivers/gpio/gpiolib-sysfs.c::unexport_store
     drivers/gpio/gpiolib.c::gpio_to_desc
@@ -30,7 +30,7 @@ drivers/gpio/gpiolib-sysfs.c::unexport_store
 ```
 
 
-**configure pin**
+**configure/read pin**
 
 - configure pin 8 as output, high
 
