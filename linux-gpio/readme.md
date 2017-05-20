@@ -19,7 +19,7 @@ echo 8 > /sys/class/gpio/unexport
 
 ```
 drivers/gpio/gpiolib-sysfs.c::export_store                  |
-    drivers/gpio/gpiolib.c::gpio_to_desc                    | get pin description
+    drivers/gpio/gpiolib.c::gpio_to_desc                    | get pin description (each pin has a `gpio_desc` which stored in `struct gpio_device::descs` array)
     drivers/gpio/gpiolib.c::gpiod_request                   |
     drivers/gpio/gpiolib-sysfs.c::gpiod_export              |
         drivers/base/core.c::device_create_with_groups      | create `/sys/class/gpio/gpio<n>/` directory, the function that change the value & direction are `value_store` & `direction_store`
@@ -61,7 +61,27 @@ static DEVICE_ATTR_RW(direction);   | create `dev_attr_direction` with store & s
 ```
 
 
+**initialize `gpio_chip`**
+
+```
+drivers/gpio/gpio-omap.c::omap_gpio_probe                       |
+    drivers/gpio/gpio-omap.c::omap_gpio_chip_init               |
+        drivers/gpio/gpiolib.c::gpiochip_add_data               | register a `gpio_chip` to system
+            drivers/gpio/gpiolib.c::gpiodev_add_to_list         | add `gpio_device` to `gpio_devices` list
+            // initialize `struct gpio_device::descs` array     |
+
++-----------------+
+|   gpio_device   |
+|                 |
+|  +-----------+  |
+|  | gpio_chip |  |
+|  +-----------+  |
++-----------------+
+```
+
+
 **references**
 
+- Documentation/gpio/driver.txt
 - Documentation/gpio/gpio.txt
 - Documentation/gpio/sysfs.txt
