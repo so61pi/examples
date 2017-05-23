@@ -27,10 +27,8 @@ OBJ			= $(SRC:.c=.o)
 $(LIBSOV): $(OBJ)
 	$(CC) -shared -Wl,-soname,$(LIBSOM) -o $@ $^ $(LDFLAGS)
 
-lib: $(LIBSOV)
-
 .PHONY: install
-install: lib
+install: $(LIBSOV)
 	$(INSTALL) -d $(DESTDIR)$(PREFIX)/lib
 	$(INSTALL) -m 0644 $(LIBSOV) $(DESTDIR)$(PREFIX)/lib
 	cd $(DESTDIR)$(PREFIX)/lib; $(LN) -s $(LIBSOV) $(LIBSO)
@@ -40,4 +38,4 @@ install: lib
 
 .PHONY: clean
 clean:
-	$(RM) -f $(LIBSO) $(LIBSOV) $(OBJ)
+	$(RM) $(LIBSOV) $(OBJ)

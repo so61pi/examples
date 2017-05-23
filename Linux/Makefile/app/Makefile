@@ -2,6 +2,9 @@ PREFIX		?= /usr/local
 
 CC			?= gcc
 CXX			?= g++
+INSTALL		?= install
+RM			?= rm
+
 CFLAGS		?= -Wall -Wextra -Werror -O3
 CXXFLAGS	?= -Wall -Wextra -Werror -O3
 
@@ -18,9 +21,9 @@ $(BIN): $(OBJ)
 
 .PHONY: install
 install: $(BIN)
-	install -d $(DESTDIR)$(PREFIX)/bin
-	install -m 0755 $(BIN) $(DESTDIR)$(PREFIX)/bin
+	$(INSTALL) -d $(DESTDIR)$(PREFIX)/bin
+	$(INSTALL) -m 0755 $(BIN) $(DESTDIR)$(PREFIX)/bin
 
 .PHONY: clean
 clean:
-	rm -f $(BIN) $(OBJ)
+	$(RM) $(BIN) $(OBJ)
