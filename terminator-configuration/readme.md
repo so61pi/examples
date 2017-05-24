@@ -6,7 +6,7 @@
 
 **custom commands**
 
-- add the below snippet to ~/.config/terminator/config
+- add the below snippet to `~/.config/terminator/config`
 
 ```
 [plugins]
