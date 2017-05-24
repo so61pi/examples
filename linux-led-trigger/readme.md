@@ -41,5 +41,5 @@ drivers/leds/trigger/ledtrig-cpu.c::ledtrig_cpu_init            | register led t
 ```
 drivers/mmc/core/host.c::mmc_add_host                                                       |
     drivers/leds/led-triggers.c::led_trigger_register_simple(dev_name(&host->class_dev))    | `host->class_dev` is set in `drivers/mmc/core/host.c::::mmc_alloc_host` (`dev_set_name(&host->class_dev, "mmc%d", host->index);`)
-                drivers/leds/led-triggers.c::led_trigger_register                           |
+        drivers/leds/led-triggers.c::led_trigger_register                                   |
 ```
