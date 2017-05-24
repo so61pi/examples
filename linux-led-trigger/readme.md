@@ -15,7 +15,7 @@ drivers/leds/leds-gpio.c::gpio_led_probe                                        
             drivers/gpio/gpiolib.c::gpiod_direction_output                                                      | set the GPIO direction to output
             drivers/leds/led-class.c::devm_led_classdev_register                                                |
                 drivers/leds/led-class.c::led_classdev_register                                                 |
-                    drivers/leds/led-triggers.c::led_trigger_set_default                                        | add led to the trigger
+                    drivers/leds/led-triggers.c::led_trigger_set_default                                        | add led to the led list of the trigger
 ```
 
 
