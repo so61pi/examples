@@ -9,6 +9,9 @@
 drivers/leds/leds-gpio.c::gpio_led_probe                                                                        |
     drivers/leds/leds-gpio.c::gpio_leds_create                                                                  |
         drivers/base/property.c::device_get_child_node_count                                                    | count number of leds
+        include/linux/gpio/consumer.h::devm_fwnode_get_gpiod_from_child                                         | get `gpio_desc` for pin which is specified in device tree by property "gpios" or "gpio"
+            drivers/gpio/devres.c::devm_fwnode_get_index_gpiod_from_child                                       |
+                drivers/gpio/gpiolib.c::fwnode_get_named_gpiod                                                  |
         led.default_trigger = drivers/base/property.c::fwnode_property_read_string("linux,default-trigger")     | get led default-trigger
         drivers/base/property.c::fwnode_property_read_string("default-state")                                   |
         drivers/leds/leds-gpio.c::create_gpio_led                                                               |
