@@ -1,13 +1,13 @@
-**Software**
+*softwares**
 
-- Linux [4.10.8](https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git/tree/?id=refs/tags/v4.10.8).
+- Linux v4.10.8.
 
 
-**Sequence**
+**sequence**
 
-- `early_initcall` functions are called in [`do_pre_smp_initcalls`](https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git/tree/init/main.c?id=refs/tags/v4.10.8#n885), from `__initcall_start` to before `__initcall0_start`.
-- [`do_initcalls`](https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git/tree/init/main.c?id=refs/tags/v4.10.8#n858) calls functions from `__initcall0_start` to before `__initcall_end`.
-- Functions with the same `id` go into the same section.
+- `early_initcall` functions are called in `do_pre_smp_initcalls`, from `__initcall_start` to before `__initcall0_start`.
+- `do_initcalls` calls functions from `__initcall0_start` to before `__initcall_end`.
+- functions with the same `id` go into the same section.
 
 ```
 fn                          id          sections created by         sections created        initcall_t entry                note
@@ -43,8 +43,28 @@ late_initcall_sync          7s          .initcall7s.init                        
 ```
 
 
-**Reference**
+**initcall functions order**
 
-- [`include/asm-generic/vmlinux.lds.h`](https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git/tree/include/asm-generic/vmlinux.lds.h?id=refs/tags/v4.10.8#n698).
-- [`include/linux/init.h`](https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git/tree/include/linux/init.h?id=refs/tags/v4.10.8#n146).
-- [`init/main.c`](https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git/tree/init/main.c?id=refs/tags/v4.10.8).
+```
+init/main.c::start_kernel                               |
+    drivers/tty/tty_io.c::console_init                  | call all `console_initcall` functions
+    security/security.c::security_init                  |
+        security/security.c::do_security_initcalls      | call all `security_initcall` functions
+    init/main.c::rest_init                              |
+        kernel/fork.c::kernel_thread(kernel_init)       | start `kernel_init` before `kthreadd`, the reason is in the kernel source code
+        kernel/fork.c::kernel_thread(kthreadd)          |
+
+init/main.c::kernel_init                                                    |
+    init/main.c::kernel_init_freeable                                       |
+        kernel/sched/completion.c::wait_for_completion(&kthreadd_done);     | wait for `kthreadd_done` from `kthreadd`
+        init/main.c::do_pre_smp_initcalls                                   | call all `early_initcall` functions
+        init/main.c::do_basic_setup                                         |
+            init/main.c::do_initcalls                                       | call other `_initcall` and `_initcall_sync` functions which have id from 0 to 7s
+```
+
+
+**references**
+
+- `include/asm-generic/vmlinux.lds.h`, line 698.
+- `include/linux/init.h`, line 146.
+- `init/main.c`.
