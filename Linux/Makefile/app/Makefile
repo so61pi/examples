@@ -13,7 +13,7 @@ OBJ			= $(SRC:.c=.o)
 BIN			= example
 
 
-%.o:%c
+%.o:%.c
 	$(CC) -c $(CFLAGS) -o $@ $^
 
 $(BIN): $(OBJ)
