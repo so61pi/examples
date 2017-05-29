@@ -1,4 +1,4 @@
-*softwares**
+**softwares**
 
 - Linux v4.10.8.
 
@@ -44,6 +44,8 @@ late_initcall_sync          7s          .initcall7s.init                        
 
 
 **initcall functions order**
+
+- `console_initcall` -> `security_initcall` -> `early_initcall` -> `_initcall` and `_initcall_sync`
 
 ```
 init/main.c::start_kernel                               |
