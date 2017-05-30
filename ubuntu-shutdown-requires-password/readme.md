@@ -1,4 +1,4 @@
-* Create `/var/lib//polkit-1/localauthority/50-local.d/shutdown-requires-password.pkla`, you may need `sudo -i` as `cd` cannot work with `sudo`.
+* Create `/var/lib/polkit-1/localauthority/50-local.d/shutdown-requires-password.pkla`, you may need `sudo -i` as `cd` cannot work with `sudo`.
 * Add following lines to newly created file:
 
         [Shutdown Authentication]
