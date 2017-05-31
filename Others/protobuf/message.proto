@@ -1,6 +1,9 @@
 syntax = "proto3";
 
+// https://developers.google.com/protocol-buffers/docs/proto3
+
 message Query {
+  // <type> <name> = <unique numbered tag>;
   string name = 1;
   int32 age = 2;
 }

@@ -4,7 +4,7 @@
 #include "message.pb.h"
 
 // protoc --cpp_out=. message.proto
-// g++ -std=c++11 message.pb.cc main.cpp -pthread -L/usr/local/lib -lprotobuf -lpthread
+// g++ -std=c++11 message.pb.cc main.cpp -pthread -lprotobuf -lpthread
 
 
 int main(int argc, char* argv[]) {
