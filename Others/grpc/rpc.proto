@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+// https://developers.google.com/protocol-buffers/docs/proto3
+// https://developers.google.com/protocol-buffers/docs/reference/cpp-generated
+
+message MyRequest {
+  string question = 1;
+}
+
+message MyResponse {
+  string answer = 2;
+}
+
+service MyServiceProvider {
+  rpc AskMe(MyRequest) returns (MyResponse) {}
+}
