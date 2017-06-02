@@ -30,7 +30,7 @@ struct bin {
 };
 
 
-auto bin_packing(std::set<object>& objs) -> std::vector<bin> {
+auto bin_packing(std::multiset<object>& objs) -> std::vector<bin> {
     auto find_best_fit = [](auto& objs, int capacity) {
         auto it = objs.upper_bound(object{ object::dummy, capacity });
         if (it == objs.begin() || objs.empty())
@@ -66,10 +66,10 @@ auto bin_packing(std::set<object>& objs) -> std::vector<bin> {
 
 
 int main() {
-    std::set<object> objs{
+    std::multiset<object> objs{
         object{ 1, 3 }, object{ 2, 7 }, object{ 3, 5 },
         object{ 4, 4 }, object{ 5, 8 }, object{ 6, 2 }, 
-        object{ 4, 11 }
+        object{ 4, 11 }, object{ 5, 11 }
     };
     auto bins = bin_packing(objs);
     for (auto const& bin : bins) {
