@@ -27,7 +27,7 @@ int main() {
         return errno;
     }
 
-    if (connect(sockfd, (struct sockaddr*)&dest, sizeof(dest)) != 0) {
+    if (connect(sockfd, reinterpret_cast<sockaddr*>(&dest), sizeof(dest)) != 0) {
         std::perror("connect");
         return errno;
     }
