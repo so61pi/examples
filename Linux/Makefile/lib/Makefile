@@ -24,6 +24,9 @@ OBJ			= $(SRC:.c=.o)
 %.o:%.c
 	$(CC) $(CFLAGS) -c -fPIC -o $@ $<
 
+%.o:%.cpp
+	$(CXX) $(CXXFLAGS) -c -fPIC -o $@ $<
+
 $(LIBSOV): $(OBJ)
 	$(CC) -shared -Wl,-soname,$(LIBSOM) -o $@ $^ $(LDFLAGS)
 
