@@ -16,6 +16,9 @@ BIN			= example
 %.o:%.c
 	$(CC) -c $(CFLAGS) -o $@ $^
 
+%.o:%.cpp
+	$(CXX) -c $(CXXFLAGS) -o $@ $^
+
 $(BIN): $(OBJ)
 	$(CC) -o $@ $^ $(LDFLAGS)
 
