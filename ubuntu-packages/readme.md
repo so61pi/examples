@@ -13,6 +13,8 @@ apt install wireshark filezilla terminator meld inkscape pinta vlc
 **packages**
 
 ```
+ffmpeg
+cmake
 docker
 vagrant
 sublime
