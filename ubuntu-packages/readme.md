@@ -1,6 +1,7 @@
 **packages**
 
 ```shell
+sudo su
 add-apt-repository ppa:git-core/ppa
 apt update
 apt upgrade
