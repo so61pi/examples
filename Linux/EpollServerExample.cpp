@@ -148,7 +148,7 @@ int main() {
         return EXIT_FAILURE;
     }
 
-    auto epfd = epoll_create(MAXCONN);
+    auto epfd = epoll_create(1); // size parameter is ignored
     if (epfd < 0) {
         std::cerr << "[error] epoll_create : " << std::strerror(errno) << std::endl;
         return EXIT_FAILURE;
