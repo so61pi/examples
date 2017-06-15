@@ -14,7 +14,7 @@
 
 // protoc --grpc_out=. --plugin=protoc-gen-grpc=`which grpc_cpp_plugin` rpc.proto
 // protoc --cpp_out=. rpc.proto
-// g++ -o server -std=c++11 server.cpp rpc.pb.cc rpc.grpc.pb.cc -lprotobuf -lgrpc++
+// g++ -Wall -Wextra -pedantic -o server -std=c++11 server.cpp rpc.pb.cc rpc.grpc.pb.cc -lprotobuf -lgrpc++
 
 
 class MyServiceProviderImpl final : public MyServiceProvider::Service {
@@ -25,6 +25,7 @@ public:
         assert(response);
 
         response->set_answer("No answer for question " + request->question());
+        return ::grpc::Status::OK;
     }
 };
 
