@@ -10,7 +10,7 @@
 #include "rpc.grpc.pb.h"
 
 
-// g++ -o client -std=c++11 client.cpp rpc.pb.cc rpc.grpc.pb.cc -lprotobuf -lgrpc++
+// g++ -Wall -Wextra -pedantic -o client -std=c++11 client.cpp rpc.pb.cc rpc.grpc.pb.cc -lprotobuf -lgrpc++
 
 
 int main() {
