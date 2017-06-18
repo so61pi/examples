@@ -26,6 +26,7 @@ sudo apt install -y wget
 sudo apt install -y curl
 sudo apt install -y htop
 sudo apt install -y vim
+sudo apt install -y less # need configuration
 sudo apt install -y p7zip-full
 sudo apt install -y tree
 sudo apt install -y git # need configuration
@@ -48,6 +49,9 @@ sudo apt install -y firefox # need configuration
 **packages**
 
 ```
+clang-format
+doxygen
+
 ffmpeg
 cmake
 docker
