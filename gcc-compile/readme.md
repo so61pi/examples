@@ -9,8 +9,8 @@
 
 4. Configure - compile - install
 
-    	mkdir objdir
-	    cd objdir
+    	mkdir build-gcc
+	    cd build-gcc
 	    ../gcc/configure --prefix=$HOME/work/tools/gcc-trunk --program-suffix=-trunk --enable-languages=c,c++ --disable-multilib --enable-threads=posix
 	    make
 	    make install-strip
