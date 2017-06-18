@@ -1,6 +1,8 @@
 **directories**
 
 ```shell
+cd $HOME
+
 mkdir -p work/{documents,downloads,media,others,programming,tmp,tools,vms,warehouse}
 mkdir -p work/media/{images,videos}
 mkdir -p work/programming/{projects,sources}
