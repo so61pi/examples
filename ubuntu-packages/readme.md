@@ -1,3 +1,18 @@
+**directories**
+
+```shell
+mkdir -p work/{documents,downloads,media,others,programming,tmp,tools,vms,warehouse}
+mkdir -p work/media/{images,videos}
+mkdir -p work/programming/{projects,sources}
+
+# rmdir Documents
+# ln -s work/documents Documents
+
+# rmdir Downloads
+# ln -s work/downloads Downloads
+```
+
+
 **packages**
 
 ```shell
@@ -38,7 +53,7 @@ docker
 vagrant
 sublime
 virtualbox
-qtcreator
+qtcreator # need configuration
 skype
 teamviewer
 ```
