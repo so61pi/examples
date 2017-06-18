@@ -13,6 +13,8 @@ setopt      extendedglob				# Enable extended glob.
 setopt      autocd                      # Enable auto cd.
 unsetopt    sharehistory                # Disable share history across terminals.
 bindkey -e                              # Emacs mode.
+
+export LESS=-XFR
 ```
 
 
