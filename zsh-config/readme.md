@@ -1,4 +1,4 @@
-**Add to `~/.zshrc`**
+**add to `~/.zshrc`**
 
 ```shell
 HISTFILE=$HOME/.histfile
@@ -16,24 +16,24 @@ bindkey -e                              # Emacs mode.
 ```
 
 
-**Reload history**
+**reload history**
 
 ```shell
 fc -R
 ```
 
 
-**Disable git dirty on prompt**
+**disable git dirty on prompt**
 
 ```shel
 git config --global --add oh-my-zsh.hide-dirty 1
 ```
 
 
-**Use `~/.zprofile` instead of `~/.profile`**
+**use `~/.zprofile` instead of `~/.profile`**
 
 
-**Useful things**
+**useful things**
 
 - [oh-my-zsh](https://github.com/robbyrussell/oh-my-zsh).
 - [zsh-syntax-highlighting](https://github.com/zsh-users/zsh-syntax-highlighting/blob/master/INSTALL.md).
