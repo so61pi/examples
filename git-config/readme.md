@@ -12,6 +12,9 @@ git config --global alias.ggrep "grep --break --heading --line-number"
 # config difftool and mergetool
 git config --global diff.tool meld
 git config --global merge.tool meld
+
+# disable git dirty on prompt for oh-my-zsh
+git config --global --add oh-my-zsh.hide-dirty 1
 ```
 
 
