@@ -33,7 +33,7 @@ make install
 - you can just compile for some appropriate architectures by using `--target-list`, this also reduces compile time
 
 ```bash
-./configure --prefix=/home/you/tools/qemu --enable-sdl
+./configure --prefix=$HOME/work/tools/qemu --enable-sdl
 make
 make install
 ```
