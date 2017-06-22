@@ -2,6 +2,8 @@
 
 CORES=4
 SDIMG="sdcard.img"
+NORFLASH0="flash-nor-0.img"
+NORFLASH1="flash-nor-1.img"
 
 CCPREFIX="arm-linux-gnueabihf-"
 
@@ -121,15 +123,16 @@ build() {
     sudo kpartx -a "$SDIMG"
     sleep 3
     ls -alh /dev/mapper
-
-    sudo mkfs.ext3 -F /dev/mapper/loop1p1
+    sudo mkfs.ext3 -F /dev/mapper/loop0p1
     mkdir "$SDIMGDIR"
-    sudo mount -t ext3 /dev/mapper/loop1p1 "$SDIMGDIR" -o loop
+    sudo mount -t ext3 /dev/mapper/loop0p1 "$SDIMGDIR" -o loop
     sudo cp -a "$ROOTFSDIR/." "$SDIMGDIR"
     tree "$SDIMGDIR"
     sudo umount "$SDIMGDIR"
-
     sudo kpartx -d "$SDIMG"
+
+    fallocate -l 64M "$NORFLASH0"
+    fallocate -l 64M "$NORFLASH1"
 }
 
 
@@ -146,7 +149,9 @@ run-uboot() {
     qemu-system-arm -M vexpress-a9 -cpu cortex-a9 \
                     -m 512M \
                     -nographic \
-                    -kernel "$OUTPUTDIR/u-boot"
+                    -kernel "u-boot" \
+                    -pflash "$NORFLASH0" \
+                    -pflash "$NORFLASH1"
 }
 
 
@@ -157,31 +162,56 @@ run-kernel() {
     qemu-system-arm -M vexpress-a9 -cpu cortex-a9 \
                     -m 512M \
                     -nographic \
-                    -kernel "$OUTPUTDIR/zImage" \
-                    -dtb "$OUTPUTDIR/vexpress-v2p-ca9.dtb" \
+                    -kernel "zImage" \
+                    -dtb "vexpress-v2p-ca9.dtb" \
                     -append "console=ttyAMA0 root=/dev/mmcblk0p1" \
-                    -sd "$SDIMG"
+                    -sd "$SDIMG" \
+                    -pflash "$NORFLASH0" \
+                    -pflash "$NORFLASH1"
 }
 
 
 run() {
     warning
 
-    # mmc dev 0
-    # mmc rescan
-    # mmcinfo
-    # ext4ls mmc 0:1
-
-    # -serial stdio
-
     cd "$OUTPUTDIR"
     qemu-system-arm -M vexpress-a9 -cpu cortex-a9 \
                     -m 512M \
                     -nographic \
-                    -kernel "$OUTPUTDIR/u-boot" \
-                    -sd "$SDIMG"
+                    -kernel "u-boot" \
+                    -sd "$SDIMG" \
+                    -pflash "$NORFLASH0" \
+                    -pflash "$NORFLASH1"
 }
 
+
+if false; then
+--------------
+
+mmc dev 0
+mmc rescan
+mmcinfo
+ext4ls mmc 0:1
+
+
+protect off all
+erase all
+flinfo
+
+md 0x61000000
+mw.b 0x61000000 0xAA 0x10
+md 0x61000000
+
+md 0x40000000
+cp.b 0x61000000 0x40000000 0x10
+md 0x40000000
+
+md 0x44000000
+cp.b 0x61000000 0x44000000 0x10
+md 0x44000000
+
+--------------
+fi
 
 
 while :; do
