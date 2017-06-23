@@ -87,7 +87,6 @@ http://en.cppreference.com/w/cpp/header
 #include <iostream>
 #include <fstream>
 #include <sstream>
-#include <strstream>
 #include <iomanip>
 #include <streambuf>
 #include <cstdio>
