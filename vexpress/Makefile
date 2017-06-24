@@ -5,31 +5,38 @@ CROSS_COMPILE	?=	arm-linux-gnueabihf-
 RM				?=	rm
 INSTALL			?=	install
 
-LOOPDEVNAME		?=	loop0p1
+LOOP_DEV_NAME	?=	loop0p1
+LOOP_DEV_FILE	=	/dev/mapper/$(LOOP_DEV_NAME)
 
-WORKINGDIR		=	$(shell pwd)
-OUTPUTDIR		=	$(WORKINGDIR)/output
+WORKING_DIR		=	$(shell pwd)
+INSTALL_DIR		=	$(WORKING_DIR)/_install
 
-UBOOTSRC		=	git://git.denx.de/u-boot.git
-UBOOTVER		=	v2017.05
-UBOOTDIR		=	$(WORKINGDIR)/u-boot
+UBOOT_SRC			=	git://git.denx.de/u-boot.git
+UBOOT_VER			=	v2017.05
+UBOOT_DIR			=	$(WORKING_DIR)/u-boot
+UBOOT_FILE			=	$(UBOOT_DIR)/u-boot
+UBOOT_FINAL_FILE	= $(INSTALL_DIR)/u-boot
 
-BUSYBOXSRC		=	git://git.busybox.net/busybox
-BUSYBOXVER		=	1_26_2
-BUSYBOXDIR		=	$(WORKINGDIR)/busybox
+BUSYBOX_SRC		=	git://git.busybox.net/busybox
+BUSYBOX_VER		=	1_26_2
+BUSYBOX_DIR		=	$(WORKING_DIR)/busybox
 
-LINUXSRC		=	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git
-LINUXVER		=	v4.11.1
-LINUXDIR		=	$(WORKINGDIR)/linux-stable
+LINUX_SRC				=	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git
+LINUX_VER				=	v4.11.1
+LINUX_DIR				=	$(WORKING_DIR)/linux-stable
+LINUX_IMAGE_FILE		=	$(LINUX_DIR)/arch/arm/boot/zImage
+LINUX_DTB_FILE			=	$(LINUX_DIR)/arch/arm/boot/dts/vexpress-v2p-ca9.dtb
+LINUX_IMAGE_FINAL_FILE	=	$(INSTALL_DIR)/zImage
+LINUX_DTB_FINAL_FILE	=	$(INSTALL_DIR)/vexpress-v2p-ca9.dtb
 
-SDIMG 			=	$(OUTPUTDIR)/sdcard.img
-NORFLASH0		=	$(OUTPUTDIR)/flash-nor-0.img
-NORFLASH1		=	$(OUTPUTDIR)/flash-nor-1.img
+SD_IMAGE_FINAL_FILE 	=	$(INSTALL_DIR)/sdcard.img
+NOR_FLASH_0_FINAL_FILE	=	$(INSTALL_DIR)/flash-nor-0.img
+NOR_FLASH_1_FINAL_FILE	=	$(INSTALL_DIR)/flash-nor-1.img
 
-ETCDIR			=	$(WORKINGDIR)/etc
+ETC_DIR			=	$(WORKING_DIR)/etc
 
-ROOTFSDIR		=	$(OUTPUTDIR)/rootfs
-SDIMGDIR		=	$(OUTPUTDIR)/sdcard-mount
+ROOTFS_DIR		=	$(INSTALL_DIR)/rootfs
+SD_IMAGE_DIR	=	$(INSTALL_DIR)/sdcard-mount
 
 
 .PHONY: all
@@ -88,9 +95,9 @@ run-uboot:
 	-M vexpress-a9 -cpu cortex-a9 \
 	-m 512M \
 	-nographic \
-	-kernel $(OUTPUTDIR)/u-boot \
-	-pflash $(NORFLASH0) \
-	-pflash $(NORFLASH1)
+	-kernel $(UBOOT_FINAL_FILE) \
+	-pflash $(NOR_FLASH_0_FINAL_FILE) \
+	-pflash $(NOR_FLASH_1_FINAL_FILE)
 
 
 .PHONY: run-kernel
@@ -100,12 +107,12 @@ run-kernel:
 	-M vexpress-a9 -cpu cortex-a9 \
 	-m 512M \
 	-nographic \
-	-kernel $(OUTPUTDIR)/zImage \
-	-dtb $(OUTPUTDIR)/vexpress-v2p-ca9.dtb \
+	-kernel $(LINUX_IMAGE_FINAL_FILE) \
+	-dtb $(LINUX_DTB_FINAL_FILE) \
 	-append "console=ttyAMA0 root=/dev/mmcblk0p1" \
-	-sd $(SDIMG) \
-	-pflash $(NORFLASH0) \
-	-pflash $(NORFLASH1)
+	-sd $(SD_IMAGE_FINAL_FILE) \
+	-pflash $(NOR_FLASH_0_FINAL_FILE) \
+	-pflash $(NOR_FLASH_1_FINAL_FILE)
 
 
 .PHONY: run
@@ -115,10 +122,10 @@ run:
 	-M vexpress-a9 -cpu cortex-a9 \
 	-m 512M \
 	-nographic \
-	-kernel $(OUTPUTDIR)/u-boot \
-	-sd $(SDIMG) \
-	-pflash $(NORFLASH0) \
-	-pflash $(NORFLASH1)
+	-kernel $(UBOOT_FINAL_FILE) \
+	-sd $(SD_IMAGE_FINAL_FILE) \
+	-pflash $(NOR_FLASH_0_FINAL_FILE) \
+	-pflash $(NOR_FLASH_1_FINAL_FILE)
 
 
 ################################################################################
@@ -129,9 +136,13 @@ run:
 clean: $(addsuffix -clean, uboot busybox linux)
 
 
-.PHONY: clean-output
-clean-output:
-	$(RM) -r $(OUTPUTDIR)
+.PHONY: distclean
+distclean: $(addsuffix -distclean, uboot busybox linux)
+
+
+.PHONY: clean-installdir
+clean-installdir:
+	$(RM) -r $(INSTALL_DIR)
 
 
 .PHONY: download
@@ -151,40 +162,41 @@ build: $(addsuffix -build, uboot busybox linux)
 
 
 .PHONY: install
-install: clean-output $(addsuffix -install, uboot busybox linux)
-	$(INSTALL) -d $(ROOTFSDIR)/sys
-	$(INSTALL) -d $(ROOTFSDIR)/dev
-	$(INSTALL) -d $(ROOTFSDIR)/proc
-	$(INSTALL) -d $(ROOTFSDIR)/tmp
-	$(INSTALL) -d $(ROOTFSDIR)/etc
-	$(INSTALL) -d $(ROOTFSDIR)/root
-	$(INSTALL) -d $(ROOTFSDIR)/var
-	cp -a $(ETCDIR)/. $(ROOTFSDIR)/etc
+install: clean-installdir $(addsuffix -install, uboot busybox linux)
+	mkdir -p $(ROOTFS_DIR)/sys
+	mkdir -p $(ROOTFS_DIR)/dev
+	mkdir -p $(ROOTFS_DIR)/proc
+	mkdir -p $(ROOTFS_DIR)/tmp
+	mkdir -p $(ROOTFS_DIR)/etc
+	mkdir -p $(ROOTFS_DIR)/root
+	mkdir -p $(ROOTFS_DIR)/var
+	cp -a $(ETC_DIR)/. $(ROOTFS_DIR)/etc
 
 	@sudo true
 	$(call pannelnotice,Use n to create partitions,Use w to save changes and quit)
-	fallocate -l 64M $(SDIMG)
-	fdisk $(SDIMG)
+	fallocate -l 64M $(SD_IMAGE_FINAL_FILE)
+	fdisk $(SD_IMAGE_FINAL_FILE)
 
-	sudo kpartx -a $(SDIMG)
+	sudo kpartx -a $(SD_IMAGE_FINAL_FILE)
 	@echo "Wait 3 seconds..."
 	@sleep 3
-	sudo mkfs.ext3 -F /dev/mapper/$(LOOPDEVNAME)
-	mkdir -p $(SDIMGDIR)
-	sudo mount -t ext3 /dev/mapper/$(LOOPDEVNAME) $(SDIMGDIR) -o loop
-	sudo cp -a $(ROOTFSDIR)/. $(SDIMGDIR)
-	tree $(SDIMGDIR)
-	sudo umount $(SDIMGDIR)
-	sudo kpartx -d $(SDIMG)
+	sudo mkfs.ext3 -F $(LOOP_DEV_FILE)
+	mkdir -p $(SD_IMAGE_DIR)
+	sudo mount -t ext3 $(LOOP_DEV_FILE) $(SD_IMAGE_DIR) -o loop
+	sudo cp -a $(ROOTFS_DIR)/. $(SD_IMAGE_DIR)
+	tree $(SD_IMAGE_DIR)
+	sudo umount $(SD_IMAGE_DIR)
+	sudo kpartx -d $(SD_IMAGE_FINAL_FILE)
 
-	fallocate -l 64M $(NORFLASH0)
-	fallocate -l 64M $(NORFLASH1)
+	fallocate -l 64M $(NOR_FLASH_0_FINAL_FILE)
+	fallocate -l 64M $(NOR_FLASH_1_FINAL_FILE)
 
 
 ################################################################################
 #
 # U-Boot
 #
+.PHONY: uboot-distclean
 .PHONY: uboot-clean
 .PHONY: uboot-download
 .PHONY: uboot-download-force
@@ -192,37 +204,42 @@ install: clean-output $(addsuffix -install, uboot busybox linux)
 .PHONY: uboot-build
 .PHONY: uboot-install
 
+uboot-distclean:
+	$(MAKE) -C $(UBOOT_DIR) ARCH=arm CROSS_COMPILE=$(CROSS_COMPILE) distclean
+
+
 uboot-clean:
-	$(MAKE) -C $(UBOOTDIR) ARCH=arm CROSS_COMPILE=$(CROSS_COMPILE) distclean
+	$(MAKE) -C $(UBOOT_DIR) ARCH=arm CROSS_COMPILE=$(CROSS_COMPILE) clean
 
 
 uboot-download:
-	[ -d $(notdir $(UBOOTDIR)) ] || git clone --branch $(UBOOTVER) $(UBOOTSRC)
+	[ -d $(notdir $(UBOOT_DIR)) ] || git clone --branch $(UBOOT_VER) $(UBOOT_SRC)
 
 
 uboot-download-force:
-	$(RM) -r $(notdir $(UBOOTDIR))
-	git clone --branch $(UBOOTVER) $(UBOOTSRC)
+	$(RM) -r $(notdir $(UBOOT_DIR))
+	git clone --branch $(UBOOT_VER) $(UBOOT_SRC)
 
 
 uboot-config: uboot-clean
-	$(MAKE) -C $(UBOOTDIR) ARCH=arm CROSS_COMPILE=$(CROSS_COMPILE) vexpress_ca9x4_defconfig
-	$(MAKE) -C $(UBOOTDIR) ARCH=arm CROSS_COMPILE=$(CROSS_COMPILE) menuconfig
+	$(MAKE) -C $(UBOOT_DIR) ARCH=arm CROSS_COMPILE=$(CROSS_COMPILE) vexpress_ca9x4_defconfig
+	$(MAKE) -C $(UBOOT_DIR) ARCH=arm CROSS_COMPILE=$(CROSS_COMPILE) menuconfig
 
 
 uboot-build:
-	$(MAKE) -C $(UBOOTDIR) -j$(CORES) ARCH=arm CROSS_COMPILE=$(CROSS_COMPILE)
+	$(MAKE) -C $(UBOOT_DIR) -j$(CORES) ARCH=arm CROSS_COMPILE=$(CROSS_COMPILE)
 
 
 uboot-install:
-	$(INSTALL) -d $(OUTPUTDIR)
-	$(INSTALL) $(UBOOTDIR)/u-boot $(OUTPUTDIR)
+	mkdir -p $(INSTALL_DIR)
+	cp $(UBOOT_FILE) $(UBOOT_FINAL_FILE)
 
 
 ################################################################################
 #
 # BusyBox
 #
+.PHONY: busybox-distclean
 .PHONY: busybox-clean
 .PHONY: busybox-download
 .PHONY: busybox-download-force
@@ -230,37 +247,42 @@ uboot-install:
 .PHONY: busybox-build
 .PHONY: busybox-install
 
+busybox-distclean:
+	$(MAKE) -C $(BUSYBOX_DIR) ARCH=arm CROSS_COMPILE=$(CROSS_COMPILE) distclean
+
+
 busybox-clean:
-	$(MAKE) -C $(BUSYBOXDIR) ARCH=arm CROSS_COMPILE=$(CROSS_COMPILE) distclean
+	$(MAKE) -C $(BUSYBOX_DIR) ARCH=arm CROSS_COMPILE=$(CROSS_COMPILE) clean
 
 
 busybox-download:
-	[ -d $(notdir $(BUSYBOXDIR)) ] || git clone --branch $(BUSYBOXVER) $(BUSYBOXSRC)
+	[ -d $(notdir $(BUSYBOX_DIR)) ] || git clone --branch $(BUSYBOX_VER) $(BUSYBOX_SRC)
 
 
 busybox-download-force:
-	$(RM) -r $(notdir $(BUSYBOXDIR))
-	git clone --branch $(BUSYBOXVER) $(BUSYBOXSRC)
+	$(RM) -r $(notdir $(BUSYBOX_DIR))
+	git clone --branch $(BUSYBOX_VER) $(BUSYBOX_SRC)
 
 
 busybox-config: busybox-clean
-	$(MAKE) -C $(BUSYBOXDIR) ARCH=arm CROSS_COMPILE=$(CROSS_COMPILE) defconfig
-	$(MAKE) -C $(BUSYBOXDIR) ARCH=arm CROSS_COMPILE=$(CROSS_COMPILE) menuconfig
+	$(MAKE) -C $(BUSYBOX_DIR) ARCH=arm CROSS_COMPILE=$(CROSS_COMPILE) defconfig
+	$(MAKE) -C $(BUSYBOX_DIR) ARCH=arm CROSS_COMPILE=$(CROSS_COMPILE) menuconfig
 
 
 busybox-build:
-	$(MAKE) -C $(BUSYBOXDIR) -j$(CORES) ARCH=arm CROSS_COMPILE=$(CROSS_COMPILE)
+	$(MAKE) -C $(BUSYBOX_DIR) -j$(CORES) ARCH=arm CROSS_COMPILE=$(CROSS_COMPILE)
 
 
 busybox-install:
-	$(INSTALL) -d $(ROOTFSDIR)
-	$(MAKE) -C $(BUSYBOXDIR) -j$(CORES) ARCH=arm CROSS_COMPILE=$(CROSS_COMPILE) install CONFIG_PREFIX=$(ROOTFSDIR)
+	mkdir -p $(ROOTFS_DIR)
+	$(MAKE) -C $(BUSYBOX_DIR) -j$(CORES) ARCH=arm CROSS_COMPILE=$(CROSS_COMPILE) install CONFIG_PREFIX=$(ROOTFS_DIR)
 
 
 ################################################################################
 #
 # Linux
 #
+.PHONY: linux-distclean
 .PHONY: linux-clean
 .PHONY: linux-download
 .PHONY: linux-download-force
@@ -268,29 +290,33 @@ busybox-install:
 .PHONY: linux-build
 .PHONY: linux-install
 
+linux-distclean:
+	$(MAKE) -C $(LINUX_DIR) ARCH=arm CROSS_COMPILE=$(CROSS_COMPILE) distclean
+
+
 linux-clean:
-	$(MAKE) -C $(LINUXDIR) ARCH=arm CROSS_COMPILE=$(CROSS_COMPILE) distclean
+	$(MAKE) -C $(LINUX_DIR) ARCH=arm CROSS_COMPILE=$(CROSS_COMPILE) clean
 
 
 linux-download:
-	[ -d $(notdir $(LINUXDIR)) ] || git clone --branch $(LINUXVER) $(LINUXSRC)
+	[ -d $(notdir $(LINUX_DIR)) ] || git clone --branch $(LINUX_VER) $(LINUX_SRC)
 
 
 linux-download-force:
-	$(RM) -r $(notdir $(LINUXDIR))
-	git clone --branch $(LINUXVER) $(LINUXSRC)
+	$(RM) -r $(notdir $(LINUX_DIR))
+	git clone --branch $(LINUX_VER) $(LINUX_SRC)
 
 
 linux-config: linux-clean
-	$(MAKE) -C $(LINUXDIR) ARCH=arm CROSS_COMPILE=$(CROSS_COMPILE) vexpress_defconfig
-	$(MAKE) -C $(LINUXDIR) ARCH=arm CROSS_COMPILE=$(CROSS_COMPILE) menuconfig
+	$(MAKE) -C $(LINUX_DIR) ARCH=arm CROSS_COMPILE=$(CROSS_COMPILE) vexpress_defconfig
+	$(MAKE) -C $(LINUX_DIR) ARCH=arm CROSS_COMPILE=$(CROSS_COMPILE) menuconfig
 
 
 linux-build:
-	$(MAKE) -C $(LINUXDIR) ARCH=arm CROSS_COMPILE=$(CROSS_COMPILE) all
+	$(MAKE) -C $(LINUX_DIR) ARCH=arm CROSS_COMPILE=$(CROSS_COMPILE) all
 
 
 linux-install:
-	$(INSTALL) -d $(OUTPUTDIR)
-	$(INSTALL) $(LINUXDIR)/arch/arm/boot/dts/vexpress-v2p-ca9.dtb $(OUTPUTDIR)
-	$(INSTALL) $(LINUXDIR)/arch/arm/boot/zImage $(OUTPUTDIR)
+	mkdir -p $(INSTALL_DIR)
+	cp $(LINUX_DTB_FILE) $(LINUX_DTB_FINAL_FILE)
+	cp $(LINUX_IMAGE_FILE) $(LINUX_IMAGE_FINAL_FILE)
