@@ -30,11 +30,18 @@ sudo apt install -y htop
 sudo apt install -y vim
 sudo apt install -y p7zip-full
 sudo apt install -y tree
+sudo apt install -y socat
 sudo apt install -y git # need configuration
 sudo apt install -y qemu
 sudo apt install -y g++
 sudo apt install -y build-essential
 sudo apt install -y zsh # need configuration
+sudo apt install -y mesa-utils
+sudo apt install -y apt-transport-https
+
+sudo apt install -y zlib1g-dev
+sudo apt install -y libncurses5-dev
+sudo apt install -y libsdl2-dev
 
 sudo apt install -y wireshark # need configuration
 sudo apt install -y filezilla
