@@ -31,6 +31,7 @@ sudo apt install -y vim
 sudo apt install -y p7zip-full
 sudo apt install -y tree
 sudo apt install -y socat
+sudo apt install -y picocom
 sudo apt install -y git # need configuration
 sudo apt install -y qemu
 sudo apt install -y g++
