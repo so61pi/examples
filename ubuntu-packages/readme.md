@@ -51,6 +51,7 @@ sudo apt install -y inkscape
 sudo apt install -y pinta
 sudo apt install -y vlc
 sudo apt install -y firefox # need configuration
+sudo apt install -y gparted
 ```
 
 
