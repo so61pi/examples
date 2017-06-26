@@ -35,6 +35,7 @@ sudo apt install -y picocom
 sudo apt install -y git # need configuration
 sudo apt install -y qemu
 sudo apt install -y g++
+sudo apt install -y ccache
 sudo apt install -y build-essential
 sudo apt install -y zsh # need configuration
 sudo apt install -y mesa-utils
