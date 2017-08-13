@@ -5,6 +5,11 @@
 #include <cstdlib>
 #include <iostream>
 #include <iterator>
+#include <list>
+#include <stdexcept>
+#include <string>
+#include <unordered_map>
+#include <vector>
 
 #include <fcntl.h>
 #include <netinet/ip.h>
@@ -14,6 +19,11 @@
 #include <unistd.h>
 
 #include <boost/scope_exit.hpp>
+
+
+using chunk_t = std::vector<std::uint8_t>;
+using data_t = std::list<chunk_t>;
+using data_container_t = std::unordered_map<int, data_t>;
 
 
 int setnonblocking(int sock_fd) {
@@ -70,6 +80,7 @@ int nonblockread(int sockfd, std::vector<std::uint8_t>& buffer, std::size_t size
             size -= bytes;
         }
     }
+    return 1;
 }
 
 
@@ -99,6 +110,7 @@ int nonblockread(int sockfd, std::uint8_t* output, std::size_t size, std::uint8_
             *newoutput  = output;
         }
     }
+    return 1;
 }
 
 
@@ -106,6 +118,93 @@ void display(std::ostream& os, int fd, std::vector<std::uint8_t> const& data) {
     os << '[' << fd << "] received\n\t";
     for (auto d : data) os << d << ' ';
     os << '\n' << std::endl;
+}
+
+
+int add_data_chunk(data_container_t& container, int efd, int fd, chunk_t chunk) {
+    std::cout << "[info] prepare echo data for " << fd << std::endl;
+
+    if (chunk.empty()) return 0;
+
+    epoll_event ev = {};
+    ev.events      = EPOLLIN | EPOLLOUT;
+    ev.data.fd     = fd;
+    if (epoll_ctl(efd, EPOLL_CTL_MOD, fd, &ev) < 0) {
+        return -1;
+    }
+
+    container[fd].push_back(std::move(chunk));
+    return 0;
+}
+
+
+int send_chunk(int fd, chunk_t& data) {
+    auto const* bytes = data.data();
+    auto size = data.size();
+
+    while (size > 0) {
+        auto const b = write(fd, bytes, size);
+        if (b >= 0) {
+            size -= b;
+            bytes += b;
+            continue;
+        } else {
+            if (errno == EINTR) {
+                continue;
+            } else if (errno == EAGAIN || errno == EWOULDBLOCK) {
+                break;
+            } else {
+                return -1;
+            }
+        }
+    }
+
+    data = chunk_t(data.begin() + (bytes - data.data()), data.end());
+    return 0;
+}
+
+
+void remove_data(data_container_t& container, int fd) {
+    container.erase(fd);
+}
+
+
+int send_data(data_container_t& container, int efd, int fd) {
+    auto const it = container.find(fd);
+    if (it == container.end()) return 0;
+
+    data_t& data = it->second;
+
+    std::cout << "[info] send echo data of " << fd << std::endl;
+
+    int status = 0;
+    for (auto& chunk : data) {
+        status = send_chunk(fd, chunk);
+        if (status < 0) break;
+    }
+
+    data.remove_if([](chunk_t const& chunk) { return chunk.empty(); });
+
+    if (data.empty()) {
+        remove_data(container, fd);
+
+        epoll_event ev = {};
+        ev.events      = EPOLLIN;
+        ev.data.fd     = fd;
+        if (epoll_ctl(efd, EPOLL_CTL_MOD, fd, &ev) < 0) {
+            return -1;
+        }
+    } else {
+        epoll_event ev = {};
+        ev.events      = EPOLLIN | EPOLLOUT;
+        ev.data.fd     = fd;
+        if (epoll_ctl(efd, EPOLL_CTL_MOD, fd, &ev) < 0) {
+            remove_data(container, fd);
+            return -1;
+        }
+    }
+
+    return status;
 }
 
 
@@ -163,8 +262,9 @@ int main() {
         return EXIT_FAILURE;
     }
 
-    std::cout << "[server] listening on " << PORT << std::endl;
+    std::cout << "[info] listening on " << PORT << std::endl;
 
+    data_container_t data_container;
     while (true) {
         epoll_event events[MAXCONN] = {};
         auto ready = epoll_wait(epfd, events, MAXCONN, -1);
@@ -178,7 +278,7 @@ int main() {
         for (auto i = 0; i < ready; ++i) {
             auto const es = events[i].events;
             auto const fd = events[i].data.fd;
-            
+
             if (es & EPOLLIN) {
                 if (fd == listenfd) {
                     auto newfd = accept(listenfd, nullptr, nullptr);
@@ -202,23 +302,36 @@ int main() {
                         continue;
                     }
 
-                    std::cout << "[server] new connection accepted : " << newfd << std::endl;
+                    std::cout << "[info] new connection accepted : " << newfd << std::endl;
                 } else {
                     std::vector<std::uint8_t> buffer;
                     auto status = nonblockread(fd, buffer);
                     if (status < 0) {
                         std::cerr << "[error] nonblockread : " << std::strerror(errno) << std::endl;
+                        epoll_ctl(epfd, EPOLL_CTL_DEL, fd, nullptr);
+                        remove_data(data_container, fd);
                         close(fd);
                     } else if (status == 0) {
                         std::cerr << "[error] nonblockread : " << std::strerror(errno) << std::endl;
                         display(std::cout, fd, buffer);
+                        epoll_ctl(epfd, EPOLL_CTL_DEL, fd, nullptr);
+                        remove_data(data_container, fd);
                         close(fd);
                     } else {
                         display(std::cout, fd, buffer);
+                        add_data_chunk(data_container, epfd, fd, std::move(buffer));
                     }
                 }
-            } else if (es & (EPOLLHUP | EPOLLERR)) {
+            }
+
+            if (es & EPOLLOUT) {
+                send_data(data_container, epfd, fd);
+            }
+
+            if (es & (EPOLLHUP | EPOLLERR)) {
                 std::cout << "[server] close connection : " << fd << std::endl;
+                epoll_ctl(epfd, EPOLL_CTL_ADD, fd, nullptr);
+                remove_data(data_container, fd);
                 close(fd);
             }
         }
