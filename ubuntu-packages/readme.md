@@ -45,6 +45,7 @@ sudo apt install -y zlib1g-dev
 sudo apt install -y libncurses5-dev
 sudo apt install -y libsdl2-dev
 
+sudo apt install -y ssh-askpass
 sudo apt install -y wireshark # need configuration
 sudo apt install -y filezilla
 sudo apt install -y terminator # need configuration
