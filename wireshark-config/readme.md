@@ -3,5 +3,5 @@
 ```shell
 # sudo dpkg-reconfigure wireshark-common
 # -> choose YES
-sudo usermod -aG docker $USER
+sudo usermod -aG wireshark $USER
 ```
