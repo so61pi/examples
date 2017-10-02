@@ -1,4 +1,6 @@
-# (read more at busybox/examples/inittab).
+::sysinit:/bin/mount -a
+
+# Read more at busybox/examples/inittab
 ::sysinit:/etc/init.d/rcS
 ::askfirst:/bin/sh
 ::ctrlaltdel:/sbin/reboot
