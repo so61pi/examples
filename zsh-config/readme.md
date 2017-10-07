@@ -15,6 +15,8 @@ unsetopt    sharehistory                # Disable share history across terminals
 bindkey -e                              # Emacs mode.
 
 export LESS=-XFR
+
+alias auu="sudo apt update && sudo apt upgrade"
 ```
 
 
