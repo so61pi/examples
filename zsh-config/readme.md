@@ -16,6 +16,7 @@ bindkey -e                              # Emacs mode.
 
 export LESS=-XFR
 
+alias ggrep="grep -Frn"
 alias auu="sudo apt update && sudo apt upgrade"
 ```
 
