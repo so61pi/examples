@@ -13,5 +13,6 @@ if __name__ == '__main__':
         xAxis.append(x)
         yAxis.append(y)
 
-    plt.plot(xAxis, yAxis)
+    plt.plot(xAxis, yAxis, label='sin')
+    plt.legend(loc='upper left')
     plt.show()
