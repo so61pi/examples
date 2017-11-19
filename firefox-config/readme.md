@@ -14,6 +14,7 @@
 **add-ons**
 
 - HTTPS Everywhere
+- Mute Tab (WebExtension)
 
 
 **dark `about:newtab` & `about:blank`**
