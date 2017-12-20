@@ -1,4 +1,4 @@
-**references**
+**References**
 
 - http://www.linux-mtd.infradead.org/doc/ubi.html
 - http://www.linux-mtd.infradead.org/faq/general.html
@@ -8,7 +8,7 @@
 - drivers/mtd/ubi/
 
 
-**overview**
+**Overview**
 
 "MTD subsystem (stands for Memory Technology Devices) provides an abstraction layer for raw flash devices. It makes it possible to use the same API when working with different flash types and technologies, e.g. NAND, OneNAND, NOR, AG-AND, ECC'd NOR, etc."
 
@@ -88,7 +88,7 @@ sudo rmmod nandsim
 ```
 
 
-**flow**
+**Flow**
 
 - Linux `v4.10.13`.
 
@@ -120,4 +120,13 @@ drivers/mtd/ubi/io.c::ubi_io_write_ec_hdr
 drivers/mtd/ubi/io.c::ubi_io_write_vid_hdr
     drivers/mtd/ubi/io.c::ubi_io_write
         drivers/mtd/mtdcore.c::mtd_write
+```
+
+
+**Create `disk.ubi`**
+
+```shell
+fallocate -l 1M rootfs.img
+mkfs.ext2 -F rootfs.img
+ubinize -o disk.ubi -m 512 -p 16KiB ubi.ini
 ```
