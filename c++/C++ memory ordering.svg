@@ -1,0 +1,808 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="796.11127mm"
+   height="576.40057mm"
+   viewBox="0 0 2820.8667 2042.3642"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.91 r13725"
+   sodipodi:docname="C++ memory ordering.svg">
+  <defs
+     id="defs4" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.5"
+     inkscape:cx="1143.166"
+     inkscape:cy="717.40429"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     showguides="true"
+     inkscape:window-width="1280"
+     inkscape:window-height="919"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     fit-margin-top="10"
+     fit-margin-left="10"
+     fit-margin-right="10"
+     fit-margin-bottom="10" />
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(840.62916,190.5689)">
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:25px;line-height:125%;font-family:sans-serif;text-align:start;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="1129.9567"
+       y="273.13049"
+       id="text4308"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         x="1129.9567"
+         y="273.13049"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Consolas;-inkscape-font-specification:Consolas"
+         id="tspan4334" /></text>
+    <g
+       id="g4891"
+       transform="translate(-295.67157,0)">
+      <text
+         sodipodi:linespacing="125%"
+         id="text4136"
+         y="85.876595"
+         x="-73.400879"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:25px;line-height:125%;font-family:Consolas;-inkscape-font-specification:Consolas;text-align:start;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         xml:space="preserve"><tspan
+           y="85.876595"
+           x="-73.400879"
+           id="tspan4138"
+           sodipodi:role="line"
+           style="font-weight:bold;fill:#ff0000">relaxed</tspan></text>
+      <text
+         sodipodi:linespacing="125%"
+         id="text4140"
+         y="237.01186"
+         x="170"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:25px;line-height:125%;font-family:Consolas;-inkscape-font-specification:Consolas;text-align:start;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         xml:space="preserve"><tspan
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Consolas;-inkscape-font-specification:Consolas"
+           y="237.01186"
+           x="170"
+           id="tspan4142"
+           sodipodi:role="line">• x.load() sees x.store()</tspan><tspan
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Consolas;-inkscape-font-specification:Consolas"
+           id="tspan4181"
+           y="268.26184"
+           x="170"
+           sodipodi:role="line">• all loads after x.load() see all stores before x.store()</tspan><tspan
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Consolas;-inkscape-font-specification:Consolas"
+           id="tspan4183"
+           y="299.51184"
+           x="170"
+           sodipodi:role="line">• <tspan
+   style="font-weight:bold"
+   id="tspan4949">all threads have </tspan><tspan
+   id="tspan4889"
+   style="font-style:italic;font-weight:bold">single total modification order</tspan></tspan><tspan
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Consolas;-inkscape-font-specification:Consolas"
+           id="tspan4185"
+           y="330.76184"
+           x="170"
+           sodipodi:role="line">  (all threads see the same modification order)</tspan></text>
+      <text
+         sodipodi:linespacing="125%"
+         id="text4154"
+         y="158.55725"
+         x="-128.76585"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:25px;line-height:125%;font-family:Consolas;-inkscape-font-specification:Consolas;text-align:start;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         xml:space="preserve"><tspan
+           y="158.55725"
+           x="-128.76585"
+           id="tspan4156"
+           sodipodi:role="line"
+           style="font-weight:bold;fill:#ff00ff">release-acquire</tspan></text>
+      <text
+         sodipodi:linespacing="125%"
+         id="text4158"
+         y="283.52063"
+         x="-183.48999"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:25px;line-height:125%;font-family:Consolas;-inkscape-font-specification:Consolas;text-align:start;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         xml:space="preserve"><tspan
+           y="283.52063"
+           x="-183.48999"
+           id="tspan4160"
+           sodipodi:role="line"
+           style="font-weight:bold;fill:#0000ff">sequentially-consistent</tspan></text>
+      <rect
+         y="52.862259"
+         x="-199.49994"
+         height="48.999866"
+         width="348.99988"
+         id="rect4162"
+         style="fill:none;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:1.00013566;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+      <rect
+         y="202.86198"
+         x="150.49979"
+         height="149.00043"
+         width="849.00043"
+         id="rect4164-6"
+         style="fill:none;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:0.99957758;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+      <rect
+         y="102.86219"
+         x="150.5"
+         height="99.000008"
+         width="849"
+         id="rect4164-6-6"
+         style="fill:none;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+      <text
+         sodipodi:linespacing="125%"
+         id="text4140-2"
+         y="143.26186"
+         x="169.4751"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:25px;line-height:125%;font-family:Consolas;-inkscape-font-specification:Consolas;text-align:start;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         xml:space="preserve"><tspan
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Consolas;-inkscape-font-specification:Consolas"
+           y="143.26186"
+           x="169.4751"
+           id="tspan4142-2"
+           sodipodi:role="line">• x.load() sees x.store()</tspan><tspan
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Consolas;-inkscape-font-specification:Consolas"
+           id="tspan4185-4"
+           y="174.51186"
+           x="169.4751"
+           sodipodi:role="line">• <tspan
+   style="font-weight:bold"
+   id="tspan4943">all loads after x.load() see all stores before x.store()</tspan></tspan></text>
+      <rect
+         y="52.862175"
+         x="150.49998"
+         height="49.000031"
+         width="849.00006"
+         id="rect4164-6-6-9"
+         style="fill:none;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:0.99996841;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+      <text
+         sodipodi:linespacing="125%"
+         id="text4140-2-4"
+         y="83.886848"
+         x="169.4751"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:25px;line-height:125%;font-family:Consolas;-inkscape-font-specification:Consolas;text-align:start;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         xml:space="preserve"><tspan
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Consolas;-inkscape-font-specification:Consolas"
+           id="tspan4185-4-1"
+           y="83.886848"
+           x="169.4751"
+           sodipodi:role="line">• x.load() only sees x.store(), nothing else</tspan></text>
+      <rect
+         y="102.8622"
+         x="-199.49997"
+         height="98.999985"
+         width="348.99997"
+         id="rect4162-4"
+         style="fill:none;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:1.00001359;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+      <rect
+         y="202.8622"
+         x="-199.49998"
+         height="148.99998"
+         width="348.99997"
+         id="rect4162-8"
+         style="fill:none;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:1.0000118;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+      <text
+         sodipodi:linespacing="125%"
+         id="text4304"
+         y="102.0107"
+         x="1053.3881"
+         style="font-style:normal;font-weight:normal;font-size:25px;line-height:125%;font-family:sans-serif;text-align:start;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         xml:space="preserve"><tspan
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Consolas;-inkscape-font-specification:Consolas"
+           y="102.0107"
+           x="1053.3881"
+           id="tspan4306"
+           sodipodi:role="line">• a load after x.load() cannot be moved up across x.load()</tspan><tspan
+           id="tspan4338"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Consolas;-inkscape-font-specification:Consolas"
+           y="133.2607"
+           x="1053.3881"
+           sodipodi:role="line" /><tspan
+           id="tspan4340"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Consolas;-inkscape-font-specification:Consolas"
+           y="164.5107"
+           x="1053.3881"
+           sodipodi:role="line"><tspan
+   id="tspan4873"
+   style="fill:#008000">▼▼▼</tspan> x.load(); <tspan
+   id="tspan4875"
+   style="fill:#008000">▼▼▼  &lt;- load fence</tspan></tspan><tspan
+           id="tspan4342"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Consolas;-inkscape-font-specification:Consolas"
+           y="195.7607"
+           x="1053.3881"
+           sodipodi:role="line"><tspan
+   id="tspan4865"
+   style="fill:#800080">    assert</tspan>(g == 1);</tspan><tspan
+           id="tspan4353"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Consolas;-inkscape-font-specification:Consolas"
+           y="227.0107"
+           x="1053.3881"
+           sodipodi:role="line" /><tspan
+           id="tspan4355"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Consolas;-inkscape-font-specification:Consolas"
+           y="258.26068"
+           x="1053.3881"
+           sodipodi:role="line">• a store before x.store() cannot be moved down across x.store()</tspan><tspan
+           id="tspan4357"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Consolas;-inkscape-font-specification:Consolas"
+           y="289.51068"
+           x="1053.3881"
+           sodipodi:role="line" /><tspan
+           id="tspan4359"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Consolas;-inkscape-font-specification:Consolas"
+           y="320.76068"
+           x="1053.3881"
+           sodipodi:role="line">    g = 1;</tspan><tspan
+           id="tspan4361"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Consolas;-inkscape-font-specification:Consolas"
+           y="352.01068"
+           x="1053.3881"
+           sodipodi:role="line"><tspan
+   id="tspan4877"
+   style="fill:#008000">▲▲▲</tspan> x.store(); <tspan
+   id="tspan4879"
+   style="fill:#008000">▲▲▲  &lt;- store fence</tspan></tspan></text>
+      <path
+         inkscape:connector-curvature="0"
+         id="path4367"
+         d="M 998.45828,101.96944 1147.9055,2.802688"
+         style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+      <path
+         inkscape:connector-curvature="0"
+         id="path4369"
+         d="m 998.49587,352.0312 149.44723,99.16675"
+         style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    </g>
+    <g
+       id="g4768"
+       transform="translate(18.643348,130)">
+      <text
+         sodipodi:linespacing="125%"
+         id="text4371"
+         y="456.56235"
+         x="311.12698"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:25px;line-height:125%;font-family:Consolas;-inkscape-font-specification:Consolas;text-align:start;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         xml:space="preserve"><tspan
+           y="456.56235"
+           x="311.12698"
+           id="tspan4373"
+           sodipodi:role="line"
+           style="fill:#008000">// T1</tspan><tspan
+           id="tspan4411"
+           y="487.81235"
+           x="311.12698"
+           sodipodi:role="line">y.store(20);</tspan><tspan
+           id="tspan4375"
+           y="519.06238"
+           x="311.12698"
+           sodipodi:role="line">x.store(10);</tspan></text>
+      <text
+         sodipodi:linespacing="125%"
+         id="text4377"
+         y="584.89886"
+         x="535.28687"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:25px;line-height:125%;font-family:Consolas;-inkscape-font-specification:Consolas;text-align:start;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         xml:space="preserve"><tspan
+           y="584.89886"
+           x="535.28687"
+           id="tspan4379"
+           sodipodi:role="line"
+           style="fill:#008000">// T2</tspan><tspan
+           id="tspan4413"
+           y="616.14886"
+           x="535.28687"
+           sodipodi:role="line"><tspan
+   style="fill:#0000ff"
+   id="tspan4859">if</tspan> (x.load() == 10) {</tspan><tspan
+           id="tspan4381"
+           y="647.39886"
+           x="535.28687"
+           sodipodi:role="line"><tspan
+   style="fill:#800080"
+   id="tspan4861">    assert</tspan>(y.load() == 20); <tspan
+   style="fill:#008000"
+   id="tspan4855">// #1</tspan></tspan><tspan
+           id="tspan4383"
+           y="678.64886"
+           x="535.28687"
+           sodipodi:role="line">    y.store(30);</tspan><tspan
+           id="tspan4385"
+           y="709.89886"
+           x="535.28687"
+           sodipodi:role="line">}</tspan></text>
+      <text
+         sodipodi:linespacing="125%"
+         id="text4387"
+         y="735.63391"
+         x="178.44742"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:25px;line-height:125%;font-family:Consolas;-inkscape-font-specification:Consolas;text-align:start;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         xml:space="preserve"><tspan
+           y="735.63391"
+           x="178.44742"
+           id="tspan4389"
+           sodipodi:role="line"
+           style="fill:#008000">// T3</tspan><tspan
+           id="tspan4415"
+           y="766.88391"
+           x="178.44742"
+           sodipodi:role="line"><tspan
+   style="fill:#0000ff"
+   id="tspan4857">if</tspan> (y.load() == 30)</tspan><tspan
+           id="tspan4391"
+           y="798.13391"
+           x="178.44742"
+           sodipodi:role="line"><tspan
+   style="fill:#800080"
+   id="tspan4863">    assert</tspan>(x.load() == 10); <tspan
+   style="fill:#008000"
+   id="tspan4951">// #2</tspan></tspan></text>
+      <path
+         sodipodi:nodetypes="ccc"
+         inkscape:connector-curvature="0"
+         id="path4403"
+         d="M 527.97306,611.12758 C 421.1756,584.16607 600.19444,551.20505 480.83261,516.84667 728.21557,581.90407 -193.0352,750.45815 226.27417,792.14691"
+         style="fill:none;fill-rule:evenodd;stroke:#ff0000;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+      <path
+         sodipodi:nodetypes="ccc"
+         inkscape:connector-curvature="0"
+         id="path4405"
+         d="m 172,759.3622 c -77.127866,-81.19656 40.30544,-220.12333 133,-276 -66.42965,45.9891 -156.16507,91.26086 278,158"
+         style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+      <path
+         sodipodi:nodetypes="cc"
+         inkscape:connector-curvature="0"
+         id="path4407"
+         d="m 757,673.3622 c 74.6276,77.05625 -170.58886,89.15408 -313,88"
+         style="fill:none;fill-rule:evenodd;stroke:#0000ff;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    </g>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:25px;line-height:125%;font-family:sans-serif;text-align:start;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="632"
+       y="1564.3622"
+       id="text4477"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         x="632"
+         y="1564.3622"
+         id="tspan4483" /></text>
+    <g
+       id="g3591">
+      <text
+         sodipodi:linespacing="125%"
+         id="text4417"
+         y="1116.2705"
+         x="-385.91583"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:25px;line-height:125%;font-family:Consolas;-inkscape-font-specification:Consolas;text-align:start;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         xml:space="preserve"><tspan
+           style="font-weight:bold;fill:#ff0000"
+           y="1116.2705"
+           x="-385.91583"
+           id="tspan4419"
+           sodipodi:role="line">can fail</tspan><tspan
+           id="tspan4550"
+           y="1147.5205"
+           x="-385.91583"
+           sodipodi:role="line">y.load() in <tspan
+   style="fill:#008000"
+   id="tspan3481">T2</tspan> can only see y.store(20) in <tspan
+   style="fill:#008000"
+   id="tspan3483">T1</tspan>,</tspan><tspan
+           id="tspan4552"
+           y="1178.7705"
+           x="-385.91583"
+           sodipodi:role="line">and maybe it didn't happen</tspan></text>
+      <text
+         sodipodi:linespacing="125%"
+         id="text4421"
+         y="1134.5017"
+         x="312.87567"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:25px;line-height:125%;font-family:Consolas;-inkscape-font-specification:Consolas;text-align:start;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         xml:space="preserve"><tspan
+           style="font-weight:bold;fill:#ff0000"
+           y="1134.5017"
+           x="312.87567"
+           id="tspan4423"
+           sodipodi:role="line">can fail</tspan><tspan
+           id="tspan4554"
+           y="1165.7517"
+           x="312.87567"
+           sodipodi:role="line">same reason</tspan></text>
+      <text
+         sodipodi:linespacing="125%"
+         id="text4429"
+         y="1341.246"
+         x="-385.91583"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:25px;line-height:125%;font-family:Consolas;-inkscape-font-specification:Consolas;text-align:start;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         xml:space="preserve"><tspan
+           style="font-weight:bold;fill:#0000ff"
+           y="1341.246"
+           x="-385.91583"
+           id="tspan4431"
+           sodipodi:role="line">cannot fail</tspan><tspan
+           y="1372.496"
+           x="-385.91583"
+           sodipodi:role="line"
+           id="tspan3494">x.load() in <tspan
+   style="fill:#008000"
+   id="tspan3485">T2</tspan> makes sure subsequent y.load() </tspan><tspan
+           y="1403.746"
+           x="-385.91583"
+           sodipodi:role="line"
+           id="tspan3502">see y.store(20) in <tspan
+   style="fill:#008000"
+   id="tspan3487">T1</tspan></tspan></text>
+      <text
+         sodipodi:linespacing="125%"
+         id="text4433"
+         y="1341.423"
+         x="313.77899"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:25px;line-height:125%;font-family:Consolas;-inkscape-font-specification:Consolas;text-align:start;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         xml:space="preserve"><tspan
+           style="font-weight:bold;fill:#ff0000"
+           id="tspan4447"
+           y="1341.423"
+           x="313.77899"
+           sodipodi:role="line">can fail</tspan><tspan
+           id="tspan4532"
+           y="1372.673"
+           x="313.77899"
+           sodipodi:role="line">y.load() in <tspan
+   style="fill:#008000"
+   id="tspan3495">T3</tspan> makes sure subsequent x.load() </tspan><tspan
+           y="1403.923"
+           x="313.77899"
+           sodipodi:role="line"
+           id="tspan3509">see x.store() in <tspan
+   style="fill:#008000"
+   id="tspan3497">T2</tspan>, which didn't happen</tspan></text>
+      <text
+         sodipodi:linespacing="125%"
+         id="text4437"
+         y="1659.3246"
+         x="-387.12433"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:25px;line-height:125%;font-family:Consolas;-inkscape-font-specification:Consolas;text-align:start;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         xml:space="preserve"><tspan
+           style="font-weight:bold;fill:#0000ff"
+           y="1659.3246"
+           x="-387.12433"
+           id="tspan4439"
+           sodipodi:role="line">cannot fail</tspan><tspan
+           id="tspan4548"
+           y="1690.5746"
+           x="-387.12433"
+           sodipodi:role="line">same reason as above</tspan><tspan
+           id="tspan4453"
+           y="1721.8246"
+           x="-387.12433"
+           sodipodi:role="line" /></text>
+      <text
+         sodipodi:linespacing="125%"
+         id="text4441"
+         y="1641.423"
+         x="312.87567"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:25px;line-height:125%;font-family:Consolas;-inkscape-font-specification:Consolas;text-align:start;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         xml:space="preserve"><tspan
+           style="font-weight:bold;fill:#0000ff"
+           y="1641.423"
+           x="312.87567"
+           id="tspan4443"
+           sodipodi:role="line">cannot fail</tspan><tspan
+           id="tspan4544"
+           y="1672.673"
+           x="312.87567"
+           sodipodi:role="line">all threads (<tspan
+   style="fill:#008000"
+   id="tspan3489">T1</tspan>, <tspan
+   style="fill:#008000"
+   id="tspan3491">T2</tspan>, <tspan
+   style="fill:#008000"
+   id="tspan3493">T3</tspan>) must observe all stores</tspan><tspan
+           id="tspan4546"
+           y="1703.923"
+           x="312.87567"
+           sodipodi:role="line">in a <tspan
+   id="tspan4714"
+   style="font-style:italic">single total modification order</tspan></tspan></text>
+      <text
+         sodipodi:linespacing="125%"
+         id="text4455"
+         y="1257.693"
+         x="1014.3956"
+         style="font-style:normal;font-weight:normal;font-size:25px;line-height:125%;font-family:sans-serif;text-align:start;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         xml:space="preserve"><tspan
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Consolas;-inkscape-font-specification:Consolas"
+           id="tspan4459"
+           y="1257.693"
+           x="1014.3956"
+           sodipodi:role="line">                            ↓</tspan><tspan
+           id="tspan4522"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Consolas;-inkscape-font-specification:Consolas;fill:#ff6600"
+           y="1288.943"
+           x="1014.3956"
+           sodipodi:role="line">                     | y.store(20);</tspan><tspan
+           id="tspan4508"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Consolas;-inkscape-font-specification:Consolas;fill:#ff6600"
+           y="1320.193"
+           x="1014.3956"
+           sodipodi:role="line">T2 sees stores in T1 |      ↓</tspan><tspan
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Consolas;-inkscape-font-specification:Consolas;fill:#ff6600"
+           id="tspan4463"
+           y="1351.443"
+           x="1014.3956"
+           sodipodi:role="line">                     | x.store(10);</tspan><tspan
+           id="tspan4528"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Consolas;-inkscape-font-specification:Consolas"
+           y="1382.693"
+           x="1014.3956"
+           sodipodi:role="line">                            ↓</tspan></text>
+      <text
+         sodipodi:linespacing="125%"
+         id="text4490"
+         y="1581.09"
+         x="1036.7966"
+         style="font-style:normal;font-weight:normal;font-size:25px;line-height:125%;font-family:sans-serif;text-align:start;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         xml:space="preserve"><tspan
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Consolas;-inkscape-font-specification:Consolas"
+           y="1581.09"
+           x="1036.7966"
+           id="tspan4492"
+           sodipodi:role="line">                            ↓</tspan><tspan
+           id="tspan4518"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Consolas;-inkscape-font-specification:Consolas;fill:#800080"
+           y="1612.34"
+           x="1036.7966"
+           sodipodi:role="line">                     | y.store(20); |</tspan><tspan
+           id="tspan4496"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Consolas;-inkscape-font-specification:Consolas;fill:#800080"
+           y="1643.59"
+           x="1036.7966"
+           sodipodi:role="line">T2 sees stores in T1 |      ↓       |</tspan><tspan
+           id="tspan4498"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Consolas;-inkscape-font-specification:Consolas;fill:#800080"
+           y="1674.84"
+           x="1036.7966"
+           sodipodi:role="line">                     | x.store(10); | T3 sees stores in T1 &amp; T2</tspan><tspan
+           id="tspan4500"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Consolas;-inkscape-font-specification:Consolas;fill:#800080"
+           y="1706.09"
+           x="1036.7966"
+           sodipodi:role="line">                            ↓       |</tspan><tspan
+           id="tspan4502"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Consolas;-inkscape-font-specification:Consolas;fill:#800080"
+           y="1737.34"
+           x="1036.7966"
+           sodipodi:role="line">                       y.store(30); |</tspan><tspan
+           id="tspan4520"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Consolas;-inkscape-font-specification:Consolas"
+           y="1768.59"
+           x="1036.7966"
+           sodipodi:role="line">                            ↓</tspan></text>
+      <rect
+         y="1216.8622"
+         x="995.3045"
+         height="298.99997"
+         width="948.99994"
+         id="rect4558"
+         style="fill:none;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:1.00004339;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+      <rect
+         y="1216.8622"
+         x="295.30463"
+         height="298.9996"
+         width="698.99963"
+         id="rect4560"
+         style="fill:none;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:1.0003916;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+      <rect
+         y="1216.8622"
+         x="-404.69543"
+         height="298.9996"
+         width="698.99963"
+         id="rect4560-1"
+         style="fill:none;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:1.0003916;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+      <rect
+         y="1516.8622"
+         x="995.3045"
+         height="298.99997"
+         width="948.99994"
+         id="rect4558-4"
+         style="fill:none;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:1.00004339;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+      <rect
+         y="1516.8622"
+         x="295.30463"
+         height="298.9996"
+         width="698.99963"
+         id="rect4560-7"
+         style="fill:none;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:1.0003916;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+      <rect
+         y="1516.8622"
+         x="-404.69543"
+         height="298.9996"
+         width="698.99963"
+         id="rect4560-1-8"
+         style="fill:none;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:1.0003916;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+      <rect
+         y="1066.8622"
+         x="995.3045"
+         height="149"
+         width="949"
+         id="rect4558-8"
+         style="fill:none;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+      <rect
+         y="1066.8622"
+         x="295.30444"
+         height="148.99982"
+         width="698.99969"
+         id="rect4560-5"
+         style="fill:none;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+      <rect
+         y="1066.8622"
+         x="-404.69562"
+         height="148.99982"
+         width="698.99969"
+         id="rect4560-1-0"
+         style="fill:none;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+      <rect
+         y="1017.0764"
+         x="-404.90988"
+         height="49.000046"
+         width="699.00006"
+         id="rect4560-1-0-8"
+         style="fill:none;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:0.99995404;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+      <rect
+         y="1017.0764"
+         x="295.09015"
+         height="49.000046"
+         width="699.00006"
+         id="rect4560-1-0-8-7"
+         style="fill:none;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:0.99995404;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+      <text
+         sodipodi:linespacing="125%"
+         id="text4641"
+         y="1049.5903"
+         x="-68.642258"
+         style="font-style:normal;font-weight:normal;font-size:25px;line-height:125%;font-family:sans-serif;text-align:start;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         xml:space="preserve"><tspan
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Consolas;-inkscape-font-specification:Consolas;fill:#800080"
+           y="1049.5903"
+           x="-68.642258"
+           id="tspan4643"
+           sodipodi:role="line">#1</tspan></text>
+      <text
+         sodipodi:linespacing="125%"
+         id="text4641-7"
+         y="1049.5903"
+         x="631.35773"
+         style="font-style:normal;font-weight:normal;font-size:25px;line-height:125%;font-family:sans-serif;text-align:start;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         xml:space="preserve"><tspan
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Consolas;-inkscape-font-specification:Consolas;fill:#800080"
+           y="1049.5903"
+           x="631.35773"
+           id="tspan4643-0"
+           sodipodi:role="line">#2</tspan></text>
+      <rect
+         y="1216.8618"
+         x="-804.69586"
+         height="299.00046"
+         width="399.00046"
+         id="rect4560-1-2"
+         style="fill:none;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:0.99953377;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+      <rect
+         y="1516.8618"
+         x="-804.69586"
+         height="299.00046"
+         width="399.00046"
+         id="rect4560-1-8-4"
+         style="fill:none;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:0.99953377;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+      <rect
+         y="1066.8616"
+         x="-804.69611"
+         height="149.00047"
+         width="399.00046"
+         id="rect4560-1-0-6"
+         style="fill:none;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+      <text
+         sodipodi:linespacing="125%"
+         id="text4684"
+         y="1672.6731"
+         x="-763.57574"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:25px;line-height:125%;font-family:Consolas;-inkscape-font-specification:Consolas;text-align:start;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         xml:space="preserve"><tspan
+           style="font-weight:bold;fill:#0000ff"
+           y="1672.6731"
+           x="-763.57574"
+           id="tspan4686"
+           sodipodi:role="line">sequentially-consistent</tspan></text>
+      <text
+         sodipodi:linespacing="125%"
+         id="text4684-0"
+         y="1372.8135"
+         x="-708.93097"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:25px;line-height:125%;font-family:Consolas;-inkscape-font-specification:Consolas;text-align:start;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         xml:space="preserve"><tspan
+           style="font-weight:bold;fill:#ff00ff;fill-opacity:1"
+           y="1372.8135"
+           x="-708.93097"
+           id="tspan4686-3"
+           sodipodi:role="line">release-acquire</tspan></text>
+      <text
+         sodipodi:linespacing="125%"
+         id="text4684-8"
+         y="1149.8457"
+         x="-653.63947"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:25px;line-height:125%;font-family:Consolas;-inkscape-font-specification:Consolas;text-align:start;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         xml:space="preserve"><tspan
+           style="font-weight:bold;fill:#ff0000"
+           y="1149.8457"
+           x="-653.63947"
+           id="tspan4686-2"
+           sodipodi:role="line">relaxed</tspan></text>
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-weight:normal;font-size:25px;line-height:125%;font-family:sans-serif;text-align:start;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         x="1445.3708"
+         y="1427.7954"
+         id="text3508"
+         sodipodi:linespacing="125%"><tspan
+           sodipodi:role="line"
+           id="tspan3510"
+           x="1445.3708"
+           y="1427.7954"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Consolas;-inkscape-font-specification:Consolas">                            ↓</tspan><tspan
+           sodipodi:role="line"
+           x="1445.3708"
+           y="1459.0454"
+           id="tspan3512"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Consolas;-inkscape-font-specification:Consolas;fill:#008000">T3 sees stores in T2 | y.store(30);</tspan><tspan
+           sodipodi:role="line"
+           x="1445.3708"
+           y="1490.2954"
+           id="tspan3514"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Consolas;-inkscape-font-specification:Consolas">                            ↓</tspan></text>
+    </g>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:25px;line-height:125%;font-family:sans-serif;text-align:start;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="308"
+       y="-119.63779"
+       id="text4937"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan4939"
+         x="308"
+         y="-119.63779"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:50px;font-family:Consolas;-inkscape-font-specification:Consolas">C++ memory ordering</tspan></text>
+  </g>
+</svg>
