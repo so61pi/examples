@@ -1,3 +1,6 @@
+**Create `disk.img`**
+
+```shell
 fallocate -l 5M disk.img
 mkfs.ext2 -F disk.img
 mkdir /mnt/disk
@@ -7,6 +10,9 @@ mkdir /mnt/disk/mydir
 cp main.cpp /mnt/disk/mydir
 chown -R root:root /mnt/disk
 umount /mnt/disk
+```
 
 
-http://www.nongnu.org/ext2-doc/ext2.html
+**Documents**
+
+- http://www.nongnu.org/ext2-doc/ext2.html
