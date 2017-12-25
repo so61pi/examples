@@ -20,6 +20,13 @@
 #include <time.h>
 #include <unistd.h>
 
+// Reinventing the timer wheel
+//   https://lwn.net/Articles/646950/
+//
+// Hashed and Hierarchical Timing Wheels
+//   https://blog.acolyer.org/2015/11/23/hashed-and-hierarchical-timing-wheels/
+//   https://web.archive.org/web/20170722001051/https://blog.acolyer.org/2015/11/23/hashed-and-hierarchical-timing-wheels/
+//   https://pdfs.semanticscholar.org/0a14/2c84aeccc16b22c758cb57063fe227e83277.pdf
 
 struct Task {
     explicit Task(unsigned long timepoint, unsigned long interval, bool periodic, std::function<void()> handler)
