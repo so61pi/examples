@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>566</width>
+    <height>375</height>
+   </rect>
+  </property>
+  <property name="font">
+   <font>
+    <family>Tahoma</family>
+    <pointsize>12</pointsize>
+   </font>
+  </property>
+  <property name="windowTitle">
+   <string>MyDict</string>
+  </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>:/icons/icons/dictionary.png</normaloff>:/icons/icons/dictionary.png</iconset>
+  </property>
+  <widget class="QWidget" name="centralWidget">
+   <layout class="QGridLayout" name="gridLayout">
+    <item row="1" column="0" colspan="2">
+     <widget class="QLineEdit" name="textSearch">
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+        <height>20</height>
+       </size>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="0">
+     <widget class="DictionaryComboBox" name="listDictionary"/>
+    </item>
+    <item row="2" column="0" colspan="2">
+     <widget class="WordListWidget" name="listWord" native="true"/>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menuBar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>566</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuFile">
+    <property name="title">
+     <string>File</string>
+    </property>
+    <addaction name="actionEditSetting"/>
+    <addaction name="separator"/>
+    <addaction name="actionExit"/>
+   </widget>
+   <widget class="QMenu" name="menuHelp">
+    <property name="title">
+     <string>Help</string>
+    </property>
+    <addaction name="actionViewHelp"/>
+    <addaction name="separator"/>
+    <addaction name="actionAbout"/>
+    <addaction name="actionAboutQt"/>
+   </widget>
+   <widget class="QMenu" name="menuDictionary">
+    <property name="title">
+     <string>Dictionary</string>
+    </property>
+    <addaction name="actionManageDictionary"/>
+    <addaction name="separator"/>
+    <addaction name="actionImportDictionary"/>
+    <addaction name="actionExportDictionary"/>
+   </widget>
+   <addaction name="menuFile"/>
+   <addaction name="menuDictionary"/>
+   <addaction name="menuHelp"/>
+  </widget>
+  <widget class="QToolBar" name="mainToolBar">
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="actionAddWord"/>
+   <addaction name="actionEditWord"/>
+   <addaction name="actionRemoveWord"/>
+   <addaction name="separator"/>
+  </widget>
+  <widget class="QStatusBar" name="statusBar"/>
+  <action name="actionAbout">
+   <property name="text">
+    <string>About</string>
+   </property>
+   <property name="toolTip">
+    <string>About</string>
+   </property>
+  </action>
+  <action name="actionAboutQt">
+   <property name="text">
+    <string>About Qt</string>
+   </property>
+  </action>
+  <action name="actionExit">
+   <property name="icon">
+    <iconset resource="Resource.qrc">
+     <normaloff>:/icons/quit.png</normaloff>:/icons/quit.png</iconset>
+   </property>
+   <property name="text">
+    <string>Exit</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Q</string>
+   </property>
+  </action>
+  <action name="actionManageDictionary">
+   <property name="icon">
+    <iconset resource="Resource.qrc">
+     <normaloff>:/icons/manage.png</normaloff>:/icons/manage.png</iconset>
+   </property>
+   <property name="text">
+    <string>Manage dictionaries</string>
+   </property>
+  </action>
+  <action name="actionAddWord">
+   <property name="icon">
+    <iconset resource="Resource.qrc">
+     <normaloff>:/icons/add.png</normaloff>:/icons/add.png</iconset>
+   </property>
+   <property name="text">
+    <string>Add word</string>
+   </property>
+   <property name="toolTip">
+    <string>Add word (Ctrl+N)</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+N</string>
+   </property>
+  </action>
+  <action name="actionEditWord">
+   <property name="icon">
+    <iconset resource="Resource.qrc">
+     <normaloff>:/icons/edit.png</normaloff>:/icons/edit.png</iconset>
+   </property>
+   <property name="text">
+    <string>Edit word</string>
+   </property>
+   <property name="toolTip">
+    <string>Edit word (Ctrl+E)</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+E</string>
+   </property>
+  </action>
+  <action name="actionRemoveWord">
+   <property name="icon">
+    <iconset resource="Resource.qrc">
+     <normaloff>:/icons/remove.png</normaloff>:/icons/remove.png</iconset>
+   </property>
+   <property name="text">
+    <string>Remove word</string>
+   </property>
+  </action>
+  <action name="actionEditSetting">
+   <property name="text">
+    <string>Settings</string>
+   </property>
+   <property name="toolTip">
+    <string>Settings</string>
+   </property>
+  </action>
+  <action name="actionImportDictionary">
+   <property name="icon">
+    <iconset resource="Resource.qrc">
+     <normaloff>:/icons/import.png</normaloff>:/icons/import.png</iconset>
+   </property>
+   <property name="text">
+    <string>Import</string>
+   </property>
+  </action>
+  <action name="actionExportDictionary">
+   <property name="icon">
+    <iconset resource="Resource.qrc">
+     <normaloff>:/icons/export.png</normaloff>:/icons/export.png</iconset>
+   </property>
+   <property name="text">
+    <string>Export</string>
+   </property>
+  </action>
+  <action name="actionViewHelp">
+   <property name="icon">
+    <iconset resource="Resource.qrc">
+     <normaloff>:/icons/help.png</normaloff>:/icons/help.png</iconset>
+   </property>
+   <property name="text">
+    <string>View help</string>
+   </property>
+  </action>
+  <action name="actionOpen">
+   <property name="text">
+    <string>Open</string>
+   </property>
+  </action>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>DictionaryComboBox</class>
+   <extends>QComboBox</extends>
+   <header>Widget/DictionaryComboBox.h</header>
+  </customwidget>
+  <customwidget>
+   <class>WordListWidget</class>
+   <extends>QWidget</extends>
+   <header>Widget/WordListWidget.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
+ <tabstops>
+  <tabstop>textSearch</tabstop>
+ </tabstops>
+ <resources>
+  <include location="Resource.qrc"/>
+ </resources>
+ <connections/>
+ <slots>
+  <slot>about()</slot>
+  <slot>aboutQt()</slot>
+  <slot>viewHelp()</slot>
+  <slot>search()</slot>
+  <slot>addWord()</slot>
+  <slot>editWord()</slot>
+  <slot>selectWord()</slot>
+  <slot>removeWord()</slot>
+  <slot>manageDictionary()</slot>
+  <slot>editSetting()</slot>
+  <slot>importDictionary()</slot>
+  <slot>exportDictionary()</slot>
+ </slots>
+</ui>
