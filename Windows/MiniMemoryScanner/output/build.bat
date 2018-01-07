@@ -1,0 +1,1 @@
+cmake -G"Visual Studio 12 2013 Win64" -DBOOST_ROOT="<path>\boost_1_58_0" -DBOOST_LIBRARYDIR="<path>\boost_1_58_0\lib64-msvc-12.0" ../
