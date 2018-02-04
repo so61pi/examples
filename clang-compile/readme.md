@@ -1,4 +1,4 @@
-1. Read http://llvm.org/docs/GettingStarted.html
+1. Read https://llvm.org/docs/GettingStarted.html
 
 2. Clone code and build
 
