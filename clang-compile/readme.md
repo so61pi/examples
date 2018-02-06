@@ -2,9 +2,9 @@
 
 2. Clone code and build
 
-        git clone --depth 1 https://llvm.org/git/llvm.git
+        git clone --depth 1 https://git.llvm.org/git/llvm.git/
         cd llvm/tools
-        git clone --depth 1 https://llvm.org/git/clang.git
+        git clone --depth 1 https://git.llvm.org/git/clang.git/
         cd ../projects
         git clone --depth 1 https://git.llvm.org/git/compiler-rt.git/
         cd ..
