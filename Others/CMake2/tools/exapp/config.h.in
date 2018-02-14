@@ -1,0 +1,8 @@
+#ifndef CONFIG_H
+#define CONFIG_H
+
+
+#define CONFIG_STRING "${CONFIG_STRING}"
+
+
+#endif // CONFIG_H
