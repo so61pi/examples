@@ -8,4 +8,7 @@ FROM ubuntu:16.04
 #WORKDIR /tmp
 #COPY Dockerfile /tmp
 
+#RUN DEBIAN_FRONTEND=noninteractive; apt-get update
+#RUN DEBIAN_FRONTEND=noninteractive; apt-get upgrade -y
 #RUN DEBIAN_FRONTEND=noninteractive; apt-get install -y g++
+#RUN DEBIAN_FRONTEND=noninteractive; apt-get clean -y
