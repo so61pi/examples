@@ -8,12 +8,12 @@ docker-build:
 
 .PHONY: docker-run
 docker-run:
-	docker run -t --init -e "TERM=xterm-256color" -u $(shell id -u $$USER) -v $(shell pwd):/code -w /code $(IMAGETAG) ls -alh
+	docker run -t --init -e "TERM=xterm-256color" -u $(shell id -u $$USER) -v $(shell pwd):/code:ro -w /code $(IMAGETAG) ls -alh
 
 
 .PHONY: docker-shell
 docker-shell:
-	docker run -i -t --init -e "TERM=xterm-256color" -u $(shell id -u $$USER) -v $(shell pwd):/code -w /code $(IMAGETAG) bash
+	docker run -i -t --init -e "TERM=xterm-256color" -u $(shell id -u $$USER) -v $(shell pwd):/code:ro -w /code $(IMAGETAG) bash
 
 
 # NOTE: The docker-clean is used to clean ALL the used containers and images in the system.
