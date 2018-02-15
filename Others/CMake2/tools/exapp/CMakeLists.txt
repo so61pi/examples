@@ -3,7 +3,8 @@ if(NOT DEFINED CONFIG_STRING)
 endif()
 
 add_executable(exapp main.cpp)
-install(TARGETS exapp DESTINATION ${CMAKE_INSTALL_BINDIR})
+install(TARGETS exapp
+        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
 
 configure_file(config.h.in config.h)
 target_include_directories(exapp PRIVATE ${CMAKE_CURRENT_BINARY_DIR})

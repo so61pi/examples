@@ -20,13 +20,11 @@ if(CMAKE_COMPILER_IS_GNUCC)
 endif()
 
 # Add top include/ to search path
-include_directories(BEFORE
-    ${CMAKE_CURRENT_SOURCE_DIR}/include
-)
+include_directories(BEFORE ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
 # ... and install include/example into system
 install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/include/example
-        DESTINATION include
+        DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
         FILES_MATCHING
         PATTERN "*.h")
 
