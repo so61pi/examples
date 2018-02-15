@@ -1,5 +1,3 @@
-include(GNUInstallDirs)
-
 if(NOT DEFINED CONFIG_STRING)
     set(CONFIG_STRING "CONFIG_STRING is missing!")
 endif()

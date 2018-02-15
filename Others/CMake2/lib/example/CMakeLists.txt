@@ -1,5 +1,3 @@
-include(GNUInstallDirs)
-
 # find_library is low level in comparison with find_package
 find_package(Boost 1.58 REQUIRED)
 

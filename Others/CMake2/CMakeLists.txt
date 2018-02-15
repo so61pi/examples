@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.5)
 project(example CXX)
 
+include(GNUInstallDirs)
+
 # Build configurations
 option(BUILD_WITH_SANITIZER "Build with sanitizer in debug mode" ON)
 
