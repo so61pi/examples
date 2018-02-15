@@ -12,3 +12,9 @@ target_include_directories(exapp PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
 
 # libexample is in our tree, do not need to use find_library/find_package
 target_link_libraries(exapp PRIVATE example)
+
+#find_library(LIBSYSTEMD NAMES systemd libsystemd)
+#if(NOT LIBSYSTEMD)
+#    message(FATAL_ERROR "systemd library not found!")
+#endif()
+#target_link_libraries(exapp PRIVATE ${LIBSYSTEMD})
