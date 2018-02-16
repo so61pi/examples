@@ -19,6 +19,8 @@ if(CMAKE_COMPILER_IS_GNUCC)
     endif()
 endif()
 
+include(cmake/LibVersion.cmake)
+
 # Add top include/ to search path
 include_directories(BEFORE ${CMAKE_CURRENT_SOURCE_DIR}/include)
 

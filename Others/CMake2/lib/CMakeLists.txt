@@ -1,3 +1,3 @@
-include(LibVersion.cmake)
+include(Version.cmake)
 
 add_subdirectory(example)
