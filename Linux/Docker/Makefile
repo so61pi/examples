@@ -1,6 +1,10 @@
 IMAGETAG	:= image-test
 
 
+.PHONY: all
+all: docker-run
+
+
 .PHONY: docker-build
 docker-build:
 	docker build --rm=true -t $(IMAGETAG) .
