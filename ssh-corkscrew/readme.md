@@ -1,7 +1,7 @@
 **oneshot**
 
 ```shell
- ssh -o "ProxyCommand corkscrew <proxy-address> 8080 <ssh-server> 22" <ssh-server>
+ ssh -o "ProxyCommand corkscrew <proxy-address> <proxy-port> <ssh-server> 22" <ssh-server>
 ```
 
 
@@ -12,5 +12,5 @@
 
 ```
 Host example.*
-    ProxyCommand corkscrew <proxy-address> 8080 %h %p
+    ProxyCommand corkscrew <proxy-address> <proxy-port> %h %p
 ```
