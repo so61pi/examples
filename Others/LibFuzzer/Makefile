@@ -5,7 +5,7 @@ COVERAGE	= -fprofile-instr-generate -fcoverage-mapping
 SANITIZER	= -fsanitize=fuzzer -fsanitize-coverage=trace-pc-guard -fsanitize-coverage=trace-cmp
 
 # coverage seems to work only when its flags go before sanitizer flags
-CXXFLAGS	= -Wall -Wextra -g3 -O3 $(COVERAGE) $(SANITIZER)
+CXXFLAGS	= -march=native -Wall -Wextra -g3 -O3 $(COVERAGE) $(SANITIZER)
 LDFLAGS		= $(COVERAGE) $(SANITIZER)
 
 SRC			= $(wildcard *.cpp)
