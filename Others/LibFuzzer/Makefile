@@ -28,6 +28,7 @@ all: $(BIN)
 
 .PHONY: run
 run: $(BIN)
+	[ -d corpus ] || mkdir corpus
 	LLVM_PROFILE_FILE=$(PROFRAWFILE) ./$(BIN) -runs=$(RUNS) -use_value_profile=1 corpus
 	llvm-profdata-6.0 merge -sparse $(PROFRAWFILE) -o $(PROFDATAFILE)
 	llvm-cov-6.0 show $(BIN) -format=html -instr-profile=$(PROFDATAFILE) > $(REPORTFILE)
