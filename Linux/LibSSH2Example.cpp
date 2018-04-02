@@ -161,11 +161,6 @@ int main() {
         return EXIT_FAILURE;
     }
 
-    if (SetNonBlocking(sock)) {
-        ShowError(errno);
-        return EXIT_FAILURE;
-    }
-
     auto session = ::libssh2_session_init();
     BOOST_SCOPE_EXIT_ALL(&) {
         ::libssh2_session_disconnect(session, "normal shutdown");
@@ -264,6 +259,10 @@ int main() {
     }
     ShowInfo("Open a shell successfully.");
 
+    if (SetNonBlocking(sock)) {
+        ShowError(errno);
+        return EXIT_FAILURE;
+    }
     ::libssh2_channel_set_blocking(channel, 0);
 
     constexpr int MAXCONN = 2;
