@@ -29,6 +29,8 @@ make
 qemu-system-x86_64 -nographic -device e1000,netdev=n0 -netdev user,id=n0,tftp=/tftpboot -bios u-boot.rom
 ```
 
+**u-boot**
+
 - `dhcp` automatically sets `serverip`
 - `tftp` automatically uses `loadaddr` and `bootfile` and set `fileaddr`
 - `zboot` automatically uses `fileaddr`
