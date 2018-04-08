@@ -32,7 +32,7 @@ qemu-system-x86_64 -nographic -device e1000,netdev=n0 -netdev user,id=n0,tftp=/t
 **u-boot**
 
 - `dhcp` automatically sets `serverip`
-- `tftp` automatically uses `loadaddr` and `bootfile` and set `fileaddr`
+- `tftp` automatically uses `loadaddr` and `bootfile` and sets `fileaddr`
 - `zboot` automatically uses `fileaddr`
 
 ```shell
@@ -42,6 +42,8 @@ tftp
 
 setenv bootargs console=$consoledev,$baudrate
 zboot
+
+# will crash, but at least the kernel is up and running
 ```
 
 
