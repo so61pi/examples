@@ -25,8 +25,10 @@ make
 **qemu**
 
 ```shell
-# We don't even need to install another TFTP on our machine as qemu already supports an internal one
+# We don't even need to install a TFTP on our machine as qemu already supports an internal one
 qemu-system-x86_64 -nographic -device e1000,netdev=n0 -netdev user,id=n0,tftp=/tftpboot -bios u-boot.rom
+
+# Ctrl+A X to stop qemu
 ```
 
 **u-boot**
