@@ -1,0 +1,31 @@
+# LOCALKERNEL       : Load kernel from SD.
+# TFTPSERVERIP      : TFTP server IP.
+# BOOT2INITRAMFS    : Boot to initramfs.
+#
+# The kernel must use internal initramfs.
+#
+# bootcmd {
+#     if test -n $LOCALKERNEL; then
+#         fatload mmc 0:1 0x82000000 uImage;
+#         fatload mmc 0:1 0x88000000 am335x-boneblack.dtb;
+#     else
+#         setenv autoload no;
+#         if test -n $TFTPSERVERIP; then
+#             setenv serverip $TFTPSERVERIP;
+#         else
+#             setenv serverip 192.168.1.104;
+#         fi;
+#         dhcp;
+#         tftp 0x82000000 uImage;
+#         tftp 0x88000000 am335x-boneblack.dtb;
+#     fi;
+#     if test -n $BOOT2INITRAMFS; then
+#         setenv bootargs console=ttyO0,115200n8;
+#     else
+#         setenv bootargs console=ttyO0,115200n8 noinitrd root=/dev/mmcblk0p2 rootfstype=squashfs;
+#     fi;
+#     bootm 0x82000000 - 0x88000000;
+# }
+
+uenvcmd=boot
+bootcmd=if test -n $LOCALKERNEL; then fatload mmc 0:1 0x82000000 uImage; fatload mmc 0:1 0x88000000 am335x-boneblack.dtb; else setenv autoload no; if test -n $TFTPSERVERIP; then setenv serverip $TFTPSERVERIP; else setenv serverip 192.168.1.104; fi; dhcp; tftp 0x82000000 uImage; tftp 0x88000000 am335x-boneblack.dtb; fi; if test -n $BOOT2INITRAMFS; then setenv bootargs console=ttyO0,115200n8; else setenv bootargs console=ttyO0,115200n8 noinitrd root=/dev/mmcblk0p2 rootfstype=squashfs; fi; bootm 0x82000000 - 0x88000000;

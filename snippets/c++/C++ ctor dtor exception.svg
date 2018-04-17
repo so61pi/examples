@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="299.01947mm"
+   height="104.4675mm"
+   viewBox="0 0 1059.5178 370.16042"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.91 r13725"
+   sodipodi:docname="C++ ctor dtor 2.svg">
+  <defs
+     id="defs4" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="1"
+     inkscape:cx="461.82689"
+     inkscape:cy="96.226766"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1280"
+     inkscape:window-height="919"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     fit-margin-top="10"
+     fit-margin-left="10"
+     fit-margin-right="10"
+     fit-margin-bottom="10" />
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-16.953022,-179.35518)">
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:25px;line-height:125%;font-family:sans-serif;text-align:start;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="52.386093"
+       y="232.96452"
+       id="text3336"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3338"
+         x="52.386093"
+         y="232.96452"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Consolas;-inkscape-font-specification:Consolas">ctor() <tspan
+   style="fill:#0000ff"
+   id="tspan3374">try</tspan> {</tspan><tspan
+         sodipodi:role="line"
+         x="52.386093"
+         y="264.21454"
+         id="tspan3340"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Consolas;-inkscape-font-specification:Consolas">    member-initializer-list</tspan><tspan
+         sodipodi:role="line"
+         x="52.386093"
+         y="295.46454"
+         id="tspan3342"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Consolas;-inkscape-font-specification:Consolas">    body</tspan><tspan
+         sodipodi:role="line"
+         x="52.386093"
+         y="326.71454"
+         id="tspan3344"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Consolas;-inkscape-font-specification:Consolas">}</tspan><tspan
+         sodipodi:role="line"
+         x="52.386093"
+         y="357.96454"
+         id="tspan3346"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Consolas;-inkscape-font-specification:Consolas"><tspan
+   style="fill:#0000ff"
+   id="tspan3376">catch</tspan> (...) {</tspan><tspan
+         sodipodi:role="line"
+         x="52.386093"
+         y="389.21454"
+         id="tspan3348"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Consolas;-inkscape-font-specification:Consolas">    call sub-objects dtors</tspan><tspan
+         sodipodi:role="line"
+         x="52.386093"
+         y="420.46454"
+         id="tspan3350"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Consolas;-inkscape-font-specification:Consolas"><tspan
+   style="fill:#0000ff"
+   id="tspan3378">    throw</tspan>;</tspan><tspan
+         sodipodi:role="line"
+         x="52.386093"
+         y="451.71454"
+         id="tspan3352"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Consolas;-inkscape-font-specification:Consolas">}</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:25px;line-height:125%;font-family:sans-serif;text-align:start;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="519.90735"
+       y="232.96452"
+       id="text3354"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3356"
+         x="519.90735"
+         y="232.96452"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Consolas;-inkscape-font-specification:Consolas">dtor() <tspan
+   style="fill:#0000ff"
+   id="tspan3370">try</tspan> {</tspan><tspan
+         sodipodi:role="line"
+         x="519.90735"
+         y="264.21454"
+         id="tspan3358"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Consolas;-inkscape-font-specification:Consolas">    body</tspan><tspan
+         sodipodi:role="line"
+         x="519.90735"
+         y="295.46454"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Consolas;-inkscape-font-specification:Consolas"
+         id="tspan3360">    call sub-objects dtors</tspan><tspan
+         sodipodi:role="line"
+         x="519.90735"
+         y="326.71454"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Consolas;-inkscape-font-specification:Consolas"
+         id="tspan3362">}</tspan><tspan
+         sodipodi:role="line"
+         x="519.90735"
+         y="357.96454"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Consolas;-inkscape-font-specification:Consolas"
+         id="tspan3364"><tspan
+   style="fill:#0000ff"
+   id="tspan3372">catch</tspan> (...) {</tspan><tspan
+         sodipodi:role="line"
+         x="519.90735"
+         y="389.21454"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Consolas;-inkscape-font-specification:Consolas"
+         id="tspan3366">    call-or-continue sub-objects dtors</tspan><tspan
+         sodipodi:role="line"
+         x="519.90735"
+         y="420.46454"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Consolas;-inkscape-font-specification:Consolas"
+         id="tspan3380"><tspan
+   style="fill:#0000ff"
+   id="tspan3382">    throw</tspan>;</tspan><tspan
+         sodipodi:role="line"
+         x="519.90735"
+         y="451.71454"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Consolas;-inkscape-font-specification:Consolas"
+         id="tspan3368">}</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:25px;line-height:125%;font-family:sans-serif;text-align:start;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="265.73657"
+       y="508.9556"
+       id="text3384"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3386"
+         x="265.73657"
+         y="508.9556"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Consolas;-inkscape-font-specification:Consolas">sub-objects = base classes + member data;</tspan></text>
+  </g>
+</svg>

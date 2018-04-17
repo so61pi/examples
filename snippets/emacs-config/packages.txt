@@ -1,0 +1,13 @@
+htmlize
+org
+helm
+helm-ls-git
+google-this
+multiple-cursors
+neotree
+company
+company-irony
+irony-mode
+flycheck
+smart-mode-line
+smart-mode-line-powerline-theme

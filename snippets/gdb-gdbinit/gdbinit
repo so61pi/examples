@@ -1,0 +1,22 @@
+#set prompt \001\033[1;90m\002>>> \001\033[0m\002
+#set print elements 0
+#set disassemble-next-line on
+#set disassembly-flavor intel
+#set follow-fork-mode child
+
+set prompt \001\033[1;92m\002>>> \001\033[0m\002
+set print address on
+set print array on
+set print array-indexes on
+set print pretty on
+set print union on
+set print demangle on
+set print asm-demangle on
+set demangle-style gnu-v3
+set print object on
+set print static-members on
+set print vtbl on
+
+define ctrl-c
+  signal SIGINT
+end

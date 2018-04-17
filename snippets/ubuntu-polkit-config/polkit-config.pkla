@@ -1,0 +1,13 @@
+[Disable Suspend]
+Identity=unix-user:*
+Action=org.freedesktop.login1.suspend;org.freedesktop.login1.suspend-multiple-sessions;
+ResultActive=no
+ResultInactive=no
+ResultAny=no
+
+[Shutdown Authentication]
+Identity=unix-user:*
+Action=org.freedesktop.login1.reboot;org.freedesktop.login1.reboot-multiple-sessions;org.freedesktop.login1.power-off;org.freedesktop.login1.power-off-multiple-sessions;
+ResultAny=no
+ResultInactive=auth_admin_keep
+ResultActive=auth_admin_keep

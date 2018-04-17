@@ -1,0 +1,48 @@
+diff --git a/gtk-widgets-old.css b/gtk-widgets.css
+index 9d67e10..f8970f5 100644
+--- a/gtk-widgets-old.css
++++ b/gtk-widgets.css
+@@ -1536,28 +1536,28 @@ GtkScale.mark {
+     border-color: shade (@bg_color, 0.86);
+ 
+     background-image: -gtk-gradient (linear, left top, right top,
+-                                     from (shade (@button_bg_color, 1.08)),
+-                                     color-stop (0.5, @button_bg_color),
+-                                     to (shade (@button_bg_color, 0.94)));
++                                     from (shade (#0000FF, 1.0)),
++                                     color-stop (0.5, #00FFFF),
++                                     to (shade (#0000FF, 1.0)));
+ 
+-    box-shadow: inset 1px 0 shade (@bg_color, 1.1),
+-                inset -1px 0 shade (@bg_color, 1.01),
+-                inset 0 1px shade (@bg_color, 1.1),
+-                inset 0 -1px shade (@bg_color, 1.1);
++    box-shadow: inset 1px 0 #0000FF,
++                inset -1px 0 #0000FF,
++                inset 0 1px #0000FF,
++                inset 0 -1px #0000FF;
+ }
+ 
+ .scrollbar.slider.horizontal,
+ .scrollbar.slider.horizontal:hover,
+ .scrollbar.button.horizontal {
+     background-image: -gtk-gradient (linear, left top, left bottom,
+-                                     from (shade (@button_bg_color, 1.08)),
+-                                     color-stop (0.5, @button_bg_color),
+-                                     to (shade (@button_bg_color, 0.94)));
+-
+-    box-shadow: inset 1px 0 shade (@bg_color, 1.1),
+-                inset -1px 0 shade (@bg_color, 1.1),
+-                inset 0 1px shade (@bg_color, 1.1),
+-                inset 0 -1px shade (@bg_color, 1.01);
++                                     from (shade (#0000FF, 1.0)),
++                                     color-stop (0.5, #00FFFF),
++                                     to (shade (#0000FF, 1.0)));
++
++    box-shadow: inset 1px 0 #0000FF,
++                inset -1px 0 #0000FF,
++                inset 0 1px #0000FF,
++                inset 0 -1px #0000FF;
+ }
+ 
+ /* overlay scrollbar */

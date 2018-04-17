@@ -1,0 +1,188 @@
+<html>
+<head>
+
+<title>Heart</title>
+
+<script type="text/javascript">
+
+const base = {X: 50, Y: 50};
+
+window.onload = function()
+{
+
+const NUMBER_OF_INIT_FLAKES = 2000;
+const TIMER = 40;
+const RADIUS = 10;
+
+const windowWidth  = window.innerWidth;
+const windowHeight = window.innerHeight;
+
+var flakes = [];
+
+const RadiusBigHeart = 150;
+const halfSideBigHeart = Math.sqrt(2*RadiusBigHeart*RadiusBigHeart) / 2;
+const XBigHeart = windowWidth/2;
+const YBigHeart = windowHeight/2;
+var inBigHeart = [];
+
+var angle = Math.PI / 2;
+var angleDelta = - Math.random() / 100;
+
+function RandomizeFlake()
+{
+    var x = 0, y = 0;
+    
+    do
+    {
+        x = Math.random() * (2 * windowWidth) - windowWidth / 2;
+        y = Math.random() * (1.5 * windowHeight) - windowHeight / 2;
+    } while ((x <= windowWidth && x >= 0) && (y <= windowHeight && y >= 0));
+    
+    flakes.push({
+        Freeze: false,
+        X: x,
+        Y: y,
+        R: Math.random() * (RADIUS - 1) + 1,
+        D: Math.random() * 3
+    });
+}
+
+
+for (var i = 0; i < NUMBER_OF_INIT_FLAKES; i++)
+{
+    RandomizeFlake();
+}
+
+
+function Draw()
+{
+    if (angle > 3 * Math.PI / 4)
+        angleDelta = - Math.random() / 200;
+    else if (angle < Math.PI / 4)
+        angleDelta = Math.random() / 200;
+    
+    angle = angle + angleDelta;
+    
+    const snow = document.getElementById("heart");
+    snow.width = windowWidth;
+    snow.height = windowHeight;
+
+    const ctx = snow.getContext("2d");
+    ctx.clearRect(0, 0, windowWidth, windowHeight);
+    
+    ctx.beginPath();
+    ctx.arc(XBigHeart+halfSideBigHeart, YBigHeart-halfSideBigHeart, RadiusBigHeart, 5/4*Math.PI, 9/4*Math.PI);
+    ctx.lineTo(XBigHeart, YBigHeart+2*halfSideBigHeart);
+    ctx.lineTo(XBigHeart-2*halfSideBigHeart, YBigHeart);
+    ctx.arc(XBigHeart-halfSideBigHeart, YBigHeart-halfSideBigHeart, RadiusBigHeart, 3/4*Math.PI, 7/4*Math.PI);
+    ctx.closePath();
+    
+    for (var i = 0; i < flakes.length; i++)
+    {
+        //
+        if (flakes[i].Freeze == false)
+        {
+            flakes[i].X += (1 + flakes[i].D) * (Math.cos(angle + 0.2 * Math.random()));
+            flakes[i].Y += (1 + flakes[i].D) * (Math.sin(angle + 0.2 * Math.random()));
+            
+            if (flakes[i].Y > windowHeight+2*RADIUS)
+            {
+                var x = 0, y = 0;
+                
+                do
+                {
+                    x = Math.random() * (2 * windowWidth) - windowWidth / 2;
+                    y = Math.random() * (1.5 * windowHeight) - windowHeight / 2;
+                } while ((x <= windowWidth && x >= 0) &&
+                         (y <= windowHeight && y >= 0));
+                
+                flakes[i].X = x;
+                flakes[i].Y = y;
+            }
+            
+        }
+
+        // big heart
+        {
+            var x = Math.floor(flakes[i].X);
+            var y = Math.floor(flakes[i].Y);
+            
+            if (flakes[i].Freeze == true || flakes[i].R < 5)
+            {
+                continue;
+            }
+            
+            if ((x > windowWidth/2 + 2*RadiusBigHeart  || x < windowWidth/2 - 2*RadiusBigHeart) ||
+                (y > windowHeight/2 + 2*RadiusBigHeart || y < windowHeight/2 - 2*RadiusBigHeart))
+            {
+                continue;
+            }
+            
+            var already = false;
+            for (var j = 0; j < inBigHeart.length; j++)
+            {
+                if ((inBigHeart[j].X < x+15 && inBigHeart[j].X > x-15) &&
+                    (inBigHeart[j].Y < y+15 && inBigHeart[j].Y > y-15))
+                {
+                    already = true;
+                    break;
+                }
+            }
+            
+            if (!already)
+            {
+                if (ctx.isPointInPath(x, y))
+                {
+                    flakes[i].Freeze = true;
+                    inBigHeart.push({X: x, Y: y});
+                    RandomizeFlake();
+                };
+            }
+        }
+    }
+    
+    // draw
+    for (var i = 0; i < flakes.length; i++)
+    {
+        var Radius = flakes[i].R;
+        var halfSide = Math.sqrt(2*Radius*Radius) / 2;
+        var X = flakes[i].X;
+        var Y = flakes[i].Y;
+        
+        ctx.moveTo(flakes[i].X, flakes[i].Y);
+        ctx.beginPath();
+        ctx.arc(X+halfSide, Y-halfSide, Radius, 5/4*Math.PI, 9/4*Math.PI);
+        ctx.lineTo(X, Y+2*halfSide);
+        ctx.lineTo(X-2*halfSide, Y);
+        ctx.arc(X-halfSide, Y-halfSide, Radius, 3/4*Math.PI, 7/4*Math.PI);
+        ctx.closePath();
+        
+        var grd = ctx.createRadialGradient(X, Y-halfSide, 0, X, Y-halfSide, Radius*2.5);
+        grd.addColorStop(0,"red");
+        grd.addColorStop(1,"white");
+        
+        ctx.fillStyle = grd;
+        ctx.fill();
+    }
+    
+}
+
+setInterval(Draw, TIMER);
+}
+
+</script>
+
+<style class = "csscreations">
+canvas
+{
+	display: block;
+}
+</style>
+
+</head>
+
+<body style = "background-color: #FFFFFF;">
+<canvas id="heart"></canvas>
+</body>
+
+</html>

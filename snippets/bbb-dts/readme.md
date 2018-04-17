@@ -1,0 +1,2 @@
+- Linux [4.4](https://github.com/beagleboard/linux/tree/4.4).
+- Command used to decompile dtb: `dtc -I dtb -O dts -o am335x-boneblack.dts am335x-boneblack.dtb`.

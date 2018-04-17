@@ -1,0 +1,15 @@
+diff --git a/ppa.py.bak b/ppa.py
+index 2025dca..26ae9fb 100644
+--- a/ppa.py.bak
++++ b/ppa.py
+@@ -73,8 +73,8 @@ def get_ppa_info_from_lp(owner_name, ppa_name):
+     # simplejson, but the format is simple enough for the regexp
+     callback = CurlCallback()
+     curl = pycurl.Curl()
+-    curl.setopt(pycurl.SSL_VERIFYPEER, 1)
+-    curl.setopt(pycurl.SSL_VERIFYHOST, 2)
++    curl.setopt(pycurl.SSL_VERIFYPEER, 0)
++    curl.setopt(pycurl.SSL_VERIFYHOST, 0)
+     curl.setopt(pycurl.WRITEFUNCTION, callback.body_callback)
+     # only useful for testing
+     if LAUNCHPAD_PPA_CERT:

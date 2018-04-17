@@ -1,0 +1,836 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="344.55557mm"
+   height="665.17151mm"
+   viewBox="0 0 1220.8662 2356.9069"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.91 r13725"
+   sodipodi:docname="C++ initialization.svg">
+  <defs
+     id="defs4">
+    <linearGradient
+       id="linearGradient4683"
+       inkscape:collect="always">
+      <stop
+         id="stop4685"
+         offset="0"
+         style="stop-color:#000000;stop-opacity:0" />
+      <stop
+         id="stop4687"
+         offset="1"
+         style="stop-color:#0080ff;stop-opacity:0.25098041" />
+    </linearGradient>
+    <linearGradient
+       id="linearGradient4677"
+       inkscape:collect="always">
+      <stop
+         id="stop4679"
+         offset="0"
+         style="stop-color:#0080ff;stop-opacity:0.25098041" />
+      <stop
+         id="stop4681"
+         offset="1"
+         style="stop-color:#000000;stop-opacity:0" />
+    </linearGradient>
+    <linearGradient
+       inkscape:collect="always"
+       id="linearGradient4573">
+      <stop
+         style="stop-color:#000000;stop-opacity:0"
+         offset="0"
+         id="stop4575" />
+      <stop
+         style="stop-color:#008000;stop-opacity:0.25098041"
+         offset="1"
+         id="stop4577" />
+    </linearGradient>
+    <linearGradient
+       inkscape:collect="always"
+       id="linearGradient4549">
+      <stop
+         style="stop-color:#008000;stop-opacity:0.25098041"
+         offset="0"
+         id="stop4551" />
+      <stop
+         style="stop-color:#000000;stop-opacity:0"
+         offset="1"
+         id="stop4553" />
+    </linearGradient>
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient4549"
+       id="linearGradient4555"
+       x1="-285.43307"
+       y1="202.3434"
+       x2="164.56693"
+       y2="202.3434"
+       gradientUnits="userSpaceOnUse" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient4573"
+       id="linearGradient4579"
+       x1="164.56693"
+       y1="202.3434"
+       x2="864.56696"
+       y2="202.3434"
+       gradientUnits="userSpaceOnUse" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient4677"
+       id="linearGradient4587"
+       x1="-285.43307"
+       y1="377.34341"
+       x2="164.56691"
+       y2="377.34341"
+       gradientUnits="userSpaceOnUse" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient4549"
+       id="linearGradient4595"
+       x1="-285.43307"
+       y1="627.34338"
+       x2="164.56693"
+       y2="627.34338"
+       gradientUnits="userSpaceOnUse" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient4677"
+       id="linearGradient4603"
+       x1="-285.43307"
+       y1="927.34338"
+       x2="164.56694"
+       y2="927.34338"
+       gradientUnits="userSpaceOnUse" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient4549"
+       id="linearGradient4611"
+       x1="-285.43307"
+       y1="1377.3434"
+       x2="164.56694"
+       y2="1377.3434"
+       gradientUnits="userSpaceOnUse" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient4677"
+       id="linearGradient4619"
+       x1="-285.43307"
+       y1="1702.3434"
+       x2="164.56693"
+       y2="1702.3434"
+       gradientUnits="userSpaceOnUse" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient4549"
+       id="linearGradient4627"
+       x1="-285.43304"
+       y1="2027.3434"
+       x2="164.56693"
+       y2="2027.3434"
+       gradientUnits="userSpaceOnUse" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient4683"
+       id="linearGradient4635"
+       x1="164.56693"
+       y1="377.34338"
+       x2="864.56696"
+       y2="377.34338"
+       gradientUnits="userSpaceOnUse" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient4573"
+       id="linearGradient4643"
+       x1="164.56693"
+       y1="627.34338"
+       x2="864.56696"
+       y2="627.34338"
+       gradientUnits="userSpaceOnUse" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient4683"
+       id="linearGradient4651"
+       x1="164.56693"
+       y1="927.34338"
+       x2="864.56696"
+       y2="927.34338"
+       gradientUnits="userSpaceOnUse" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient4573"
+       id="linearGradient4659"
+       x1="164.56693"
+       y1="1377.3434"
+       x2="864.56689"
+       y2="1377.3434"
+       gradientUnits="userSpaceOnUse" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient4683"
+       id="linearGradient4667"
+       x1="164.56693"
+       y1="1702.3434"
+       x2="864.56696"
+       y2="1702.3434"
+       gradientUnits="userSpaceOnUse" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient4573"
+       id="linearGradient4675"
+       x1="164.56693"
+       y1="2027.3434"
+       x2="864.56689"
+       y2="2027.3434"
+       gradientUnits="userSpaceOnUse" />
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="1"
+     inkscape:cx="662.46237"
+     inkscape:cy="2168.8579"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1280"
+     inkscape:window-height="919"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     fit-margin-top="10"
+     fit-margin-left="10"
+     fit-margin-right="10"
+     fit-margin-bottom="10" />
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(320.86616,19.130436)">
+    <rect
+       style="fill:url(#linearGradient4675);fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:0.99992847;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect4286"
+       width="699.00006"
+       height="549.00006"
+       x="165.06689"
+       y="1752.8434" />
+    <rect
+       style="fill:url(#linearGradient4667);fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect4286-6"
+       width="699"
+       height="99.000046"
+       x="165.06693"
+       y="1652.8434" />
+    <rect
+       style="fill:url(#linearGradient4659);fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:1.00005078;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect4286-3"
+       width="698.99994"
+       height="548.99994"
+       x="165.06696"
+       y="1102.8434" />
+    <rect
+       style="fill:url(#linearGradient4651);fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:1.00008237;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect4286-3-2"
+       width="698.99994"
+       height="348.99991"
+       x="165.06697"
+       y="752.84344" />
+    <rect
+       style="fill:url(#linearGradient4643);fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:1.0000267;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect4286-3-2-6"
+       width="699"
+       height="248.99998"
+       x="165.06694"
+       y="502.84341" />
+    <rect
+       style="fill:url(#linearGradient4635);fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:1.00010157;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect4286-3-2-6-1"
+       width="698.99994"
+       height="248.99989"
+       x="165.06697"
+       y="252.84344" />
+    <rect
+       style="fill:url(#linearGradient4627);fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:0.83198851;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect4286-7"
+       width="449.168"
+       height="549.16803"
+       x="-285.01706"
+       y="1752.7594" />
+    <rect
+       style="fill:url(#linearGradient4619);fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect4286-6-5"
+       width="449"
+       height="99.000008"
+       x="-284.93307"
+       y="1652.8434" />
+    <rect
+       style="fill:url(#linearGradient4611);fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:1.00027716;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect4286-3-9"
+       width="448.99973"
+       height="548.99969"
+       x="-284.93292"
+       y="1102.8435" />
+    <rect
+       style="fill:url(#linearGradient4603);fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:1.00009477;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect4286-3-2-2"
+       width="448.99991"
+       height="348.99991"
+       x="-284.93301"
+       y="752.84344" />
+    <rect
+       style="fill:url(#linearGradient4595);fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect4286-3-2-6-7"
+       width="449"
+       height="249"
+       x="-284.93307"
+       y="502.84341" />
+    <rect
+       style="fill:url(#linearGradient4587);fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:0.99996537;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect4286-3-2-6-1-8"
+       width="449.00003"
+       height="249.00003"
+       x="-284.93311"
+       y="252.84338" />
+    <rect
+       style="fill:url(#linearGradient4579);fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:1.00021529;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect4286-6-2"
+       width="698.99982"
+       height="98.999786"
+       x="165.06703"
+       y="152.84351" />
+    <rect
+       style="fill:url(#linearGradient4555);fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect4286-6-2-2"
+       width="449"
+       height="99.000008"
+       x="-284.93307"
+       y="152.8434" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:25px;line-height:125%;font-family:Consolas;-inkscape-font-specification:Consolas;text-align:start;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="-211.58054"
+       y="210.93105"
+       id="text4136"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan4138"
+         x="-211.58054"
+         y="210.93105"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:25px;font-family:Consolas;-inkscape-font-specification:Consolas">default initialization</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:25px;line-height:125%;font-family:Consolas;-inkscape-font-specification:Consolas;text-align:start;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="182.91898"
+       y="193.24306"
+       id="text4140"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan4142"
+         x="182.91898"
+         y="193.24306">1)  <tspan
+   style="fill:#2b91af;fill-opacity:1"
+   id="tspan4247">T</tspan> object;</tspan><tspan
+         sodipodi:role="line"
+         x="182.91898"
+         y="224.49306"
+         id="tspan4144">2)  <tspan
+   style="fill:#0000ff"
+   id="tspan4249">new</tspan><tspan
+   style="fill:#2b91af;fill-opacity:1"
+   id="tspan4373"> T</tspan>;</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:25px;line-height:125%;font-family:Consolas;-inkscape-font-specification:Consolas;text-align:start;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="-197.54857"
+       y="385.93103"
+       id="text4146"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan4148"
+         x="-197.54857"
+         y="385.93103">value initialization</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:25px;line-height:125%;font-family:Consolas;-inkscape-font-specification:Consolas;text-align:start;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="184.04202"
+       y="290.11804"
+       id="text4150"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan4152"
+         x="184.04202"
+         y="290.11804">1)  <tspan
+   style="fill:#2b91af;fill-opacity:1"
+   id="tspan4257">T</tspan>();</tspan><tspan
+         sodipodi:role="line"
+         x="184.04202"
+         y="321.36804"
+         id="tspan4154">2)  <tspan
+   style="fill:#0000ff"
+   id="tspan4261">new</tspan><tspan
+   style="fill:#2b91af;fill-opacity:1"
+   id="tspan4263"> T</tspan>();</tspan><tspan
+         sodipodi:role="line"
+         x="184.04202"
+         y="352.61804"
+         id="tspan4156">3)  <tspan
+   style="fill:#2b91af;fill-opacity:1"
+   id="tspan4265">Class</tspan>::Class(...) : member() {...</tspan><tspan
+         sodipodi:role="line"
+         x="184.04202"
+         y="383.86804"
+         id="tspan4158">4)  <tspan
+   style="fill:#2b91af;fill-opacity:1"
+   id="tspan4267">T</tspan> object{};</tspan><tspan
+         sodipodi:role="line"
+         x="184.04202"
+         y="415.11804"
+         id="tspan4160">5)  <tspan
+   style="fill:#2b91af;fill-opacity:1"
+   id="tspan4269">T</tspan>{};</tspan><tspan
+         sodipodi:role="line"
+         x="184.04202"
+         y="446.36804"
+         id="tspan4162">6)  <tspan
+   style="fill:#0000ff"
+   id="tspan4271">new</tspan><tspan
+   style="fill:#2b91af;fill-opacity:1"
+   id="tspan4273"> T</tspan>{};</tspan><tspan
+         sodipodi:role="line"
+         x="184.04202"
+         y="477.61804"
+         id="tspan4164">7)  <tspan
+   style="fill:#2b91af;fill-opacity:1"
+   id="tspan4275">Class</tspan>::Class(...) : member{} {...</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:25px;line-height:125%;font-family:Consolas;-inkscape-font-specification:Consolas;text-align:start;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="-191.22531"
+       y="633.50183"
+       id="text4166"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan4168"
+         x="-191.22531"
+         y="633.50183">copy initialization</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:25px;line-height:125%;font-family:Consolas;-inkscape-font-specification:Consolas;text-align:start;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="184.56693"
+       y="555.74304"
+       id="text4170"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan4172"
+         x="184.56693"
+         y="555.74304">1)  <tspan
+   style="fill:#2b91af;fill-opacity:1"
+   id="tspan4277">T</tspan> object = other;</tspan><tspan
+         sodipodi:role="line"
+         x="184.56693"
+         y="586.99304"
+         id="tspan4174">2)  function(other);</tspan><tspan
+         sodipodi:role="line"
+         x="184.56693"
+         y="618.24304"
+         id="tspan4176">3)  <tspan
+   style="fill:#0000ff"
+   id="tspan4279">return</tspan> other;</tspan><tspan
+         sodipodi:role="line"
+         x="184.56693"
+         y="649.49304"
+         id="tspan4178">4)  <tspan
+   style="fill:#0000ff"
+   id="tspan4281">throw</tspan> object;</tspan><tspan
+         sodipodi:role="line"
+         x="184.56693"
+         y="680.74304"
+         id="tspan4180"><tspan
+   style="fill:#0000ff"
+   id="tspan4283">    catch</tspan> (<tspan
+   style="fill:#2b91af;fill-opacity:1"
+   id="tspan4285">T</tspan> object) {...</tspan><tspan
+         sodipodi:role="line"
+         x="184.56693"
+         y="711.99304"
+         id="tspan4182">5)  <tspan
+   style="fill:#2b91af;fill-opacity:1"
+   id="tspan4287">T</tspan> array[N] = { other };</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:25px;line-height:125%;font-family:Consolas;-inkscape-font-specification:Consolas;text-align:start;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="-204.69576"
+       y="935.93103"
+       id="text4184"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan4186"
+         x="-204.69576"
+         y="935.93103">direct initialization</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:25px;line-height:125%;font-family:Consolas;-inkscape-font-specification:Consolas;text-align:start;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="184.56693"
+       y="793.24304"
+       id="text4188"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan4190"
+         x="184.56693"
+         y="793.24304">1)  <tspan
+   style="fill:#2b91af;fill-opacity:1"
+   id="tspan4289">T</tspan> object(arg);</tspan><tspan
+         sodipodi:role="line"
+         x="184.56693"
+         y="824.49304"
+         id="tspan4192"><tspan
+   style="fill:#2b91af;fill-opacity:1"
+   id="tspan4291">    T</tspan> object(args, ...);</tspan><tspan
+         sodipodi:role="line"
+         x="184.56693"
+         y="855.74304"
+         id="tspan4194">2)  <tspan
+   style="fill:#2b91af;fill-opacity:1"
+   id="tspan4293">T</tspan> object{ arg };</tspan><tspan
+         sodipodi:role="line"
+         x="184.56693"
+         y="886.99304"
+         id="tspan4196"><tspan
+   style="fill:#2b91af;fill-opacity:1"
+   id="tspan4295">    T</tspan> object{ args, ... };</tspan><tspan
+         sodipodi:role="line"
+         x="184.56693"
+         y="918.24304"
+         id="tspan4198">3)  <tspan
+   style="fill:#2b91af;fill-opacity:1"
+   id="tspan4297">T</tspan>(arg);</tspan><tspan
+         sodipodi:role="line"
+         x="184.56693"
+         y="949.49304"
+         id="tspan4419"><tspan
+   style="fill:#2b91af;fill-opacity:1"
+   id="tspan4299">    T</tspan>(args, ...);</tspan><tspan
+         sodipodi:role="line"
+         x="184.56693"
+         y="980.74304"
+         id="tspan4200">4)  <tspan
+   style="fill:#0000ff"
+   id="tspan4301">static_cast</tspan>&lt;<tspan
+   style="fill:#2b91af;fill-opacity:1"
+   id="tspan4303">T</tspan>&gt;(other);</tspan><tspan
+         sodipodi:role="line"
+         x="184.56693"
+         y="1011.993"
+         id="tspan4202">5)  <tspan
+   style="fill:#0000ff"
+   id="tspan4305">new</tspan><tspan
+   style="fill:#2b91af;fill-opacity:1"
+   id="tspan4307"> T</tspan>(args, ...);</tspan><tspan
+         sodipodi:role="line"
+         x="184.56693"
+         y="1043.243"
+         id="tspan4204">6)  <tspan
+   style="fill:#2b91af;fill-opacity:1"
+   id="tspan4309">Class</tspan>::Class() : member(args, ...) {...</tspan><tspan
+         sodipodi:role="line"
+         x="184.56693"
+         y="1074.493"
+         id="tspan4206">7)  [arg]() {...</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:25px;line-height:125%;font-family:Consolas;-inkscape-font-specification:Consolas;text-align:start;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="-191.31075"
+       y="1385.931"
+       id="text4208"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan4210"
+         x="-191.31075"
+         y="1385.931">list initialization</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:25px;line-height:125%;font-family:Consolas;-inkscape-font-specification:Consolas;text-align:start;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="184.04202"
+       y="1164.7274"
+       id="text4212"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan4214"
+         x="184.04202"
+         y="1164.7274">direct-list-initialization</tspan><tspan
+         sodipodi:role="line"
+         x="184.04202"
+         y="1195.9774"
+         id="tspan3441">1)  <tspan
+   style="fill:#2b91af;fill-opacity:1"
+   id="tspan4311">T</tspan> object{ args, ... };</tspan><tspan
+         sodipodi:role="line"
+         x="184.04202"
+         y="1227.2274"
+         id="tspan4216">2)  <tspan
+   style="fill:#2b91af;fill-opacity:1"
+   id="tspan4313">T</tspan>{ args, ... };</tspan><tspan
+         sodipodi:role="line"
+         x="184.04202"
+         y="1258.4774"
+         id="tspan4218">3)  <tspan
+   style="fill:#0000ff"
+   id="tspan4315">new</tspan><tspan
+   style="fill:#2b91af;fill-opacity:1"
+   id="tspan4317"> T</tspan>{ args, ... };</tspan><tspan
+         sodipodi:role="line"
+         x="184.04202"
+         y="1289.7274"
+         id="tspan4220">4)  <tspan
+   style="fill:#2b91af;fill-opacity:1"
+   id="tspan4319">Class</tspan> { <tspan
+   style="fill:#2b91af;fill-opacity:1"
+   id="tspan4331">T</tspan> member{ args, ... }; };</tspan><tspan
+         sodipodi:role="line"
+         x="184.04202"
+         y="1320.9774"
+         id="tspan4222">5)  <tspan
+   style="fill:#2b91af;fill-opacity:1"
+   id="tspan4321">Class</tspan>::Class() : member{ args, ... } {...</tspan><tspan
+         sodipodi:role="line"
+         x="184.04202"
+         y="1352.2274"
+         id="tspan4224" /><tspan
+         sodipodi:role="line"
+         x="184.04202"
+         y="1383.4774"
+         id="tspan3443">copy-list-initialization</tspan><tspan
+         sodipodi:role="line"
+         x="184.04202"
+         y="1414.7274"
+         id="tspan3445">6)  <tspan
+   style="fill:#2b91af;fill-opacity:1"
+   id="tspan4323">T</tspan> object = { args, ... };</tspan><tspan
+         sodipodi:role="line"
+         x="184.04202"
+         y="1445.9774"
+         id="tspan4226">7)  function({ args, ... });</tspan><tspan
+         sodipodi:role="line"
+         x="184.04202"
+         y="1477.2274"
+         id="tspan4228">8)  <tspan
+   style="fill:#0000ff"
+   id="tspan4325">return</tspan> { args, ... };</tspan><tspan
+         sodipodi:role="line"
+         x="184.04202"
+         y="1508.4774"
+         id="tspan4230">9)  object[{ args, ... }];</tspan><tspan
+         sodipodi:role="line"
+         x="184.04202"
+         y="1539.7274"
+         id="tspan4232">10) object = { args, ... };</tspan><tspan
+         sodipodi:role="line"
+         x="184.04202"
+         y="1570.9774"
+         id="tspan4234">11) <tspan
+   style="fill:#2b91af;fill-opacity:1"
+   id="tspan4327">U</tspan>({ args, ... });</tspan><tspan
+         sodipodi:role="line"
+         x="184.04202"
+         y="1602.2274"
+         id="tspan4236">12) <tspan
+   style="fill:#2b91af;fill-opacity:1"
+   id="tspan4329">Class</tspan> { <tspan
+   style="fill:#2b91af;fill-opacity:1"
+   id="tspan4333">T</tspan> member = { args, ... }; };</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:25px;line-height:125%;font-family:Consolas;-inkscape-font-specification:Consolas;text-align:start;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="-225.49655"
+       y="1708.4774"
+       id="text4238"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan4240"
+         x="-225.49655"
+         y="1708.4774">aggregate initialization</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:25px;line-height:125%;font-family:Consolas;-inkscape-font-specification:Consolas;text-align:start;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="182.91898"
+       y="1693.243"
+       id="text4242"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan4244"
+         x="182.91898"
+         y="1693.243">1)  <tspan
+   style="fill:#2b91af;fill-opacity:1"
+   id="tspan4335">T</tspan> object = { args, ... };</tspan><tspan
+         sodipodi:role="line"
+         x="182.91898"
+         y="1724.493"
+         id="tspan4246">2)  <tspan
+   style="fill:#2b91af;fill-opacity:1"
+   id="tspan4337">T</tspan> object{ args, ... };</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:25px;line-height:125%;font-family:Consolas;-inkscape-font-specification:Consolas;text-align:start;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="-225.91158"
+       y="2035.931"
+       id="text4248"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan4250"
+         x="-225.91158"
+         y="2035.931">reference initialization</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:25px;line-height:125%;font-family:Consolas;-inkscape-font-specification:Consolas;text-align:start;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="184.56693"
+       y="1799.493"
+       id="text4252"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan4254"
+         x="184.56693"
+         y="1799.493">1)  <tspan
+   style="fill:#2b91af;fill-opacity:1"
+   id="tspan4339">T</tspan>&amp; ref = object;</tspan><tspan
+         sodipodi:role="line"
+         x="184.56693"
+         y="1830.743"
+         id="tspan4256"><tspan
+   style="fill:#2b91af;fill-opacity:1"
+   id="tspan4341">    T</tspan>&amp; ref = { args, ... };</tspan><tspan
+         sodipodi:role="line"
+         x="184.56693"
+         y="1861.993"
+         id="tspan4258"><tspan
+   style="fill:#2b91af;fill-opacity:1"
+   id="tspan4343">    T</tspan>&amp; ref(object);</tspan><tspan
+         sodipodi:role="line"
+         x="184.56693"
+         y="1893.243"
+         id="tspan4260"><tspan
+   style="fill:#2b91af;fill-opacity:1"
+   id="tspan4345">    T</tspan>&amp; ref{ object };</tspan><tspan
+         sodipodi:role="line"
+         x="184.56693"
+         y="1924.493"
+         id="tspan4262">2)  <tspan
+   style="fill:#2b91af;fill-opacity:1"
+   id="tspan4347">T</tspan>&amp;&amp; ref = object;</tspan><tspan
+         sodipodi:role="line"
+         x="184.56693"
+         y="1955.743"
+         id="tspan4264"><tspan
+   style="fill:#2b91af;fill-opacity:1"
+   id="tspan4349">    T</tspan>&amp;&amp; ref = { args, ... };</tspan><tspan
+         sodipodi:role="line"
+         x="184.56693"
+         y="1986.993"
+         id="tspan4266"><tspan
+   style="fill:#2b91af;fill-opacity:1"
+   id="tspan4351">    T</tspan>&amp;&amp; ref(object);</tspan><tspan
+         sodipodi:role="line"
+         x="184.56693"
+         y="2018.243"
+         id="tspan4268"><tspan
+   style="fill:#2b91af;fill-opacity:1"
+   id="tspan4353">    T</tspan>&amp;&amp; ref{ object };</tspan><tspan
+         sodipodi:role="line"
+         x="184.56693"
+         y="2049.4932"
+         id="tspan4270">3)  <tspan
+   style="fill:#2b91af;fill-opacity:1"
+   id="tspan4355">R</tspan> function(<tspan
+   style="fill:#2b91af;fill-opacity:1"
+   id="tspan4357">T</tspan>&amp; arg);</tspan><tspan
+         sodipodi:role="line"
+         x="184.56693"
+         y="2080.7429"
+         id="tspan4272"><tspan
+   style="fill:#2b91af;fill-opacity:1"
+   id="tspan4359">    R</tspan> function(<tspan
+   style="fill:#2b91af;fill-opacity:1"
+   id="tspan4361">T</tspan>&amp;&amp; arg);</tspan><tspan
+         sodipodi:role="line"
+         x="184.56693"
+         y="2111.9929"
+         id="tspan4274">    function(object);</tspan><tspan
+         sodipodi:role="line"
+         x="184.56693"
+         y="2143.2429"
+         id="tspan4276">4)  <tspan
+   style="fill:#2b91af;fill-opacity:1"
+   id="tspan4363">T</tspan>&amp; function() {</tspan><tspan
+         sodipodi:role="line"
+         x="184.56693"
+         y="2174.4929"
+         id="tspan4278"><tspan
+   style="fill:#2b91af;fill-opacity:1"
+   id="tspan4365">    T</tspan>&amp;&amp; function() {</tspan><tspan
+         sodipodi:role="line"
+         x="184.56693"
+         y="2205.7429"
+         id="tspan4280"><tspan
+   style="fill:#0000ff"
+   id="tspan4371">    return</tspan> object;</tspan><tspan
+         sodipodi:role="line"
+         x="184.56693"
+         y="2236.9929"
+         id="tspan4282">5)  <tspan
+   style="fill:#2b91af;fill-opacity:1"
+   id="tspan4367">Class</tspan>::Class(...) : refmember(expr) {...</tspan><tspan
+         sodipodi:role="line"
+         x="184.56693"
+         y="2268.2429"
+         id="tspan4284"><tspan
+   style="fill:#2b91af;fill-opacity:1"
+   id="tspan4369">    Class</tspan>::Class(...) : refmember{ expr } {...</tspan></text>
+    <flowRoot
+       xml:space="preserve"
+       id="flowRoot4288"
+       style="font-style:normal;font-weight:normal;font-size:25px;line-height:125%;font-family:sans-serif;text-align:start;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"><flowRegion
+         id="flowRegion4290"><rect
+           id="rect4292"
+           width="686"
+           height="96"
+           x="136"
+           y="1464.3622" /></flowRegion><flowPara
+         id="flowPara4294" /></flowRoot>    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:50px;line-height:125%;font-family:sans-serif;text-align:start;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="42.411179"
+       y="51.800682"
+       id="text4421"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan4423"
+         x="42.411179"
+         y="51.800682"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:Consolas;-inkscape-font-specification:'Consolas Bold'">C++ initialization</tspan></text>
+  </g>
+</svg>
