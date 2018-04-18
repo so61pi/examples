@@ -22,7 +22,8 @@ int main() {
 
         // PostgreSQL
         QSqlDatabase db = QSqlDatabase::addDatabase("QPSQL");
-        db.setHostName("db");
+        db.setHostName("db"); // Hostname of PostgreSQL server.
+                              // https://docs.docker.com/compose/networking/
         db.setDatabaseName(dbname);
         db.setUserName(user);
         db.setPassword(password);
