@@ -1,4 +1,4 @@
-```
+```txt
 neighbour.c::neigh_sysctl_template
 
 net/ipv6/ndisc.c::ndisc_init

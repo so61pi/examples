@@ -1,14 +1,13 @@
-**softwares**
+## Software
 
 - Linux `v4.16` (`0adb32858b0bddf4ada5f364a84ed60b196dbcda`)
 - U-Boot  `v2018.03` (`f95ab1fb6e37f0601f397091bb011edf7a98b890`)
 
-
-**make**
+## Make
 
 - Linux
 
-```
+```shell
 make defconfig
 make
 cp arch/x86/boot/bzImage /tftpboot
@@ -16,13 +15,12 @@ cp arch/x86/boot/bzImage /tftpboot
 
 - U-Boot
 
-```
+```shell
 make qemu-x86_defconfig
 make
 ```
 
-
-**qemu**
+## Qemu
 
 ```shell
 # We don't even need to install a TFTP on our machine as qemu already supports an internal one
@@ -31,7 +29,7 @@ qemu-system-x86_64 -nographic -device e1000,netdev=n0 -netdev user,id=n0,tftp=/t
 # Ctrl+A X to stop qemu
 ```
 
-**u-boot**
+## U-Boot
 
 - `dhcp` automatically sets `serverip`
 - `tftp` automatically uses `loadaddr` and `bootfile` and sets `fileaddr`
@@ -48,8 +46,7 @@ zboot
 # will crash, but at least the kernel is up and running
 ```
 
-
-**env**
+## Env
 
 - `printenv` before `tftp`
 

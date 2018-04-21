@@ -1,16 +1,14 @@
-**hardwares**
+## hardwares
 
 - BeagleBone Black Rev C.
 
-
-**softwares**
+## softwares
 
 - Linux [4.4](https://github.com/beagleboard/linux/tree/4.4).
 
+## ARM start
 
-**ARM start**
-
-```
+```txt
 arch/arm/boot/bootp/init.S::_start
     arch/arm/boot/bootp/kernel.S::kernel_start
         arch/arm/boot/compressed/head.S
@@ -23,12 +21,11 @@ arch/arm/boot/bootp/init.S::_start
                                 init/main.c::start_kernel
 ```
 
-
-**setup machine based on device tree**
+## setup machine based on device tree
 
 - The `machine_desc` array is placed in `.init.arch.info` section, between `__arch_info_begin` and `__arch_info_end`.
 
-```
+```txt
 init/main.c::start_kernel                                                                                                                                   |
     arch/arm/kernel/setup.c::setup_arch                                                                                                                     |
         arch/arm/kernel/devtree.c::setup_machine_fdt                                                                                                        |
@@ -64,8 +61,7 @@ drivers/of/platform.c::of_platform_populate                                 | lo
             drivers/of/platform.c::of_platform_bus_create                   | recursively call to child node.
 ```
 
-
-**arch/arm/mach-omap2/board-generic.c**
+## arch/arm/mach-omap2/board-generic.c
 
 - `DT_MACHINE_START` puts the `machine_desc` struct in `.arch.info.init` section which eventually is placed inside `.init.arch.info` section.
 

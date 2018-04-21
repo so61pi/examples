@@ -1,19 +1,20 @@
-# 1. Prepare
+## Prepare
+
 ```shell
 sudo apt-get update
 sudo apt-get build-dep unity
 ```
 
+## Get unity source code
 
-# 2. Get unity source code
 ```shell
 mkdir /tmp/unity-src
 cd /tmp/unity-src
 apt-get source unity
 ```
 
+## Modify SwitcherViewer.cpp & test_switcher_view.cpp
 
-# 3. Modify SwitcherViewer.cpp & test_switcher_view.cpp
 ```cpp
 //
 // ./launcher/SwitcherView.cpp
@@ -61,21 +62,21 @@ TEST_F(TestSwitcherView, Initiate)
 }
 ```
 
+## Build deb files
 
-# 4. Build deb files
 ```shell
 dpkg-buildpackage -rfakeroot -us -uc -b
 ```
 
+## Install new unity
 
-# 5. Install new unity
 ```shell
 sudo dpkg -i ../unity_*.deb
 ```
 
-  - You don't need to install other deb files.
+- You don't need to install other deb files.
 
+## Note
 
-# 6. Note
-  - If you have problem with unmet dependencies (`xorg-video-abi-15`, `xserver-xorg-core`) , run `sudo apt-get install xserver-xorg-dev`.
-  - If your indicators are missing, run `killall unity-panel-service`.
+- If you have problem with unmet dependencies (`xorg-video-abi-15`, `xserver-xorg-core`) , run `sudo apt-get install xserver-xorg-dev`.
+- If your indicators are missing, run `killall unity-panel-service`.

@@ -1,18 +1,16 @@
-**hardwares**
+## Hardware
 
 - BeagleBone Black Rev C.
 
-
-**softwares**
+## Software
 
 - Linux v4.10.8.
 
-
-**flow**
+## Flow
 
 - `ttyS0` -> index = 0
 
-```
+```txt
 init/main.c::start_kernel                                                                               | 1st, set up the boot console when kernel starts.
     drivers/tty/tty_io.c::console_init                                                                  |
         drivers/tty/serial/8250/8250_core.c::univ8250_console_init                                      | `console_initcall(univ8250_console_init)`
@@ -38,7 +36,6 @@ drivers/tty/tty_io.c::tty_open                                                  
             // MKDEV(TTYAUX_MAJOR, 1) -> struct tty_driver *console_driver = console_device(index);     | get `struct tty_driver` from `struct console` in `console_drivers`
 ```
 
-
-**references**
+## Reference
 
 - `Documentation/serial/driver`.

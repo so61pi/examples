@@ -1,15 +1,14 @@
-**softwares**
+## Software
 
 - Linux v4.10.8.
 
-
-**sequence**
+## Sequence
 
 - `early_initcall` functions are called in `do_pre_smp_initcalls`, from `__initcall_start` to before `__initcall0_start`.
 - `do_initcalls` calls functions from `__initcall0_start` to before `__initcall_end`.
 - functions with the same `id` go into the same section.
 
-```
+```txt
 fn                          id          sections created by         sections created        initcall_t entry                note
                                         __define_initcall           by linker script        for function fn
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -42,12 +41,11 @@ late_initcall_sync          7s          .initcall7s.init                        
                                                                     __initcall_end
 ```
 
-
-**initcall functions order**
+## Initcall functions order
 
 - `console_initcall` -> `security_initcall` -> `early_initcall` -> `_initcall` and `_initcall_sync`
 
-```
+```txt
 init/main.c::start_kernel                               |
     drivers/tty/tty_io.c::console_init                  | call all `console_initcall` functions
     security/security.c::security_init                  |
@@ -64,8 +62,7 @@ init/main.c::kernel_init                                                    |
             init/main.c::do_initcalls                                       | call other `_initcall` and `_initcall_sync` functions which have id from 0 to 7s
 ```
 
-
-**references**
+## Reference
 
 - `include/asm-generic/vmlinux.lds.h`, line 698.
 - `include/linux/init.h`, line 146.

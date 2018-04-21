@@ -1,15 +1,13 @@
-**1. Install Windows**
+## Install Windows
 
 - We can remove unnescessary hardware components like floppy disk or audio.
 - Username and password should both be `vagrant` to conform with `Vagrantfile`.
 
-
-**2. [InGuest] Install VirtualBox Guest Additions**
+## [InGuest] Install VirtualBox Guest Additions
 
 - Remember to eject the disc after installation.
 
-
-**3. [InGuest] Enable and configure WinRM**
+## [InGuest] Enable and configure WinRM
 
 ```bat
 :: Run in Administrative Command Prompt.
@@ -21,8 +19,7 @@ winrm set winrm/config/service/auth @{Basic="true"}
 sc config WinRM start= auto
 ```
 
-
-**4. [InGuest] Enable Remote Desktop**
+## [InGuest] Enable Remote Desktop
 
 ```bat
 :: Run in Administrative Command Prompt.
@@ -31,35 +28,31 @@ reg add "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Terminal Server" /v
 :: Or you can google("windows enable remote desktop") to configure through the GUI.
 ```
 
-
-**5. [InGuest] Remove unnecessary files**
+## [InGuest] Remove unnecessary files
 
 ```bat
 :: Run in Administrative Command Prompt.
 cleanmgr /d C:
 ```
 
+## Pack the box to `.box` file
 
-**6. Pack the box to `.box` file**
-
-```
+```shell
 vagrant package -h
 vagrant package --base windows-7 --output /tmp/windows-7.box --vagrantfile Vagrantfile
 ```
 
 *Note that the `Vagrantfile` here is different from the one when you run `vagrant init`, you should read about [Vagrantfile load order](https://www.vagrantup.com/docs/vagrantfile/#load-order).*
 
+## Add the newly created box to current system
 
-**7. Add the newly created box to current system**
-
-```
+```shell
 vagrant box add /tmp/windows-7.box --name windows-7
 ```
 
+## Use newly added box
 
-**8. Use newly added box**
-
-```
+```shell
 vagrant init windows-7
 vagrant up
 ```

@@ -1,23 +1,22 @@
-**softwares**
+## Software
 
 - Linux v4.11.
 
+## Export/unexport pin to userspace
 
-**export/unexport pin to userspace**
-
-- export pin 8 to userspace
+- Export pin 8 to userspace
 
 ```shell
 echo 8 > /sys/class/gpio/export
 ```
 
-- unexport pin 8
+- Unexport pin 8
 
 ```shell
 echo 8 > /sys/class/gpio/unexport
 ```
 
-```
+```txt
 drivers/gpio/gpiolib-sysfs.c::export_store                  |
     drivers/gpio/gpiolib.c::gpio_to_desc                    | get pin description (each pin has a `gpio_desc` which stored in `struct gpio_device::descs` array)
     drivers/gpio/gpiolib.c::gpiod_request                   |
@@ -29,29 +28,28 @@ drivers/gpio/gpiolib-sysfs.c::unexport_store
     drivers/gpio/gpiolib.c::gpiod_free
 ```
 
+## Configure/read pin
 
-**configure/read pin**
-
-- configure pin 8 as output, high
+- Configure pin 8 as output, high
 
 ```shell
 echo "high" > /sys/class/gpio/gpio8/direction
 ```
 
-- read pin 8 value
+- Read pin 8 value
 
 ```shell
 cat /sys/class/gpio/gpio8/value
 ```
 
-```
+```txt
 drivers/gpio/gpiolib-sysfs.c::value_store               |
     drivers/gpio/gpiolib.c::gpiod_set_value_cansleep    | set value of pin
 
 static DEVICE_ATTR_RW(value);   | create `dev_attr_value` with store & show functions are `value_store` & `value_show`
 ```
 
-```
+```txt
 drivers/gpio/gpiolib-sysfs.c::direction_store               |
     drivers/gpio/gpiolib.c::gpiod_direction_output_raw(1)   | set pin to output high in case the value is "high"
     drivers/gpio/gpiolib.c::gpiod_direction_output_raw(0)   | set pin to output low in case the value is "out" or "low"
@@ -60,10 +58,9 @@ drivers/gpio/gpiolib-sysfs.c::direction_store               |
 static DEVICE_ATTR_RW(direction);   | create `dev_attr_direction` with store & show functions are `direction_store` & `direction_show`
 ```
 
+## Initialize `gpio_chip`
 
-**initialize `gpio_chip`**
-
-```
+```txt
 drivers/gpio/gpio-omap.c::omap_gpio_probe                       |
     drivers/gpio/gpio-omap.c::omap_gpio_chip_init               |
         drivers/gpio/gpiolib.c::gpiochip_add_data               | register a `gpio_chip` to system
@@ -79,8 +76,7 @@ drivers/gpio/gpio-omap.c::omap_gpio_probe                       |
 +-----------------+
 ```
 
-
-**references**
+## Reference
 
 - Documentation/gpio/driver.txt
 - Documentation/gpio/gpio.txt

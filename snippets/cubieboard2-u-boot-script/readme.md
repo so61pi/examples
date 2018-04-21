@@ -1,10 +1,8 @@
-***Below is the U-Boot script for Cubieboard2.***
-
 - The U-Boot version is `v2017.11`.
 - `bootcmd` is the entry.
 - The script is gotten by U-Boot command `printenv`.
 
-```
+```shell
 arch=arm
 baudrate=115200
 board=sunxi

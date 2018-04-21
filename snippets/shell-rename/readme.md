@@ -7,7 +7,6 @@ for file in "./*"; do
 done
 ```
 
-
 ```shell
 # Copy file to ../hash with its sha1sum
 dest=../hash

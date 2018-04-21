@@ -1,18 +1,14 @@
-http://wiki.bash-hackers.org/scripting/terminalcodes
+## Code sequence
 
-http://misc.flogisoft.com/bash/tip_colors_and_formatting
-
-
-* **Code sequence**
-```
+```txt
 Set format or color           \033[NUMm
                               \033[NUM(;NUM)*m
 Reset all format and color    \033[0m
 ```
 
+## Format
 
-* **Format**
-```
+```txt
 Bold              1
 Dim               2
 Italic            3
@@ -22,9 +18,9 @@ Reverse           7
 Hidden            8
 ```
 
+## Foreground color
 
-* **Foreground color**
-```
+```txt
 Black             30
 Red               31
 Green             32
@@ -44,9 +40,9 @@ Light cyan        96
 White             97
 ```
 
+## Background color
 
-* **Background color**
-```
+```txt
 Black             40
 Red               41
 Green             42
@@ -65,3 +61,8 @@ Light magenta     105
 Light cyan        106
 White             107
 ```
+
+## Reference
+
+- http://wiki.bash-hackers.org/scripting/terminalcodes
+- http://misc.flogisoft.com/bash/tip_colors_and_formatting

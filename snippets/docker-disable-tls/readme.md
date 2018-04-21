@@ -1,11 +1,10 @@
-- Stop docker service
+## Stop docker service
 
 ```shell
 sudo systemctl stop docker
 ```
 
-
-- Add the following configuration to `/etc/docker/daemon.json`
+## Add the following configuration to `/etc/docker/daemon.json`
 
 ```json
 {
@@ -13,8 +12,7 @@ sudo systemctl stop docker
 }
 ```
 
-
-- Start docker service
+## Start docker service
 
 ```shell
 sudo systemctl start docker

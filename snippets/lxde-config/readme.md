@@ -1,4 +1,4 @@
-**Enable maximize window shortcut**
+## Enable maximize window shortcut
 
 - Add following XML snippet into `$HOME/.config/openbox/lubuntu-rc.xml`, under `/openbox_config/keyboard`.
 

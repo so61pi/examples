@@ -1,4 +1,4 @@
-```
+```txt
 svr-main.c::main
     svr-runopts.c::svr_getopts (get command line options and save to svr_runopts.c::svr_opts)
     main_inetd (called when working in inetd mode (-i option))

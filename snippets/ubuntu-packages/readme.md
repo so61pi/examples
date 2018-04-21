@@ -1,4 +1,4 @@
-**directories**
+## Directory
 
 ```shell
 cd $HOME
@@ -14,8 +14,7 @@ mkdir -p work/programming/{projects,sources}
 # ln -s work/downloads Downloads
 ```
 
-
-**packages**
+## Package
 
 ```shell
 sudo add-apt-repository ppa:git-core/ppa
@@ -57,8 +56,7 @@ sudo apt install -y firefox # need configuration
 sudo apt install -y gparted
 ```
 
-
-**packages**
+## Package
 
 ```
 clang-format

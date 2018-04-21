@@ -1,4 +1,4 @@
-**Version and compiling command**
+## Version and compiling command
 
 - This call tree is produced using U-Boot version `v2017.01`.
 - The compiling commands
@@ -9,10 +9,9 @@ make CROSS_COMPILE=arm-linux-gnueabihf- am335x_boneblack_defconfig
 make CROSS_COMPILE=arm-linux-gnueabihf-
 ```
 
+## SPL
 
-**SPL**
-
-```
+```txt
 arch/arm/lib/vectors.S::_start @402F0400
     arch/arm/cpu/armv7/start.S::reset
         arch/arm/mach-omap2/lowlevel_init.S::save_boot_params
@@ -71,10 +70,9 @@ arch/arm/lib/vectors.S::_start @402F0400
                 arch/arm/mach-omap2/boot-common.c::jump_to_image_no_args
 ```
 
+## U-Boot
 
-**U-Boot**
-
-```
+```txt
 arch/arm/lib/vectors.S::_start @80800000
     arch/arm/cpu/armv7/start.S::reset
         arch/arm/lib/crt0.S::_main

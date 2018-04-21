@@ -1,4 +1,4 @@
-**references**
+## Reference
 
 - http://www.linux-mtd.infradead.org/doc/ubi.html
 - http://www.linux-mtd.infradead.org/faq/general.html
@@ -7,8 +7,7 @@
 - drivers/mtd/nand/
 - drivers/mtd/ubi/
 
-
-**overview**
+## Overview
 
 "MTD subsystem (stands for Memory Technology Devices) provides an abstraction layer for raw flash devices. It makes it possible to use the same API when working with different flash types and technologies, e.g. NAND, OneNAND, NOR, AG-AND, ECC'd NOR, etc."
 
@@ -26,7 +25,7 @@ UBI supports read-only block devices (http://www.linux-mtd.infradead.org/faq/ubi
 
 UBI doesn't support read-write block devices (http://www.linux-mtd.infradead.org/faq/ubi.html#L_ext2_over_ubi).
 
-```
+```txt
 +-------------------------------------+
 |           UBIFS, SQUASHFS           |
 +-------------------------------------+
@@ -47,8 +46,7 @@ UBI doesn't support read-write block devices (http://www.linux-mtd.infradead.org
 
 ```
 
-
-**nandsim**
+## `nandsim`
 
 ```shell
 # Create MTD device with
@@ -87,12 +85,11 @@ sudo rmmod ubi
 sudo rmmod nandsim
 ```
 
-
-**flow**
+## Flow
 
 - Linux `v4.10.13`.
 
-```
+```txt
 drivers/mtd/ubi/build.c::ubi_init
     drivers/mtd/ubi/build.c::open_mtd_device
     drivers/mtd/ubi/build.c::ubi_attach_mtd_dev
@@ -122,8 +119,7 @@ drivers/mtd/ubi/io.c::ubi_io_write_vid_hdr
         drivers/mtd/mtdcore.c::mtd_write
 ```
 
-
-**create `disk.ubi`**
+## Create `disk.ubi`
 
 ```shell
 fallocate -l 1M rootfs.img

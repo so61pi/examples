@@ -1,10 +1,8 @@
-***Below is the U-Boot script for BeagleBone Black.***
-
 - The U-Boot version is `v2017.01`.
 - `bootcmd` is the entry.
 - The script is gotten by U-Boot command `printenv`.
 
-```
+```shell
 arch="arm"
 baudrate="115200"
 board="am335x"

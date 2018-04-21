@@ -1,5 +1,6 @@
-# local port forwarding
-```
+## Local port forwarding
+
+```txt
 # on localhost
 ssh -N -f -L 9000:example.com:80 admin@server.com
 
@@ -23,8 +24,9 @@ ssh -N -f -L *:9000:example.com:80 admin@server.com
                |___________________________________|
 ```
 
-# remote port forwarding
-```
+## Remote port forwarding
+
+```txt
 # on localhost
 ssh -N -f -R 9000:localhost:3000 admin@server.com
 
@@ -57,8 +59,9 @@ sudo service ssh restart
 #sudo systemctl restart ssh
 ```
 
-# SOCKS proxy
-```
+## SOCKS proxy
+
+```txt
 ssh -N -f -D localhost:3000 admin@server.com
 
                --------------------

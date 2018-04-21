@@ -1,4 +1,4 @@
-**allow non-root users to run wireshark**
+## Allow non-root users to run wireshark
 
 ```shell
 # sudo dpkg-reconfigure wireshark-common

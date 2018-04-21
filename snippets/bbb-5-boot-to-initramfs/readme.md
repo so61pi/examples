@@ -1,12 +1,11 @@
-**Preparation**
+## Preparation
 
 - Assume you already have
-    + Linux kernel `uImage`.
-    + Device tree blob `am335x-boneblack.dtb`.
-    + `initramfs.cpio` or `initramfs.uImage`.
+  - Linux kernel `uImage`.
+  - Device tree blob `am335x-boneblack.dtb`.
+  - `initramfs.cpio` or `initramfs.uImage`.
 
-
-**Load files to RAM**
+## Load files to RAM
 
 - From micro SD.
 
@@ -31,8 +30,7 @@ tftp 0x88000000 am335x-boneblack.dtb
 tftp 0x88080000 initramfs.cpio # initramfs.uImage if U-Boot image initramfs is used.
 ```
 
-
-**Boot**
+## Boot
 
 - Kernel with internal `initramfs.cpio`.
 

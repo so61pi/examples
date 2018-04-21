@@ -1,12 +1,12 @@
-**Download and extract**
+## Download and extract
 
-**Run first run**
+## Run first run
 
 ```shell
 ./start-tor-browser.desktop
 ```
 
-**Install icon**
+## Install icon
 
 ```shell
 ./start-tor-browser.desktop --register-app

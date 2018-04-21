@@ -1,4 +1,4 @@
-```
+```txt
 // CONFIG_SMP               [X]
 // CONFIG_LOCKDEP           [ ]
 // CONFIG_DEBUG_SPINLOCK    [ ]

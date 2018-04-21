@@ -1,4 +1,4 @@
-**PAC file should be named `proxy.pac`**
+## PAC file should be named `proxy.pac`
 
 ```js
 function FindProxyForURL(url, host) {

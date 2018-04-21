@@ -1,6 +1,6 @@
-# kset
+## `kset`
 
-```
+```txt
 kset_init
     kobject_init_internal
 
@@ -16,10 +16,9 @@ kset_create_and_add
     kset_register
 ```
 
+## `kobject`
 
-# kobject
-
-```
+```txt
 kobject_init_and_add
     kobject_init
     kobject_add_varg

@@ -1,9 +1,8 @@
-**Preparation**
+## Preparation
 
 - Assume `/tmp/initramfs/` already has busybox.
 
-
-**Completing rootfs**
+## Completing rootfs
 
 ```shell
 cd /tmp/initramfs
@@ -16,12 +15,11 @@ chmod 700 root
 cd -
 ```
 
-
-**Create `/init` file**
+## Create `/init` file
 
 - Below is the content of `/tmp/initramfs/init` file.
 
-```
+```shell
 #!/bin/sh
 
 mount -t devtmpfs none /dev
@@ -42,16 +40,14 @@ mount -t tmpfs tmpfs /tmp
 chmod +x /tmp/initramfs/init
 ```
 
-
-**Create `initramfs.cpio`**
+## Create `initramfs.cpio`
 
 ```shell
 cd /tmp/initramfs
 find . | cpio -o --format=newc > initramfs.cpio
 ```
 
-
-**Create `initramfs.uImage`**
+## Create `initramfs.uImage`
 
 - If we want to boot with initramfs in uImage, we can create `initramfs.uImage` with the following command.
 

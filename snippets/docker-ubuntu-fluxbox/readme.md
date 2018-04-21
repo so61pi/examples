@@ -1,45 +1,61 @@
-1. Build docker image
+## Build docker image
 
-        docker build --rm=true -t ubuntu/fluxbox .
+```shell
+docker build --rm=true -t ubuntu/fluxbox .
+```
 
+## Run docker image
 
-2. Run docker image
+```shell
+docker run -i -t -d -p 5900 -p 22 ubuntu/fluxbox /root/envup
+```
 
-        docker run -i -t -d -p 5900 -p 22 ubuntu/fluxbox /root/envup
+## NOTE
 
-3. NOTE
-    - The last command that is run in container must not exit or daemonize, because container stops when last command stops.
+- The last command that is run in container must not exit or daemonize, because container stops when last command stops.
 
+## Links
 
-4. Links
-    - [docker run](https://docs.docker.com/engine/reference/run/)
-    - [Dockerfile](https://docs.docker.com/engine/reference/builder/)
+- [docker run](https://docs.docker.com/engine/reference/run/)
+- [Dockerfile](https://docs.docker.com/engine/reference/builder/)
 
+## Other useful commands
 
-5. Other useful commands
-    - Attach to a running container
+- Attach to a running container
 
-            docker attach <container-hash-id>
-            # Use ^P^Q (Ctrl + P, Ctrl + Q) to escape
+```shell
+docker attach <container-hash-id>
+# Use ^P^Q (Ctrl + P, Ctrl + Q) to escape
+```
 
-    - Start a stopped container
+- Start a stopped container
 
-            docker start <container-id>
+```shell
+docker start <container-id>
+```
 
-    - Stop a container
+- Stop a container
 
-            docker stop <container-id>
+```shell
+docker stop <container-id>
+```
 
-    - Show containers and images
+- Show containers and images
 
-            docker ps -a
-            docker images -a
+```shell
+docker ps -a
+docker images -a
+```
 
-    - Delete container and image
+- Delete container and image
 
-            docker rm <container-id>
-            docker rmi <image-id>
+```shell
+docker rm <container-id>
+docker rmi <image-id>
+```
 
-    - List all untagged images that are not used by other images
+- List all untagged images that are not used by other images
 
-            docker images -a -f dangling=true
+```shell
+docker images -a -f dangling=true
+```

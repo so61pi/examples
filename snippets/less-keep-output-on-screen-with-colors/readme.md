@@ -1,4 +1,4 @@
-**Add this line to your `~/.bashrc` or `~/.zshrc`**
+## Add this line to your `~/.bashrc` or `~/.zshrc`
 
 ```shell
 export LESS=-XFR

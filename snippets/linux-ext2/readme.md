@@ -1,4 +1,4 @@
-**create `disk.img`**
+## Create `disk.img`
 
 ```shell
 fallocate -l 5M disk.img
@@ -12,7 +12,6 @@ chown -R root:root /mnt/disk
 umount /mnt/disk
 ```
 
-
-**documents**
+## Reference
 
 - http://www.nongnu.org/ext2-doc/ext2.html

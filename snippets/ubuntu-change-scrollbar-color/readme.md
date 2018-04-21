@@ -1,4 +1,4 @@
 - `gtk-widgets.css`'s location: `/usr/share/themes/Ambiance/gtk-3.0/gtk-widgets.css`
-    - You can find it by `find /usr/share/themes/ -name gtk-widgets.css`
+  - You can find it by `find /usr/share/themes/ -name gtk-widgets.css`
 - `gtkrc`'s location: `/usr/share/themes/Ambiance/gtk-2.0/gtkrc`
-    - You can find it by `find /usr/share/themes/ -name gtkrc`
+  - You can find it by `find /usr/share/themes/ -name gtkrc`

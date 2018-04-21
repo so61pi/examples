@@ -1,4 +1,4 @@
-**global config**
+## global config
 
 ```shell
 git config --global user.useConfigOnly true
@@ -17,8 +17,7 @@ git config --global merge.tool meld
 git config --global --add oh-my-zsh.hide-dirty 1
 ```
 
-
-**freeze `~/.gitconfig` file so no one can accidentally change it**
+## freeze `~/.gitconfig` file so no one can accidentally change it
 
 ```shell
 # never use `chmod -w ~/.gitconfig` alone, git will copy `.gitconfig`
@@ -33,4 +32,3 @@ lsattr ~/.gitconfig
 
 # use `sudo chattr -i ~/.gitconfig` to edit it again
 ```
-

@@ -1,11 +1,10 @@
-**softwares**
+## Software
 
 - Linux v4.10.13.
 
+## Flow
 
-**flow**
-
-```
+```txt
 fs/kernfs/file.c::__kernfs_create_file
     fs/kernfs/dir.c::kernfs_new_node(KERNFS_FILE)
         fs/kernfs/dir.c::__kernfs_new_node
@@ -34,10 +33,9 @@ fs/kernfs/mount.c::kernfs_init
     mm/slab_common.c::kmem_cache_create("kernfs_node_cache")
 ```
 
+## Attributes read/write flow
 
-**attributes read/write flow**
-
-```
+```txt
 struct file_operations::read = fs/kernfs/file.c::kernfs_fop_read
     struct kernfs_ops::read = fs/sysfs/file.c::sysfs_kf_read
         struct sysfs_ops::show
@@ -47,8 +45,7 @@ struct file_operations::write = fs/kernfs/file.c::kernfs_fop_write
         struct sysfs_ops::store
 ```
 
-
-**device attributes**
+## Device attributes
 
 - `drivers/base/core.c`
 
@@ -65,8 +62,7 @@ static struct kobj_type device_ktype = {
 };
 ```
 
-
-**bus attributes**
+## Bus attributes
 
 - `drivers/base/bus.c`
 
@@ -82,8 +78,7 @@ static struct kobj_type bus_ktype = {
 };
 ```
 
-
-**device driver attributes**
+## Device driver attributes
 
 - `drivers/base/bus.c`
 
@@ -99,8 +94,7 @@ static const struct sysfs_ops driver_sysfs_ops = {
 };
 ```
 
-
-**kernfs file operations**
+## `kernfs` file operations
 
 - `fs/kernfs/file.c`
 
@@ -117,8 +111,7 @@ const struct file_operations kernfs_file_fops = {
 };
 ```
 
-
-**references**
+## Reference
 
 - `Documentation/driver-model/device.txt`
 - `Documentation/filesystems/sysfs.txt`

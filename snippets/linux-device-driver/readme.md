@@ -1,11 +1,10 @@
-**softwares**
+## Software
 
 - Linux v4.11.
 
+## device_register
 
-**device register**
-
-```
+```txt
 drivers/base/core.c::device_register                                                                        |
     drivers/base/core.c::device_initialize                                                                  | add device to devices_kset
         lib/kobject.c::kobject_init(device_ktype)                                                           |
@@ -69,10 +68,9 @@ drivers/base/core.c::device_register                                            
             struct subsys_interface::add_dev                                                                |
 ```
 
+## driver_init
 
-**driver init**
-
-```
+```txt
 drivers/base/init.c::driver_init                                                                |
     drivers/base/core.c::devices_init                                                           |
         devices_kset = kset_create_and_add("devices", device_uevent_ops)                        | create `devices_kset`
@@ -113,12 +111,11 @@ drivers/base/init.c::driver_init                                                
             fs/proc/generic.c::proc_register                                                    |
 ```
 
+## Bus
 
-**bus**
+- A bus is a place that contains drivers and corresponding devices
 
-- a bus is a place that contains drivers and corresponding devices
-
-```
+```txt
 drivers/base/bus.c::bus_register                                            | register a bus to the system
     // initialize bus devices_kset `struct subsys_private::devices_kset`    |
     // initialize bus drivers_kset `struct subsys_private::drivers_kset`    |
@@ -129,9 +126,7 @@ drivers/base/bus.c::bus_add_driver                                              
 drivers/base/bus.c::bus_add_device    | add device to the bus
 ```
 
-
-
-**pinmux setup**
+## pinmux setup
 
 ```c
 static const struct pinctrl_ops pcs_pinctrl_ops = {
@@ -152,7 +147,7 @@ static const struct pinmux_ops pcs_pinmux_ops = {
 };
 ```
 
-```
+```txt
 drivers/base/pinctrl.c::pinctrl_bind_pins                                                                           | set pin multiplexing register to loaded values
     drivers/pinctrl/core.c::devm_pinctrl_get                                                                        |
         drivers/pinctrl/core.c::pinctrl_get                                                                         |
@@ -179,8 +174,7 @@ drivers/pinctrl/pinctrl-single.c::pcs_probe
     pcs->desc.pmxops = &pcs_pinmux_ops;
 ```
 
-
-**references**
+## Reference
 
 - Documentation/driver-model/device.txt
 - Documentation/pinctrl.txt

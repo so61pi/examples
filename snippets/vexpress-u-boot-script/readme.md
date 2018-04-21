@@ -1,10 +1,9 @@
-***Below is the U-Boot script for vexpress-a9.***
-
 - The U-Boot version is `v2017.05`.
 - `bootcmd` is the entry.
 - The script is gotten by U-Boot command `printenv`.
 
-```
+
+```shell
 arch=arm
 baudrate=38400
 board=vexpress

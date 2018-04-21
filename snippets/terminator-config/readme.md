@@ -1,17 +1,14 @@
-**softwares**
+## Software
 
 - Ubuntu 16.04.2
 
+## Font
 
-**font**
+## Scrolling
 
+## Custom commands
 
-**scrolling**
-
-
-**custom commands**
-
-- add the below snippet to `~/.config/terminator/config`
+- Add the below snippet to `~/.config/terminator/config`.
 
 ```
 [plugins]

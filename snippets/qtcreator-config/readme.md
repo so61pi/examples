@@ -1,33 +1,30 @@
-**editor theme**
+## Editor theme
 
 - Put `xmonokai2.xml` to `qtcreator/share/qtcreator/styles`
 - Text Editor -> Font & Colors
-    + Font: Source Code Pro
-    + Theme: XMonokai2
+  - Font: Source Code Pro
+  - Theme: XMonokai2
 - Text Editor -> Display
-    + Highlight current line
+  - Highlight current line
 
-
-**interface theme**
+## Interface theme
 
 - Environment -> Interface
-    + Select "Flat Dark" theme
+  - Select "Flat Dark" theme
 
-
-**google shortcut**
+## Google search shortcut
 
 - Environment -> External Tools
-    + Add Tool
-        - Name: GoogleThis
-        - Executable: xdg-open
-        - Arguments: https://www.google.com/search?q=%{CurrentDocument:Selection}
-        - Output: Ignore
-        - Error output: Show in Pane
+  - Add Tool
+    - Name: GoogleThis
+    - Executable: xdg-open
+    - Arguments: https://www.google.com/search?q=%{CurrentDocument:Selection}
+    - Output: Ignore
+    - Error output: Show in Pane
 - Environment -> Keyboard
-    + Change shortcut for GoogleThis to Ctrl+Alt+Shift+G
+  - Change shortcut for GoogleThis to Ctrl+Alt+Shift+G
 
-
-**build**
+## Build
 
 - Build & Run -> General
-    + Open Compile Output pane when building
+  - Open Compile Output pane when building

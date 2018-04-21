@@ -1,4 +1,4 @@
-**add to `~/.zshrc`**
+## Add to `~/.zshrc`
 
 ```shell
 HISTFILE=$HOME/.histfile
@@ -20,25 +20,21 @@ alias ggrep="grep -Frn"
 alias auu="sudo apt update && sudo apt upgrade -y && sudo apt autoremove -y"
 ```
 
-
-**reload history**
+## Reload history
 
 ```shell
 fc -R
 ```
 
-
-**disable git dirty on prompt**
+## Disable git dirty on prompt
 
 ```shel
 git config --global --add oh-my-zsh.hide-dirty 1
 ```
 
+## Use `~/.zprofile` instead of `~/.profile`
 
-**use `~/.zprofile` instead of `~/.profile`**
-
-
-**useful things**
+## Useful things
 
 - [oh-my-zsh](https://github.com/robbyrussell/oh-my-zsh).
 - [zsh-syntax-highlighting](https://github.com/zsh-users/zsh-syntax-highlighting/blob/master/INSTALL.md).
