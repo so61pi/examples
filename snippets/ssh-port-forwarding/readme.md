@@ -69,3 +69,11 @@ localhost:3000 ==================== server.com
                --------------------
 # use localhost:3000 as a SOCKS proxy address
 ```
+
+## Enable keep-alive
+
+- Add below line to `~/.ssh/config`
+
+```txt
+ServerAliveInterval 180
+```
