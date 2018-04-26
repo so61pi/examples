@@ -1,8 +1,22 @@
 ## `~/.tmux.conf`
 
 ```txt
+# Change status color
 set-window-option -g window-status-current-bg blue
 set-window-option -g window-status-current-fg white
+
+# History size
+set -g history-limit 100000
+
+# 256color
+set -g default-terminal "screen-256color"
+
+# Enable mouse support
+set -g mouse on
+
+# Notifications
+setw -g monitor-activity on
+set -g visual-activity on
 ```
 
 ## `.zshrc`
@@ -43,3 +57,7 @@ Ctrl+B L            # go to last window
 
 Ctrl+B W            # choose window from list
 ```
+
+## Note
+
+- Press `Shift` to select and copy text.
