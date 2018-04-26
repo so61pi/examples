@@ -40,4 +40,10 @@ more information, such as the ld(1) and ld.so(8) manual pages.
 ```
 
 - Use it when you need to compile and run your program.
+
+```shell
+export LD_RUN_PATH=LIBDIR
+export LD_LIBRARY_PATH=LIBDIR
+```
+
 - **In case you have too many problems with multiple libraries in your system and just want a quick test, add `-static-libstdc++` to `g++` compile command (or link command).**
