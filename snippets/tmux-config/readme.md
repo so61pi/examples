@@ -32,6 +32,8 @@ plugins=(tmux)
 ## Some pane commands
 
 ```shell
+Ctrl+B [                        # enter copy mode (use emacs key binding (e.g. Ctrl+S for search))
+
 Ctrl+B %                        # create pane  |
 Ctrl+B "                        # create pane ---
 
