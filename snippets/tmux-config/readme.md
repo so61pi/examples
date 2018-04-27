@@ -1,3 +1,8 @@
+## Note
+
+- This file change default prefix (`Ctrl+B`) to `Ctrl+A`
+- Press `Shift` to select and copy text.
+
 ## `~/.tmux.conf`
 
 ```txt
@@ -17,6 +22,23 @@ set -g mouse on
 # Notifications
 setw -g monitor-activity on
 set -g visual-activity on
+
+# Remap prefix from 'C-b' to 'C-a'
+unbind C-b
+set-option -g prefix C-a
+bind-key C-a send-prefix
+
+# Split panes using | and -
+bind | split-window -h
+bind - split-window -v
+unbind '"'
+unbind %
+
+# Switch panes using Alt-arrow without prefix
+bind -n M-Left select-pane -L
+bind -n M-Right select-pane -R
+bind -n M-Up select-pane -U
+bind -n M-Down select-pane -D
 ```
 
 ## `.zshrc`
@@ -32,34 +54,30 @@ plugins=(tmux)
 ## Some pane commands
 
 ```shell
-Ctrl+B [                        # enter copy mode (use emacs key binding (e.g. Ctrl+S for search))
+<prefix> [                      # enter copy mode (use emacs key binding (e.g. Ctrl+S for search))
 
-Ctrl+B %                        # create pane  |
-Ctrl+B "                        # create pane ---
+<prefix> |                      # create pane | (default key is %)
+<prefix> -                      # create pane - (default key is ")
 
-Ctrl+B O                        # cycle through panes
-Ctrl+B ;                        # go to last pane
-Ctrl+B Up|Down|Left|Right
+<prefix> O                      # cycle through panes
+<prefix> ;                      # go to last pane
+# <prefix> Up|Down|Left|Right
 
-Ctrl+B Ctrl+O                   # rotate window
+<prefix> Ctrl+O                 # rotate window
 
-Ctrl+B Z                        # maximize current pane
+<prefix> Z                      # maximize current pane
 
-Ctrl+B !                        # move current pane to new window
+<prefix> !                      # move current pane to new window
 ```
 
 ## Some window commands
 
 ```shell
-Ctrl+B C            # create window
+<prefix> C          # create window
 
-Ctrl+B 0..9         # switch window
-Ctrl+B N|P          # go to next/previous window
-Ctrl+B L            # go to last window
+<prefix> 0..9       # switch window
+<prefix> N|P        # go to next/previous window
+<prefix> L          # go to last window
 
-Ctrl+B W            # choose window from list
+<prefix> W          # choose window from list
 ```
-
-## Note
-
-- Press `Shift` to select and copy text.
