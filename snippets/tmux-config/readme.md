@@ -29,10 +29,11 @@ set-option -g prefix C-a
 bind-key C-a send-prefix
 
 # Split panes using | and _
-bind | split-window -h
-bind _ split-window -v
+bind | split-window -h -c "#{pane_current_path}"
+bind _ split-window -v -c "#{pane_current_path}"
 unbind '"'
 unbind %
+bind c new-window -c "#{pane_current_path}"
 
 # Switch panes using Alt-arrow without prefix
 bind -n M-Left select-pane -L
