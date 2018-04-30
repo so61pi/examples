@@ -9,12 +9,17 @@
 - Change `browser.link.open_newwindow.restriction` to 0.
 - Make sure `browser.link.open_newwindow` is set to 3 (default value).
 
+## Keep Firefox open after closing the last tab
+
+- Go to `about:config`
+- Change `browser.tabs.closeWindowWithLastTab` to `false`
+
 ## Add-ons
 
 - HTTPS Everywhere
 - Mute Tab (WebExtension)
 
-## Dark `about:newtab` & `about:blank`**
+## Dark `about:newtab` & `about:blank`
 
 - Menu `Help` > `Troubleshooting Information`.
 - Find `Profile Directory`, click `Open Directory`.
