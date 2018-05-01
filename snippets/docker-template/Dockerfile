@@ -15,4 +15,5 @@ ARG userid
 RUN addgroup --quiet --gid ${groupid} worker
 RUN adduser --quiet --uid ${userid} --disabled-password --gecos '' --ingroup worker worker
 
+USER worker
 WORKDIR /code
