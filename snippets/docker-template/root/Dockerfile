@@ -10,9 +10,5 @@ FROM ubuntu:16.04
 #RUN DEBIAN_FRONTEND=noninteractive; apt-get install -y g++ gdb
 #RUN DEBIAN_FRONTEND=noninteractive; apt-get clean -y
 
-ARG groupid
-ARG userid
-RUN addgroup --quiet --gid ${groupid} builder
-RUN adduser --quiet --uid ${userid} --disabled-password --gecos '' --ingroup builder builder
-
-WORKDIR /code
+#WORKDIR /tmp
+#COPY Dockerfile /tmp
