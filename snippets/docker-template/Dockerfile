@@ -12,7 +12,7 @@ FROM ubuntu:16.04
 
 ARG groupid
 ARG userid
-RUN addgroup --quiet --gid ${groupid} builder
-RUN adduser --quiet --uid ${userid} --disabled-password --gecos '' --ingroup builder builder
+RUN addgroup --quiet --gid ${groupid} worker
+RUN adduser --quiet --uid ${userid} --disabled-password --gecos '' --ingroup worker worker
 
 WORKDIR /code
