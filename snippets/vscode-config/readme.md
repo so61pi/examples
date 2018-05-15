@@ -3,7 +3,6 @@
 - C/C++
 - Clang-Format
 - CMake
-- Code Runner
 - Docker
 - Doxygen Documentation Generator
 - GitLens
