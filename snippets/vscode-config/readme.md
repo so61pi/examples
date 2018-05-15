@@ -7,7 +7,6 @@
 - Docker
 - Doxygen Documentation Generator
 - GitLens
-- Google Search
 - Markdown All in One
 - markdownlint
 - Python
