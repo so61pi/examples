@@ -6,7 +6,6 @@
 - Docker
 - Doxygen Documentation Generator
 - GitLens
-- Markdown All in One
 - markdownlint
 - Python
 - systemd-unit-file
