@@ -1,4 +1,8 @@
 - Read https://llvm.org/docs/GettingStarted.html and https://llvm.org/docs/GettingStarted.html#git-mirror
+- The version info is in file `llvm/CMakeLists.txt`, in the following variables
+	- `LLVM_VERSION_MAJOR`
+   	- `LLVM_VERSION_MINOR`
+    - `LLVM_VERSION_PATCH`
 - Clone code and build
 
 ```shell
