@@ -11,3 +11,15 @@
 - systemd-unit-file
 - vscode-icons
 - XML Tools
+
+## Config
+
+```json
+{
+    "files.exclude": {
+        "**/build*": true
+    },
+
+    "files.defaultLanguage": "markdown"
+}
+```
