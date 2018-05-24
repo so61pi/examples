@@ -7,6 +7,9 @@
 
 ```shell
 export LLVMBRANCH=release_60
+export VERSIONSTR=6.0.1
+export BUILDCORES=8
+
 git clone -b ${LLVMBRANCH} https://git.llvm.org/git/llvm.git/              llvm                                     && \
 git clone -b ${LLVMBRANCH} https://git.llvm.org/git/clang.git/             llvm/tools/clang                         && \
 git clone -b ${LLVMBRANCH} https://git.llvm.org/git/clang-tools-extra.git/ llvm/tools/clang/tools/clang-tools-extra && \
@@ -16,8 +19,10 @@ git clone -b ${LLVMBRANCH} https://git.llvm.org/git/libcxxabi.git/         llvm/
 
 cd llvm
 mkdir build && cd build
-cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=$HOME/work/tools/clang-${LLVMBRANCH} ..
-cmake --build . -- -j4 && make install
+cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=$HOME/work/tools/clang-${VERSIONSTR} ..
+cmake --build . --target install -- -j${BUILDCORES}
 
+unset BUILDCORES
+unset VERSIONSTR
 unset LLVMBRANCH
 ```

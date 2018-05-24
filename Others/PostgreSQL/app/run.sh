@@ -6,8 +6,7 @@ mkdir /tmp/build
 cd /tmp/build
 
 cmake /code
-cmake --build .
-make install
+cmake --build . --target install
 
 # Wait until the PostgreSQL is up.
 sleep 5
