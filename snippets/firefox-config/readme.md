@@ -50,3 +50,17 @@
   }
 }
 ```
+
+## desktop file `~/.local/share/applications/firefox-nightly.desktop`
+
+```
+[Desktop Entry]
+Version=1.0
+Name=Nightly
+Comment=Browse the World Wide Web
+Icon=/opt/firefox/browser/chrome/icons/default/default128.png
+Exec=/opt/firefox/firefox %u
+Terminal=false
+Type=Application
+Categories=Network;WebBrowser;
+```
