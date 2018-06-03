@@ -18,6 +18,9 @@
 
 - HTTPS Everywhere
 - Mute Tab (WebExtension)
+- Tree Style Tab
+- Facebook Container
+- To Google Translate
 
 ## Dark `about:newtab` & `about:blank`
 
