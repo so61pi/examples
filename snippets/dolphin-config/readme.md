@@ -1,0 +1,5 @@
+- Menu `Settings` -> `Configure Dolphin...`
+    - `General` -> Select `Use common properties for all folders`
+- Menu `Views` -> `Adjust Views`
+    - View mode `Details`
+    - Unselect `Show preview`
