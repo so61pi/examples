@@ -11,7 +11,7 @@
 | Field                                         | Value |
 | --------------------------------------------- | ----- |
 | dom.popup_maximum                             |     2 |
-| dom.popup_allowed_events                      |  none |
+| dom.popup_allowed_events                      |       |
 | dom.disable_window_open_feature.location      |  true |
 | dom.disable_window_open_feature.close         |  true |
 | dom.disable_window_open_feature.resizable     |  true |
