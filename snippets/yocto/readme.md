@@ -17,5 +17,5 @@ BB_GENERATE_MIRROR_TARBALLS = "1"
 ```shell
 INHERIT += "own-mirrors"
 SSTATE_MIRRORS = "file://.* https://example.com/yocto/sstate-cache/PATH;downloadfilename=PATH"
-SOURCE_MIRROR_URL = "http://example.com/my-source-mirror"
+SOURCE_MIRROR_URL = "https://example.com/yocto/downloads"
 ```
