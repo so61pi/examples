@@ -1,7 +1,9 @@
 ## Add variables from env
 
 ```shell
-BB_ENV_EXTRAWHITE="VAR1=1 VAR2=2"
+BB_ENV_EXTRAWHITE="VAR1 VAR2"
+VAR1=1
+VAR2=2
 ```
 
 ## Generate tarballs
