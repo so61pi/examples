@@ -8,5 +8,5 @@ git remote add <remote-name> <mirror-repository>
 git push --mirror <remote-name>
 
 # Update the repository
-git remote update
+git remote update origin
 ```
