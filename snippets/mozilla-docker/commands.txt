@@ -1,4 +1,5 @@
 # https://wiki.mozilla.org/JavaScript:New_to_SpiderMonkey
+# https://developer.mozilla.org/en-US/docs/Mozilla/Projects/SpiderMonkey
 
 cp -f configure.in configure; and chmod +x configure; and rm -rf build_DBG.OBJ; and mkdir build_DBG.OBJ; and cd build_DBG.OBJ; and ../configure --enable-debug --disable-optimize; and cd ..
 
