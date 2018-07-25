@@ -1,0 +1,2 @@
+rm -rf build_DBG.OBJ && mkdir build_DBG.OBJ && cd build_DBG.OBJ && ../configure --enable-debug --disable-optimize
+make -j4
