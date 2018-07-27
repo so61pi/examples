@@ -1,6 +1,17 @@
 # https://wiki.mozilla.org/JavaScript:New_to_SpiderMonkey
 # https://developer.mozilla.org/en-US/docs/Mozilla/Projects/SpiderMonkey
 
+
 cp -f configure.in configure; and chmod +x configure; and rm -rf build_DBG.OBJ; and mkdir build_DBG.OBJ; and cd build_DBG.OBJ; and ../configure --enable-debug --disable-optimize; and cd ..
 
 make -j4 -C build_DBG.OBJ
+
+
+gdb --args ./build_DBG.OBJ/dist/bin/js -e 'function f() { return 1; } f();'
+
+
+gdbserver :2159 ./build_DBG.OBJ/dist/bin/js -e "'function f() { return 1; } f();'"
+
+target remote 172.17.0.2:2159
+directory ..
+monitor exit

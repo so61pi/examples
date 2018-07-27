@@ -10,14 +10,9 @@ docker-build:
 	docker build --rm=true --build-arg groupid=$(shell id -g) --build-arg userid=$(shell id -u) -t $(IMAGETAG) .
 
 
-.PHONY: docker-run
-docker-run:
-	docker run -it --rm --init --env-file Dockerenv.list -v $(shell pwd)/../mozilla-central:/mozilla-central:rw $(IMAGETAG)
-
-
 .PHONY: docker-shell
 docker-shell:
-	docker run -it --rm --init --env-file Dockerenv.list -v $(shell pwd)/../mozilla-central:/mozilla-central:rw $(IMAGETAG) fish
+	docker run -it --rm --init --env-file Dockerenv.list --cap-add=SYS_PTRACE --security-opt seccomp=unconfined -v $(shell pwd)/../mozilla-central:/mozilla-central:rw $(IMAGETAG) fish
 
 
 # NOTE: The docker-clean is used to clean ALL the used containers and images in the system.
