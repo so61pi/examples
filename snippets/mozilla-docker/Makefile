@@ -2,7 +2,7 @@ IMAGETAG	:= firefox-builder
 
 
 .PHONY: all
-all: docker-run
+all: docker-shell
 
 
 .PHONY: docker-build
