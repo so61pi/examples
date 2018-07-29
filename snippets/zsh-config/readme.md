@@ -1,7 +1,7 @@
 ## Add to `~/.zshrc`
 
 ```shell
-HISTFILE=$HOME/.histfile
+HISTFILE=$HOME/.zhistfile
 HISTSIZE=1000000                        # Number of lines of history in memory.
 SAVEHIST=1000000                        # Number of lines of history in history file.
 setopt      incappendhistory            # Immediately append to the history file, not just when a term is killed.
@@ -37,4 +37,5 @@ git config --global --add oh-my-zsh.hide-dirty 1
 ## Useful things
 
 - [oh-my-zsh](https://github.com/robbyrussell/oh-my-zsh).
+- [zsh-autosuggestions](https://github.com/zsh-users/zsh-autosuggestions/blob/master/INSTALL.md).
 - [zsh-syntax-highlighting](https://github.com/zsh-users/zsh-syntax-highlighting/blob/master/INSTALL.md).
