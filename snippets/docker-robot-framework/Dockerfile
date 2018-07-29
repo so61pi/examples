@@ -11,4 +11,3 @@ RUN adduser --quiet --uid ${userid} --disabled-password --gecos '' --ingroup wor
 USER worker
 WORKDIR /code
 CMD robot test.robot
-

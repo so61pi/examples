@@ -3,12 +3,18 @@ FROM ubuntu:latest
 
 ENV http_proxy=http://10.10.10.10:8080/ https_proxy=https://10.10.10.10:8080/
 
-# install stuff
-RUN DEBIAN_FRONTEND=noninteractive;                             \
-    for i in `seq 5`; do apt-get update; done;                  \
-    for i in `seq 5`; do apt-get install -y apt-utils; done;    \
-    for i in `seq 10`; do apt-get -d install -y xvfb fluxbox x11vnc xinit iputils-ping net-tools ssh terminator vim; done;  \
-    apt-get install -y xvfb fluxbox x11vnc xinit iputils-ping net-tools ssh terminator vim;
+ARG DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update
+RUN apt-get install -y apt-utils
+RUN apt-get install -y locales
+RUN dpkg-reconfigure locales && locale-gen en_US.UTF-8 && update-locale LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8
+RUN apt-get upgrade -y
+
+RUN apt-get install -y xvfb fluxbox x11vnc xinit iputils-ping net-tools ssh terminator vim
+
+RUN apt-get clean -y
+RUN rm -rf /var/lib/apt/lists/*
 
 # config
 RUN x11vnc -storepasswd 1234 ~/x11vncpasswd;    \
