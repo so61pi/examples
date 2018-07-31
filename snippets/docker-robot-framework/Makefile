@@ -7,7 +7,7 @@ all: docker-run
 
 .PHONY: docker-build
 docker-build:
-	docker build --rm=true --build-arg groupid=$(shell id -g) --build-arg userid=$(shell id -u) -t $(IMAGETAG) .
+	docker build --build-arg groupid=$(shell id -g) --build-arg userid=$(shell id -u) -t $(IMAGETAG) .
 
 
 .PHONY: docker-run

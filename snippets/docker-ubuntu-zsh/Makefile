@@ -7,7 +7,7 @@ all: docker-run
 
 .PHONY: docker-build
 docker-build:
-	docker build --rm=true -t $(IMAGETAG) .
+	docker build -t $(IMAGETAG) .
 
 
 .PHONY: docker-run

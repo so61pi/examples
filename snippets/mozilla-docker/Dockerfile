@@ -8,7 +8,8 @@ RUN apt-get install -y locales
 RUN dpkg-reconfigure locales && locale-gen en_US.UTF-8 && update-locale LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8
 RUN apt-get upgrade -y
 
-RUN apt-get install -y gawk wget curl build-essential socat cpio python debianutils xterm vim tmux tree fish man-db less gdb iproute2 clang llvm
+RUN apt-get install -y gawk wget curl build-essential socat cpio python debianutils xterm vim tmux tree fish man-db less gdb iproute2 clang llvm libnotify-bin dbus dbus-x11
+RUN apt-get install -y firefox
 
 RUN wget -q https://static.rust-lang.org/rustup.sh -O /tmp/rustup.sh
 RUN sh /tmp/rustup.sh --disable-sudo
@@ -31,4 +32,4 @@ COPY gdbinit /etc/gdb/gdbinit
 
 USER ${userid}:${groupid}
 WORKDIR /mozilla-central
-#CMD ./mach build
+CMD /mozilla-central/mach build

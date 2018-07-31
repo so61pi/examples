@@ -1,5 +1,7 @@
 IMAGETAG	:= image-test
 
+GUIOPT		:= --net=host -e DISPLAY --volume=$(XAUTHORITY):/home/builder/.Xauthority
+
 
 .PHONY: all
 all: docker-run
@@ -7,12 +9,12 @@ all: docker-run
 
 .PHONY: docker-build
 docker-build:
-	docker build --rm=true --build-arg groupid=$(shell id -g) --build-arg userid=$(shell id -u) -t $(IMAGETAG) .
+	docker build --build-arg groupid=$(shell id -g) --build-arg userid=$(shell id -u) -t $(IMAGETAG) .
 
 
 .PHONY: docker-run
 docker-run:
-	docker run -it --rm --init -e "TERM=xterm-256color" -v $(shell pwd):/code:ro $(IMAGETAG) ls -alh
+	docker run -it --rm --init -e "TERM=xterm-256color" $(GUIOPT) -v $(shell pwd):/code:ro $(IMAGETAG) ls -alh
 
 
 .PHONY: docker-run-detach
