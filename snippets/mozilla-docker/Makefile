@@ -18,9 +18,9 @@ docker-compile-firefox:
 	docker run -it --rm --init --env-file Dockerenv.list $(SECOPT) -v $(shell pwd)/../mozilla-central:/mozilla-central:rw $(IMAGETAG)
 
 
-.PHONY: docker-compile-firefox-orig
-docker-compile-firefox-orig:
-	docker run -it --rm --init --env-file Dockerenv.list $(SECOPT) -v $(shell pwd)/../mozilla-central-orig:/mozilla-central:rw $(IMAGETAG)
+.PHONY: orig-docker-compile-firefox
+orig-docker-compile-firefox:
+	docker run -it --rm --init --env-file Dockerenv.list $(SECOPT) -v $(shell pwd)/../orig-mozilla-central:/mozilla-central:rw $(IMAGETAG)
 
 
 .PHONY: docker-shell
@@ -28,9 +28,19 @@ docker-shell:
 	docker run -it --rm --init --env-file Dockerenv.list $(SECOPT) $(GUIOPT) -v $(shell pwd)/../mozilla-central:/mozilla-central:rw $(IMAGETAG) fish
 
 
-.PHONY: docker-shell-orig
-docker-shell-orig:
-	docker run -it --rm --init --env-file Dockerenv.list $(SECOPT) $(GUIOPT) -v $(shell pwd)/../mozilla-central-orig:/mozilla-central:rw $(IMAGETAG) fish
+.PHONY: orig-docker-shell
+orig-docker-shell:
+	docker run -it --rm --init --env-file Dockerenv.list $(SECOPT) $(GUIOPT) -v $(shell pwd)/../orig-mozilla-central:/mozilla-central:rw $(IMAGETAG) fish
+
+
+.PHONY: run
+run:
+	docker run -it --rm --init --env-file Dockerenv.list $(SECOPT) $(GUIOPT) -v $(shell pwd)/../mozilla-central:/mozilla-central:rw $(IMAGETAG) fish -c '/mozilla-central/mach run'
+
+
+.PHONY: orig-run
+orig-run:
+	docker run -it --rm --init --env-file Dockerenv.list $(SECOPT) $(GUIOPT) -v $(shell pwd)/../orig-mozilla-central:/mozilla-central:rw $(IMAGETAG) fish -c '/mozilla-central/mach run'
 
 
 # NOTE: The docker-clean is used to clean ALL the used containers and images in the system.
