@@ -23,6 +23,10 @@ cp -f configure.in configure; and chmod +x configure; and rm -rf build_DBG.OBJ; 
 make -j4 -C build_DBG.OBJ
 
 
+# run tests
+./tests/jstests.py ./build_DBG.OBJ/dist/bin/js
+
+
 # Debug locally
 gdb --args ./build_DBG.OBJ/dist/bin/js -e 'function f() { return 1; } f();'
 
