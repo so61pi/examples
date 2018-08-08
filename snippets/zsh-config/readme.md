@@ -17,7 +17,31 @@ bindkey -e                              # Emacs mode.
 export LESS=-XFR
 
 alias ggrep="grep -Frn"
-alias auu="sudo apt update && sudo apt upgrade -y && sudo apt autoremove -y"
+
+hg_get_branch_name () {
+    if [ $(in_hg) ]
+    then
+        if [[ -n $(hg prompt "{bookmark}") ]]; then
+            echo $(hg prompt "{branch}:{bookmark}")
+        else
+            echo $(hg prompt "{branch}")
+        fi
+    fi
+}
+
+hg_prompt_info () {
+    if [ $(in_hg) ]
+    then
+        _DISPLAY=$(hg_get_branch_name) 
+        echo "$ZSH_PROMPT_BASE_COLOR$ZSH_THEME_HG_PROMPT_PREFIX$ZSH_THEME_REPO_NAME_COLOR$_DISPLAY$ZSH_PROMPT_BASE_COLOR$ZSH_PROMPT_BASE_COLOR$ZSH_THEME_HG_PROMPT_SUFFIX$ZSH_PROMPT_BASE_COLOR "
+        unset _DISPLAY
+    fi
+}
+
+ZSH_THEME_HG_PROMPT_PREFIX="%{$fg_bold[magenta]%}hg:(%{$fg[red]%}"
+ZSH_THEME_HG_PROMPT_SUFFIX="%{$fg[magenta]%})%{$reset_color%}"
+
+PROMPT="$PROMPT"'$(hg_prompt_info)'
 ```
 
 ## Reload history
