@@ -6,6 +6,7 @@
 - https://developer.mozilla.org/en-US/docs/Mozilla/QA/Running_automated_tests
 - https://www.joshmatthews.net/bugsahoy/
 - https://coventryuniversity.github.io/mozbugs/
+- https://moz-conduit.readthedocs.io/en/latest/phabricator-user.html#submitting-patches
 
 
 ## jsshell
@@ -14,13 +15,15 @@
 - https://developer.mozilla.org/en-US/docs/Mozilla/Projects/SpiderMonkey
 
 ```shell
-cd mozilla-central/js/src
+cd /mozilla-central/js/src
 
 
 # Compile jsshell
-cp -f configure.in configure; and chmod +x configure; and rm -rf build_DBG.OBJ; and mkdir build_DBG.OBJ; and cd build_DBG.OBJ; and ../configure --enable-debug --disable-optimize; and cd ..
-
-make -j4 -C build_DBG.OBJ
+autoconf2.13
+mkdir build_DBG.OBJ
+cd build_DBG.OBJ
+../configure --enable-debug --disable-optimize
+make -j4
 
 
 # run tests
@@ -38,4 +41,26 @@ gdbserver :2159 ./build_DBG.OBJ/dist/bin/js -e "'function f() { return 1; } f();
 target remote 172.17.0.2:2159
 directory ..
 monitor exit
+```
+
+
+## mach
+
+```shell
+mach lint <path>
+
+mach doc
+mach build
+mach run
+
+mach bootstrap
+mach mercurial-setup
+
+mach help
+mach mach-commands
+
+mach jstests
+mach jsapi-tests
+
+mach static-analysis
 ```

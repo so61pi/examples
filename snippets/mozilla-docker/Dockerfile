@@ -8,7 +8,10 @@ RUN apt-get install -y locales
 RUN dpkg-reconfigure locales && locale-gen en_US.UTF-8 && update-locale LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8
 RUN apt-get upgrade -y
 
-RUN apt-get install -y gawk wget curl build-essential socat cpio python debianutils xterm vim tmux tree fish man-db less gdb iproute2 clang llvm libnotify-bin dbus dbus-x11
+RUN apt-get install -y build-essential debianutils gawk wget curl socat \
+                       cpio python vim xterm tmux tree fish man-db less \
+                       gdb iproute2 clang llvm libnotify-bin dbus dbus-x11 \
+                       mercurial git php php-curl shellcheck nodejs npm
 RUN apt-get install -y firefox
 
 RUN wget -q https://static.rust-lang.org/rustup.sh -O /tmp/rustup.sh
@@ -16,6 +19,12 @@ RUN sh /tmp/rustup.sh --disable-sudo
 
 RUN wget -q https://hg.mozilla.org/mozilla-central/raw-file/default/python/mozboot/bin/bootstrap.py -O /tmp/bootstrap.py
 RUN python /tmp/bootstrap.py --application-choice=browser --no-interactive
+
+RUN npm install -g npm
+RUN npm install -g jsdoc
+RUN git clone https://github.com/phacility/arcanist.git /opt/arcanist
+RUN git clone https://github.com/phacility/libphutil.git /opt/libphutil
+ENV PATH="/opt/arcanist/bin:${PATH}"
 
 ARG groupid
 ARG userid
@@ -31,5 +40,8 @@ RUN rm -rf /var/lib/apt/lists/*
 COPY gdbinit /etc/gdb/gdbinit
 
 USER ${userid}:${groupid}
+RUN touch /home/builder/.arcrc
+RUN mkdir -p ~/.config/fish && echo 'alias mach /mozilla-central/mach' >> ~/.config/fish/config.fish
+
 WORKDIR /mozilla-central
 CMD /mozilla-central/mach build
