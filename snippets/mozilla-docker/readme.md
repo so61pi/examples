@@ -23,11 +23,13 @@ autoconf2.13
 mkdir build_DBG.OBJ
 cd build_DBG.OBJ
 ../configure --enable-debug --disable-optimize
-make -j4
+cd ..
+make -j4 -C build_DBG.OBJ
 
 
 # run tests
-./tests/jstests.py ./build_DBG.OBJ/dist/bin/js
+cd /mozilla-central/js/src/tests
+./jstests.py ../build_DBG.OBJ/dist/bin/js [directories or files]
 
 
 # Debug locally
