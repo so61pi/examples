@@ -1,30 +1,45 @@
 IMAGETAG	:= image-test
 
-GUIOPT		:= --net=host -e DISPLAY --volume=$(XAUTHORITY):/home/builder/.Xauthority
+USERNAME	:= worker
+
+OPTIONS		:= --net=host -e DISPLAY --volume=$(XAUTHORITY):/home/$(USERNAME)/.Xauthority
+OPTIONS		+= --sysctl net.ipv6.conf.all.disable_ipv6=1 --hostname localhost
+OPTIONS		+= -v $(shell pwd):/code:ro
+OPTIONS		+= -v $(shell pwd)/fish_history:/home/$(USERNAME)/.local/share/fish/fish_history:rw
+OPTIONS		+= -e "TERM=xterm-256color"
+
+BUILDARGS	:= --build-arg groupid=$(shell id -g)
+BUILDARGS	+= --build-arg userid=$(shell id -u)
+BUILDARGS	+= --build-arg username=$(USERNAME)
 
 
 .PHONY: all
 all: docker-run
 
 
+.PHONY: auxfiles
+auxfiles:
+	touch fish_history
+
+
 .PHONY: docker-build
 docker-build:
-	docker build --build-arg groupid=$(shell id -g) --build-arg userid=$(shell id -u) -t $(IMAGETAG) .
+	docker build $(BUILDARGS) -t $(IMAGETAG) .
 
 
 .PHONY: docker-run
-docker-run:
-	docker run -it --rm --init -e "TERM=xterm-256color" $(GUIOPT) -v $(shell pwd):/code:ro $(IMAGETAG) ls -alh
+docker-run: auxfiles
+	docker run -it --rm --init $(OPTIONS) $(IMAGETAG) ls -alh
 
 
 .PHONY: docker-run-detach
-docker-run-detach:
-	docker run --detach --rm --init -e "TERM=xterm-256color" -v $(shell pwd):/code:ro $(IMAGETAG) sleep 30
+docker-run-detach: auxfiles
+	docker run --detach --rm --init $(OPTIONS) $(IMAGETAG) sleep 30
 
 
 .PHONY: docker-shell
-docker-shell:
-	docker run -it --rm --init -e "TERM=xterm-256color" -v $(shell pwd):/code:ro $(IMAGETAG) bash
+docker-shell: auxfiles
+	docker run -it --rm --init $(OPTIONS) $(IMAGETAG) fish
 
 
 # NOTE: The docker-clean is used to clean ALL the used containers and images in the system.
