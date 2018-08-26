@@ -2,11 +2,12 @@ IMAGETAG	:= so61pi/firefox-builder
 
 USERNAME	:= builder
 
-OPTIONS		:= --net=host -e DISPLAY --volume=$(XAUTHORITY):/home/$(USERNAME)/.Xauthority
-OPTIONS		+= --cap-add=SYS_PTRACE --security-opt seccomp=unconfined
-OPTIONS		+= --sysctl net.ipv6.conf.all.disable_ipv6=1 --hostname localhost
-OPTIONS		+= -v $(shell pwd)/arcrc:/home/$(USERNAME)/.arcrc:ro
-OPTIONS		+= -v $(shell pwd)/fish_history:/home/$(USERNAME)/.local/share/fish/fish_history:rw
+RUNOPTIONS	:= -it --rm --init --env-file Dockerenv.list
+RUNOPTIONS	+= --net=host -e DISPLAY --volume=$(XAUTHORITY):/home/$(USERNAME)/.Xauthority
+RUNOPTIONS	+= --cap-add=SYS_PTRACE --security-opt seccomp=unconfined
+RUNOPTIONS	+= --sysctl net.ipv6.conf.all.disable_ipv6=1 --hostname localhost
+RUNOPTIONS	+= -v $(shell pwd)/arcrc:/home/$(USERNAME)/.arcrc:ro
+RUNOPTIONS	+= -v $(shell pwd)/fish_history:/home/$(USERNAME)/.local/share/fish/fish_history:rw
 
 SRCMOUNT	:= -v $(shell pwd)/../mozilla-central:/mozilla-central:rw
 JSSRCMOUNT	:= -v $(shell pwd)/../js-mozilla-central:/mozilla-central:rw
@@ -33,37 +34,37 @@ docker-build:
 
 .PHONY: docker-compile-firefox
 docker-compile-firefox:
-	docker run -it --rm --init --env-file Dockerenv.list $(OPTIONS) $(SRCMOUNT) $(IMAGETAG)
+	docker run $(RUNOPTIONS) $(SRCMOUNT) $(IMAGETAG)
 
 
 .PHONY: orig-docker-compile-firefox
 orig-docker-compile-firefox:
-	docker run -it --rm --init --env-file Dockerenv.list $(OPTIONS) $(ORGSRCMOUNT) $(IMAGETAG)
+	docker run $(RUNOPTIONS) $(ORGSRCMOUNT) $(IMAGETAG)
 
 
 .PHONY: docker-shell
 docker-shell: auxfiles
-	docker run -it --rm --init --env-file Dockerenv.list $(OPTIONS) $(SRCMOUNT) $(IMAGETAG) fish
+	docker run $(RUNOPTIONS) $(SRCMOUNT) $(IMAGETAG) fish
 
 
 .PHONY: js-docker-shell
 js-docker-shell: auxfiles
-	docker run -it --rm --init --env-file Dockerenv.list $(OPTIONS) $(JSSRCMOUNT) $(IMAGETAG) fish
+	docker run -w=/mozilla-central/js/src $(RUNOPTIONS) $(JSSRCMOUNT) $(IMAGETAG) fish
 
 
 .PHONY: orig-docker-shell
 orig-docker-shell: auxfiles
-	docker run -it --rm --init --env-file Dockerenv.list $(OPTIONS) $(ORGSRCMOUNT) $(IMAGETAG) fish
+	docker run $(RUNOPTIONS) $(ORGSRCMOUNT) $(IMAGETAG) fish
 
 
 .PHONY: run
 run:
-	docker run -it --rm --init --env-file Dockerenv.list $(OPTIONS) $(SRCMOUNT) $(IMAGETAG) fish -c '/mozilla-central/mach run'
+	docker run $(RUNOPTIONS) $(SRCMOUNT) $(IMAGETAG) fish -c '/mozilla-central/mach run'
 
 
 .PHONY: orig-run
 orig-run:
-	docker run -it --rm --init --env-file Dockerenv.list $(OPTIONS) $(ORGSRCMOUNT) $(IMAGETAG) fish -c '/mozilla-central/mach run'
+	docker run $(RUNOPTIONS) $(ORGSRCMOUNT) $(IMAGETAG) fish -c '/mozilla-central/mach run'
 
 
 # NOTE: The docker-clean is used to clean ALL the used containers and images in the system.
