@@ -9,6 +9,7 @@ OPTIONS		+= -v $(shell pwd)/arcrc:/home/$(USERNAME)/.arcrc:ro
 OPTIONS		+= -v $(shell pwd)/fish_history:/home/$(USERNAME)/.local/share/fish/fish_history:rw
 
 SRCMOUNT	:= -v $(shell pwd)/../mozilla-central:/mozilla-central:rw
+JSSRCMOUNT	:= -v $(shell pwd)/../js-mozilla-central:/mozilla-central:rw
 ORGSRCMOUNT	:= -v $(shell pwd)/../orig-mozilla-central:/mozilla-central:rw
 
 BUILDARGS	:= --build-arg groupid=$(shell id -g)
@@ -43,6 +44,11 @@ orig-docker-compile-firefox:
 .PHONY: docker-shell
 docker-shell: auxfiles
 	docker run -it --rm --init --env-file Dockerenv.list $(OPTIONS) $(SRCMOUNT) $(IMAGETAG) fish
+
+
+.PHONY: js-docker-shell
+js-docker-shell: auxfiles
+	docker run -it --rm --init --env-file Dockerenv.list $(OPTIONS) $(JSSRCMOUNT) $(IMAGETAG) fish
 
 
 .PHONY: orig-docker-shell
