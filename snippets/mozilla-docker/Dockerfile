@@ -13,7 +13,7 @@ RUN apt-get update \
  && apt-get install -y build-essential debianutils gawk wget curl socat \
                        cpio python vim xterm tmux tree man-db less strace \
                        gdb iproute2 clang llvm libnotify-bin dbus dbus-x11 \
-                       mercurial git php php-curl shellcheck firefox
+                       mercurial git php php-curl shellcheck firefox graphviz
 
 # Add user.
 ARG groupid
