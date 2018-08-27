@@ -27,6 +27,12 @@
 | --------------------------------------------- | ----- |
 | browser.tabs.closeWindowWithLastTab           | false`|
 
+### Open new tab after current tab
+
+| Field                                         | Value |
+| --------------------------------------------- | ----- |
+| browser.tabs.insertAfterCurrent               |  true |
+
 ## Add-ons
 
 - HTTPS Everywhere
@@ -47,36 +53,4 @@ Exec=/opt/firefox/firefox %u
 Terminal=false
 Type=Application
 Categories=Network;WebBrowser;
-```
-
-## Dark `about:newtab` & `about:blank`
-
-- Menu `Help` > `Troubleshooting Information`.
-- Find `Profile Directory`, click `Open Directory`.
-- Create `chrome/userContent.css` with following content:
-
-```css
-@-moz-document url(about:blank) {
-  html {
-    background-color: #393F4C !important;
-  }
-}
-
-@-moz-document url-prefix(about:blank) {
-  * {
-    background-color: #393F4C;
-  }
-}
-
-@-moz-document url(about:newtab) {
-  html {
-    background-color: #393F4C !important;
-  }
-}
-
-@-moz-document url-prefix(about:newtab) {
-  * {
-    background-color: #393F4C;
-  }
-}
 ```
