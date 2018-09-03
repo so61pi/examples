@@ -37,9 +37,11 @@
 
 - HTTPS Everywhere
 - Mute Tab (WebExtension)
-- Tree Style Tab
 - Facebook Container
 - To Google Translate
+- LeechBlock
+- uBlock Origin
+- Mate Translate
 
 ## desktop file `~/.local/share/applications/firefox-nightly.desktop`
 
