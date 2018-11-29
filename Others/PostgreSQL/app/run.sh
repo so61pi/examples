@@ -2,8 +2,7 @@
 
 set -e
 
-mkdir /tmp/build
-cd /tmp/build
+mkdir /tmp/build && cd /tmp/build
 
 cmake /code
 cmake --build . --target install
