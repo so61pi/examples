@@ -19,8 +19,8 @@ func main() {
 
 	var cmdAdd = &cobra.Command{
 		Use:   "add <url>",
-		Short: "Shorten a URL",
-		Args:  cobra.ExactArgs(1),
+		Short: "Shorten URLs",
+		Args:  cobra.MinimumNArgs(1),
 		Run: func(cmd *cobra.Command, args []string) {
 			client, err := redis.NewClient(redisserver, 0)
 			if err != nil {
@@ -29,20 +29,20 @@ func main() {
 			}
 			defer client.Close()
 
-			urlinfo, err := client.AddUrl(args[0])
-			if err != nil {
-				fmt.Println(err)
-				return
+			for _, url := range args {
+				if urlinfo, err := client.AddUrl(url); err != nil {
+					fmt.Println(err)
+				} else {
+					fmt.Println(urlinfo)
+				}
 			}
-
-			fmt.Println(urlinfo)
 		},
 	}
 
 	var cmdDel = &cobra.Command{
 		Use:   "del <url>",
-		Short: "Delete a URL",
-		Args:  cobra.ExactArgs(1),
+		Short: "Delete URLs",
+		Args:  cobra.MinimumNArgs(1),
 		Run: func(cmd *cobra.Command, args []string) {
 			client, err := redis.NewClient(redisserver, 0)
 			if err != nil {
@@ -51,9 +51,10 @@ func main() {
 			}
 			defer client.Close()
 
-			if err := client.DelUrl(args[0]); err != nil {
-				fmt.Println(err)
-				return
+			for _, url := range args {
+				if err := client.DelUrl(url); err != nil {
+					fmt.Println(err)
+				}
 			}
 		},
 	}
