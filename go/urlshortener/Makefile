@@ -1,3 +1,9 @@
 all:
-	go build cmd/client.go
-	# go build cmd/server.go
+	go build -o bin/client cmd/client/client.go
+	go build -o bin/webserver cmd/webserver/webserver.go
+
+format:
+	go fmt ./...
+
+get:
+	go get ./...

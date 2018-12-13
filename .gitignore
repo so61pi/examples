@@ -3,3 +3,7 @@
 *.so
 *.out
 *.pyc
+
+bin/
+build/
+vendor/
