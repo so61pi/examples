@@ -1,0 +1,4 @@
+package: examples/go/urlshortener
+import:
+  - package: github.com/go-redis/redis
+  - package: github.com/spf13/cobra
