@@ -6,12 +6,16 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/sirupsen/logrus"
 
+	"examples/go/urlshortener/db"
+	"examples/go/urlshortener/db/mongodb"
 	"examples/go/urlshortener/db/redis"
-	"examples/go/urlshortener/log"
 )
 
 func main() {
-	const redisserver = "127.0.0.1:6379"
+	redisCfg := redis.Config{"127.0.0.1:6379", 0}
+	mongodbCfg := mongodb.Config{"127.0.0.1:6379", "0"}
+
+	dbCfg := interface{}{&redisCfg}
 
 	logrus.SetLevel(logrus.DebugLevel)
 	logrus.SetFormatter(&logrus.TextFormatter{
@@ -23,7 +27,7 @@ func main() {
 		url := c.Param("url")
 		logrus.WithFields(log.Fields(log.WebServer, url)).Debug("process url")
 
-		client, err := redis.NewClient(redisserver, 0)
+		client, err := db.NewClient(dbCfg)
 		if err != nil {
 			logrus.WithFields(log.Fields(log.Redis, err)).Debug("cannot access redis server")
 			c.String(http.StatusInternalServerError, "Internal Server Error")

@@ -19,10 +19,10 @@ type redisSess struct {
 	client *redis.Client
 }
 
-func NewClient(addr string, db int) (db.DB, error) {
+func NewClient(addr string) (db.DB, error) {
 	client := redis.NewClient(&redis.Options{
 		Addr: addr,
-		DB:   db,
+		DB:   0,
 	})
 	_, err := client.Ping().Result()
 	if err != nil {
@@ -32,21 +32,21 @@ func NewClient(addr string, db int) (db.DB, error) {
 	return &redisSess{client}, nil
 }
 
-func (r *redisSess) Close() {
-	r.client.Close()
+func (sess *redisSess) Close() {
+	sess.client.Close()
 }
 
-func (r *redisSess) AddUrl(longUrl string) (*model.UrlInfo, error) {
+func (sess *redisSess) AddUrl(longUrl string) (*model.UrlInfo, error) {
 	defer log.FnExit(log.FnEnter("AddUrl"))
 
 	if _, err := url.ParseRequestURI(longUrl); err != nil {
 		return nil, err
 	}
 
-	tryAdd := func(r *redisSess, key string, longUrl string) (bool, error) {
+	tryAdd := func(sess *redisSess, key string, longUrl string) (bool, error) {
 		defer log.FnExit(log.FnEnter("tryAdd"))
 
-		ok, err := r.client.HSetNX(key, "url", longUrl).Result()
+		ok, err := sess.client.HSetNX(key, "url", longUrl).Result()
 		if err != nil {
 			return false, err
 		}
@@ -56,7 +56,7 @@ func (r *redisSess) AddUrl(longUrl string) (*model.UrlInfo, error) {
 			return false, nil
 		}
 
-		if _, err := r.client.HMSet(key, map[string]interface{}{"hit": 0, "deleted": 0}).Result(); err != nil {
+		if _, err := sess.client.HMSet(key, map[string]interface{}{"hit": 0, "deleted": 0}).Result(); err != nil {
 			return false, err
 		}
 
@@ -64,7 +64,7 @@ func (r *redisSess) AddUrl(longUrl string) (*model.UrlInfo, error) {
 		return true, nil
 	}
 
-	counter, err := r.client.Incr("counter").Result()
+	counter, err := sess.client.Incr("counter").Result()
 	if err != nil {
 		return nil, err
 	}
@@ -83,7 +83,7 @@ func (r *redisSess) AddUrl(longUrl string) (*model.UrlInfo, error) {
 		logrus.WithFields(log.Fields(log.Other, shortUrl)).Debug("url generated")
 
 		key := "url:" + shortUrl
-		success, err := tryAdd(r, key, longUrl)
+		success, err := tryAdd(sess, key, longUrl)
 		if err != nil {
 			return nil, err
 		}
@@ -96,13 +96,13 @@ func (r *redisSess) AddUrl(longUrl string) (*model.UrlInfo, error) {
 	}
 }
 
-func (r *redisSess) GetUrl(shortUrl string) (*model.UrlInfo, error) {
+func (sess *redisSess) GetUrl(shortUrl string) (*model.UrlInfo, error) {
 	defer log.FnExit(log.FnEnter("GetUrl"))
 
 	logrus.WithFields(log.Fields(log.Redis, shortUrl)).Debug("get data of url")
 
 	key := "url:" + shortUrl
-	mapCmd, err := r.client.HGetAll(key).Result()
+	mapCmd, err := sess.client.HGetAll(key).Result()
 	if err != nil {
 		return nil, err
 	}
@@ -118,11 +118,11 @@ func (r *redisSess) GetUrl(shortUrl string) (*model.UrlInfo, error) {
 	return urlInfo, nil
 }
 
-func (r *redisSess) HitUrl(shortUrl string) error {
+func (sess *redisSess) HitUrl(shortUrl string) error {
 	defer log.FnExit(log.FnEnter("HitUrl"))
 
 	key := "url:" + shortUrl
-	v, err := r.client.HIncrBy(key, "hit", 1).Result()
+	v, err := sess.client.HIncrBy(key, "hit", 1).Result()
 
 	if err == nil {
 		logrus.WithFields(log.Fields(log.Redis, v)).Debug("new number of hits")
@@ -130,14 +130,14 @@ func (r *redisSess) HitUrl(shortUrl string) error {
 	return err
 }
 
-func (r *redisSess) DelUrl(shortUrl string) error {
+func (sess *redisSess) DelUrl(shortUrl string) error {
 	defer log.FnExit(log.FnEnter("DelUrl"))
 
 	key := "url:" + shortUrl
 
 	var markAsDeleted func(key string) error
 	markAsDeleted = func(key string) error {
-		err := r.client.Watch(func(tx *redis.Tx) error {
+		err := sess.client.Watch(func(tx *redis.Tx) error {
 			if exists, err := tx.Exists(key).Result(); err != nil {
 				tx.Unwatch(key)
 				return err
@@ -164,11 +164,11 @@ func (r *redisSess) DelUrl(shortUrl string) error {
 	return markAsDeleted(key)
 }
 
-func (r *redisSess) UrlLst() ([]model.UrlInfo, error) {
+func (sess *redisSess) UrlLst() ([]model.UrlInfo, error) {
 	defer log.FnExit(log.FnEnter("UrlLst"))
 
 	key := "url:*"
-	keys, err := r.client.Keys(key).Result()
+	keys, err := sess.client.Keys(key).Result()
 	if err != nil {
 		return nil, err
 	}
@@ -178,7 +178,7 @@ func (r *redisSess) UrlLst() ([]model.UrlInfo, error) {
 	urls := []model.UrlInfo{}
 	for _, v := range keys {
 		logrus.WithFields(log.Fields(log.Redis, v)).Debug("getting data for key")
-		mapCmd, err := r.client.HGetAll(v).Result()
+		mapCmd, err := sess.client.HGetAll(v).Result()
 		if err != nil {
 			logrus.WithFields(log.Fields(log.Redis, err)).Debug("error while getting data for key")
 			return nil, err
