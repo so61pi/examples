@@ -13,13 +13,13 @@ import (
 
 func main() {
 	redisCfg := redis.Config{"127.0.0.1:6379", 0}
-	mongodbCfg := mongodb.Config{"127.0.0.1:6379", "0"}
+	mongodbCfg := mongodb.Config{"127.0.0.1:27017", "0"}
 
 	var dbCfg interface{}
-	if true {
-		dbCfg = &redisCfg
+	if false {
+		dbCfg = redisCfg
 	} else {
-		dbCfg = &mongodbCfg
+		dbCfg = mongodbCfg
 	}
 
 	logrus.SetLevel(logrus.DebugLevel)

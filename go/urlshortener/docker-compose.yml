@@ -6,8 +6,8 @@ services:
     restart: always
     ports:
       - '6379:6379'
-  mongodb:
-    image: mongodb:4.1.6
+  mongo:
+    image: mongo:4.1.6
     restart: always
     ports:
       - '27017:27017'

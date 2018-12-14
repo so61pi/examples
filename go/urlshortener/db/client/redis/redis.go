@@ -57,7 +57,7 @@ func (sess *redisSess) AddUrl(longUrl string) (*model.UrlInfo, error) {
 		}
 
 		if !ok {
-			logrus.WithFields(log.Fields(log.Redis, key)).Debug("key already exists")
+			logrus.WithFields(log.Fields(log.Database, key)).Debug("key already exists")
 			return false, nil
 		}
 
@@ -65,7 +65,7 @@ func (sess *redisSess) AddUrl(longUrl string) (*model.UrlInfo, error) {
 			return false, err
 		}
 
-		logrus.WithFields(log.Fields(log.Redis, key)).Debug("url added successfully")
+		logrus.WithFields(log.Fields(log.Database, key)).Debug("URL added successfully")
 		return true, nil
 	}
 
@@ -73,7 +73,7 @@ func (sess *redisSess) AddUrl(longUrl string) (*model.UrlInfo, error) {
 	if err != nil {
 		return nil, err
 	}
-	logrus.WithFields(log.Fields(log.Redis, counter)).Debug("current value of counter")
+	logrus.WithFields(log.Fields(log.Database, counter)).Debug("current value of counter")
 
 	length := int(math.Floor(math.Log10(float64(counter))) + 1)
 	if length < 4 {
@@ -85,7 +85,7 @@ func (sess *redisSess) AddUrl(longUrl string) (*model.UrlInfo, error) {
 		if err != nil {
 			return nil, err
 		}
-		logrus.WithFields(log.Fields(log.Other, shortUrl)).Debug("url generated")
+		logrus.WithFields(log.Fields(log.Other, shortUrl)).Debug("URL generated")
 
 		key := "url:" + shortUrl
 		success, err := tryAdd(sess, key, longUrl)
@@ -94,7 +94,7 @@ func (sess *redisSess) AddUrl(longUrl string) (*model.UrlInfo, error) {
 		}
 
 		if !success {
-			logrus.WithFields(log.Fields(log.Redis, shortUrl)).Debug("url cannot be added, re-try")
+			logrus.WithFields(log.Fields(log.Database, shortUrl)).Debug("URL cannot be added, re-try")
 			continue
 		}
 		return model.NewUrlInfo(shortUrl, longUrl, 0, false), nil
@@ -104,7 +104,7 @@ func (sess *redisSess) AddUrl(longUrl string) (*model.UrlInfo, error) {
 func (sess *redisSess) GetUrl(shortUrl string) (*model.UrlInfo, error) {
 	defer log.FnExit(log.FnEnter("GetUrl"))
 
-	logrus.WithFields(log.Fields(log.Redis, shortUrl)).Debug("get data of url")
+	logrus.WithFields(log.Fields(log.Database, shortUrl)).Debug("get data of URL")
 
 	key := "url:" + shortUrl
 	mapCmd, err := sess.client.HGetAll(key).Result()
@@ -112,7 +112,7 @@ func (sess *redisSess) GetUrl(shortUrl string) (*model.UrlInfo, error) {
 		return nil, err
 	}
 
-	logrus.WithFields(log.Fields(log.Redis, mapCmd)).Debug("data of url")
+	logrus.WithFields(log.Fields(log.Database, mapCmd)).Debug("data of URL")
 
 	urlInfo := &model.UrlInfo{}
 	urlInfo.ShortUrl = shortUrl
@@ -130,7 +130,7 @@ func (sess *redisSess) HitUrl(shortUrl string) error {
 	v, err := sess.client.HIncrBy(key, "hit", 1).Result()
 
 	if err == nil {
-		logrus.WithFields(log.Fields(log.Redis, v)).Debug("new number of hits")
+		logrus.WithFields(log.Fields(log.Database, v)).Debug("new number of hits")
 	}
 	return err
 }
@@ -148,8 +148,8 @@ func (sess *redisSess) DelUrl(shortUrl string) error {
 				return err
 			} else if exists == 0 {
 				tx.Unwatch(key)
-				logrus.WithFields(log.Fields(log.Redis, shortUrl)).Debug("url not found in database")
-				return errors.New("url not found")
+				logrus.WithFields(log.Fields(log.Database, shortUrl)).Debug("URL not found in database")
+				return errors.New("URL not found")
 			}
 
 			_, err := tx.Pipelined(func(pipe redis.Pipeliner) error {
@@ -160,7 +160,7 @@ func (sess *redisSess) DelUrl(shortUrl string) error {
 		}, key)
 
 		if err == redis.TxFailedErr {
-			logrus.WithFields(log.Fields(log.Redis, err)).Debug("transaction failed, re-try")
+			logrus.WithFields(log.Fields(log.Database, err)).Debug("transaction failed, re-try")
 			return markAsDeleted(key)
 		}
 		return err
@@ -178,20 +178,20 @@ func (sess *redisSess) UrlLst() ([]model.UrlInfo, error) {
 		return nil, err
 	}
 
-	logrus.WithFields(log.Fields(log.Redis, keys)).Debug("retrieved urls")
+	logrus.WithFields(log.Fields(log.Database, keys)).Debug("URLs retrieved")
 
 	urls := []model.UrlInfo{}
 	for _, v := range keys {
-		logrus.WithFields(log.Fields(log.Redis, v)).Debug("getting data for key")
+		logrus.WithFields(log.Fields(log.Database, v)).Debug("getting data for key")
 		mapCmd, err := sess.client.HGetAll(v).Result()
 		if err != nil {
-			logrus.WithFields(log.Fields(log.Redis, err)).Debug("error while getting data for key")
+			logrus.WithFields(log.Fields(log.Database, err)).Debug("error while getting data for key")
 			return nil, err
 		}
 
 		urlInfo := model.UrlInfo{ShortUrl: strings.TrimPrefix(v, "url:")}
 		if err := urlInfo.FromMap(mapCmd); err != nil {
-			logrus.WithFields(log.Fields(log.Other, err)).Debug("cannot translate db data to url info")
+			logrus.WithFields(log.Fields(log.Other, err)).Debug("cannot translate db data to URL info")
 			return nil, err
 		}
 

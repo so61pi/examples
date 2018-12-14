@@ -7,11 +7,10 @@ import (
 type Topic string
 
 const (
-	WebServer = Topic("webserver")
-	Redis     = Topic("redis")
-	Function  = Topic("function")
-
-	Other = Topic("other")
+	WebServer = Topic("WEBSERVER")
+	Database  = Topic("DB")
+	Function  = Topic("FUNC")
+	Other     = Topic("OTHER")
 )
 
 func Fields(topic Topic, val interface{}) logrus.Fields {
@@ -22,10 +21,10 @@ func Fields(topic Topic, val interface{}) logrus.Fields {
 }
 
 func FnEnter(fn string) string {
-	logrus.WithFields(Fields(Function, fn)).Debug("enter function")
+	logrus.WithFields(Fields(Function, fn)).Debug("ENTER>>>")
 	return fn
 }
 
 func FnExit(fn string) {
-	logrus.WithFields(Fields(Function, fn)).Debug("exit function")
+	logrus.WithFields(Fields(Function, fn)).Debug("<<<EXIT")
 }

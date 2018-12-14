@@ -6,10 +6,17 @@ import (
 )
 
 type UrlInfo struct {
+	ShortUrl string `bson:"shorturl"`
+	LongUrl  string `bson:"longurl"`
+	Hit      uint64 `bson:"hit"`
+	Deleted  bool   `bson:"deleted"`
+}
+
+type Name struct {
 	ShortUrl string
 	LongUrl  string
-	Hit      uint64
-	Deleted  bool
+	Hit      string
+	Deleted  string
 }
 
 func NewUrlInfo(shortUrl string, longUrl string, hit uint64, deleted bool) *UrlInfo {

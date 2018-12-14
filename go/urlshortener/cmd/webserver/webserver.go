@@ -9,17 +9,18 @@ import (
 	"examples/go/urlshortener/db/client"
 	"examples/go/urlshortener/db/client/mongodb"
 	"examples/go/urlshortener/db/client/redis"
+	"examples/go/urlshortener/log"
 )
 
 func main() {
 	redisCfg := redis.Config{"127.0.0.1:6379", 0}
-	mongodbCfg := mongodb.Config{"127.0.0.1:6379", "0"}
+	mongodbCfg := mongodb.Config{"127.0.0.1:27017", "0"}
 
 	var dbCfg interface{}
-	if true {
-		dbCfg = &redisCfg
+	if false {
+		dbCfg = redisCfg
 	} else {
-		dbCfg = &mongodbCfg
+		dbCfg = mongodbCfg
 	}
 
 	logrus.SetLevel(logrus.DebugLevel)
@@ -34,7 +35,7 @@ func main() {
 
 		client, err := client.NewClient(dbCfg)
 		if err != nil {
-			logrus.WithFields(log.Fields(log.Redis, err)).Debug("cannot access redis server")
+			logrus.WithFields(log.Fields(log.Database, err)).Debug("cannot access DB server")
 			c.String(http.StatusInternalServerError, "Internal Server Error")
 			return
 		}
