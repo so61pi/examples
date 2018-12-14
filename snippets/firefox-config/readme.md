@@ -33,6 +33,12 @@
 | --------------------------------------------- | ----- |
 | browser.tabs.insertAfterCurrent               |  true |
 
+### Show tabs in full-screen mode
+
+| Field                                         | Value |
+| --------------------------------------------- | ----- |
+| browser.fullscreen.autohide                   | false |
+
 ## Add-ons
 
 - HTTPS Everywhere
