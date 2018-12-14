@@ -1,10 +1,10 @@
 package mongodb
 
 import (
-	"errors"
+	// "errors"
 	"math"
 	"net/url"
-	"strings"
+	// "strings"
 
 	"github.com/sirupsen/logrus"
 	"gopkg.in/mgo.v2"
@@ -21,9 +21,9 @@ type mongodbSess struct {
 	db     string
 }
 
-type Config {
-    Addr string
-    Db string
+type Config struct {
+	Addr string
+	Db   string
 }
 
 func NewClient(cfg Config) (db.DB, error) {
@@ -49,7 +49,7 @@ type data struct {
 	Counter int
 }
 
-func (sess *mongodbSess) AddUrl(url string) (*model.UrlInfo, error) {
+func (sess *mongodbSess) AddUrl(longUrl string) (*model.UrlInfo, error) {
 	defer log.FnExit(log.FnEnter("AddUrl"))
 
 	if _, err := url.ParseRequestURI(longUrl); err != nil {
@@ -67,7 +67,8 @@ func (sess *mongodbSess) AddUrl(url string) (*model.UrlInfo, error) {
 			ReturnNew: true,
 		}
 
-		if info, err := c.Find(bson.M{}).Apply(change, d); err != nil {
+		d := &data{}
+		if _, err := c.Find(bson.M{}).Apply(change, d); err != nil {
 			return nil, err
 		} else {
 			return d, nil
@@ -79,7 +80,7 @@ func (sess *mongodbSess) AddUrl(url string) (*model.UrlInfo, error) {
 		return nil, err
 	}
 
-	length := int(math.Floor(math.Log10(float64(counter))) + 1)
+	length := int(math.Floor(math.Log10(float64(counter.Counter))) + 1)
 	if length < 4 {
 		length = 4
 	}
@@ -99,7 +100,7 @@ func (sess *mongodbSess) AddUrl(url string) (*model.UrlInfo, error) {
 			}
 			return nil, err
 		}
-		return &urlInfo, nil
+		return urlInfo, nil
 	}
 }
 
@@ -114,7 +115,7 @@ func (sess *mongodbSess) GetUrl(shortUrl string) (*model.UrlInfo, error) {
 	if err := c.Find(bson.M{"ShortUrl": shortUrl}).One(urlInfo); err != nil {
 		return nil, err
 	}
-	return urlInfo
+	return urlInfo, nil
 }
 
 func (sess *mongodbSess) HitUrl(shortUrl string) error {
@@ -126,7 +127,7 @@ func (sess *mongodbSess) HitUrl(shortUrl string) error {
 
 	urlInfo := &model.UrlInfo{}
 	if err := c.Find(bson.M{"ShortUrl": shortUrl}).One(urlInfo); err != nil {
-		return nil, err
+		return err
 	}
 
 	change := mgo.Change{
@@ -134,7 +135,7 @@ func (sess *mongodbSess) HitUrl(shortUrl string) error {
 		ReturnNew: true,
 	}
 
-	if info, err := c.Find(bson.M{"ShortUrl": shortUrl}).Apply(change, urlInfo); err != nil {
+	if _, err := c.Find(bson.M{"ShortUrl": shortUrl}).Apply(change, urlInfo); err != nil {
 		return err
 	}
 	return nil
@@ -149,7 +150,7 @@ func (sess *mongodbSess) DelUrl(shortUrl string) error {
 
 	urlInfo := &model.UrlInfo{}
 	if err := c.Find(bson.M{"ShortUrl": shortUrl}).One(urlInfo); err != nil {
-		return nil, err
+		return err
 	}
 
 	change := mgo.Change{
@@ -157,7 +158,7 @@ func (sess *mongodbSess) DelUrl(shortUrl string) error {
 		ReturnNew: true,
 	}
 
-	if info, err := c.Find(bson.M{"ShortUrl": shortUrl}).Apply(change, urlInfo); err != nil {
+	if _, err := c.Find(bson.M{"ShortUrl": shortUrl}).Apply(change, urlInfo); err != nil {
 		return err
 	} else {
 		return nil

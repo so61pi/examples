@@ -6,16 +6,21 @@ import (
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 
-	"examples/go/urlshortener/db"
-	"examples/go/urlshortener/db/mongodb"
-	"examples/go/urlshortener/db/redis"
+	"examples/go/urlshortener/db/client"
+	"examples/go/urlshortener/db/client/mongodb"
+	"examples/go/urlshortener/db/client/redis"
 )
 
 func main() {
 	redisCfg := redis.Config{"127.0.0.1:6379", 0}
 	mongodbCfg := mongodb.Config{"127.0.0.1:6379", "0"}
 
-	dbCfg := interface{}{&redisCfg}
+	var dbCfg interface{}
+	if true {
+		dbCfg = &redisCfg
+	} else {
+		dbCfg = &mongodbCfg
+	}
 
 	logrus.SetLevel(logrus.DebugLevel)
 	logrus.SetFormatter(&logrus.TextFormatter{
@@ -27,7 +32,7 @@ func main() {
 		Short: "Shorten URLs",
 		Args:  cobra.MinimumNArgs(1),
 		Run: func(cmd *cobra.Command, args []string) {
-			client, err := db.NewClient(dbCfg)
+			client, err := client.NewClient(dbCfg)
 			if err != nil {
 				fmt.Println(err)
 				return
@@ -49,7 +54,7 @@ func main() {
 		Short: "Delete URLs",
 		Args:  cobra.MinimumNArgs(1),
 		Run: func(cmd *cobra.Command, args []string) {
-			client, err := db.NewClient(dbCfg)
+			client, err := client.NewClient(dbCfg)
 			if err != nil {
 				fmt.Println(err)
 				return
@@ -69,7 +74,7 @@ func main() {
 		Short: "List all URLs",
 		Args:  cobra.NoArgs,
 		Run: func(cmd *cobra.Command, args []string) {
-			client, err := db.NewClient(dbCfg)
+			client, err := client.NewClient(dbCfg)
 			if err != nil {
 				fmt.Println(err)
 				return

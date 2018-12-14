@@ -19,10 +19,15 @@ type redisSess struct {
 	client *redis.Client
 }
 
-func NewClient(addr string) (db.DB, error) {
+type Config struct {
+	Addr string
+	Db   int
+}
+
+func NewClient(cfg Config) (db.DB, error) {
 	client := redis.NewClient(&redis.Options{
-		Addr: addr,
-		DB:   0,
+		Addr: cfg.Addr,
+		DB:   cfg.Db,
 	})
 	_, err := client.Ping().Result()
 	if err != nil {
