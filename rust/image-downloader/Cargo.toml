@@ -1,0 +1,9 @@
+[package]
+name = "image-downloader"
+version = "0.1.0"
+authors = ["Thi Huynh <so61pi.re@gmail.com>"]
+edition = "2018"
+
+[dependencies]
+reqwest = "0.9.5"
+html5ever = "0.22.5"
