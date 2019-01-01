@@ -12,37 +12,40 @@ use html5ever::tendril::TendrilSink;
 fn walk(indent: usize, handle: Handle) {
     let node = handle;
     // FIXME: don't allocate
-    print!("{}", repeat(" ").take(indent).collect::<String>());
+    // print!("{}", repeat(" ").take(indent).collect::<String>());
     match node.data {
-        NodeData::Document => println!("#Document"),
+        // NodeData::Document => println!("#Document"),
 
-        NodeData::Doctype {
-            ref name,
-            ref public_id,
-            ref system_id,
-        } => println!("<!DOCTYPE {} \"{}\" \"{}\">", name, public_id, system_id),
+        // NodeData::Doctype {
+        //     ref name,
+        //     ref public_id,
+        //     ref system_id,
+        // } => println!("<!DOCTYPE {} \"{}\" \"{}\">", name, public_id, system_id),
 
-        NodeData::Text { ref contents } => {
-            println!("#text: {}", escape_default(&contents.borrow()))
-        },
+        // NodeData::Text { ref contents } => {
+        //     println!("#text: {}", escape_default(&contents.borrow()))
+        // },
 
-        NodeData::Comment { ref contents } => println!("<!-- {} -->", escape_default(contents)),
+        // NodeData::Comment { ref contents } => println!("<!-- {} -->", escape_default(contents)),
 
         NodeData::Element {
             ref name,
             ref attrs,
             ..
         } => {
-            assert!(name.ns == ns!(html));
-            print!("<{}", name.local);
-            for attr in attrs.borrow().iter() {
-                assert!(attr.name.ns == ns!());
-                print!(" {}=\"{}\"", attr.name.local, attr.value);
+            // TODO: Converting below if statement to a match.
+            if name.local.eq_str_ignore_ascii_case("a") || name.local.eq_str_ignore_ascii_case("img") {
+                print!("<{}", name.local);
+                for attr in attrs.borrow().iter() {
+                    print!(" {}=\"{}\"", attr.name.local, attr.value);
+                }
+                println!(">");
             }
-            println!(">");
         },
 
-        NodeData::ProcessingInstruction { .. } => unreachable!(),
+        // NodeData::ProcessingInstruction { .. } => unreachable!(),
+
+        _ => {}
     }
 
     for child in node.children.borrow().iter() {
@@ -56,13 +59,13 @@ pub fn escape_default(s: &str) -> String {
 }
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
-    let body = reqwest::get("https://www.24fa.com/mn59605c49p9.aspx")?.text()?;
+    let body = reqwest::get("https://www.pexels.com/search/HD%20wallpaper/")?.text()?;
 
-    // println!("body = {:?}", body);
+    println!("body = {:?}", body);
 
     let dom = parse_document(RcDom::default(), Default::default())
         .from_utf8()
-        .read_from(body)?;
+        .read_from(&mut body.as_bytes())?;
     walk(0, dom.document);
 
     if !dom.errors.is_empty() {
