@@ -3,47 +3,51 @@ use std::io;
 use std::iter::repeat;
 use std::string::String;
 
-use html5ever::parse_document;
-use html5ever::rcdom::{Handle, NodeData, RcDom};
+// use html5ever::parse_document;
+// use html5ever::rcdom::{Handle, NodeData, RcDom};
 use html5ever::tendril::TendrilSink;
 
 // This is not proper HTML serialization, of course.
 
-fn walk(indent: usize, handle: Handle) {
+fn walk(indent: usize, handle: html5ever::rcdom::Handle) {
     let node = handle;
     // FIXME: don't allocate
     // print!("{}", repeat(" ").take(indent).collect::<String>());
     match node.data {
-        // NodeData::Document => println!("#Document"),
+        // html5ever::rcdom::NodeData::Document => println!("#Document"),
 
-        // NodeData::Doctype {
+        // html5ever::rcdom::NodeData::Doctype {
         //     ref name,
         //     ref public_id,
         //     ref system_id,
         // } => println!("<!DOCTYPE {} \"{}\" \"{}\">", name, public_id, system_id),
 
-        // NodeData::Text { ref contents } => {
+        // html5ever::rcdom::NodeData::Text { ref contents } => {
         //     println!("#text: {}", escape_default(&contents.borrow()))
         // },
 
-        // NodeData::Comment { ref contents } => println!("<!-- {} -->", escape_default(contents)),
+        // html5ever::rcdom::NodeData::Comment { ref contents } => println!("<!-- {} -->", escape_default(contents)),
 
-        NodeData::Element {
+        html5ever::rcdom::NodeData::Element {
             ref name,
             ref attrs,
             ..
         } => {
             // TODO: Converting below if statement to a match.
-            if name.local.eq_str_ignore_ascii_case("a") || name.local.eq_str_ignore_ascii_case("img") {
-                print!("<{}", name.local);
-                for attr in attrs.borrow().iter() {
-                    print!(" {}=\"{}\"", attr.name.local, attr.value);
-                }
-                println!(">");
-            }
+            match name.local {
+                html5ever::local_name!("a") |
+                html5ever::local_name!("img") => {
+                    print!("<{}", name.local);
+                    for attr in attrs.borrow().iter() {
+                        print!(" {}=\"{}\"", attr.name.local, attr.value);
+                    }
+                    println!(">");
+                },
+                _ => {}
+            };
         },
 
-        // NodeData::ProcessingInstruction { .. } => unreachable!(),
+        // html5ever::rcdom::NodeData::ProcessingInstruction { .. } => unreachable!(),
 
         _ => {}
     }
@@ -61,9 +65,9 @@ pub fn escape_default(s: &str) -> String {
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     let body = reqwest::get("https://www.pexels.com/search/HD%20wallpaper/")?.text()?;
 
-    println!("body = {:?}", body);
+    // println!("body = {:?}", body);
 
-    let dom = parse_document(RcDom::default(), Default::default())
+    let dom = html5ever::parse_document(html5ever::rcdom::RcDom::default(), Default::default())
         .from_utf8()
         .read_from(&mut body.as_bytes())?;
     walk(0, dom.document);
