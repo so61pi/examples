@@ -39,6 +39,12 @@
 | --------------------------------------------- | ----- |
 | browser.fullscreen.autohide                   | false |
 
+### Hide title bar
+
+| Field                                         | Value |
+| --------------------------------------------- | ----- |
+| browser.tabs.drawInTitleBar                   |  true |
+
 ## Add-ons
 
 - HTTPS Everywhere
