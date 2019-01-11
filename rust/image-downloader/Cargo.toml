@@ -5,5 +5,6 @@ authors = ["Thi Huynh <so61pi.re@gmail.com>"]
 edition = "2018"
 
 [dependencies]
-reqwest = "0.9.5"
 html5ever = "0.22.5"
+log = "0.4.6"
+reqwest = "0.9.5"
