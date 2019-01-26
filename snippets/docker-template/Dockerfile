@@ -31,8 +31,8 @@ RUN echo 'Defaults logfile=/dev/null' >> /etc/sudoers
 
 #ARG gituser
 #ARG gitemail
-#RUN git config --system user.email ${gitemail}
-#RUN git config --system user.name ${gituser}
+#RUN git config --system user.email "${gitemail}"
+#RUN git config --system user.name "${gituser}"
 
 USER ${userid}:${groupid}
 

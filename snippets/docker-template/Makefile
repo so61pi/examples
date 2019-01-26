@@ -10,8 +10,8 @@ OPTIONS		+= -e "TERM=xterm-256color"
 BUILDARGS	:= --build-arg groupid=$(shell id -g)
 BUILDARGS	+= --build-arg userid=$(shell id -u)
 BUILDARGS	+= --build-arg username=$(USERNAME)
-#BUILDARGS	+= --build-arg gitemail=$(shell git config user.email)
-#BUILDARGS	+= --build-arg gituser=$(shell git config user.name)
+#BUILDARGS	+= --build-arg gitemail="$(shell git config user.email)"
+#BUILDARGS	+= --build-arg gituser="$(shell git config user.name)"
 
 .PHONY: all
 all: docker-run
