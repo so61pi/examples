@@ -8,3 +8,4 @@ bin/
 build/
 vendor/
 target/
+node_modules/
