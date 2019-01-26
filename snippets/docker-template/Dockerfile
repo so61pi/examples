@@ -14,7 +14,7 @@ RUN apt-get update \
 
 #RUN apt-get update \
 # && apt-get upgrade -y \
-# && apt-get install -y g++ gdb
+# && apt-get install -y g++ gdb git
 
 #RUN apt-get clean -y && rm -rf /var/lib/apt/lists/*
 
@@ -28,6 +28,11 @@ RUN usermod -a --groups ${groupid} $(id -un ${userid}) || true
 RUN adduser ${username} sudo
 RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 RUN echo 'Defaults logfile=/dev/null' >> /etc/sudoers
+
+#ARG gituser
+#ARG gitemail
+#RUN git config --system user.email ${gitemail}
+#RUN git config --system user.name ${gituser}
 
 USER ${userid}:${groupid}
 
