@@ -55,3 +55,10 @@ services:
     depends_on:
       - web
     command: sh -c "while true; do wget -q -O /dev/null http://web; sleep 1; done;"
+
+  elasticsearch-hq:
+    image: elastichq/elasticsearch-hq:release-v3.5.0
+    depends_on:
+      - elasticsearch
+    ports:
+      - 5000:5000
