@@ -85,7 +85,7 @@ Before viewing the log on Kibana, you have to define an index pattern.
 - https://www.elastic.co/guide/en/kibana/current/tutorial-define-index.html
 - Index patterns tell Kibana which Elasticsearch indices you want to explore.
 
-And this is how the log looks like on Kibana:
+After that, you can view the log and this is how it looks like on Kibana:
 ```json
 {
   "_index": "fluentd-20190316",
