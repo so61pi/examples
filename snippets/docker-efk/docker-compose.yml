@@ -1,0 +1,57 @@
+version: '3.1'
+
+services:
+  # https://hub.docker.com/r/fluent/fluentd
+  #
+  # fluent.conf contains following network information
+  # - Listening port (24224)
+  # - ElasticSearch host and port (elasticsearch:9200)
+  fluentd:
+    build: ./fluentd
+    volumes:
+      - ./fluentd/conf:/fluentd/etc
+    ports:
+      - 24224:24224
+      - 24224:24224/udp
+
+  # https://hub.docker.com/_/elasticsearch
+  #
+  # ElasticSearch default port is 9200.
+  # Run `sudo sysctl -w vm.max_map_count=262144` in the host system
+  # to increase `vm.max_map_count` to correct value.
+  elasticsearch:
+    image: elasticsearch:6.6.2
+
+  # https://hub.docker.com/_/kibana
+  #
+  # Kibana docker image by default will connect to http://elasticsearch:9200
+  # which is already correct. We can change elasticsearch address to something
+  # different by using environment variables like this
+  # environment:
+  #   ELASTICSEARCH_HOSTS: http://elasticsearch:9200
+  kibana:
+    image: kibana:6.6.2
+    ports:
+      - 5601:5601
+    depends_on:
+      - elasticsearch
+
+  # Web is the log source.
+  web:
+    image: httpd:2.4.38
+    ports:
+      - 8080:80
+    depends_on:
+      - fluentd
+    logging:
+      driver: fluentd
+      options:
+        fluentd-address: localhost:24224
+        tag: httpd.access
+
+  # Repeatedly access web to generate log.
+  alpine:
+    image: alpine:3.9.2
+    depends_on:
+      - web
+    command: sh -c "while true; do wget -q -O /dev/null http://web; sleep 1; done;"
