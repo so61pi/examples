@@ -113,8 +113,21 @@ After that, you can view the log and this is how it looks like on Kibana:
 ```
 
 
+## A little bit more about Kibana
+
+- You can use sample data to practice with Kibana
+  - Go to `http://127.0.0.1:5601/app/kibana`, click on `Add sample data`.
+  - Under `Sample flight data`, click `Add` and wait a few seconds for the data to be loaded in.
+
+- Some Kibana areas
+  - `Discover` shows collected logs so you can interactively explore your data.
+  - `Visualize` enables you to create visualizations of the data in your Elasticsearch indices.
+  - `Dashboard` displays a collection of visualizations and searches.
+
+
 ## About mappings
 
+In order to be able to treat date fields as dates, numeric fields as numbers, and string fields as full-text or exact-value strings, Elasticsearch needs to know what type of data each field contains. This information is contained in the mapping.
 - https://www.elastic.co/guide/en/elasticsearch/guide/current/mapping-intro.html#_viewing_the_mapping
 
 ```json
