@@ -1,7 +1,8 @@
 To create new errors, we have 3 ways:
 
-- Use errors.New or related functions.
-  - In the first way, errors already record stack trace. This kind of error should be used sparingly otherwise we cannot differentiate errors anymore.
+- Use `errors.New` or related functions.
+  - In this way, errors already record stack trace.
+  - This should be used sparingly otherwise we cannot differentiate errors anymore.
 
 - Create a new error struct that wrap around other errors.
 ```go
