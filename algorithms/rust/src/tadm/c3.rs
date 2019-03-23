@@ -1,3 +1,11 @@
+// search
+// insert
+// delete
+// min
+// max
+// successor
+// predecessor
+
 pub fn fn_01(s: &str) -> Option<usize> {
     // A common problem for compilers and text editors is determining whether
     // the parentheses in a string are balanced and properly nested. For
