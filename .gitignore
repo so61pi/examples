@@ -4,6 +4,7 @@
 *.out
 *.pyc
 
+.vscode/
 bin/
 build/
 vendor/

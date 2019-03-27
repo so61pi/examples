@@ -1,10 +1,10 @@
-// search
-// insert
-// delete
-// min
-// max
-// successor
-// predecessor
+// search(D, value)
+// insert(D, value)
+// delete(D, value)
+// min(D)
+// max(D)
+// successor(D, node)
+// predecessor(D, node)
 
 pub fn fn_01(s: &str) -> Option<usize> {
     // A common problem for compilers and text editors is determining whether
@@ -71,12 +71,14 @@ pub fn fn_03() {
     // that achieves constant amortized cost per deletion.
 }
 
-// TODO
 pub fn fn_04() {
     // Design a dictionary data structure in which search, insertion, and
     // deletion can all be processed in O(1) time in the worst case. You may
     // assume the set elements are integers drawn from a finite set 1, 2, .., n,
     // and initialization can take O(n) time.
+
+    // Assumes that the elements are N unique numbers, we can initialize a hash
+    // table with N buckets and each element will go to separated bucket.
 }
 
 // TODO
@@ -91,15 +93,16 @@ pub fn fn_05() {
     // The data field requires four bytes and each pointer requires two bytes.
 }
 
-// TODO
 pub fn fn_06() {
     // Describe how to modify any balanced tree data structure such that search,
     // insert, delete, minimum, and maximum still take O(log n) time each, but
     // successor and predecessor now take O(1) time each. Which operations have
     // to be modified to support this?
+
+    // Add additional pointers for successor & predecessor and keep them in sync
+    // when insert or delete.
 }
 
-// TODO
 pub fn fn_07() {
     // Suppose you have access to a balanced dictionary data structure, which
     // supports each of the operations search, insert, delete, minimum, maximum,
@@ -108,9 +111,26 @@ pub fn fn_07() {
     // and maximum take O(1) time. (Hint: think in terms of using the abstract
     // dictionary operations, instead of mucking about with pointers and the
     // like.)
+
+    // Place additional variables to hold min and max values out side of the
+    // tree and keep them in sync when insert or delete.
+    //
+    // new_insert(e) {
+    //     insert(e)
+    //     min, max = minmax(min, e, max)
+    // }
+    //
+    // new_delete(e) {
+    //     delete(e)
+    //     if e == min {
+    //         min = successor(e)
+    //     }
+    //     if e == max {
+    //         max = predecessor(e)
+    //     }
+    // }
 }
 
-// TODO
 pub fn fn_08() {
     // Design a data structure to support the following operations:
     //
@@ -121,6 +141,16 @@ pub fn fn_08() {
     // • member(x,T) – Return true iff x ∈ T .
     //
     // All operations must take O(log n) time on an n-element set.
+
+    // Binary search tree with each node contains the number of left and right
+    // child elements.
+    //
+    // insert(x,T) increases children number from root to element.
+    //
+    // delete(k,T) decreases children number from root to the largest deleted
+    // element.
+    //
+    // member(x, T) is search.
 }
 
 // TODO
