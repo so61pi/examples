@@ -3,7 +3,7 @@ To create new errors, we have 3 ways:
 - Use `errors.New` from `github.com/pkg/errors` or related functions.
   - In this way, errors already record stack trace.
   - This should be used sparingly otherwise we cannot differentiate errors anymore.
-  - **Note that the built-in `errors.New` doesn't record stack trace information.**
+  - **Note that the built-in `errors.New` doesn't record stack trace information.** We can use `errors.WithStack` to add stack trace info for existing errors.
 
 - Create a new error struct that wrap around other errors.
 ```go
