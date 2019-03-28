@@ -9,7 +9,7 @@ To create new errors, we have 3 ways:
 ```go
 type MyErrorKind int
 const (
-    MyError1 MyErrorKind = itoa
+    MyError1 MyErrorKind = iota
     MyError2
     MyError3
 )
@@ -47,7 +47,7 @@ func (err *MyError) Error() string {
 // This function implement causer interface so we can use errors.Cause
 // to get the root cause which is usually created by errors.New or
 // errors.Errorf
-func (err *MyError) Cause() {
+func (err *MyError) Cause() error {
     return err.cause
 }
 ```
@@ -68,7 +68,7 @@ func (err *MyError) Error() string {
     return err.err.Error()
 }
 
-func (err *MyError) Cause() {
+func (err *MyError) Cause() error {
     return err.cause
 }
 ```
