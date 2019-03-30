@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+
+<tiles-definitions>
+    <definition name="base-layout" template="/WEB-INF/tiles/base-layout.jsp">
+        <put-attribute name="title" value="" />
+        <put-attribute name="menu-guest" value="/WEB-INF/tiles/menu-guest.jsp" />
+        <put-attribute name="menu-user" value="/WEB-INF/tiles/menu-user.jsp" />
+        <put-attribute name="menu-admin" value="/WEB-INF/tiles/menu-admin.jsp" />
+        <put-attribute name="body" value="" />
+        <put-attribute name="footer" value="/WEB-INF/tiles/footer.jsp" />
+    </definition>
+    
+    <definition name="home.page" extends="base-layout">
+        <put-attribute name="title" value="Home" />
+        <put-attribute name="body" value="/WEB-INF/tiles/body-home.jsp" />
+    </definition>
+    
+    <definition name="view-products.page" extends="base-layout">
+        <put-attribute name="title" value="Products" />
+        <put-attribute name="body" value="/WEB-INF/tiles/body-view-products.jsp" />
+    </definition>
+    
+    <definition name="update-products.page" extends="base-layout">
+        <put-attribute name="title" value="Update products" />
+        <put-attribute name="body" value="/WEB-INF/tiles/body-update-products.jsp" />
+    </definition>
+    
+    <definition name="check-cart.page" extends="base-layout">
+        <put-attribute name="title" value="Check cart" />
+        <put-attribute name="body" value="/WEB-INF/tiles/body-check-cart.jsp" />
+    </definition>
+    
+    <definition name="view-result.page" extends="base-layout">
+        <put-attribute name="title" value="Result" />
+        <put-attribute name="body" value="/WEB-INF/tiles/body-view-result.jsp" />
+    </definition>
+    
+    <definition name="register.page" extends="base-layout">
+        <put-attribute name="title" value="Register" />
+        <put-attribute name="body" value="/WEB-INF/tiles/body-register.jsp" />
+    </definition>
+    
+    <definition name="login.page" extends="base-layout">
+        <put-attribute name="title" value="Login" />
+        <put-attribute name="body" value="/WEB-INF/tiles/body-login.jsp" />
+    </definition>
+    
+    <definition name="forgot-password.page" extends="base-layout">
+        <put-attribute name="title" value="Forgot Password" />
+        <put-attribute name="body" value="/WEB-INF/tiles/body-forgot-password.jsp" />
+    </definition>
+    
+    <definition name="change-password.page" extends="base-layout">
+        <put-attribute name="title" value="Change Password" />
+        <put-attribute name="body" value="/WEB-INF/tiles/body-change-password.jsp" />
+    </definition>
+    
+    <definition name="check-info.page" extends="base-layout">
+        <put-attribute name="title" value="User Info" />
+        <put-attribute name="body" value="/WEB-INF/tiles/body-check-info.jsp" />
+    </definition>
+    
+    <definition name="success.page" extends="base-layout">
+        <put-attribute name="title" value="Success" />
+        <put-attribute name="body" value="/WEB-INF/tiles/body-success.jsp" />
+    </definition>
+    
+    <definition name="error.page" extends="base-layout">
+        <put-attribute name="title" value="Error" />
+        <put-attribute name="body" value="/WEB-INF/tiles/body-error.jsp" />
+    </definition>
+
+</tiles-definitions>

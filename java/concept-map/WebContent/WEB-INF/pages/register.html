@@ -1,0 +1,92 @@
+<!doctype html>
+
+<html>
+  
+  <head>
+    <title>Register</title>
+    <meta name="viewport" content="width=device-width">
+    
+    <script src="js/jquery-2.1.1.min.js"></script>
+    <link rel="stylesheet" href="css/jquery-ui.min.css">
+    <script src="js/jquery-ui.min.js"></script>
+    
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/bootstrap-theme.min.css">
+    <script src="js/bootstrap.min.js"></script>
+  </head>
+  
+  <body class="bg-success">
+    <div class="container-fluid">
+      <div class="row" style="background:#FAFFE6; border-bottom: 1px solid blue;">
+        <div class="col-md-12">
+          <ul class="nav navbar-nav">
+            <li>
+              <a href="login.jsp">Login</a>
+            </li>
+            <li>
+              <a href="register.jsp">Register</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <section style="min-height:150px;"></section>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-3"></div>
+        <div class="col-md-6">
+          <div class="container-fluid">
+            <form class="form-horizontial" action="register">
+              <div class="row">
+                <div class="col-md-12">
+                  <h4>
+                    <label class="control-label">Register:</label>
+                  </h4>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="form-group">
+                      <input class="form-control" type="text" name="username" placeholder="Username...">
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <input class="form-control" type="password" name="password" placeholder="Password...">
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-group">
+                  <div class="col-md-6">
+                    <div class="radio">
+                      <label>
+                        <input name="role" checked type="radio" value="student"><b>Student</b></label>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="radio">
+                      <label>
+                        <input name="role" type="radio" value="lecturer"><b>Lecturer</b></label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <button class="btn btn-primary center-block"><b>Register</b></button>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="col-md-3"></div>
+      </div>
+    </div>
+  </body>
+
+</html>

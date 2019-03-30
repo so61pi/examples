@@ -1,0 +1,7 @@
+[workspace]
+members = [
+    "bin-gate",
+    "bin-media-downloader",
+    "bin-url-grabber",
+    "libcommon",
+]

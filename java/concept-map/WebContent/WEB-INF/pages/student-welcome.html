@@ -1,0 +1,145 @@
+<!doctype html>
+
+<html>
+  
+  <head>
+    <title>Welcome</title>
+    <meta name="viewport" content="width=device-width">
+    
+    <script src="js/jquery-2.1.1.min.js"></script>
+    <link rel="stylesheet" href="css/jquery-ui.min.css">
+    <script src="js/jquery-ui.min.js"></script>
+    
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/bootstrap-theme.min.css">
+    <script src="js/bootstrap.min.js"></script>
+    
+    <script type="text/javascript">
+      $(document).ready(function() {
+        //$('#welcome-area').resizable({
+        //  handles: 's'
+        //});
+        //$('#welcome-area').css("height", $(document).height()-$('#welcome-area').offset().top-5+"px");
+        $("#welcome-area").css("height", $(window).height()+"px");
+        $("#slide-panel").css("width", "-=1");
+        $("#asignment-info-panel").css("width", "+=0");
+        var minWidth = $("#assignment-panel").outerWidth();
+        var maxWidth = Math.floor(minWidth/0.5);
+        minWidth = minWidth+"px";
+        maxWidth = maxWidth+"px";
+        $("#slide-panel-opener").on("click", function() {
+          var slidePanel = $("#slide-panel");
+          var welcomePanel = $("#welcome-panel");
+          slidePanel.animate({
+              width: "toggle",
+              height: "toggle"
+            }, {
+              duration: 300,
+              start: function() {
+                if (!welcomePanel.hasClass("expanded")) {
+                	welcomePanel.addClass("expanded").animate({
+                    width: maxWidth
+                  }, 500);
+                }
+                else {
+                	welcomePanel.removeClass("expanded").animate({
+                    width: minWidth
+                  }, 100);
+                }
+              }
+            });
+          return false;
+        });
+      });
+    </script>
+  </head>
+  
+  <body class="bg-success">
+    <div class="container-fluid">
+      <div class="row" style="background:#FAFFE6; border-bottom: 1px solid blue;">
+        <div class="col-md-12">
+          <ul class="nav navbar-nav">
+            <li>
+              <a href="welcome.jsp">Welcome</a>
+            </li>
+            <li>
+              <a href="drawing.jsp">Drawing</a>
+            </li>
+            <li>
+              <a href="maps.jsp">Maps</a>
+            </li>
+            <li>
+              <a href="shared-maps.jsp">Shared maps</a>
+            </li>
+          </ul>
+          <ul class="nav navbar-nav pull-right">
+            <li>
+              <a href="logout">Logout</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="container-fluid">
+      <div class="row">
+        <button class="btn btn-warning glyphicon glyphicon-align-justify" id="slide-panel-opener"></button>
+      </div>
+    </div>
+    <div class="container-fluid">
+      <div class="row">
+        <div id="slide-panel" style="position:relative; width:50%; float:left;">
+          <div id="assignment-panel">
+            <form class="form-horizontial" role="form">
+              <div class="container-fluid">
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <div class="col-md-12" style="margin-top:5px; margin-bottom:5px;">
+                        <label class="control-label">My assignments:</label>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <div class="col-md-12" style="margin-top:5px; margin-bottom:5px;">
+                        <select class="form-control" size="5">
+                          <option>Option 1</option>
+                          <option>Option 2</option>
+                          <option>Option 3</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label class="col-md-6 control-label">Name:</label>
+                      <label class="col-md-6 control-label">xxx</label>
+                    </div>
+                    <div class="form-group">
+                      <label class="col-md-6 control-label">From:</label>
+                      <label class="col-md-6 control-label">xxx</label>
+                    </div>
+                    <div class="form-group">
+                      <label class="col-md-6 control-label">Deadline:</label>
+                      <label class="col-md-6 control-label">xx-xx-xx</label>
+                    </div>
+                    <div class="form-group">
+                      <label class="col-md-6 control-label">MapID:</label>
+                      <label class="col-md-6 control-label">xxxxxx</label>
+                    </div>
+                    <div class="form-group">
+                      <label class="col-md-12 control-label">Description:</label>
+                      <label class="col-md-12 control-label">xyztvu</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div id="welcome-panel" style="position:relative; width:50%; float:right; padding:5px;">
+          <section id="welcome-area" style="width:100%; height:100%; border:1px solid green; background:#FFFFFF"></section>
+        </div>
+      </div>
+    </div>
+  </body>
+
+</html>

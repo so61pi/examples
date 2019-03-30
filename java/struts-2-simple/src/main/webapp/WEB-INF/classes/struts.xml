@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+   "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+   "http://struts.apache.org/dtds/struts-2.3.dtd">
+   
+<struts>
+  <constant name="struts.mapper.action.prefix.enabled" value="true"/>
+  
+  <package name="interceptors" extends="struts-default">
+    <interceptors>
+      <interceptor name="loggedin" class="interceptors.LoggedinInterceptor"/>
+      <interceptor name="notLoggedin" class="interceptors.NotLoggedinInterceptor"/>
+      <interceptor name="notAdmin" class="interceptors.NotAdminInterceptor"/>
+      <interceptor name="admin" class="interceptors.AdminInterceptor"/>
+      
+      <interceptor-stack name="loggedinStack">
+        <interceptor-ref name="loggedin"/>
+        <interceptor-ref name="defaultStack"/>
+      </interceptor-stack>
+      
+      <interceptor-stack name="notLoggedinStack">
+        <interceptor-ref name="notLoggedin"/>
+        <interceptor-ref name="defaultStack"/>
+      </interceptor-stack>
+      
+      <interceptor-stack name="notAdminStack">
+        <interceptor-ref name="notAdmin"/>
+        <interceptor-ref name="defaultStack"/>
+      </interceptor-stack>
+      
+      <interceptor-stack name="adminStack">
+        <interceptor-ref name="admin"/>
+        <interceptor-ref name="defaultStack"/>
+      </interceptor-stack>
+    </interceptors>
+    
+    <global-results>
+      <result name="to-login-page" type="redirect">/login</result>
+      <result name="to-home-page" type="redirect">/home</result>
+    </global-results>
+  </package>
+  
+  <package name="simple-pages" namespace="/" extends="interceptors">
+    <action name="">
+      <interceptor-ref name="notLoggedinStack"/>
+      <result>/WEB-INF/content/home.jsp</result>
+    </action>
+    <action name="home">
+      <interceptor-ref name="notLoggedinStack"/>
+      <result>/WEB-INF/content/home.jsp</result>
+    </action>
+    
+    <action name="update-products">
+      <interceptor-ref name="notLoggedinStack"/>
+      <interceptor-ref name="notAdminStack"/>
+      <result>/WEB-INF/content/update-products.jsp</result>
+    </action>
+  </package>
+  
+</struts>

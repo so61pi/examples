@@ -1,0 +1,16 @@
+<% skin siteskin %>
+    <% view news uses content::news extends master %>
+        <% template Title() %>
+            <% include master::Title() %> :: News
+        <% end %>
+        <% template PageContent() %>
+            <% foreach message in news_list %>
+                <ul>
+                <% item %>
+                    <li><%= message %></li>
+                <% end %>
+                </ul>
+            <% end foreach %>
+        <% end template %>
+    <% end view %>
+<% end skin %>

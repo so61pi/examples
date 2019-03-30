@@ -1,0 +1,32 @@
+[package]
+name = "bin-media-downloader"
+version = "0.1.0"
+authors = ["Thi Huynh <so61pi.re@gmail.com>"]
+description = "Media downloader"
+edition = "2018"
+
+[dependencies]
+html5ever = "0.22.5"
+log = "0.4.6"
+reqwest = "0.9.5"
+url = "1.7.2"
+simplelog = "0.5.3"
+rusqlite = "0.16.0"
+chrono = { version = "0.4.6", features = ["serde"] }
+# diesel = "1.4.1"
+rdkafka = "0.18.0"
+clap = "2.32.0"
+serde = { version = "1.0.85", features = ["derive"] }
+serde_json = "1.0.38"
+postgres = { version = "0.15.2", features = ["with-chrono"] }
+actix-web = "0.7.18"
+futures = "0.1.25"
+tempfile = "3.0.6"
+failure = "0.1.5"
+sha2 = "0.8.0"
+rand = "0.6.5"
+signal-hook = "0.1.7"
+actix = "0.7.9"
+tokio-timer = "0.2.9"
+
+libcommon = { path = "../libcommon" }

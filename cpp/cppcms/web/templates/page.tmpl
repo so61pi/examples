@@ -1,0 +1,10 @@
+<% skin siteskin %>
+    <% view page uses content::page extends master %>
+        <% template Title() %>
+            <% include master::Title() %> :: <%= page_title %>
+        <% end %>
+        <% template PageContent() %>
+            <%= page_content | raw %>
+        <% end template %>
+    <% end view %>
+<% end skin %>

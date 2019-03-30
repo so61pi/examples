@@ -1,0 +1,51 @@
+@charset "utf-8";
+
+* {
+  margin: 0px;
+  padding: 0px;
+}
+
+html , body{
+  background-color: #DDEEFF;
+  height: 100%;
+  font-family: Constantia, "Lucida Bright", "DejaVu Serif", Georgia, serif;
+}
+
+header {
+  text-align: center;
+  font-weight: bold;
+  background-color: #8000FF;
+  color: #FFFFFF;
+  height:3%;
+}
+
+header p {
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+main {
+  width: 100%;
+  height:auto;
+  min-height:94%;
+  background-color:#FFFFFF;
+}
+
+footer {
+  background-color: #0000FF;
+  color: #FFFFFF;
+  font-weight: bold;
+  text-align: center;
+  position: relative;
+  bottom: 0px;
+  width: 100%;
+  clear:both;
+  height:3%;
+}
+
+footer p {
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+}

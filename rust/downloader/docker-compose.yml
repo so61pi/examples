@@ -1,0 +1,75 @@
+version: '3.1'
+
+services:
+  postgres:
+    build:
+      context: ./code/postgres/
+    restart: always
+    ports:
+      - 127.0.0.1:5432:5432
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+    volumes:
+      - pg-data:/var/lib/postgresql/data
+  redis:
+    image: redis:5.0.3-alpine
+    restart: always
+    ports:
+      - 127.0.0.1:6379:6379
+    volumes:
+      - redis-data:/data
+  redis-commander:
+    image: rediscommander/redis-commander:latest
+    restart: always
+    ports:
+      - 127.0.0.1:8081:8081
+    environment:
+      REDIS_HOSTS: redis
+  # pgadmin:
+  #   image: dpage/pgadmin4:4.2
+  #   restart: always
+  #   depends_on:
+  #     - postgres
+  #   ports:
+  #     - 127.0.0.1:8080:80
+  #   environment:
+  #     PGADMIN_DEFAULT_EMAIL: admin
+  #     PGADMIN_DEFAULT_PASSWORD: admin
+  adminer:
+    image: adminer:4.7.1
+    restart: always
+    depends_on:
+      - postgres
+    ports:
+      - 127.0.0.1:8080:8080
+  zookeeper:
+    image: confluentinc/cp-zookeeper:5.1.1
+    restart: always
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 32181
+    volumes:
+      - zk-data:/var/lib/zookeeper/data
+  kafka:
+    image: confluentinc/cp-kafka:5.1.1
+    restart: always
+    depends_on:
+      - zookeeper
+    ports:
+      - 29092:29092
+    environment:
+      KAFKA_BROKER_ID: 2
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:32181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://127.0.0.1:29092
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_NUM_PARTITIONS: 1
+      # KAFKA_GROUP_MAX_SESSION_TIMEOUT_MS: 3600000
+    volumes:
+      - kafka-data:/var/lib/kafka/data
+
+volumes:
+  pg-data:
+  zk-data:
+  kafka-data:
+  redis-data:
+

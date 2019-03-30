@@ -3,8 +3,15 @@
 *.so
 *.out
 *.pyc
+*.jar
 
-.vscode/
+.directory
+.settings
+.project
+.classpath
+.idea
+.vscode
+
 bin/
 build/
 vendor/

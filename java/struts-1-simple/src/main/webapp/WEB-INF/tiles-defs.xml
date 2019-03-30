@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+ <!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 1.1//EN"
+       "http://struts.apache.org/dtds/tiles-config_1_3.dtd">
+
+<tiles-definitions>
+	<definition name="base-layout" template="/WEB-INF/tiles/base-layout.jsp">
+		<put name="title" value="" type="string" />
+		<put name="menu-guest" value="/WEB-INF/tiles/menu-guest.jsp" type="page" />
+		<put name="menu-user" value="/WEB-INF/tiles/menu-user.jsp" type="page" />
+		<put name="body" value="" type="page" />
+		<put name="footer" value="/WEB-INF/tiles/footer.jsp" type="page" />
+	</definition>
+
+	<definition name="home.page" extends="base-layout">
+		<put name="title" value="Home" type="string" />
+		<put name="body" value="/WEB-INF/tiles/body-home.jsp" type="page" />
+	</definition>
+
+	<definition name="register.page" extends="base-layout">
+		<put name="title" value="Register" type="string" />
+		<put name="body" value="/WEB-INF/tiles/body-register.jsp" type="page" />
+	</definition>
+
+	<definition name="login.page" extends="base-layout">
+		<put name="title" value="Login" type="string" />
+		<put name="body" value="/WEB-INF/tiles/body-login.jsp" type="page" />
+	</definition>
+
+	<definition name="forgot-password.page" extends="base-layout">
+		<put name="title" value="Forgot Password" type="string" />
+		<put name="body" value="/WEB-INF/tiles/body-forgot-password.jsp"
+			type="page" />
+	</definition>
+
+	<definition name="change-password.page" extends="base-layout">
+		<put name="title" value="Change Password" type="string" />
+		<put name="body" value="/WEB-INF/tiles/body-change-password.jsp"
+			type="page" />
+	</definition>
+
+	<definition name="check-info.page" extends="base-layout">
+		<put name="title" value="User Info" type="string" />
+		<put name="body" value="/WEB-INF/tiles/body-check-info.jsp" type="page" />
+	</definition>
+
+	<definition name="success.page" extends="base-layout">
+		<put name="title" value="Success" type="string" />
+		<put name="body" value="/WEB-INF/tiles/body-success.jsp" type="page" />
+	</definition>
+
+	<definition name="error.page" extends="base-layout">
+		<put name="title" value="Error" type="string" />
+		<put name="body" value="/WEB-INF/tiles/body-error.jsp" type="page" />
+	</definition>
+</tiles-definitions>

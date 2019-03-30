@@ -1,0 +1,73 @@
+{% comment %}
+{% if data %}
+    <ul>
+    {% for id in data %}
+        <li><a href="/testapp/data/{{ id }}/">{{ id }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No ids are available.</p>
+{% endif %}
+{% endcomment %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" crossorigin="anonymous"></script>
+
+    <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+    <script type="text/javascript" src="https://code.highcharts.com/highcharts.js" crossorigin="anonymous"></script>
+
+    {% load static %}
+    <script type="text/javascript" src="{% static "testapp/testapp.js" %}"></script>
+
+    <title>testapp</title>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row" style="background-color:#0275d8;">
+            <div class="col-md-2">
+                <h6 style="color:#FFFFFF;"><b>testapp</b></h6>
+            </div>
+        </div>
+        <div class="row"> 
+            <ul class="nav nav-tabs">
+                <li class="active"><a href="#nav-1" data-toggle="tab">Home</a></li>
+                <li><a href="#nav-2" data-toggle="tab">Others</a></li>
+            </ul>
+            <div class="tab-content clearfix">
+                <div class="tab-pane active" id="nav-1">
+                    <div class="container-fluid" id="top">
+                        <!--
+                        <div class="panel panel-info">
+                            <div class="panel-heading">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <label class="panel-title"><input type="checkbox" checked></input>A</label>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <h3><span class="label label-primary pull-right">unknown</span></h3>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel-body chart" id="chart-A"></div>
+                        </div>
+                        -->
+                    </div>
+                </div>
+                <div class="tab-pane" id="nav-2">
+                    <h3>Others</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

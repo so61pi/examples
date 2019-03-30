@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE struts-config PUBLIC
+          "-//Apache Software Foundation//DTD Struts Configuration 1.3//EN"
+          "http://struts.apache.org/dtds/struts-config_1_3.dtd">
+
+<struts-config>
+	<form-beans>
+		<form-bean name="ChangePasswordForm" type="form.ChangePasswordForm" />
+		<form-bean name="ForgotPasswordForm" type="form.ForgotPasswordForm" />
+		<form-bean name="LoginForm" type="form.LoginForm" />
+		<form-bean name="RegisterForm" type="form.RegisterForm" />
+	</form-beans>
+
+	<global-exceptions>
+	</global-exceptions>
+
+	<global-forwards>
+		<forward name="login" path="/Login.do" redirect="true" />
+		<forward name="home" path="/Home.do" redirect="true" />
+		<forward name="success" path="/WEB-INF/content/success.jsp" />
+		<forward name="error" path="/WEB-INF/content/error.jsp" />
+	</global-forwards>
+
+	<action-mappings>
+		<!-- =============================================================== -->
+		<action path="/Activate" type="action.ActivateAction">
+		</action>
+
+		<!-- =============================================================== -->
+		<action path="/ChangePassword" name="ChangePasswordForm"
+			input="/WEB-INF/content/change-password.jsp" scope="request"
+			type="action.ChangePasswordAction" validate="false">
+			<forward name="input" path="/WEB-INF/content/change-password.jsp" />
+		</action>
+		<action path="/doChangePassword" name="ChangePasswordForm"
+			input="/WEB-INF/content/change-password.jsp" scope="request"
+			type="action.ChangePasswordAction" validate="true">
+			<forward name="input" path="/WEB-INF/content/change-password.jsp" />
+		</action>
+
+		<!-- =============================================================== -->
+		<action path="/CheckInfo" type="action.CheckInfoAction">
+			<forward name="success" path="/WEB-INF/content/check-info.jsp" />
+		</action>
+
+		<!-- =============================================================== -->
+		<action path="/ForgotPassword" name="ForgotPasswordForm"
+			input="/WEB-INF/content/forgot-password.jsp" scope="request"
+			type="action.ForgotPasswordAction" validate="false">
+			<forward name="input" path="/WEB-INF/content/forgot-password.jsp" />
+		</action>
+		<action path="/doForgotPassword" name="ForgotPasswordForm"
+			input="/WEB-INF/content/forgot-password.jsp" scope="request"
+			type="action.ForgotPasswordAction" validate="true">
+			<forward name="input" path="/WEB-INF/content/forgot-password.jsp" />
+		</action>
+
+		<!-- =============================================================== -->
+		<action path="/Home" type="action.HomeAction">
+			<forward name="success" path="/WEB-INF/content/home.jsp" />
+		</action>
+
+		<!-- =============================================================== -->
+		<action path="/Login" name="LoginForm" input="/WEB-INF/content/login.jsp"
+			scope="request" type="action.LoginAction" validate="false">
+			<forward name="input" path="/WEB-INF/content/login.jsp" />
+		</action>
+		<action path="/doLogin" name="LoginForm" input="/WEB-INF/content/login.jsp"
+			scope="request" type="action.LoginAction" validate="true">
+			<forward name="input" path="/WEB-INF/content/login.jsp" />
+		</action>
+
+		<!-- =============================================================== -->
+		<action path="/Logout" type="action.LogoutAction">
+			<forward name="success" path="/Login.do" redirect="true" />
+		</action>
+
+		<!-- =============================================================== -->
+		<action path="/Register" name="RegisterForm" input="/WEB-INF/content/register.jsp"
+			scope="request" type="action.RegisterAction" validate="false">
+			<forward name="input" path="/WEB-INF/content/register.jsp" />
+		</action>
+		<action path="/doRegister" name="RegisterForm" input="/WEB-INF/content/register.jsp"
+			scope="request" type="action.RegisterAction" validate="true">
+			<forward name="input" path="/WEB-INF/content/register.jsp" />
+		</action>
+
+	</action-mappings>
+
+	<controller processorClass="org.apache.struts.tiles.TilesRequestProcessor" />
+
+	<message-resources parameter="message/ApplicationResource" />
+
+	<!-- ========================= Tiles plugin =============================== -->
+	<plug-in className="org.apache.struts.tiles.TilesPlugin">
+		<set-property property="definitions-config" value="/WEB-INF/tiles-defs.xml" />
+		<set-property property="moduleAware" value="true" />
+	</plug-in>
+
+	<!-- ========================= Validator plugin ================================= -->
+	<plug-in className="org.apache.struts.validator.ValidatorPlugIn">
+		<set-property property="pathnames"
+			value="/WEB-INF/validator-rules.xml,/WEB-INF/validation.xml" />
+	</plug-in>
+
+</struts-config>

@@ -1,0 +1,179 @@
+<% c++ #include "templates/content.h" %>
+<% skin siteskin %>
+<% view master uses content::master %>
+
+
+<% template Title() %>
+<%= title %>
+<% end %>
+
+<% template PageContent() %>
+Override Me
+<% end %>
+
+<% template GenerateMenuItem(content::Menu const& menu, unsigned layer) %>
+  <% foreach item rowid row in menu %>
+    <ul class="nav flex-column">
+      <% item %>
+        <li class="nav-item">
+          <% if empty item.ChildItems() %>
+            <% if (item.Identity() == content.active) %>
+            <a class="nav-link side-menu-item font-weight-bold bg-dark text-white side-menu-item-l<%= layer %>" href="<%= item.Link() %>">
+            <% else %>
+            <a class="nav-link side-menu-item bg-white text-dark side-menu-item-l<%= layer %>" href="<%= item.Link() %>">
+            <% end %>
+              <%= item.Name() %>
+            </a>
+          <% else %>
+            <div class="d-flex justify-content-between align-items-center">
+              <a class="nav-link w-100 side-menu-item bg-white text-dark side-menu-item-l<%= layer %>" href="<%= item.Link() %>">
+                <%= item.Name() %>
+              </a>
+              <a href="#" class="collapsed badge badge-secondary" data-toggle="collapse" data-target="#side-menu-item-<%= layer %>-<%= row %>">SHOW</a>
+            </div>
+            <div class="collapse" id="side-menu-item-<%= layer %>-<%= row %>">
+              <% c++ GenerateMenuItem(item.ChildItems(), layer + 1); %>
+            </div>
+          <% end %>
+        </li>
+      <% end %>
+    </ul>
+  <% end foreach %>
+<% end template %>
+
+
+<% template render() %>
+<!doctype html>
+<html class="no-js" lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.bundle.min.js" integrity="sha384-feJI7QwhOS+hwpX2zkaeJQjeiwlhOP+SdQDqhgvvo1DsjtiSQByFdThsxO669S2D" crossorigin="anonymous"></script>
+
+    <script type="text/javascript">
+    </script>
+
+    <!-- TODO: Is this hard coded? -->
+    <style>
+    .side-menu-item {
+      border-left-color : rgb(52, 58, 64);
+      border-left-width: 0.125rem;
+      border-left-style: solid;
+      border-right-width: 0.5rem;
+    }
+    .side-menu-item-active {
+      border-right-color : rgb(40, 167, 69);
+      border-right-style: solid;
+    }
+    .side-menu-item-l0 {
+      padding-left: 1rem;
+    }
+    .side-menu-item-l1 {
+      padding-left: 2rem;
+    }
+    .side-menu-item-l2 {
+      padding-left: 3rem;
+    }
+    .side-menu-item-l3 {
+      padding-left: 4rem;
+    }
+    </style>
+
+    <title><% include Title() %></title>
+  </head>
+  <body>
+    <div class="container-fluid">
+      <!-- HEADER -->
+      <div class="row">
+        <div class="col">
+          <div class="card">
+            <img class="card-img-top" src="data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%221000%22%20height%3D%2250%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%201000%2050%22%20preserveAspectRatio%3D%22none%22%3E%3Cg%20id%3D%22holder_161527cd655%22%3E%3Crect%20width%3D%221000%22%20height%3D%2250%22%20fill%3D%22%23777%22%3E%3C%2Frect%3E%3C%2Fg%3E%3C%2Fsvg%3E">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-10">
+                  <a href="#" class="badge badge-primary">Primary</a>
+                  <a href="#" class="badge badge-secondary">Secondary</a>
+                  <a href="#" class="badge badge-success">Success</a>
+                  <a href="#" class="badge badge-danger">Danger</a>
+                  <a href="#" class="badge badge-warning">Warning</a>
+                  <a href="#" class="badge badge-info">Info</a>
+                  <a href="#" class="badge badge-light">Light</a>
+                </div>
+                <div class="col">
+                  <a href="#" class="badge badge-dark">Dark</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- BODY -->
+      <div class="row">
+        <!-- MENU -->
+        <div class="col-md-3">
+          <% if cfgSearch %>
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text">Menu</span>
+            </div>
+            <input type="text" class="form-control">
+          </div>
+          <% end %>
+
+          <% include GenerateMenuItem(menu, 0) %>
+        </div>
+
+        <!-- PANEL -->
+        <div class="col-md-9">
+          <div class="card">
+            <% if not empty panelTitle %>
+            <h5 class="card-header card-primary"><%= panelTitle %></h5>
+            <% else %>
+            <h5 class="card-header card-primary">---</h5>
+            <% end %>
+            <div class="card-body">
+              <% include PageContent() %>
+            </div>
+            <div class="card-footer">
+              <ul class="pagination">
+                <li class="page-item">
+                  <a class="page-link" href="#" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                    <span class="sr-only">Previous</span>
+                  </a>
+                </li>
+                <li class="page-item"><a class="page-link" href="#">1</a></li>
+                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li class="page-item">
+                  <a class="page-link" href="#" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                    <span class="sr-only">Next</span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- FOOTER -->
+      <div class="row">
+        <div class="col-md-12">
+          <p class="text-center"><b>Copyright so61pi</b></p>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
+<% end template %>
+
+<% end view %>
+<% end skin %>

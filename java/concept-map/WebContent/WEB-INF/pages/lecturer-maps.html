@@ -1,0 +1,191 @@
+<!doctype html>
+
+<html>
+  
+  <head>
+    <title>Maps</title>
+    <meta name="viewport" content="width=device-width">
+    
+    <script src="js/jquery-2.1.1.min.js"></script>
+    <link rel="stylesheet" href="css/jquery-ui.min.css">
+    <script src="js/jquery-ui.min.js"></script>
+    
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/bootstrap-theme.min.css">
+    <script src="js/bootstrap.min.js"></script>
+    
+    <script type="text/javascript">
+      $(document).ready(function() {
+        $('#filter').keyup(function() {
+          var rex = new RegExp($(this).val(), 'i');
+          $('#map-list option').hide();
+          $('#map-list option').filter(function() {
+            return rex.test($(this).text());
+          }).show();
+        });
+      });
+    </script>
+  </head>
+  
+  <body class="bg-success">
+    <div class="container-fluid">
+      <div class="row" style="background:#FAFFE6; border-bottom: 1px solid blue;">
+        <div class="col-md-12">
+          <ul class="nav navbar-nav">
+            <li>
+              <a href="welcome.jsp">Welcome</a>
+            </li>
+            <li>
+              <a href="drawing.jsp">Drawing</a>
+            </li>
+            <li>
+              <a href="maps.jsp">Maps</a>
+            </li>
+          </ul>
+          <ul class="nav navbar-nav pull-right">
+            <li>
+              <a href="logout">Logout</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="container-fluid" style="border-bottom:1px solid green">
+      <div class="row">
+        <div class="col-md-4">
+          <div class="container-fluid">
+            <form class="form-horizontal" role="form">
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <div class="input-group">
+                      <span class="input-group-addon">Filter</span><input id="filter" class="form-control" type="text">
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label class="form-label">Maps:</label>
+                    <select id="map-list" class="form-control" size="10">
+                      <option value="one">One</option>
+                      <option value="two">Two</option>
+                      <option value="three">Three</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label class="form-label">History:</label>
+                    <select class="form-control" size="10">
+                      <option value="one">One</option>
+                      <option value="two">Two</option>
+                      <option value="three">Three</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="col-md-8">
+          <div class="container-fluid" style="border-bottom:1px solid green">
+            <div class="row">
+              <form class="form-horizontal" role="form">
+                <div class="col-md-5">
+                  <div class="form-group">
+                    <label class="col-md-4 control-label" style="text-align:left;">Name:</label>
+                    <label class="col-md-8 control-label" style="text-align:left;">456</label>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-md-4 control-label" style="text-align:left;">MapID:</label>
+                    <label class="col-md-8 control-label" style="text-align:left;">456</label>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-md-4 control-label" style="text-align:left;">Deadline:</label>
+                    <label class="col-md-8 control-label" style="text-align:left;">456</label>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-md-12 control-label" style="text-align:left;">Description:</label>
+                    <label class="col-md-12 control-label" style="text-align:left;">456</label>
+                  </div>
+                </div>
+                <div class="col-md-5">
+                  <div class="form-group">
+                    <label class="col-md-4 control-label" style="text-align:left;">Status:</label>
+                    <label class="col-md-8 control-label" style="text-align:left;">456</label>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-md-4 control-label invisible" style="text-align:left;">.</label>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-md-4 control-label invisible" style="text-align:left;">.</label>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-md-12 control-label" style="text-align:left;">General document:</label>
+                    <label class="col-md-12 control-label" style="text-align:left;">456</label>
+                  </div>
+                </div>
+                <div class="col-md-2">
+                  <button type="button" class="btn btn-primary" style="width:100%;">Edit</button>
+                </div>
+              </form>
+            </div>
+          </div>
+          <div class="container-fluid">
+            <form class="form-horizontal" role="form">
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label class="col-md-2 control-label" style="text-align:left;">New student:</label>
+                    <div class="col-md-8">
+                      <input type="text" class="form-control">
+                    </div>
+                    <div class="col-md-2">
+                      <button class="btn btn-success" style="width:100%;">Add</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label class="col-md-2 control-label" style="text-align:left;">Assigned to:</label>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-5">
+                  <div style="padding-bottom:5px;">
+                    <select class="form-control" size="10">
+                      <option value="one">One</option>
+                      <option value="two">Two</option>
+                      <option value="three">Three</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-md-5">
+                    <div class="form-group">
+                      <label class="col-md-4 control-label" style="text-align:left;">ID:</label>
+                      <label class="col-md-8 control-label" style="text-align:left;">456</label>
+                    </div>
+                    <div class="form-group">
+                      <label class="col-md-4 control-label" style="text-align:left;">Score:</label>
+                      <label class="col-md-8 control-label" style="text-align:left;">456</label>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                  <button class="btn btn-danger" style="width:100%;">Remove</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+
+</html>
