@@ -1,10 +1,16 @@
-// TODO
-pub fn fn_01() {
+pub fn fn_01(players: &mut [usize]) -> (&[usize], &[usize]) {
     // [3] The Grinch is given the job of partitioning 2n players into two teams of
     // n players each. Each player has a numerical rating that measures how good
     // he/she is at the game. He seeks to divide the players as unfairly as
     // possible, so as to create the biggest possible talent imbalance between team
     // A and team B. Show how the Grinch can do the job in O(n log n) time.
+
+    // The word is unfairly so we can sort the players by their ratings and then
+    // split them in the middle to 2 halves.
+
+    assert_eq!(players.len() % 2, 0);
+    players.sort_unstable();
+    players.split_at(players.len() / 2)
 }
 
 // TODO
@@ -30,10 +36,14 @@ pub fn fn_02() {
     // (d) Let S be a sorted array of n integers. Give an algorithm that finds
     // the pair x, y ∈ S that minimizes |x − y|, for x != y. Your algorithm must
     // run in O(n) worst-case time.
+
+    // (a), (b) max|x - y| = max|max(array) - min(array)|
+    //
+    // (c), (d) sort then compute and compare all of (array[i+1] - array[i])
 }
 
 // TODO
-pub fn fn_03() {
+pub fn fn_03(numbers: &mut [i64]) -> Vec<(i64, i64)> {
     // [3] Take a sequence of 2n real numbers as input. Design an O(n log n)
     // algorithm that partitions the numbers into n pairs, with the property
     // that the partition minimizes the maximum sum of a pair. For example, say
@@ -41,9 +51,24 @@ pub fn fn_03() {
     // ((1,3),(5,9)), ((1,5),(3,9)), and ((1,9),(3,5)). The pair sums for these
     // partitions are (4,14), (6,12), and (10,8). Thus the third partition has
     // 10 as its maximum sum, which is the minimum over the three partitions.
+
+    // Sort then pair first element with last element iteratively until all
+    // elements are processed.
+
+    assert_eq!(numbers.len() % 2, 0);
+    numbers.sort_unstable();
+    let f = numbers.iter().map(Clone::clone).take(numbers.len() / 2);
+    let r = numbers
+        .iter()
+        .map(Clone::clone)
+        .rev()
+        .take(numbers.len() / 2);
+
+    let mut v = vec![];
+    v.extend(f.zip(r));
+    v
 }
 
-// TODO
 pub fn fn_04() {
     // [3] Assume that we are given n pairs of items as input, where the first
     // item is a number and the second item is one of three colors (red, blue,
@@ -54,22 +79,34 @@ pub fn fn_04() {
     //
     // For example: (1,blue), (3,red), (4,blue), (6,yellow), (9,red) should
     // become (3,red), (9,red), (1,blue), (4,blue), (6,yellow).
+
+    // We need 2 loops and an additional array of n elements to contain result.
+    // First loop iteration, we count how many items each color has. With that
+    // information at hand, we can partition our result array to 3 parts and in
+    // second iteration we put each element to its correct area.
+    //
+    // This is similar to bucket sort.
 }
 
-// TODO
 pub fn fn_05() {
     // [3] The mode of a set of numbers is the number that occurs most
     // frequently in the set. The set (4, 6, 2, 4, 3, 1) has a mode of 4. Give
     // an efficient and correct algorithm to compute the mode of a set of n
     // numbers.
+
+    // Sort and count consecutively identical numbers.
 }
 
-// TODO
 pub fn fn_06() {
     // [3] Given two sets S1 and S2 (each of size n), and a number x, describe
     // an O(n log n) algorithm for finding whether there exists a pair of
     // elements, one from S1 and one from S2 , that add up to x. (For partial
     // credit, give a Θ(n^2) algorithm for this problem.)
+
+    // First, sort both S1 and S2, which takes O(n log n). Then for each element
+    // in S1, we find x - e in S2 using binary search. The loop is O(n) and the
+    // search is O(log n) so we are still in acceptable time complexity
+    // requirement.
 }
 
 // TODO

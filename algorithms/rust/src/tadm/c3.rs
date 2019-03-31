@@ -421,12 +421,40 @@ pub fn fn_24() {
     */
 }
 
-// TODO
-pub fn fn_25() {
+pub fn fn_25(search: &str, magazine: &str) -> bool {
     // [4] You are given a search string and a magazine. You seek to generate
-    // all the char- acters in search string by cutting them out from the
+    // all the characters in search string by cutting them out from the
     // magazine. Give an algorithm to efficiently determine whether the magazine
     // contains all the letters in the search string.
+
+    // We can put the search string into an array. The array may contain empty
+    // slots for missing letters. We also need a counter variable to keep track
+    // of the number of letters that are already encountered.
+    //
+    // We then go the magazine letter by letter and check if it is in the array.
+    // If it is, then we update the counter accordingly.
+
+    let mut counter: usize = 0;
+    let mut array = [None as Option<bool>; 256];
+    for ch in search.bytes() {
+        if let x @ None = &mut array[ch as usize] {
+            x.replace(false);
+            counter += 1;
+        }
+    }
+
+    for ch in magazine.bytes() {
+        if counter == 0 {
+            return true;
+        }
+
+        if let Some(x @ false) = array[ch as usize].as_mut() {
+            counter -= 1;
+            *x = true;
+        }
+    }
+
+    false
 }
 
 pub fn fn_26() {
