@@ -5,3 +5,10 @@ authors = ["Thi Huynh <so61pi.re@gmail.com>"]
 edition = "2018"
 
 [dependencies]
+
+[dev-dependencies]
+criterion = "0.2.10"
+
+[[bench]]
+name = "benchmark"
+harness = false

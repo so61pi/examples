@@ -43,7 +43,7 @@ pub fn fn_02() {
 }
 
 // TODO
-pub fn fn_03(numbers: &mut [i64]) -> Vec<(i64, i64)> {
+pub fn fn_03(numbers: &mut [i32]) -> Vec<(i32, i32)> {
     // [3] Take a sequence of 2n real numbers as input. Design an O(n log n)
     // algorithm that partitions the numbers into n pairs, with the property
     // that the partition minimizes the maximum sum of a pair. For example, say
@@ -57,12 +57,8 @@ pub fn fn_03(numbers: &mut [i64]) -> Vec<(i64, i64)> {
 
     assert_eq!(numbers.len() % 2, 0);
     numbers.sort_unstable();
-    let f = numbers.iter().map(Clone::clone).take(numbers.len() / 2);
-    let r = numbers
-        .iter()
-        .map(Clone::clone)
-        .rev()
-        .take(numbers.len() / 2);
+    let f = numbers.iter().cloned().take(numbers.len() / 2);
+    let r = numbers.iter().cloned().rev().take(numbers.len() / 2);
 
     let mut v = vec![];
     v.extend(f.zip(r));
@@ -109,9 +105,8 @@ pub fn fn_06() {
     // requirement.
 }
 
-// TODO
 pub fn fn_07() {
-    // 4-7. [3] Outline a reasonable method of solving each of the following
+    // [3] Outline a reasonable method of solving each of the following
     // problems. Give the order of the worst-case complexity of your methods.
     //
     // (a) You are given a pile of thousands of telephone bills and thousands of
@@ -126,11 +121,20 @@ pub fn fn_07() {
     // during the past year, each of which contains the name of the person who
     // took out the book. Determine how many distinct people checked out at
     // least one book.
+
+    // (a) Put the checks to a hashmap with the key is the phone number. Then
+    // loop through the bills and check if it exists in the hashmap.
+    //
+    // Or we can sort the checks then binary search the bills.
+    //
+    // (b) Use hashmap with the key is publisher name and value is counter.
+    //
+    // (c) Put person's name in hash table and return the table's size at the
+    // end.
 }
 
-// TODO
-pub fn fn_08() {
-    // [4 ] Given a set of S containing n real numbers, and a real number x. We
+pub fn fn_08(numbers: &mut [i32], x: i32) -> bool {
+    // [4] Given a set of S containing n real numbers, and a real number x. We
     // seek an algorithm to determine whether two elements of S exist whose sum
     // is exactly x.
     //
@@ -138,11 +142,60 @@ pub fn fn_08() {
     // problem.
     //
     // (b) Assume that S is sorted. Give an O(n) algorithm for the problem.
+
+    // (a) Sort the array then go to (b).
+    //
+    // (b) Create an array S' whose elements are the result of x - S. Because S
+    // is sorted, so is S' but in reverse order. We now basically search for a
+    // pair of equal numbers in both S and S' but with different indice.
+
+    fn skip_until<T, P>(i: &mut dyn std::iter::Iterator<Item = T>, predicate: P) -> Option<T>
+    where
+        P: Fn(&T) -> bool,
+    {
+        loop {
+            let n = i.next();
+            if n.is_none() || predicate(n.as_ref().unwrap()) {
+                return n;
+            }
+        }
+    }
+
+    numbers.sort_unstable();
+    let mut aux = vec![];
+    aux.extend(numbers.iter().map(|n| x - n));
+
+    let mut i1 = numbers.iter().enumerate(); // L -> R
+    let mut i2 = aux.iter().rev().enumerate(); // R -> L
+
+    let mut a = match i2.clone().next() {
+        None => return false,
+        Some(v) => v,
+    };
+    loop {
+        let b = match skip_until(&mut i1, |(_, e)| a.1 <= *e) {
+            None => break,
+            Some(v) => v,
+        };
+
+        let c = match skip_until(&mut i2, |(_, e)| b.1 <= *e) {
+            None => break,
+            Some(v) => v,
+        };
+
+        // Same value but must be distinct numbers.
+        if b.1 == c.1 && (b.0 + c.0 + 1 != numbers.len()) {
+            return true;
+        }
+
+        a = c;
+    }
+
+    false
 }
 
-// TODO
 pub fn fn_09() {
-    // [4 ] Give an efficient algorithm to compute the union of sets A and B,
+    // [4] Give an efficient algorithm to compute the union of sets A and B,
     // where n = max(|A|, |B|). The output should be an array of distinct
     // elements that form the union of the sets, such that they appear more than
     // once in the union.
@@ -152,33 +205,65 @@ pub fn fn_09() {
     //
     // (b) Assume that A and B are sorted. Give an O(n) algorithm for the
     // problem.
+
+    // (a) Sort then do (b).
+    //
+    // (b) Use skip_until in fn_08 to get all pairs of numbers with the same
+    // value.
 }
 
-// TODO
-pub fn fn_10() {
+pub fn fn_10(numbers: &mut [i32], t: i32, k: usize) -> bool {
     // [5] Given a set S of n integers and an integer T , give an O(n^(k−1) log n)
     // algorithm to test whether k of the integers in S add up to T .
+
+    assert!(k > 0);
+    assert!(numbers.len() >= k);
+    numbers.sort_unstable();
+
+    fn check(numbers: &[i32], first: usize, last: usize, t: i32, level: usize) -> bool {
+        if level <= 1 {
+            numbers[first..].binary_search(&t).is_ok()
+        } else {
+            for i in first..last {
+                if check(numbers, i + 1, last, t - numbers[i], level - 1) {
+                    return true;
+                }
+            }
+            false
+        }
+    }
+
+    check(&numbers, 0, numbers.len(), t, k)
 }
 
-// TODO
 pub fn fn_11() {
-    // [6 ] Design an O(n) algorithm that, given a list of n elements, finds all
+    // [6] Design an O(n) algorithm that, given a list of n elements, finds all
     // the elements that appear more than n/2 times in the list. Then, design an
     // O(n) algorithm that, given a list of n elements, finds all the elements
     // that appear more than n/4 times.
+
+    // We can use O(n) selection algorithm (like nth_element in C++).
+    //
+    // Note that nth_element in C++ not only get the nth smallest element, but
+    // also partition the array at nth so that "All of the elements before this
+    // new nth element are less than or equal to the elements after the new nth
+    // element.".
+    //
+    // https://en.wikipedia.org/wiki/Selection_algorithm
+    // https://en.cppreference.com/w/cpp/algorithm/nth_element
 }
 
-// TODO
 pub fn fn_12() {
     // [3] Devise an algorithm for finding the k smallest elements of an
     // unsorted set of n integers in O(n + k log n).
+
+    // nth_element
 }
 
-// TODO
 pub fn fn_13() {
-    // 4-13. [5] You wish to store a set of n numbers in either a max-heap or a
-    // sorted array. For each application below, state which data structure is
-    // better, or if it does not matter. Explain your answers.
+    // [5] You wish to store a set of n numbers in either a max-heap or a sorted
+    // array. For each application below, state which data structure is better,
+    // or if it does not matter. Explain your answers.
     //
     // (a) Want to find the maximum element quickly.
     //
@@ -187,6 +272,14 @@ pub fn fn_13() {
     // (c) Want to be able to form the structure quickly.
     //
     // (d) Want to find the minimum element quickly.
+
+    // (a) Doesn't matter.
+    //
+    // (b) Sorted array.
+    //
+    // (c) max-heap
+    //
+    // (d) Sorted array
 }
 
 // TODO
@@ -498,4 +591,35 @@ pub fn fn_45() {
 pub fn fn_46() {
     // [6] You are given 12 coins. One of them is heavier or lighter than the
     // rest. Identify this coin in just three weighings.
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_fn_08() {
+        assert!(!fn_08(&mut [1, 4, 3, 2], 1));
+        assert!(!fn_08(&mut [1, 4, 3, 2], 2));
+        assert!(fn_08(&mut [1, 4, 3, 2], 3));
+        assert!(fn_08(&mut [1, 2, 3, 4], 4));
+        assert!(fn_08(&mut [1, 2, 3, 4], 5));
+        assert!(fn_08(&mut [1, 2, 3, 4], 6));
+        assert!(fn_08(&mut [1, 2, 3, 4], 7));
+        assert!(!fn_08(&mut [1, 2, 3, 4], 8));
+        assert!(!fn_08(&mut [1, 2, 3, 4], 9));
+    }
+
+    #[test]
+    fn test_fn_10() {
+        assert!(!fn_10(&mut [1, 2, 3, 4], 0, 2));
+        assert!(!fn_10(&mut [1, 2, 3, 4], 1, 2));
+        assert!(!fn_10(&mut [1, 2, 3, 4], 2, 2));
+        assert!(fn_10(&mut [1, 2, 3, 4], 3, 2));
+        assert!(fn_10(&mut [1, 2, 3, 4], 4, 2));
+        assert!(fn_10(&mut [1, 2, 3, 4], 5, 2));
+        assert!(fn_10(&mut [1, 2, 3, 4], 6, 2));
+        assert!(fn_10(&mut [1, 2, 3, 4], 7, 2));
+        assert!(!fn_10(&mut [1, 2, 3, 4], 8, 2));
+    }
 }
