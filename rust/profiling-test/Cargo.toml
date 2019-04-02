@@ -1,0 +1,8 @@
+[workspace]
+members = [
+    "bin-main",
+    "libutil",
+]
+
+[profile.release]
+debug = true

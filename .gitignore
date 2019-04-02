@@ -5,6 +5,8 @@
 *.pyc
 *.jar
 
+perf.data*
+
 .directory
 .settings
 .project

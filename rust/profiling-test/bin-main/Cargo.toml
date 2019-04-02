@@ -1,0 +1,9 @@
+[package]
+name = "bin-main"
+version = "0.1.0"
+authors = ["Thi Huynh <thi_ngoc.h@kbtg.tech>"]
+edition = "2018"
+
+[dependencies]
+libutil = { path = "../libutil" }
+

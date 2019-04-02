@@ -1,0 +1,14 @@
+[package]
+name = "libutil"
+version = "0.1.0"
+authors = ["Thi Huynh <thi_ngoc.h@kbtg.tech>"]
+edition = "2018"
+
+[dependencies]
+
+[dev-dependencies]
+criterion = "0.2.10"
+
+[[bench]]
+name = "benchmark"
+harness = false
