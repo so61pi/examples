@@ -282,11 +282,66 @@ pub fn fn_13() {
     // (d) Sorted array
 }
 
-// TODO
-pub fn fn_14() {
+pub fn fn_14(lists: &[&[i32]]) -> Vec<i32> {
     // [5] Give an O(n log k)-time algorithm that merges k sorted lists with a
     // total of n elements into one sorted list. (Hint: use a heap to speed up
     // the elementary O(kn)- time algorithm).
+
+    use std::collections::BinaryHeap;
+    let mut heap = BinaryHeap::new();
+
+    #[derive(Debug)]
+    struct Elem {
+        value: i32,
+        index: usize,
+        ilist: usize,
+    };
+
+    impl PartialEq for Elem {
+        fn eq(&self, other: &Elem) -> bool {
+            self.value.eq(&other.value)
+        }
+    }
+
+    impl Eq for Elem {}
+
+    impl PartialOrd for Elem {
+        fn partial_cmp(&self, other: &Elem) -> Option<std::cmp::Ordering> {
+            self.value.partial_cmp(&other.value)
+        }
+    }
+
+    impl Ord for Elem {
+        fn cmp(&self, other: &Elem) -> std::cmp::Ordering {
+            self.value.cmp(&other.value)
+        }
+    }
+
+    for (ilist, list) in lists.iter().enumerate() {
+        if let Some(value) = list.last() {
+            heap.push(Elem {
+                value: *value,
+                index: list.len() - 1,
+                ilist: ilist,
+            });
+        }
+    }
+
+    let mut v = vec![];
+    while let Some(ref elem) = heap.pop() {
+        v.push(elem.value);
+
+        if elem.index > 0 {
+            heap.push(Elem {
+                value: lists[elem.ilist][elem.index - 1],
+                index: elem.index - 1,
+                ilist: elem.ilist,
+            });
+        }
+    }
+
+    v.reverse();
+    v
 }
 
 // TODO
@@ -621,5 +676,12 @@ mod tests {
         assert!(fn_10(&mut [1, 2, 3, 4], 6, 2));
         assert!(fn_10(&mut [1, 2, 3, 4], 7, 2));
         assert!(!fn_10(&mut [1, 2, 3, 4], 8, 2));
+    }
+
+    #[test]
+    fn test_fn_14() {
+        assert_eq!(fn_14(&[&[0, 2, 4], &[1, 3, 5]]), &[0, 1, 2, 3, 4, 5]);
+        assert_eq!(fn_14(&[&[0, 2, 4], &[1, 3, 5], &[]]), &[0, 1, 2, 3, 4, 5]);
+        assert_eq!(fn_14(&[&[0, 2, 4], &[1, 5], &[3]]), &[0, 1, 2, 3, 4, 5]);
     }
 }
