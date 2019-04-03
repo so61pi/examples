@@ -355,10 +355,12 @@ pub fn fn_15() {
 }
 
 // TODO
-pub fn fn_16() {
+pub fn fn_16(data: &mut [u8]) {
     // [3] Use the partitioning idea of quicksort to give an algorithm that
     // finds the median element of an array of n integers in expected O(n) time.
     // (Hint: must you look at both sides of the partition?)
+
+    itertools::partition(data, |e| *e >= 3);
 }
 
 // TODO
