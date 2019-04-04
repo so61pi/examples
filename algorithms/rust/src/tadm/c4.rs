@@ -354,13 +354,33 @@ pub fn fn_15() {
     // process?
 }
 
-// TODO
-pub fn fn_16(data: &mut [u8]) {
+pub fn fn_16(data: &mut [i64]) -> Option<i64> {
     // [3] Use the partitioning idea of quicksort to give an algorithm that
     // finds the median element of an array of n integers in expected O(n) time.
     // (Hint: must you look at both sides of the partition?)
 
-    itertools::partition(data, |e| *e >= 3);
+    if data.is_empty() {
+        return None;
+    }
+
+    let (mut first, mut last) = (0, data.len());
+    let mid = (last - first) / 2;
+    loop {
+        let localmid = (last - first) / 2 + first;
+        let localval = data[localmid];
+        let point1 = itertools::partition(&mut data[first..last], |e| *e < localval) + first;
+        let point2 = itertools::partition(&mut data[point1..last], |e| !(localval < *e)) + point1;
+
+        if first <= mid && mid < point1 {
+            last = point1;
+        }
+        if point1 <= mid && mid < point2 {
+            return Some(localval);
+        }
+        if point2 <= mid && mid < last {
+            first = point2;
+        }
+    }
 }
 
 // TODO
@@ -376,8 +396,11 @@ pub fn fn_17() {
     // in the worst case?
 }
 
-// TODO
-pub fn fn_18() {
+pub fn fn_18<'a, T>(
+    data: &'a mut [T],
+    red: &dyn Fn(&T) -> bool,
+    blue: &dyn Fn(&T) -> bool,
+) -> &'a [T] {
     // [5] Suppose an array A consists of n elements, each of which is
     // red, white, or blue. We seek to sort the elements so that all the reds
     // come before all the whites, which come before all the blues The only
@@ -389,6 +412,14 @@ pub fn fn_18() {
     //
     // Find a correct and efficient algorithm for red-white-blue sorting. There
     // is a linear- time solution.
+
+    // - Move all red elements to the beginning by partitioning O(n).
+    // - Move all none-blue (white) elements to the beginning by partitioning O(n).
+    // - Blue ones are at the end now.
+
+    let point = itertools::partition(&mut data[..], red);
+    itertools::partition(&mut data[point..], |e| !blue(e));
+    data
 }
 
 // TODO
@@ -685,5 +716,43 @@ mod tests {
         assert_eq!(fn_14(&[&[0, 2, 4], &[1, 3, 5]]), &[0, 1, 2, 3, 4, 5]);
         assert_eq!(fn_14(&[&[0, 2, 4], &[1, 3, 5], &[]]), &[0, 1, 2, 3, 4, 5]);
         assert_eq!(fn_14(&[&[0, 2, 4], &[1, 5], &[3]]), &[0, 1, 2, 3, 4, 5]);
+    }
+
+    #[test]
+    fn test_fn_16() {
+        assert_eq!(fn_16(&mut []), None);
+        assert_eq!(fn_16(&mut [1]), Some(1));
+        assert_eq!(fn_16(&mut [1, 2]), Some(2));
+        assert_eq!(fn_16(&mut [2, 1]), Some(2));
+        assert_eq!(fn_16(&mut [1, 2, 3]), Some(2));
+        assert_eq!(fn_16(&mut [3, 2, 1]), Some(2));
+        assert_eq!(fn_16(&mut [1, 2, 3, 4]), Some(3));
+        assert_eq!(fn_16(&mut [4, 3, 2, 1]), Some(3));
+        assert_eq!(fn_16(&mut [1, 2, 3, 4, 5]), Some(3));
+        assert_eq!(fn_16(&mut [5, 4, 3, 2, 1]), Some(3));
+
+        assert_eq!(fn_16(&mut [1, 1, 1, 1]), Some(1));
+        assert_eq!(fn_16(&mut [1, 2, 2, 2]), Some(2));
+        assert_eq!(fn_16(&mut [2, 2, 2, 1]), Some(2));
+        assert_eq!(fn_16(&mut [1, 2, 2, 1]), Some(2));
+        assert_eq!(fn_16(&mut [1, 2, 1, 2]), Some(2));
+    }
+
+    #[test]
+    fn test_fn_18() {
+        fn red(val: &i64) -> bool {
+            *val < 0
+        }
+
+        fn blue(val: &i64) -> bool {
+            0 < *val
+        }
+
+        assert_eq!(fn_18(&mut [], &red, &blue), []);
+        assert_eq!(fn_18(&mut [-1], &red, &blue), [-1]);
+        assert_eq!(fn_18(&mut [-1, 0], &red, &blue), [-1, 0]);
+        assert_eq!(fn_18(&mut [-1, 0, 1], &red, &blue), [-1, 0, 1]);
+        assert_eq!(fn_18(&mut [1, 0, -1], &red, &blue), [-1, 0, 1]);
+        assert_eq!(fn_18(&mut [1, -1, 0], &red, &blue), [-1, 0, 1]);
     }
 }
