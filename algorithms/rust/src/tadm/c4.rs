@@ -437,47 +437,60 @@ pub fn fn_19() {
     // inversions in a random permutation is n(n − 1)/4.
 }
 
-// TODO
-pub fn fn_20() {
+pub fn fn_20(data: &mut [i64]) -> &[i64] {
     // [3] Give an efficient algorithm to rearrange an array of n keys so that
     // all the negative keys precede all the nonnegative keys. Your algorithm
     // must be in-place, meaning you cannot allocate another array to
     // temporarily hold the items. How fast is your algorithm?
+
+    // One partitioning round is enough. O(n)
+    itertools::partition(&mut data[..], |e| *e < 0);
+    data
 }
 
-// TODO
 pub fn fn_21() {
     // [5] Stable sorting algorithms leave equal-key items in the same relative
     // order as in the original permutation. Explain what must be done to ensure
     // that mergesort is a stable sorting algorithm.
+
+    // For equal elements, pick the ones on the left first.
 }
 
-// TODO
 pub fn fn_22() {
     // [3] Show that n positive integers in the range 1 to k can be sorted in
     // O(n log k) time. The interesting case is when k << n.
+
+    // Build a binary search tree with each node contains a key from 1 to k and
+    // an array. Same elements go into same node. Looping through the array
+    // takes O(n), seaching for the right node takes O(log k). Constructing
+    // sorted array from built tree takes O(n).
 }
 
-// TODO
 pub fn fn_23() {
     // [5] We seek to sort a sequence S of n integers with many duplications,
     // such that the number of distinct integers in S is O(log n). Give an O(n
     // log log n) worst-case time algorithm to sort such sequences.
+
+    // Same as above, k = log n.
 }
 
-// TODO
 pub fn fn_24() {
     // [5] Let A[1..n] be an array such that the first n − √n elements are
     // already sorted (though we know nothing about the remaining elements).
     // Give an algorithm that sorts A in substantially better than n log n
     // steps.
+
+    // First sorts √n elements at the end, this takes √n log √n. Then merges 2
+    // sorted pieces together, takes n. So in total it takes n + √n log √n. When
+    // n > 2, n + √n log √n is less then n log n.
 }
 
-// TODO
 pub fn fn_25() {
     // [5] Assume that the array A[1..n] only has numbers from {1, . . . , n^2}
     // but that at most log log n of these numbers ever appear. Devise an
     // algorithm that sorts A in substantially less than O(n log n).
+
+    // Same as fn_22, k = log log n, hence O(n log log log n).
 }
 
 // TODO
