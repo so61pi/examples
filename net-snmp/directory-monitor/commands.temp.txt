@@ -1,0 +1,38 @@
+# some temporary commands
+
+cd ~/Work/temp/snmp/mibs
+
+cp MONITOR-MIB.txt ~/.snmp/mibs/
+echo "mibs +MONITOR-MIB" > ~/.snmp/snmp.conf
+mib2c -c mib2c.scalar.conf netSnmpExampleInteger
+mib2c -c mib2c.notify.conf netSnmpExampleHeartbeatNotification
+mib2c -c mib2c.mfd.conf DirectoryContentTable
+
+cd ~
+
+
+cp ~/Work/temp/snmp/mibs/MIB-SIMPLE.txt ~/.snmp/mibs
+sudo cp ~/Work/temp/snmp/mibs/MIB-SIMPLE.txt /usr/local/share/snmp/mibs
+
+cp ~/Work/temp/snmp/mibs/netSnmpExampleInteger.c ~/Work/temp/snmp/net-snmp-5.7.3/agent/mibgroup
+cp ~/Work/temp/snmp/mibs/netSnmpExampleInteger.h ~/Work/temp/snmp/net-snmp-5.7.3/agent/mibgroup
+
+cp ~/Work/temp/snmp/mibs/netSnmpExampleHeartbeatNotification.c ~/Work/temp/snmp/net-snmp-5.7.3/agent/mibgroup
+cp ~/Work/temp/snmp/mibs/netSnmpExampleHeartbeatNotification.h ~/Work/temp/snmp/net-snmp-5.7.3/agent/mibgroup
+
+cd ~/Work/temp/snmp/net-snmp-5.7.3
+./configure --with-mib-modules="netSnmpExampleInteger netSnmpExampleHeartbeatNotification"
+
+make
+sudo make install
+
+
+sudo /usr/local/sbin/snmpd -f -L -c /usr/local/share/snmp/snmpd.conf
+
+snmpget -v 2c -c public localhost:161 MIB-SIMPLE::netSnmpExampleInteger
+
+
+echo mibs +MIB-SIMPLE > ~/.snmp/snmp.conf
+
+gcc -Wall -Wextra -I./snmp/net-snmp-5.7.3/include/ subagent_test.c netSnmpExampleInteger.c -o subagent_test -lnetsnmp -lnetsnmpagent
+

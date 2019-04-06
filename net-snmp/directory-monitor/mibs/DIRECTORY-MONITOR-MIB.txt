@@ -1,0 +1,118 @@
+DIRECTORY-MONITOR-MIB DEFINITIONS ::= BEGIN
+
+
+IMPORTS
+    MODULE-IDENTITY, OBJECT-TYPE, Integer32,
+    NOTIFICATION-TYPE                       FROM SNMPv2-SMI
+    SnmpAdminString                         FROM SNMP-FRAMEWORK-MIB
+    netSnmp                                 FROM NET-SNMP-MIB
+    RowStatus, StorageType                  FROM SNMPv2-TC
+    InetAddressType, InetAddress            FROM INET-ADDRESS-MIB
+;
+
+
+Monitor MODULE-IDENTITY
+    LAST-UPDATED "200406150000Z"
+    ORGANIZATION "www.net-snmp.org"
+    CONTACT-INFO "Nothing"
+    DESCRIPTION  "Monitor MIB"
+
+    REVISION     "200406150000Z"
+    DESCRIPTION  "Corrected notification example definitions"
+    REVISION     "200202060000Z"
+    DESCRIPTION  "First draft"
+
+    ::= { netSnmp 7777 }
+
+
+Data                 OBJECT IDENTIFIER ::= { Monitor 1 }
+Notifications        OBJECT IDENTIFIER ::= { Monitor 2 }
+NotificationsPrefix  OBJECT IDENTIFIER ::= { Notifications 0 }
+NotificationsObjects OBJECT IDENTIFIER ::= { Notifications 2 }
+
+
+Directory OBJECT-TYPE
+    SYNTAX      OCTET STRING
+    MAX-ACCESS  read-write
+    STATUS      current
+    DESCRIPTION "Current directory."
+    ::= { Data 1 }
+
+
+NumFiles OBJECT-TYPE
+    SYNTAX      Integer32
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION	"Number of files in monitored directory."
+    ::= { Data 2 }
+
+
+NumDirectories OBJECT-TYPE
+    SYNTAX      Integer32
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION "Number of directories in monitored directory."
+    ::= { Data 3 }
+
+
+DirectoryState OBJECT-TYPE
+    SYNTAX      OCTET STRING
+    MAX-ACCESS  accessible-for-notify
+    STATUS      current
+    DESCRIPTION "Directory state."
+    ::= { NotificationsObjects 1 }
+
+
+DirectoryStateNotification NOTIFICATION-TYPE
+    OBJECTS     { DirectoryState }
+    STATUS      current
+    DESCRIPTION "Directory state change notification."
+    ::= { NotificationsPrefix 1 }
+
+--
+-- Table
+--
+
+DirectoryContentTable OBJECT-TYPE
+    SYNTAX      SEQUENCE OF DirectoryEntry
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION "A table."
+    ::= { Data 4 }
+
+DirectoryContentEntry OBJECT-TYPE
+    SYNTAX      DirectoryEntry
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION "A entry."
+    INDEX       { DirectoryEntryIndex }
+    ::= { DirectoryContentTable 1 }
+
+DirectoryEntry ::= SEQUENCE {
+    DirectoryEntryIndex Integer32,
+    DirectoryEntryPath  OCTET STRING,
+    DirectoryEntryMask  Integer32,
+}
+
+DirectoryEntryIndex OBJECT-TYPE
+    SYNTAX      Integer32
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION "Directory entry index."
+    ::= { DirectoryContentEntry 1 }
+
+DirectoryEntryPath OBJECT-TYPE
+    SYNTAX      OCTET STRING
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION "Directory entry path."
+    ::= { DirectoryContentEntry 2 }
+
+DirectoryEntryMask OBJECT-TYPE
+    SYNTAX      Integer32
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION "Directory entry mask."
+    ::= { DirectoryContentEntry 3 }
+
+END
