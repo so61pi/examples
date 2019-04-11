@@ -314,9 +314,9 @@ Variance
 
 Variance is a property that generic types have with respect to their arguments. A generic type's variance in a parameter is how the subtyping of the parameter affects the subtyping of the type.
 
-- ``F<T>`` is covariant over ``T`` if ``T`` being a subtype of ``U`` implies that ``F<T>`` is a subtype of ``F<U>`` (subtyping "passes through")
-- ``F<T>`` is contravariant over ``T`` if ``T`` being a subtype of ``U`` implies that ``F<U>`` is a subtype of ``F<T>``
-- ``F<T>`` is invariant over ``T`` otherwise (no subtyping relation can be derived)
+- ``F<T>`` is **covariant** over ``T`` if ``T`` being a subtype of ``U`` implies that ``F<T>`` is a subtype of ``F<U>`` (subtyping "passes through")
+- ``F<T>`` is **contravariant** over ``T`` if ``T`` being a subtype of ``U`` implies that ``F<U>`` is a subtype of ``F<T>``
+- ``F<T>`` is **invariant** over ``T`` otherwise (no subtyping relation can be derived)
 
 +---------------------------------+--------------------+-------------------+
 | Type                            | Variance in ``'a`` | Variance in ``T`` |
