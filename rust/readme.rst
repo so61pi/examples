@@ -297,3 +297,62 @@ References
 
 - https://doc.rust-lang.org/book/ch10-02-traits.html
 - https://doc.rust-lang.org/book/ch19-02-advanced-lifetimes.html
+
+
+Subtyping and Variance
+======================
+
+Some Notes
+----------
+
+- if ``'big: 'small`` ("big contains small" or "big outlives small"), then ``'big`` is a subtype of ``'small``.
+- ``'static`` is a subtype of every lifetime because by definition it outlives everything
+
+
+Variance
+--------
+
+Variance is a property that generic types have with respect to their arguments. A generic type's variance in a parameter is how the subtyping of the parameter affects the subtyping of the type.
+
+- ``F<T>`` is covariant over ``T`` if ``T`` being a subtype of ``U`` implies that ``F<T>`` is a subtype of ``F<U>`` (subtyping "passes through")
+- ``F<T>`` is contravariant over ``T`` if ``T`` being a subtype of ``U`` implies that ``F<U>`` is a subtype of ``F<T>``
+- ``F<T>`` is invariant over ``T`` otherwise (no subtyping relation can be derived)
+
++---------------------------------+--------------------+-------------------+
+| Type                            | Variance in ``'a`` | Variance in ``T`` |
++=================================+====================+===================+
+| ``&'a T``                       | covariant          | covariant         |
++---------------------------------+--------------------+-------------------+
+| ``&'a mut T``                   | covariant          | invariant         |
++---------------------------------+--------------------+-------------------+
+| ``*const T``                    |                    | covariant         |
++---------------------------------+--------------------+-------------------+
+| ``*mut T``                      |                    | invariant         |
++---------------------------------+--------------------+-------------------+
++---------------------------------+--------------------+-------------------+
+| ``fn() -> T``                   |                    | covariant         |
++---------------------------------+--------------------+-------------------+
+| ``fn(T) -> ()``                 |                    | contravariant     |
++---------------------------------+--------------------+-------------------+
++---------------------------------+--------------------+-------------------+
+| ``[T]`` and ``[T; n]``          |                    | covariant         |
++---------------------------------+--------------------+-------------------+
+| ``Box<T>``                      |                    | covariant         |
++---------------------------------+--------------------+-------------------+
+| ``Vec<T>``                      |                    | covariant         |
++---------------------------------+--------------------+-------------------+
+| ``UnsafeCell<T>``               |                    | invariant         |
++---------------------------------+--------------------+-------------------+
+| ``Cell<T>``                     |                    | invariant         |
++---------------------------------+--------------------+-------------------+
+| ``PhantomData<T>``              |                    | covariant         |
++---------------------------------+--------------------+-------------------+
+| ``Trait<T> + 'a``               | covariant          | invariant         |
++---------------------------------+--------------------+-------------------+
+
+
+References
+----------
+
+- https://doc.rust-lang.org/nomicon/subtyping.html
+- https://doc.rust-lang.org/reference/subtyping.html
