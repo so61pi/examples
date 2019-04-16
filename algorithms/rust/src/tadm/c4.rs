@@ -453,7 +453,7 @@ pub fn fn_21() {
     // order as in the original permutation. Explain what must be done to ensure
     // that mergesort is a stable sorting algorithm.
 
-    // For equal elements, pick the ones on the left first.
+    // When merging equal elements, pick the ones on the left first.
 }
 
 pub fn fn_22() {
@@ -666,16 +666,28 @@ pub fn fn_42() {
     // unique elements in it.
 }
 
-// TODO
-pub fn fn_43() {
+pub fn fn_43(aleft: &[i64], aright: &[i64]) {
     // [5] You have a computer with only 2Mb of main memory. How do you use it
     // to sort a large file of 500 Mb that is on disk?
+
+    // Merge sort with buffer of 2Mb. Basically we have to merge 2 sorted arrays,
+    // each is larger than the provided buffer.
+    //
+    // Things get complicated when we have to reduce the number of trips between
+    // RAM and disk.
 }
 
-// TODO
 pub fn fn_44() {
     // [5] Design a stack that supports push, pop, and retrieving the minimum
     // element in constant time. Can you do this?
+
+    // We need additional stack to keep the minimum values.
+    //
+    // When new element is pushed on main stack, also push it to min stack if
+    // it's smaller than current value of min stack.
+    //
+    // When element is poped from main stack, also pop min stack if the being
+    // poped element of main stack equals to the one on min stack.
 }
 
 // TODO
