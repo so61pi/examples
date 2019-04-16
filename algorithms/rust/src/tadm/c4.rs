@@ -554,7 +554,6 @@ pub fn fn_30() {
     // search for both options?
 }
 
-// TODO
 pub fn fn_31() {
     // [3] Suppose you are given an array A of n sorted numbers that has been
     // circularly shifted k positions to the right. For example, {35, 42, 5, 15,
@@ -568,9 +567,13 @@ pub fn fn_31() {
     // • Suppose you do not know what k is. Give an O(lg n) algorithm to find
     // the largest number in A. For partial credit, you may give an O(n)
     // algorithm.
+
+    // - A[k-1]
+    //
+    // - Binary search solution is online possible when the numbers are unique.
+    // Otherwise we have to scan array linearly (e.g. [2, 2, 2, 2, 2, 3, 1, 2])
 }
 
-// TODO
 pub fn fn_32() {
     // [3] Consider the numerical 20 Questions game. In this game, Player 1
     // thinks of a number in the range 1 to n. Player 2 has to figure out this
@@ -580,6 +583,11 @@ pub fn fn_32() {
     // (a) What is an optimal strategy if n in known?
     //
     // (b) What is a good strategy is n is not known?
+
+    // (a) Binary search.
+    //
+    // (b) Ask each digit of picked number in binary form
+    // (Is the first digit 1? Is the second digit 1?...).
 }
 
 // TODO
@@ -631,12 +639,13 @@ pub fn fn_37() {
     // your conclusions.
 }
 
-// TODO
 pub fn fn_38() {
     // [5] Implement an external sort, which uses intermediate files to sort
     // files bigger than main memory. Mergesort is a good algorithm to base such
     // an implementation on. Test your program both on files with small records
     // and on files with large records.
+
+    // Similar to fn_43
 }
 
 // TODO
@@ -648,10 +657,11 @@ pub fn fn_39() {
     // purely sequential mergesort implementa- tion. What are your experiences?
 }
 
-// TODO
 pub fn fn_40() {
     // [3] If you are given a million integers to sort, what algorithm would you
     // use to sort them? How much time and memory would that consume?
+
+    // Quick sort.
 }
 
 // TODO
@@ -660,10 +670,11 @@ pub fn fn_41() {
     // algorithms.
 }
 
-// TODO
 pub fn fn_42() {
     // [3] Implement an algorithm that takes an input array and returns only the
     // unique elements in it.
+
+    // Sort and remove duplicates.
 }
 
 pub fn fn_43(aleft: &[i64], aright: &[i64]) {
