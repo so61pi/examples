@@ -590,20 +590,34 @@ pub fn fn_32() {
     // (Is the first digit 1? Is the second digit 1?...).
 }
 
-// TODO
 pub fn fn_33() {
     // [5] Suppose that you are given a sorted sequence of distinct integers {a1
     // , a2 , . . . , an}. Give an O(lg n) algorithm to determine whether there
     // exists an i index such as ai = i. For example, in {−10, −3, 3, 5, 7}, a3
     // = 3. In {2, 3, 4, 5, 6, 7}, there is no such i.
+
+    // Binary search
+    //
+    // if a[mid] == mid
+    //     done
+    // if a[mid] > mid
+    //     search(left)
+    // if a[mid] < mid
+    //     search(right)
 }
 
-// TODO
 pub fn fn_34() {
     // [5] Suppose that you are given a sorted sequence of distinct integers {a1
     // , a2 , . . . , an}, drawn from 1 to m where n < m. Give an O(lg n)
     // algorithm to find an integer ≤ m that is not present in a. For full
     // credit, find the smallest such integer.
+
+    // Binary search
+    //
+    // if a[mid] >= m/2
+    //     search(left)
+    // if a[mid] < m/2
+    //     search(right)
 }
 
 // TODO
