@@ -1,0 +1,182 @@
+/* gvpack -u postgresql.dot | circo -Tsvg > output.svg */
+
+digraph Plan {
+    "A01-01" [label="Plan(NodeTag)\nsrc/include/nodes/plannodes.h", fillcolor="cyan", style=filled, shape=box];
+
+    "B01-01" [label="Result"];
+    "B01-02" [label="ProjectSet"];
+    "B01-03" [label="ModifyTable"];
+    "B01-04" [label="Append"];
+    "B01-05" [label="MergeAppend"];
+    "B01-06" [label="RecursiveUnion"];
+    "B01-07" [label="BitmapAnd"];
+    "B01-08" [label="BitmapOr"];
+    "B01-09" [label="Scan", fillcolor="deeppink", style=filled];
+    "B01-10" [label="Join", fillcolor="deeppink", style=filled];
+    "B01-11" [label="Material"];
+    "B01-12" [label="Sort"];
+    "B01-13" [label="Group"];
+    "B01-14" [label="Agg"];
+    "B01-15" [label="WindowAgg"];
+    "B01-16" [label="Unique"];
+    "B01-17" [label="Gather"];
+    "B01-18" [label="GatherMerge"];
+    "B01-19" [label="Hash"];
+    "B01-20" [label="SetOp"];
+    "B01-21" [label="LockRows"];
+    "B01-22" [label="Limit"];
+
+    "B01-01" -> "A01-01";
+    "B01-02" -> "A01-01";
+    "B01-03" -> "A01-01";
+    "B01-04" -> "A01-01";
+    "B01-05" -> "A01-01";
+    "B01-06" -> "A01-01";
+    "B01-07" -> "A01-01";
+    "B01-08" -> "A01-01";
+    "B01-09" -> "A01-01";
+    "B01-10" -> "A01-01";
+    "B01-11" -> "A01-01";
+    "B01-12" -> "A01-01";
+    "B01-13" -> "A01-01";
+    "B01-14" -> "A01-01";
+    "B01-15" -> "A01-01";
+    "B01-16" -> "A01-01";
+    "B01-17" -> "A01-01";
+    "B01-18" -> "A01-01";
+    "B01-19" -> "A01-01";
+    "B01-20" -> "A01-01";
+    "B01-21" -> "A01-01";
+    "B01-22" -> "A01-01";
+
+    "C01-01" [label="SampleScan"];
+    "C01-02" [label="IndexScan"];
+    "C01-03" [label="IndexOnlyScan"];
+    "C01-04" [label="BitmapIndexScan"];
+    "C01-05" [label="BitmapHeapScan"];
+    "C01-06" [label="TidScan"];
+    "C01-07" [label="SubqueryScan"];
+    "C01-08" [label="FunctionScan"];
+    "C01-09" [label="ValuesScan"];
+    "C01-10" [label="TableFuncScan"];
+    "C01-11" [label="CteScan"];
+    "C01-12" [label="NamedTuplestoreScan"];
+    "C01-13" [label="WorkTableScan"];
+    "C01-14" [label="ForeignScan"];
+    "C01-15" [label="CustomScan"];
+
+    "C01-01" -> "B01-09";
+    "C01-02" -> "B01-09";
+    "C01-03" -> "B01-09";
+    "C01-04" -> "B01-09";
+    "C01-05" -> "B01-09";
+    "C01-06" -> "B01-09";
+    "C01-07" -> "B01-09";
+    "C01-08" -> "B01-09";
+    "C01-09" -> "B01-09";
+    "C01-10" -> "B01-09";
+    "C01-11" -> "B01-09";
+    "C01-12" -> "B01-09";
+    "C01-13" -> "B01-09";
+    "C01-14" -> "B01-09";
+    "C01-15" -> "B01-09";
+
+    "C02-01" [label="NestLoop"];
+    "C02-02" [label="MergeJoin"];
+    "C02-03" [label="HashJoin"];
+
+    "C02-01" -> "B01-10";
+    "C02-02" -> "B01-10";
+    "C02-03" -> "B01-10";
+}
+
+
+digraph PlanState {
+    "A01-01" [label="PlanState(NodeTag)\nsrc/include/nodes/execnodes.h", fillcolor="cyan", style=filled, shape=box];
+
+    "B01-01" [label="ResultState"];
+    "B01-02" [label="ProjectSetState"];
+    "B01-03" [label="ModifyTableState"];
+    "B01-04" [label="AppendState"];
+    "B01-05" [label="MergeAppendState"];
+    "B01-06" [label="RecursiveUnionState"];
+    "B01-07" [label="BitmapAndState"];
+    "B01-08" [label="BitmapOrState"];
+    "B01-09" [label="ScanState", fillcolor="deeppink", style=filled];
+    "B01-10" [label="JoinState", fillcolor="deeppink", style=filled];
+    "B01-11" [label="UniqueState"];
+    "B01-12" [label="GatherState"];
+    "B01-13" [label="GatherMergeState"];
+    "B01-14" [label="HashState"];
+    "B01-15" [label="SetOpState"];
+    "B01-16" [label="LockRowsState"];
+
+    "B01-01" -> "A01-01";
+    "B01-02" -> "A01-01";
+    "B01-03" -> "A01-01";
+    "B01-04" -> "A01-01";
+    "B01-05" -> "A01-01";
+    "B01-06" -> "A01-01";
+    "B01-07" -> "A01-01";
+    "B01-08" -> "A01-01";
+    "B01-09" -> "A01-01";
+    "B01-10" -> "A01-01";
+    "B01-11" -> "A01-01";
+    "B01-12" -> "A01-01";
+    "B01-13" -> "A01-01";
+    "B01-14" -> "A01-01";
+    "B01-15" -> "A01-01";
+    "B01-16" -> "A01-01";
+
+    "C01-01" [label="SeqScanState"];
+    "C01-02" [label="SampleScanState"];
+    "C01-03" [label="IndexScanState"];
+    "C01-04" [label="IndexOnlyScanState"];
+    "C01-05" [label="BitmapIndexScanState"];
+    "C01-06" [label="BitmapHeapScanState"];
+    "C01-07" [label="TidScanState"];
+    "C01-08" [label="SubqueryScanState"];
+    "C01-09" [label="FunctionScanState"];
+    "C01-10" [label="ValuesScanState"];
+    "C01-11" [label="TableFuncScanState"];
+    "C01-12" [label="CteScanState"];
+    "C01-13" [label="NamedTuplestoreScanState"];
+    "C01-14" [label="WorkTableScanState"];
+    "C01-15" [label="ForeignScanState"];
+    "C01-16" [label="CustomScanState"];
+    "C01-17" [label="MaterialState"];
+    "C01-18" [label="SortState"];
+    "C01-19" [label="GroupState"];
+    "C01-20" [label="AggState"];
+    "C01-21" [label="WindowAggState"];
+
+    "C01-01" -> "B01-09";
+    "C01-02" -> "B01-09";
+    "C01-03" -> "B01-09";
+    "C01-04" -> "B01-09";
+    "C01-05" -> "B01-09";
+    "C01-06" -> "B01-09";
+    "C01-07" -> "B01-09";
+    "C01-08" -> "B01-09";
+    "C01-09" -> "B01-09";
+    "C01-10" -> "B01-09";
+    "C01-11" -> "B01-09";
+    "C01-12" -> "B01-09";
+    "C01-13" -> "B01-09";
+    "C01-14" -> "B01-09";
+    "C01-15" -> "B01-09";
+    "C01-16" -> "B01-09";
+    "C01-17" -> "B01-09";
+    "C01-18" -> "B01-09";
+    "C01-19" -> "B01-09";
+    "C01-20" -> "B01-09";
+    "C01-21" -> "B01-09";
+
+    "C02-01" [label="NestLoopState"];
+    "C02-02" [label="MergeJoinState"];
+    "C02-03" [label="HashJoinState"];
+
+    "C02-01" -> "B01-10";
+    "C02-02" -> "B01-10";
+    "C02-03" -> "B01-10";
+}
