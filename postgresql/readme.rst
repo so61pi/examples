@@ -82,10 +82,20 @@ References
 - http://patshaughnessy.net/2014/10/13/following-a-select-statement-through-postgres-internals
 
 
-Logging/Debug configuration options
+Logging/Debug Configuration Options
 ===================================
 
-Common options
+Configuration, Data And Log Location
+------------------------------------
+
+.. code-block:: sql
+
+    show config_file;
+    show data_directory;
+    show log_directory;
+
+
+Common Options
 --------------
 
 .. code-block::
@@ -100,6 +110,8 @@ Common options
     jit_optimize_above_cost
     jit_inline_above_cost
     jit_provider
+
+    logging_collector
 
     debug_assertions
     debug_print_parse
@@ -163,17 +175,7 @@ Show Or Set Option In A Session
     set <option> to <value>;
     set <option> to default;
 
-
-Make Configuration Persistent
------------------------------
-
-#. View config file location (default location is ``/var/lib/pgsql/data/postgresql.conf``)
-
-    .. code-block:: sql
-    
-        show config_file;
-
-#. Make changes in that file, then restart postgres service
+To make changes persistent, update options in ``config_file``, then restart postgres service.
 
 
 Enable Logging Internal Backend Data Flow
@@ -186,7 +188,7 @@ Enable Logging Internal Backend Data Flow
     set debug_print_plan to 'on';
     set debug_pretty_print to 'on';
 
-- Log file is placed in ``/var/lib/pgsql/data/log/``
+- Log file is placed in ``data_directory/log/``
 
 
 Enable LLVM JIT Compiler To Inspect Generated Expression
@@ -202,12 +204,12 @@ Enable LLVM JIT Compiler To Inspect Generated Expression
     set jit_inline_above_cost to -1;
     set jit_tuple_deforming to off;
 
-- Bitcode file is placed in ``/var/lib/pgsql/data/``, to decompile bitcode or print CFG, use
+- Bitcode file is placed in ``data_directory``, to decompile bitcode or print CFG, use
 
     .. code-block:: shell
 
-        llvm-dis file.bc
-        opt -dot-cfg file.bc
+        llvm-dis -o file.ll file.bc
+        opt -dot-cfg -o /dev/null file.bc
 
 
 References
