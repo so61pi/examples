@@ -99,7 +99,7 @@ EXECUTE FUNCTION workspace_fn_before_delete_action();
 ------------------------------------------------------------------------------*/
 CREATE TABLE rooturl (
     id              BIGSERIAL PRIMARY KEY,
-    workspaceid     BIGSERIAL NOT NULL REFERENCES workspace(id) ON DELETE CASCADE,
+    workspaceid     BIGINT NOT NULL REFERENCES workspace(id) ON DELETE CASCADE,
     url             TEXT NOT NULL CHECK(LENGTH(url) > 0),
     period          INTEGER NOT NULL DEFAULT 60 CHECK(period > 0) /* minutes */,
     UNIQUE(workspaceid, url)
@@ -176,8 +176,8 @@ CREATE TYPE urltype AS ENUM ('html', 'media');
 
 CREATE TABLE urljob (
     id              BIGSERIAL PRIMARY KEY,
-    parentid        BIGSERIAL NOT NULL REFERENCES urljob(id) /* this could point to a deleted parent, and that's OK */,
-    workspaceid     BIGSERIAL NOT NULL REFERENCES workspace(id) ON DELETE CASCADE,
+    parentid        BIGINT NOT NULL REFERENCES urljob(id) /* this could point to a deleted parent, and that's OK */,
+    workspaceid     BIGINT NOT NULL REFERENCES workspace(id) ON DELETE CASCADE,
     url             TEXT NOT NULL CHECK(LENGTH(url) > 0),
     urltype         urltype NOT NULL,
     inserttime      TIMESTAMP WITH TIME ZONE NOT NULL /* all above fields (including this one) must be filled at INSERT time */,
@@ -438,8 +438,8 @@ EXECUTE FUNCTION fn_noupdate('fileinfo data cannot be updated after set');
 ------------------------------------------------------------------------------*/ 
 CREATE TABLE mediafile (
     id              BIGSERIAL PRIMARY KEY,
-    urljobid        BIGSERIAL NOT NULL UNIQUE REFERENCES urljob(id) ON DELETE CASCADE,
-    fileinfoid      BIGSERIAL NOT NULL REFERENCES fileinfo(id) ON DELETE RESTRICT,
+    urljobid        BIGINT NOT NULL UNIQUE REFERENCES urljob(id) ON DELETE CASCADE,
+    fileinfoid      BIGINT NOT NULL REFERENCES fileinfo(id) ON DELETE RESTRICT,
     filename        TEXT NOT NULL CHECK(LENGTH(filename) > 0),
     mediawidth      INTEGER NOT NULL CHECK(mediawidth > 0),
     mediaheight     INTEGER NOT NULL CHECK(mediaheight > 0),
