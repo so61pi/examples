@@ -153,7 +153,7 @@ Common options
 Show Or Set Option
 ------------------
 
-.. code-block::sql
+.. code-block:: sql
 
     show <option>;
 
@@ -164,7 +164,7 @@ Show Or Set Option
 Enable Logging Internal Backend Data Flow
 -----------------------------------------
 
-.. code-block::sql
+.. code-block:: sql
 
     set debug_print_parse to 'on';
     set debug_print_rewritten to 'on';
@@ -177,7 +177,7 @@ Enable Logging Internal Backend Data Flow
 Enable LLVM JIT Compiler To Inspect Generated Expression
 --------------------------------------------------------
 
-.. code-block::sql
+.. code-block:: sql
 
     set jit to on;
     set jit_dump_bitcode to on;
@@ -189,7 +189,7 @@ Enable LLVM JIT Compiler To Inspect Generated Expression
 
 - Bitcode file is placed in ``/var/lib/pgsql/data/``, to decompile bitcode or print CFG, use
 
-    .. code-block::shell
+    .. code-block:: shell
 
         llvm-dis file.bc
         opt -dot-cfg file.bc
@@ -198,9 +198,13 @@ Enable LLVM JIT Compiler To Inspect Generated Expression
 Make Configuration Persistent
 -----------------------------
 
-.. code-block::sql
+#. View config file location (default location is ``/var/lib/pgsql/data/postgresql.conf``)
 
-    show config_file;
+    .. code-block:: sql
+    
+        show config_file;
+
+#. Make changes in that file, then restart postgres service
 
 
 References
