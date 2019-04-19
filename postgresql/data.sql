@@ -1,6 +1,32 @@
 CREATE DATABASE test;
 \c test
 
+/*
+EXPLAIN ANALYZE SELECT * from members;
+EXPLAIN ANALYZE SELECT * from members WHERE memid = 1;
+EXPLAIN ANALYZE SELECT * from members WHERE surname = 'TEST';
+
+EXPLAIN ANALYZE SELECT * from members WHERE memid = 1 AND surname = 'TEST';
+EXPLAIN ANALYZE SELECT * from members WHERE surname = 'TEST' AND memid = 1;
+
+EXPLAIN ANALYZE SELECT * from members WHERE memid = 1 OR surname = 'TEST';
+EXPLAIN ANALYZE SELECT * from members WHERE surname = 'TEST' OR memid = 1;
+
+
+EXPLAIN ANALYZE SELECT members.memid, members.surname, members.firstname, bookings.starttime
+FROM bookings INNER JOIN members
+ON bookings.memid = members.memid;
+
+EXPLAIN ANALYZE SELECT members.memid, members.surname, members.firstname, bookings.starttime, facilities.name
+FROM bookings INNER JOIN members ON bookings.memid = members.memid
+              INNER JOIN facilities ON bookings.facid = facilities.facid;
+
+
+EXPLAIN ANALYZE INSERT INTO members (surname, firstname, address, zipcode, telephone, recommendedby, joindate) VALUES
+('TEST', 'TEST', 'TEST', 0, '(000) 000-0000', NULL, '2012-07-01 00:00:00');
+
+EXPLAIN ANALYZE UPDATE members SET address = 'TEST' WHERE surname = 'TEST';
+*/
 
 CREATE TABLE facilities (
     facid BIGSERIAL PRIMARY KEY,
