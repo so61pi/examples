@@ -153,8 +153,8 @@ Common options
     trace_recovery_messages
 
 
-Show Or Set Option
-------------------
+Show Or Set Option In A Session
+-------------------------------
 
 .. code-block:: sql
 
@@ -162,6 +162,18 @@ Show Or Set Option
 
     set <option> to <value>;
     set <option> to default;
+
+
+Make Configuration Persistent
+-----------------------------
+
+#. View config file location (default location is ``/var/lib/pgsql/data/postgresql.conf``)
+
+    .. code-block:: sql
+    
+        show config_file;
+
+#. Make changes in that file, then restart postgres service
 
 
 Enable Logging Internal Backend Data Flow
@@ -196,18 +208,6 @@ Enable LLVM JIT Compiler To Inspect Generated Expression
 
         llvm-dis file.bc
         opt -dot-cfg file.bc
-
-
-Make Configuration Persistent
------------------------------
-
-#. View config file location (default location is ``/var/lib/pgsql/data/postgresql.conf``)
-
-    .. code-block:: sql
-    
-        show config_file;
-
-#. Make changes in that file, then restart postgres service
 
 
 References
