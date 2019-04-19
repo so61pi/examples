@@ -76,6 +76,9 @@ References
 ----------
 
 - https://www.postgresql.org/developer/backend/
+- postgresql/src/backend/parser/README
+- postgresql/src/backend/optimizer/README
+- postgresql/src/backend/executor/README
 - http://patshaughnessy.net/2014/10/13/following-a-select-statement-through-postgres-internals
 
 
@@ -210,7 +213,7 @@ Make Configuration Persistent
 References
 ----------
 
-- src/backend/utils/misc/guc.c
+- postgresql/src/backend/utils/misc/guc.c
 - https://llvm.org/docs/LangRef.html
 
 
