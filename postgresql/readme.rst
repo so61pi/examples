@@ -226,10 +226,11 @@ References
     - https://www.postgresql.org/docs/11/acronyms.html
     - https://www.postgresql.org/docs/11/index.html
     - `Internals<https://www.postgresql.org/docs/11/internals.html>`_
-    - `Genetic Query Optimizer<https://www.postgresql.org/docs/11/geqo.html>`_
-    - `Database File Layout<https://www.postgresql.org/docs/11/storage-file-layout.html>`_
-    - `Performance Tips<https://www.postgresql.org/docs/11/performance-tips.html>`_
-    - `Parallel Query<https://www.postgresql.org/docs/11/parallel-query.html>`_
+    - `Genetic Query Optimizer <https://www.postgresql.org/docs/11/geqo.html>`_
+    - `Database File Layout <https://www.postgresql.org/docs/11/storage-file-layout.html>`_
+    - `Performance Tips <https://www.postgresql.org/docs/11/performance-tips.html>`_
+    - `Parallel Query <https://www.postgresql.org/docs/11/parallel-query.html>`_
 - External
     - http://www.interdb.jp/pg/
     - https://momjian.us/main/presentations/internals.html
+    - https://brandur.org/postgres-atomicity
