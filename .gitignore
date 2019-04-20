@@ -7,11 +7,12 @@
 
 perf.data*
 
-.directory
-.settings
-.project
 .classpath
+.directory
 .idea
+.project
+.settings
+.vagrant
 .vscode
 
 bin/
