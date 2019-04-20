@@ -225,7 +225,7 @@ References
 - PostgreSQL offical documents
     - https://www.postgresql.org/docs/11/acronyms.html
     - https://www.postgresql.org/docs/11/index.html
-    - `Internals<https://www.postgresql.org/docs/11/internals.html>`_
+    - `Internals <https://www.postgresql.org/docs/11/internals.html>`_
     - `Genetic Query Optimizer <https://www.postgresql.org/docs/11/geqo.html>`_
     - `Database File Layout <https://www.postgresql.org/docs/11/storage-file-layout.html>`_
     - `Performance Tips <https://www.postgresql.org/docs/11/performance-tips.html>`_
