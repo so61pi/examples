@@ -50,14 +50,14 @@ pub fn fn_01(s: &str) -> Option<usize> {
     None
 }
 
-// TODO
+// TODO: Skip
 pub fn fn_02() {
     // [3] Write a program to reverse the direction of a given singly-linked
     // list. In other words, after the reversal all pointers should now point
     // backwards. Your algorithm should take linear time.
 }
 
-// TODO
+// TODO: Skip
 pub fn fn_03() {
     // [5] We have seen how dynamic arrays enable arrays to grow while still
     // achieving constant-time amortized performance. This problem concerns
@@ -81,7 +81,7 @@ pub fn fn_04() {
     // table with N buckets and each element will go to separated bucket.
 }
 
-// TODO
+// TODO: Skip
 pub fn fn_05() {
     // [3] Find the overhead fraction (the ratio of data space over total space)
     // for each of the following binary tree implementations on n nodes:
@@ -182,7 +182,6 @@ pub fn fn_10() {
     // after the object is inserted.
 }
 
-// TODO
 pub fn fn_11() {
     // [5] Suppose that we are given a sequence of n values x1 , x2 , ..., xn
     // and seek to quickly answer repeated queries of the form: given i and j,
@@ -194,15 +193,44 @@ pub fn fn_11() {
     // (b) Design a data structure that uses O(n) space and answers queries in
     // O(log n) time. For partial credit, your data structure can use O(n log n)
     // space and have O(log n) query time.
+
+    // (a) A square matrix that contains smallest values of any given pair of
+    // (i, j).
+    /*
+       i
+       |
+       v
+    j->  0 1 2 ... n 0 1 2
+       .
+       n
+    */
+    // (b) Have a binary tree that each node contains min value of its child
+    // nodes and the index range the min value covers.
+    /*
+               0
+              0:7
+          ___/   \___
+         0           4
+        0:3         4:7
+       /   \       /   \
+      0     2     4     6
+     0:1   2:3   4:5   6:7
+     / \   / \   / \   / \
+    0   1 2   3 4   5 6   7
+    */
 }
 
-// TODO
 pub fn fn_12() {
     // [5] Suppose you are given an input set S of n numbers, and a black box
     // that if given any sequence of real numbers and an integer k instantly and
     // correctly answers whether there is a subset of input sequence whose sum
     // is exactly k. Show how to use the black box O(n) times to find a subset
     // of S that adds up to k.
+
+    // Put everything to the box, then remove element one by one. If the box
+    // returns no for an element, don't remove that one. At the end, we will
+    // have a set of elements that adds up the k since the box returns yes for
+    // that set and returns no when any element of that set is removed.
 }
 
 pub fn fn_13() {
@@ -303,7 +331,7 @@ pub fn fn_15() {
     // random garbage to begin with, so you must be very careful.
 }
 
-// TODO
+// TODO: Skip
 pub fn fn_16() {
     // [5] Implement versions of several different dictionary data structures,
     // such as linked lists, binary trees, balanced binary search trees, and
@@ -316,7 +344,7 @@ pub fn fn_16() {
     // with your conclusions.
 }
 
-// TODO
+// TODO: Skip
 pub fn fn_17() {
     // [5] A Caesar shift (see Section 18.6 (page 641)) is a very simple class
     // of ciphers for secret messages. Unfortunately, they can be broken using
