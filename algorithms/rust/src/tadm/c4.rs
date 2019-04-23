@@ -390,7 +390,7 @@ pub fn fn_16(data: &mut [i64]) -> Option<i64> {
     }
 }
 
-// TODO
+// TODO: Skip
 pub fn fn_17() {
     // [3] The median of a set of n values is the ┌ n/2 ┐ th smallest value.
     //
@@ -429,7 +429,7 @@ pub fn fn_18<'a, T>(
     data
 }
 
-// TODO
+// TODO: Skip
 pub fn fn_19() {
     // [5] An inversion of a permutation is a pair of elements that are out of
     // order.
@@ -540,7 +540,7 @@ pub fn fn_27() {
     // O(n log n) algorithm is possible.
 }
 
-// TODO
+// TODO: Skip
 pub fn fn_28() {
     // [5] In one of my research papers  [Ski88], I discovered a
     // comparison-based sorting algorithm that runs in O(n log(√n)). Given the
@@ -548,7 +548,7 @@ pub fn fn_28() {
     // possible?
 }
 
-// TODO
+// TODO: Skip
 pub fn fn_29() {
     // [5] Mr. B. C. Dull claims to have developed a new data structure for
     // priority queues that supports the operations Insert, Maximum, and
@@ -558,7 +558,7 @@ pub fn fn_29() {
     // sorting.)
 }
 
-// TODO
+// TODO: Skip
 pub fn fn_30() {
     // [3] A company database consists of 10,000 sorted names, 40% of whom are
     // known as good customers and who together account for 60% of the accesses
@@ -662,7 +662,7 @@ pub fn fn_36() {
     // number of occurrences of the element 0 in A. Analyze its running time.
 }
 
-// TODO
+// TODO: Skip
 pub fn fn_37() {
     // [6] Implement versions of several different sorting algorithms, such as
     // selection sort, insertion sort, heapsort, mergesort, and quicksort.
@@ -684,7 +684,7 @@ pub fn fn_38() {
     // Similar to fn_43
 }
 
-// TODO
+// TODO: Skip
 pub fn fn_39() {
     // [8] Design and implement a parallel sorting algorithm that distributes
     // data across several processors. An appropriate variation of mergesort is
@@ -700,7 +700,7 @@ pub fn fn_40() {
     // Quick sort.
 }
 
-// TODO
+// TODO: Skip
 pub fn fn_41() {
     // [3] Describe advantages and disadvantages of the most popular sorting
     // algorithms.
@@ -713,7 +713,7 @@ pub fn fn_42() {
     // Sort and remove duplicates.
 }
 
-pub fn fn_43(aleft: &[i64], aright: &[i64]) {
+pub fn fn_43() {
     // [5] You have a computer with only 2Mb of main memory. How do you use it
     // to sort a large file of 500 Mb that is on disk?
 
@@ -737,17 +737,33 @@ pub fn fn_44() {
     // poped element of main stack equals to the one on min stack.
 }
 
-// TODO
 pub fn fn_45() {
     // [5] Given a search string of three words, find the smallest snippet of
-    // the document that contains all three of the search words—i.e. , the
+    // the document that contains all three of the search words - i.e., the
     // snippet with smallest number of words in it. You are given the index
-    // positions where these words in occur search strings, such as word1: (1,
-    // 4, 5), word2: (4, 9, 10), and word3: (5, 6, 15). Each of the lists are in
+    // positions where these words occur in the document, such as word1: (1, 4,
+    // 5), word2: (3, 9, 10), and word3: (2, 6, 15). Each of the lists are in
     // sorted order, as above.
+
+    // 123456789ABCDEF
+    // x  xx
+    //   y     yy
+    //  z   z        z
+    //
+    // xzyxxz  yy    z -> mergedArray
+    //
+    // (lastX, lastY, lastZ) = (1, 3, 2)
+    // for i in mergedArray[4:] {
+    //   switch i {
+    //     x: update lastX
+    //     y: update lastY
+    //     z: update lastZ
+    //   }
+    //   best = min(best, (lastX, lastY, lastZ))
+    // }
 }
 
-// TODO
+// TODO: Skip
 pub fn fn_46() {
     // [6] You are given 12 coins. One of them is heavier or lighter than the
     // rest. Identify this coin in just three weighings.
