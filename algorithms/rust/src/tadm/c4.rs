@@ -42,7 +42,6 @@ pub fn fn_02() {
     // (c), (d) sort then compute and compare all of (array[i+1] - array[i])
 }
 
-// TODO
 pub fn fn_03(numbers: &mut [i32]) -> Vec<(i32, i32)> {
     // [3] Take a sequence of 2n real numbers as input. Design an O(n log n)
     // algorithm that partitions the numbers into n pairs, with the property
@@ -344,7 +343,6 @@ pub fn fn_14(lists: &[&[i32]]) -> Vec<i32> {
     v
 }
 
-// TODO
 pub fn fn_15() {
     // [5] (a) Give an efficient algorithm to find the second-largest key among
     // n keys. You can do better than 2n − 3 comparisons. (b) Then, give an
@@ -352,6 +350,15 @@ pub fn fn_15() {
     // key comparisons does your algorithm do in the worst case? Must your
     // algorithm determine which key is largest and second-largest in the
     // process?
+
+    // (a) Pick first two elements as the largest and second-largest (this takes
+    // one comparision), then sequentially pick new element and check if it is
+    // the new largest or second-largest one. 2(n-2) + 1 = 2n - 3 checks in
+    // total.
+    //
+    // (b) Heapify the array then select the third-largest element.
+    //
+    // We could also use tournament algorithm.
 }
 
 pub fn fn_16(data: &mut [i64]) -> Option<i64> {
@@ -493,7 +500,6 @@ pub fn fn_25() {
     // Same as fn_22, k = log log n, hence O(n log log log n).
 }
 
-// TODO
 pub fn fn_26() {
     // [5] Consider the problem of sorting a sequence of n 0’s and 1’s using
     // comparisons. For each comparison of two values x and y, the algorithm
@@ -505,6 +511,22 @@ pub fn fn_26() {
     // (b) Give an algorithm to sort in 2n/3 comparisons in the average case
     // (assuming each of the n inputs is 0 or 1 with equal probability). Show
     // that your algorithm is optimal.
+
+    // (a) Compare elements from 2nd position (y) to the first one (x)
+    //
+    // - If y > x => put y to bucket 3
+    // - If y = x => put y to bucket 2
+    // - If y < x => put y to bucket 1
+    //
+    // Total number of comparisons is n - 1
+    //
+    // (b) Compare elements in pair ([0] is compared with [1], [2] is compared
+    // with [3], [4] is compared with [5]...) with the same rules as (a). If y =
+    // x, we need another compare to detect whether they are 0 or 1.
+    //
+    // So we have n/2 comparisons at first, one third of them need an additional
+    // comparisions. In total, (n/2)/3 + (n/2)/3 + (n/2)/3*2 = (n/2 + n/2 + n)/3
+    // = (2n)/3 comparisions are nedded.
 }
 
 // TODO
