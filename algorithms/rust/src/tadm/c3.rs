@@ -517,10 +517,58 @@ pub fn fn_28() {
 }
 
 // TODO
-pub fn fn_29() {
+pub fn fn_29(text: &str) -> String {
     // [6] Give an algorithm for finding an ordered word pair (e.g., “New York”)
     // occurring with the greatest frequency in a given webpage. Which data
     // structures would you use? Optimize both time and space.
+
+    // Using hashtable, each word pair goes to a different slot. Update the
+    // highest frequency pair for every iteration.
+
+    let mut it = text.split_whitespace();
+    let first = if let Some(word) = it.next() {
+        word
+    } else {
+        return String::new();
+    };
+
+    struct Max {
+        pair: String,
+        counter: u32,
+    }
+
+    impl Max {
+        fn new() -> Max {
+            Max {
+                pair: String::new(),
+                counter: 0,
+            }
+        }
+    }
+
+    let max = it
+        .scan(first, |first, word| {
+            let pair = format!("{} {}", first, word);
+            *first = word;
+            Some(pair)
+        })
+        .scan(std::collections::HashMap::new(), |st, pair| {
+            let counter = st.entry(pair.clone()).or_insert(0);
+            *counter += 1;
+            Some((*counter, pair))
+        })
+        .fold(Max::new(), |max, (counter, pair)| {
+            if counter > max.counter {
+                Max {
+                    pair: pair,
+                    counter: counter,
+                }
+            } else {
+                max
+            }
+        });
+
+    max.pair
 }
 
 #[cfg(test)]
