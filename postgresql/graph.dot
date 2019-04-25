@@ -1,4 +1,4 @@
-/* gvpack -u postgresql.dot | circo -Tsvg > output.svg */
+/* gvpack -u graph.dot | circo -Tsvg > graph.svg */
 
 digraph Plan {
     "A01-01" [label="Plan(NodeTag)\nsrc/include/nodes/plannodes.h", fillcolor="cyan", style=filled, shape=box];
