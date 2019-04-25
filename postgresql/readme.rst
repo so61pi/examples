@@ -9,6 +9,16 @@ Softwares
     - Hash: ``6cd404b344f7e27f4d64555bb133f18a758fe851``
 
 
+Notes
+=====
+
+- Left table is outer table, right table is inner table.
+
+    .. code-block:: sql
+
+        SELECT * FROM tbl_outer AS outer, tbl_inner AS inner WHERE inner.attr1 = outer.attr2;
+
+
 Query execution flow
 ====================
 
