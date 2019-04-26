@@ -508,15 +508,31 @@ pub fn fn_27() {
     // While fast is not null, if it is equal to slow then we have a loop.
 }
 
-// TODO
-pub fn fn_28() {
+pub fn fn_28(data: &[i64]) -> Vec<i64> {
     // [5] You have an unordered array X of n integers. Find the array M
     // containing n elements where Mi is the product of all integers in X except
     // for Xi . You may not use division. You can use extra memory. (Hint: There
     // are solutions faster than O(n2 ).)
+
+    fn accproduct<'a>(it: impl Iterator<Item = &'a i64>) -> Vec<i64> {
+        let mut v = it.fold([1i64].to_vec(), |mut acc, e| {
+            acc.push(acc.last().unwrap() * e);
+            acc
+        });
+        v.push(1i64);
+        v
+    }
+
+    let lr_product = accproduct(data.iter());
+    let mut rl_product = accproduct(data.iter().rev());
+    rl_product.reverse();
+
+    (1..data.len() + 1).fold(Vec::new(), |mut acc, e| {
+        acc.push(lr_product.get(e - 1).unwrap_or(&1) * rl_product.get(e + 1).unwrap_or(&1));
+        acc
+    })
 }
 
-// TODO
 pub fn fn_29(text: &str) -> String {
     // [6] Give an algorithm for finding an ordered word pair (e.g., “New York”)
     // occurring with the greatest frequency in a given webpage. Which data
@@ -585,5 +601,10 @@ mod tests {
         assert_eq!(fn_01(")(()").unwrap(), 0);
         assert_eq!(fn_01("(").unwrap(), 0);
         assert_eq!(fn_01(")").unwrap(), 0);
+    }
+
+    #[test]
+    fn test_fn_28() {
+        assert_eq!(fn_28(&[1, 2, 3]), &[6, 3, 2]);
     }
 }
