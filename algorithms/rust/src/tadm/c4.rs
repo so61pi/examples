@@ -13,7 +13,6 @@ pub fn fn_01(players: &mut [usize]) -> (&[usize], &[usize]) {
     players.split_at(players.len() / 2)
 }
 
-// TODO
 pub fn fn_02() {
     // [3] For each of the following problems, give an algorithm that finds the
     // desired numbers within the given amount of time. To keep your answers
