@@ -499,6 +499,8 @@ pub fn fn_27() {
     // possible without using any extra storage. Also, identify the location of
     // the loop.
 
+    // We can have at most one loop.
+    //
     // Assume that the linked list contains the number of nodes, we can loop to
     // the end of list then check if next is actually null. If it is, then there
     // is no loop. Otherwise next points to the starting point of the cycle.
@@ -527,7 +529,7 @@ pub fn fn_28(data: &[i64]) -> Vec<i64> {
     let mut rl_product = accproduct(data.iter().rev());
     rl_product.reverse();
 
-    (1..data.len() + 1).fold(Vec::new(), |mut acc, e| {
+    (1..=data.len()).fold(Vec::new(), |mut acc, e| {
         acc.push(lr_product.get(e - 1).unwrap_or(&1) * rl_product.get(e + 1).unwrap_or(&1));
         acc
     })
@@ -575,10 +577,7 @@ pub fn fn_29(text: &str) -> String {
         })
         .fold(Max::new(), |max, (counter, pair)| {
             if counter > max.counter {
-                Max {
-                    pair: pair,
-                    counter: counter,
-                }
+                Max { pair, counter }
             } else {
                 max
             }
@@ -606,5 +605,17 @@ mod tests {
     #[test]
     fn test_fn_28() {
         assert_eq!(fn_28(&[1, 2, 3]), &[6, 3, 2]);
+        assert_eq!(fn_28(&[1, 1, 1]), &[1, 1, 1]);
+        assert_eq!(fn_28(&[1, 2, 1]), &[2, 1, 2]);
+    }
+
+    #[test]
+    fn test_fn_29() {
+        assert_eq!(fn_29(""), "");
+        assert_eq!(fn_29("a"), "");
+        assert_eq!(fn_29("a b"), "a b");
+        assert_eq!(fn_29("a b b"), "a b");
+        assert_eq!(fn_29("a b b b"), "b b");
+        assert_eq!(fn_29("a b a b"), "a b");
     }
 }

@@ -641,7 +641,6 @@ pub fn fn_34() {
     //     search(right)
 }
 
-// TODO
 pub fn fn_35() {
     // [5] Let M be an n × m integer matrix in which the entries of each row are
     // sorted in increasing order (from left to right) and the entries in each
@@ -649,9 +648,79 @@ pub fn fn_35() {
     // algorithm to find the position of an integer x in M , or to determine
     // that x is not there. How many comparisons of x with matrix entries does
     // your algorithm use in worst case?
+
+    /*
+                m=10
+        0 1 2 3 4 5 6 7 8 9
+        1 2 3 4 5 6 7 8 9 A
+        2 3 4 5 6 7 8 9 A B
+    n=7 3 4 5 6 7 8 9 A B C
+        4 5 6 7 8 9 A B C D
+        5 6 7 8 9 A B C D E
+        6 7 8 9 A B C D E F
+
+    First way
+        search
+            a . . b
+            . . . .
+            . . . c
+
+            a = M[0;0]
+            b = M[0;9]
+            c = M[6;9]
+
+            if x = a or b or c -> true
+
+            if a < x < b
+                C = binary search for column where x is in
+                search x in C
+            if b < x < c
+                R = binary search for row where x is in
+                search x in R
+
+    Second way
+        v > A  <=>  !(v <= A)
+                        *
+            . . . . . . . 7 8 9
+            . . . . . . . 8 9 A
+            . . . . . . . 9 A B
+            . . . . . . . A B C
+          * . . . . . . . B C D
+            5 6 7 8 9 A B C D E
+            6 7 8 9 A B C D E F
+
+        v < A  <=>  !(v >= A)
+                        *
+            0 1 2 3 4 5 6 7 8 9
+            1 2 3 4 5 6 7 8 9 A
+            2 3 4 5 6 7 8 9 A B
+            3 4 5 6 7 8 9 A B C
+          * 4 5 6 7 8 9 . . . .
+            5 6 7 8 9 A . . . .
+            6 7 8 9 A B . . . .
+
+        * = mid
+
+        search [rmin rmax), [cmin cmax)
+            if rmin == rmax || cmin == cmax -> false
+
+            rmid = (rmax - rmin) / 2 + rmin
+            cmid = (cmax - cmin) / 2 + cmin
+            e = M[rmid][cmid]
+
+            if x = e -> true
+            if x > e
+                search rmin rmid+1, cmid+1 cmax
+                search rmid+1 rmax, cmin cmid+1
+                search rmid+1 rmax, cmid+1 cmax
+            if x < e
+                search rmin rmid, cmin cmid
+                search rmin rmid, cmid cmax
+                search rmid rmax, cmin cmid
+    */
+
 }
 
-// TODO
 pub fn fn_36() {
     // [5] Consider an n × n array A containing integer elements (positive,
     // negative, and zero). Assume that the elements in each row of A are in
@@ -659,6 +728,33 @@ pub fn fn_36() {
     // strictly decreasing order. (Hence there cannot be two zeroes in the same
     // row or the same column.) Describe an efficient algorithm that counts the
     // number of occurrences of the element 0 in A. Analyze its running time.
+
+    /*
+        | >e | >e | >e
+    ----+----+----+----
+     <e |  e | >e | >e
+    ----+----+----+----
+     <e | <e |    |
+    ----+----+----+----
+     <e | <e |    |
+
+      e | >e | >e
+    ----+----+----
+     <e |    |
+    ----+----+----
+     <e |    |
+
+    Values in empty cells can be equal to e.
+
+    e = A[r][c]
+    if e = 0
+        counter++
+        check r+1,c+1
+    if e < 0
+        check r, c+1
+    if e > 0
+        check r+1, c
+    */
 }
 
 // TODO: Skip
