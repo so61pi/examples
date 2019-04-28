@@ -92,6 +92,60 @@ References
 - http://patshaughnessy.net/2014/10/13/following-a-select-statement-through-postgres-internals
 
 
+Query Plan
+==========
+
+Example
+-------
+
+.. code-block:: sql
+
+    EXPLAIN ANALYZE
+    SELECT *
+    FROM bookings INNER JOIN members ON bookings.memid = members.memid;
+
+.. code-block::
+
+                                                        QUERY PLAN                                                     
+    -------------------------------------------------------------------------------------------------------------------
+     Hash Join  (cost=11.12..97.08 rows=4044 width=1474) (actual time=0.113..3.805 rows=4044 loops=1)
+       Hash Cond: (bookings.memid = members.memid)
+       ->  Seq Scan on bookings  (cost=0.00..74.44 rows=4044 width=36) (actual time=0.020..0.914 rows=4044 loops=1)
+       ->  Hash  (cost=10.50..10.50 rows=50 width=1438) (actual time=0.034..0.034 rows=31 loops=1)
+             Buckets: 1024  Batches: 1  Memory Usage: 12kB
+             ->  Seq Scan on members  (cost=0.00..10.50 rows=50 width=1438) (actual time=0.012..0.018 rows=31 loops=1)
+     Planning Time: 0.277 ms
+     Execution Time: 4.221 ms
+
+.. code-block::
+
+    cost=start-up-cost..total-cost
+    start-up-cost = cost expended before first tuple is retrieved
+    total-cost = start-up-cost + run-cost
+    run-cost = cost to fetch all tuples
+
+Query plan is carried out inside out, as follows
+
+#. Scan ``members`` table sequentially to retrieve rows
+#. Construct a hash table with retrieved rows.
+#. Scan ``bookings`` table sequentially.
+#. Do a hash join on 2 tables above.
+
+
+Notes
+-----
+
+- ``EXPLAIN`` only prints out query plan without executing the query.
+- ``EXPLAIN ANALYZE`` actually executec the query.
+
+
+References
+----------
+
+- postgresql/src/backend/optimizer/path/costsize.c
+- https://www.postgresql.org/docs/11/using-explain.html
+
+
 Logging/Debug Configuration Options
 ===================================
 
