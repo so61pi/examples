@@ -1,9 +1,56 @@
-// TODO
-pub fn fn_01() {
+pub fn fn_01(n: usize) -> Vec<Vec<u64>> {
     // [3] A derangement is a permutation p of {1, . . . , n} such that no item is
     // in its proper position, i.e. pi != i for all 1 ≤ i ≤ n. Write an efficient
     // backtracking program with pruning that constructs all the derangements of n
     // items.
+
+    #[derive(Debug)]
+    struct Item {
+        value: u64,
+        used: bool,
+    }
+
+    fn choose(array: &mut [Item], index: usize) -> Vec<Vec<u64>> {
+        if index >= array.len() {
+            return vec![];
+        }
+
+        fn process(array: &mut [Item], index: usize, val: u64) -> impl Iterator<Item = Vec<u64>> {
+            let mut vv = if index + 1 < array.len() {
+                choose(array, index + 1)
+            } else {
+                // Inner empty vector is a placeholder.
+                vec![vec![]]
+            };
+            vv.iter_mut().for_each(|v| v.push(val));
+            vv.into_iter()
+        }
+
+        (0..array.len())
+            .filter_map(|i| {
+                if i == index || array[i].used {
+                    None
+                } else {
+                    array[i].used = true;
+                    let it = process(array, index, array[i].value);
+                    array[i].used = false;
+                    Some(it)
+                }
+            })
+            .flatten()
+            .collect()
+    }
+
+    let mut array = (0..n as u64)
+        .map(|e| Item {
+            value: e,
+            used: false,
+        })
+        .collect::<Vec<_>>();
+
+    let mut vv = choose(&mut array, 0);
+    vv.iter_mut().for_each(|v| v.reverse());
+    vv
 }
 
 // TODO
@@ -144,4 +191,21 @@ pub fn fn_19() {
     // 1, 2, 3, 4} with equal probability to write a random number generator
     // that gener- ates numbers from 0 to 7 (rng07) with equal probability. What
     // are expected number of calls to rng04 per call of rng07?
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_fn_01() {
+        assert_eq!(fn_01(0), Vec::<Vec<u64>>::new());
+        assert_eq!(fn_01(1), Vec::<Vec<u64>>::new());
+
+        // 0 1
+        assert_eq!(fn_01(2), vec![vec![1, 0]]);
+
+        // 0 1 2
+        assert_eq!(fn_01(3), vec![vec![1, 2, 0], vec![2, 0, 1]]);
+    }
 }

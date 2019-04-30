@@ -530,7 +530,7 @@ pub fn fn_28(data: &[i64]) -> Vec<i64> {
     rl_product.reverse();
 
     (1..=data.len()).fold(Vec::new(), |mut acc, e| {
-        acc.push(lr_product.get(e - 1).unwrap_or(&1) * rl_product.get(e + 1).unwrap_or(&1));
+        acc.push(lr_product.get(e - 1).unwrap() * rl_product.get(e + 1).unwrap());
         acc
     })
 }
