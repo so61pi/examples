@@ -53,14 +53,69 @@ pub fn fn_01(n: usize) -> Vec<Vec<u64>> {
     vv
 }
 
-// TODO
-pub fn fn_02() {
+pub fn fn_02(data: &[i64]) -> Vec<Vec<i64>> {
     // [4] Multisets are allowed to have repeated elements. A multiset of n
     // items may thus have fewer than n! distinct permutations. For example, {1,
     // 1, 2, 2} has only six different permutations: {1, 1, 2, 2}, {1, 2, 1, 2},
     // {1, 2, 2, 1}, {2, 1, 1, 2}, {2, 1, 2, 1}, and {2, 2, 1, 1}. Design and
     // implement an efficient algorithm for constructing all permutations of a
     // multiset.
+
+    #[derive(Debug)]
+    struct Item {
+        value: i64,
+        count: usize,
+    }
+
+    fn choose(base: &mut [Item], length: usize, index: usize) -> Vec<Vec<i64>> {
+        if index >= length {
+            return vec![];
+        }
+
+        fn process(
+            base: &mut [Item],
+            length: usize,
+            index: usize,
+            val: i64,
+        ) -> impl Iterator<Item = Vec<i64>> {
+            let mut vv = if index + 1 < length {
+                choose(base, length, index + 1)
+            } else {
+                // Inner empty vector is a placeholder.
+                vec![vec![]]
+            };
+            vv.iter_mut().for_each(|v| v.push(val));
+            vv.into_iter()
+        }
+
+        (0..base.len())
+            .filter_map(|i| {
+                if base[i].count > 0 {
+                    base[i].count -= 1;
+                    let it = process(base, length, index, base[i].value);
+                    base[i].count += 1;
+                    Some(it)
+                } else {
+                    None
+                }
+            })
+            .flatten()
+            .collect()
+    }
+
+    let mut base: Vec<_> = data
+        .iter()
+        .fold(std::collections::HashMap::new(), |mut base, n| {
+            *base.entry(*n).or_insert(0) += 1;
+            base
+        })
+        .into_iter()
+        .map(|(k, v)| Item { value: k, count: v })
+        .collect();
+
+    let mut vv = choose(&mut base, data.len(), 0);
+    vv.iter_mut().for_each(|v| v.reverse());
+    vv
 }
 
 // TODO
@@ -79,6 +134,9 @@ pub fn fn_04() {
     // THIRD,” which correctly predicted the result of the 1992 U.S.
     // presidential election. Design and implement an algorithm for finding
     // anagrams using combinatorial search and a dictionary.
+
+    // Constructing a tree of all combinations (with space characters) and check
+    // one by one.
 }
 
 // TODO
@@ -196,16 +254,44 @@ pub fn fn_19() {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use std::collections::HashSet;
+    use std::iter::FromIterator;
+
+    fn v2s<T>(v: Vec<T>) -> HashSet<T>
+    where
+        T: std::hash::Hash + std::cmp::Eq,
+    {
+        HashSet::from_iter(v.into_iter())
+    }
 
     #[test]
     fn test_fn_01() {
-        assert_eq!(fn_01(0), Vec::<Vec<u64>>::new());
-        assert_eq!(fn_01(1), Vec::<Vec<u64>>::new());
+        assert_eq!(v2s(fn_01(0)), v2s(Vec::<Vec<_>>::new()));
+        assert_eq!(v2s(fn_01(1)), v2s(Vec::<Vec<_>>::new()));
 
         // 0 1
-        assert_eq!(fn_01(2), vec![vec![1, 0]]);
+        assert_eq!(v2s(fn_01(2)), v2s(vec![vec![1, 0]]));
 
         // 0 1 2
-        assert_eq!(fn_01(3), vec![vec![1, 2, 0], vec![2, 0, 1]]);
+        assert_eq!(v2s(fn_01(3)), v2s(vec![vec![1, 2, 0], vec![2, 0, 1]]));
+    }
+
+    #[test]
+    fn test_fn_02() {
+        assert_eq!(v2s(fn_02(&[])), v2s(Vec::<Vec<_>>::new()));
+        assert_eq!(v2s(fn_02(&[1])), v2s(vec![vec![1]]));
+        assert_eq!(v2s(fn_02(&[1, 1])), v2s(vec![vec![1, 1]]));
+        assert_eq!(v2s(fn_02(&[1, 2])), v2s(vec![vec![2, 1], vec![1, 2]]));
+        assert_eq!(
+            v2s(fn_02(&[1, 1, 2, 2])),
+            v2s(vec![
+                vec![1, 1, 2, 2],
+                vec![1, 2, 1, 2],
+                vec![1, 2, 2, 1],
+                vec![2, 1, 1, 2],
+                vec![2, 1, 2, 1],
+                vec![2, 2, 1, 1]
+            ])
+        );
     }
 }
