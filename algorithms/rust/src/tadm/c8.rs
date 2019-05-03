@@ -5,8 +5,8 @@ pub fn fn_01() {
     // characters, such as typing “setve” when you mean “steve.” This requires
     // two substitutions to fix under the conventional definition of edit
     // distance. Incorporate a swap operation into our edit distance function,
-    // so that such neigh- boring transposition errors can be fixed at the cost
-    // of one operation.
+    // so that such neighboring transposition errors can be fixed at the cost of
+    // one operation.
 }
 
 // TODO
@@ -338,11 +338,45 @@ pub fn fn_24() {
     // make a certain amount of change.
 }
 
-// TODO
-pub fn fn_25() {
+pub fn fn_25(data: &[i64]) -> Option<(usize, usize, i64)> {
     // [5] You are given an array of n numbers, each of which may be positive,
     // negative, or zero. Give an efficient algorithm to identify the index
     // positions i and j to the maximum sum of the ith through jth numbers.
+
+    // result = sum(0->j) - sum(0->i), so for result to achieve maximum value,
+    // sum(0->j) must be maximum and sum(0->i) is minimum.
+
+    let first = if let Some(v) = data.first() {
+        *v
+    } else {
+        return None;
+    };
+
+    let mut sum = first;
+    let (mut curmax, mut curmaxat) = (first, 0);
+    let (mut curmin, mut curminat) = (first, 0);
+    let (mut lstmin, mut lstminat) = (first, 0);
+    for i in 1..data.len() {
+        sum += data[i];
+
+        // Use '<=' instead of '<' to ignore zeros in data.
+        if sum <= curmin {
+            curmin = sum;
+            curminat = i;
+        }
+
+        // Use '>=' instead of '>' so lstmin can be updated faster and more
+        // correctly.
+        if sum >= curmax {
+            curmax = sum;
+            curmaxat = i;
+
+            lstmin = curmin;
+            lstminat = curminat;
+        }
+    }
+
+    Some((lstminat, curmaxat + 1, curmax - lstmin + data[lstminat]))
 }
 
 // TODO
@@ -358,4 +392,11 @@ pub fn fn_26() {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn test_fn_25() {
+        assert_eq!(fn_25(&[]), None);
+        assert_eq!(fn_25(&[1]), Some((0, 1, 1)));
+        assert_eq!(fn_25(&[1, 2, 3]), Some((0, 3, 6)));
+    }
 }
