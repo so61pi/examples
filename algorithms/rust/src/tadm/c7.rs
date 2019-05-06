@@ -15,14 +15,17 @@ pub fn fn_01(n: usize) -> Vec<Vec<u64>> {
             return vec![];
         }
 
-        fn process(array: &mut [Item], index: usize, val: u64) -> impl Iterator<Item = Vec<u64>> {
+        fn process(array: &mut [Item], index: usize, i: usize) -> impl Iterator<Item = Vec<u64>> {
             let mut vv = if index + 1 < array.len() {
-                choose(array, index + 1)
+                array[i].used = true;
+                let vv = choose(array, index + 1);
+                array[i].used = false;
+                vv
             } else {
                 // Inner empty vector is a placeholder.
                 vec![vec![]]
             };
-            vv.iter_mut().for_each(|v| v.push(val));
+            vv.iter_mut().for_each(|v| v.push(array[i].value));
             vv.into_iter()
         }
 
@@ -31,10 +34,7 @@ pub fn fn_01(n: usize) -> Vec<Vec<u64>> {
                 if i == index || array[i].used {
                     None
                 } else {
-                    array[i].used = true;
-                    let it = process(array, index, array[i].value);
-                    array[i].used = false;
-                    Some(it)
+                    Some(process(array, index, i))
                 }
             })
             .flatten()
@@ -76,25 +76,25 @@ pub fn fn_02(data: &[i64]) -> Vec<Vec<i64>> {
             base: &mut [Item],
             length: usize,
             index: usize,
-            val: i64,
+            i: usize,
         ) -> impl Iterator<Item = Vec<i64>> {
             let mut vv = if index + 1 < length {
-                choose(base, length, index + 1)
+                base[i].count -= 1;
+                let vv = choose(base, length, index + 1);
+                base[i].count += 1;
+                vv
             } else {
                 // Inner empty vector is a placeholder.
                 vec![vec![]]
             };
-            vv.iter_mut().for_each(|v| v.push(val));
+            vv.iter_mut().for_each(|v| v.push(base[i].value));
             vv.into_iter()
         }
 
         (0..base.len())
             .filter_map(|i| {
                 if base[i].count > 0 {
-                    base[i].count -= 1;
-                    let it = process(base, length, index, base[i].value);
-                    base[i].count += 1;
-                    Some(it)
+                    Some(process(base, length, index, i))
                 } else {
                     None
                 }
