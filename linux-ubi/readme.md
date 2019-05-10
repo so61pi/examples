@@ -1,29 +1,22 @@
-## Reference
+## Acronyms
 
-- http://www.linux-mtd.infradead.org/doc/ubi.html
-- http://www.linux-mtd.infradead.org/faq/general.html
-- http://free-electrons.com/blog/managing-flash-storage-with-linux/
-- [UBI Usage in U-Boot](http://www.denx.de/wiki/publish/DULG/DULG-enbw_cmc.html#Section_5.9.3.6.)
-- drivers/mtd/nand/
-- drivers/mtd/ubi/
+- **EC**: Erase Counter
+- **LEB**: Logical Erase Block
+- **MTD**: Memory Technology Devices
+- **PEB**: Physical Erase Block
+- **UBI**: Unsorted Block Images
+- **VID**: Volume Identifier
 
 ## Overview
 
-"MTD subsystem (stands for Memory Technology Devices) provides an abstraction layer for raw flash devices. It makes it possible to use the same API when working with different flash types and technologies, e.g. NAND, OneNAND, NOR, AG-AND, ECC'd NOR, etc."
-
-`/dev/mtdX` presents an MTD partition (it's also called an MTD device).
-
-There is nothing like `/dev/mtd` for MTD devices (like the relationship between `/dev/sda` and `/dev/sda0`). If an MTD device has 3 partitions, they are `/dev/mtd0`, `/dev/mtd1` and `/dev/mtd2`, and that's it.
-
-There is also no MTD partition table in the MTD devices, it's defined in the device tree or via kernel parameter `mtdparts`.
-
-The UBI is "a volume management system for raw flash devices which manages multiple logical volumes on a single physical flash device and spreads the I/O load (i.e, wear-leveling) across whole flash chip". It uses MTD sub-system to interact (reading, writing...) with the underlying MTD device (partition).
-
-`/dev/ubiX` is called a UBI device, it is created when we attach an MTD device (partition) to UBI.
-
-UBI supports read-only block devices (http://www.linux-mtd.infradead.org/faq/ubi.html#L_squashfs_over_ubi).
-
-UBI doesn't support read-write block devices (http://www.linux-mtd.infradead.org/faq/ubi.html#L_ext2_over_ubi).
+- "**MTD subsystem (stands for Memory Technology Devices) provides an abstraction layer for raw flash devices.** It makes it possible to use the same API when working with different flash types and technologies, e.g. NAND, OneNAND, NOR, AG-AND, ECC'd NOR, etc."
+- **`/dev/mtdX` presents an MTD partition (it's also called an MTD device).**
+  - There is nothing like `/dev/mtd` for MTD devices (like the relationship between `/dev/sda` and `/dev/sda0`). If an MTD device has 3 partitions, they are `/dev/mtd0`, `/dev/mtd1` and `/dev/mtd2`, and that's it.
+  - There is also no MTD partition table in the MTD devices, it's defined in the device tree or via kernel parameter `mtdparts`.
+- **The UBI is "a volume management system for raw flash devices which manages multiple logical volumes on a single physical flash device and spreads the I/O load (i.e, wear-leveling) across whole flash chip".**
+  - It uses MTD sub-system to interact (reading, writing...) with the underlying MTD device (partition).
+  - **`/dev/ubiX` is called a UBI device**, it is created when we attach an MTD device (partition) to UBI.
+  - UBI supports [read-only block devices](http://www.linux-mtd.infradead.org/faq/ubi.html#L_squashfs_over_ubi), but **not** [read-write block devices](http://www.linux-mtd.infradead.org/faq/ubi.html#L_ext2_over_ubi).
 
 ```txt
 +-------------------------------------+
@@ -126,3 +119,12 @@ fallocate -l 1M rootfs.img
 mkfs.ext2 -F rootfs.img
 ubinize -o disk.ubi -m 512 -p 16KiB ubi.ini
 ```
+
+## References
+
+- http://www.linux-mtd.infradead.org/doc/ubi.html
+- http://www.linux-mtd.infradead.org/faq/general.html
+- http://free-electrons.com/blog/managing-flash-storage-with-linux/
+- [UBI Usage in U-Boot](http://www.denx.de/wiki/publish/DULG/DULG-enbw_cmc.html#Section_5.9.3.6.)
+- drivers/mtd/nand/
+- drivers/mtd/ubi/
