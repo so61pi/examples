@@ -17,6 +17,8 @@ Query Execution Flow
 
 Query string -> ``RawStmt`` -> ``Query`` -> ``PlannedStmt{Plan}`` -> ``Plan`` + ``PlanState`` -> ``ExprEvalStep{ ExprEvalOp }`` array -> retrive tuple/row until NULL, check it against expression array
 
+*Note:* The flow below might not be entirely correct.
+
 .. code-block:: text
 
     PostgresMain
@@ -403,7 +405,7 @@ Index-Related Scanning Techniques
 - ``BitmapIndexScan``
     - Condition
         - ``IndexScan`` is applicable.
-        - **AND** the optimizer predicts ``IndexScan`` will lead to too many duplicated page loads .
+        - **AND** the optimizer predicts ``IndexScan`` will lead to too many duplicated page loads.
             - ``BitmapIndexScan`` builds a bipmap of pages that need to be loaded.
 
 
