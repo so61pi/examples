@@ -15,7 +15,7 @@ Internals
 Query Execution Flow
 --------------------
 
-Query string -> ``RawStmt`` -> ``Query`` -> ``PlannedStmt{Plan}`` -> ``Plan`` + ``PlanState`` -> ``ExprEvalStep{ ExprEvalOp }`` array -> retrive tuple/row until NULL, check it against expression array
+Query string -> ``RawStmt`` -> ``Query`` -> ``PlannedStmt{Plan}`` -> ``Plan`` + ``PlanState`` -> ``ExprEvalStep{ ExprEvalOp }`` array -> retrieve tuple/row until NULL, check it against expression array
 
 *Note:* The flow below might not be entirely correct.
 
@@ -246,10 +246,10 @@ Enable Logging Internal Backend Data Flow
 
 .. code-block:: sql
 
-    SET debug_print_parse to 'on';
-    SET debug_print_rewritten to 'on';
-    SET debug_print_plan to 'on';
-    SET debug_pretty_print to 'on';
+    SET debug_print_parse TO 'on';
+    SET debug_print_rewritten TO 'on';
+    SET debug_print_plan TO 'on';
+    SET debug_pretty_print TO 'on';
 
 - Log file is placed in ``data_directory/log/``
 
@@ -259,13 +259,13 @@ Enable LLVM JIT Compiler To Inspect Generated Expression
 
 .. code-block:: sql
 
-    SET jit to on;
-    SET jit_dump_bitcode to on;
-    SET jit_expressions to on;
-    SET jit_above_cost to 10;
-    SET jit_optimize_above_cost to -1;
-    SET jit_inline_above_cost to -1;
-    SET jit_tuple_deforming to off;
+    SET jit TO on;
+    SET jit_dump_bitcode TO on;
+    SET jit_expressions TO on;
+    SET jit_above_cost TO 10;
+    SET jit_optimize_above_cost TO -1;
+    SET jit_inline_above_cost TO -1;
+    SET jit_tuple_deforming TO off;
 
 - Bitcode file is placed in ``data_directory``, to decompile bitcode or print CFG, use
 
