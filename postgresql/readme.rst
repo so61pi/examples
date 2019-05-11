@@ -9,8 +9,11 @@ Softwares
     - Hash: ``6cd404b344f7e27f4d64555bb133f18a758fe851``
 
 
+Internals
+=========
+
 Query Execution Flow
-====================
+--------------------
 
 Query string -> ``RawStmt`` -> ``Query`` -> ``PlannedStmt{Plan}`` -> ``Plan`` + ``PlanState`` -> ``ExprEvalStep{ ExprEvalOp }`` array -> retrive tuple/row until NULL, check it against expression array
 
@@ -73,7 +76,7 @@ Query string -> ``RawStmt`` -> ``Query`` -> ``PlannedStmt{Plan}`` -> ``Plan`` + 
 
 
 References
-----------
+~~~~~~~~~~
 
 - https://www.postgresql.org/developer/backend/
 - postgresql/src/backend/parser/README
@@ -83,10 +86,10 @@ References
 
 
 Query Plan
-==========
+----------
 
 Example
--------
+~~~~~~~
 
 .. code-block:: sql
 
@@ -123,7 +126,7 @@ Query plan is carried out inside out, as follows
 
 
 Notes
------
+~~~~~
 
 - ``EXPLAIN`` only prints out query plan without executing the query.
 - ``EXPLAIN ANALYZE`` actually executec the query.
@@ -134,17 +137,17 @@ Notes
         SELECT * FROM tbl_outer AS outer, tbl_inner AS inner WHERE inner.attr1 = outer.attr2;
 
 References
-----------
+~~~~~~~~~~
 
 - https://www.postgresql.org/docs/11/using-explain.html
 - postgresql/src/backend/optimizer/path/costsize.c
 
 
 Logging/Debug Configuration Options
-===================================
+-----------------------------------
 
 Configuration, Data And Log Location
-------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: sql
 
@@ -154,7 +157,7 @@ Configuration, Data And Log Location
 
 
 Common Options
---------------
+~~~~~~~~~~~~~~
 
 .. code-block:: text
 
@@ -224,7 +227,7 @@ Common Options
 
 
 Show Or Set Option In A Session
--------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: sql
 
@@ -237,7 +240,7 @@ To make changes persistent, update options in ``config_file``, then restart post
 
 
 Enable Logging Internal Backend Data Flow
------------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: sql
 
@@ -250,7 +253,7 @@ Enable Logging Internal Backend Data Flow
 
 
 Enable LLVM JIT Compiler To Inspect Generated Expression
---------------------------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: sql
 
@@ -271,10 +274,28 @@ Enable LLVM JIT Compiler To Inspect Generated Expression
 
 
 References
-----------
+~~~~~~~~~~
 
 - https://llvm.org/docs/LangRef.html
 - postgresql/src/backend/utils/misc/guc.c
+
+
+References
+----------
+
+- PostgreSQL offical documents
+    - https://www.postgresql.org/docs/11/acronyms.html
+    - https://www.postgresql.org/docs/11/index.html
+    - `Internals <https://www.postgresql.org/docs/11/internals.html>`_
+    - `Database File Layout <https://www.postgresql.org/docs/11/storage-file-layout.html>`_
+    - `System Column <https://www.postgresql.org/docs/11/ddl-system-columns.html>`_
+    - `Genetic Query Optimizer <https://www.postgresql.org/docs/11/geqo.html>`_
+    - `Parallel Query <https://www.postgresql.org/docs/11/parallel-query.html>`_
+    - `Performance Tips <https://www.postgresql.org/docs/11/performance-tips.html>`_
+- External
+    - http://www.interdb.jp/pg/
+    - https://momjian.us/main/presentations/internals.html
+    - https://brandur.org/postgres-atomicity
 
 
 Indexes
@@ -477,20 +498,3 @@ References
 
 - https://www.postgresql.org/docs/11/indexes.html
 
-
-References
-==========
-
-- PostgreSQL offical documents
-    - https://www.postgresql.org/docs/11/acronyms.html
-    - https://www.postgresql.org/docs/11/index.html
-    - `Internals <https://www.postgresql.org/docs/11/internals.html>`_
-    - `Database File Layout <https://www.postgresql.org/docs/11/storage-file-layout.html>`_
-    - `System Column <https://www.postgresql.org/docs/11/ddl-system-columns.html>`_
-    - `Genetic Query Optimizer <https://www.postgresql.org/docs/11/geqo.html>`_
-    - `Parallel Query <https://www.postgresql.org/docs/11/parallel-query.html>`_
-    - `Performance Tips <https://www.postgresql.org/docs/11/performance-tips.html>`_
-- External
-    - http://www.interdb.jp/pg/
-    - https://momjian.us/main/presentations/internals.html
-    - https://brandur.org/postgres-atomicity
