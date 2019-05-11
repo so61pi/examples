@@ -9,22 +9,12 @@ Softwares
     - Hash: ``6cd404b344f7e27f4d64555bb133f18a758fe851``
 
 
-Notes
-=====
-
-- Left table is outer table, right table is inner table.
-
-    .. code-block:: sql
-
-        SELECT * FROM tbl_outer AS outer, tbl_inner AS inner WHERE inner.attr1 = outer.attr2;
-
-
 Query Execution Flow
 ====================
 
-- query string -> ``RawStmt`` -> ``Query`` -> ``PlannedStmt{Plan}`` -> ``Plan`` + ``PlanState`` -> ``ExprEvalStep{ ExprEvalOp }`` array -> retrive tuple/row until NULL, check it against expression array
+Query string -> ``RawStmt`` -> ``Query`` -> ``PlannedStmt{Plan}`` -> ``Plan`` + ``PlanState`` -> ``ExprEvalStep{ ExprEvalOp }`` array -> retrive tuple/row until NULL, check it against expression array
 
-.. code-block::
+.. code-block:: text
 
     PostgresMain
     `- exec_simple_query
@@ -70,7 +60,7 @@ Query Execution Flow
                 |     `- ExecutePlan(PlanState tree)
                 |        `- ExecProcNode(PlanState node)
                 |           `- node->ExecProcNode(node) = ExecSeqScan(PlanState node)                               // Scans the values lists sequentially and returns the next qualifying tuple (row)
-                |              `- ExecScan(ScanState node) 
+                |              `- ExecScan(ScanState node)
                 |                 |- ExecScanFetch(ScanState node)
                 |                 |  `- accessMtd = SeqNext(SeqScanState node)                                      // ** Get next tuple/row **
                 |                 `- ExecQual                                                                       // ** Check if row is qualified **
@@ -104,9 +94,9 @@ Example
     SELECT *
     FROM bookings INNER JOIN members ON bookings.memid = members.memid;
 
-.. code-block::
+.. code-block:: text
 
-                                                        QUERY PLAN                                                     
+                                                        QUERY PLAN
     -------------------------------------------------------------------------------------------------------------------
      Hash Join  (cost=11.12..97.08 rows=4044 width=1474) (actual time=0.113..3.805 rows=4044 loops=1)
        Hash Cond: (bookings.memid = members.memid)
@@ -117,7 +107,7 @@ Example
      Planning Time: 0.277 ms
      Execution Time: 4.221 ms
 
-.. code-block::
+.. code-block:: text
 
     cost=start-up-cost..total-cost
     start-up-cost = cost expended before first tuple is retrieved
@@ -137,13 +127,17 @@ Notes
 
 - ``EXPLAIN`` only prints out query plan without executing the query.
 - ``EXPLAIN ANALYZE`` actually executec the query.
+- Left table is outer table, right table is inner table.
 
+    .. code-block:: sql
+
+        SELECT * FROM tbl_outer AS outer, tbl_inner AS inner WHERE inner.attr1 = outer.attr2;
 
 References
 ----------
 
-- postgresql/src/backend/optimizer/path/costsize.c
 - https://www.postgresql.org/docs/11/using-explain.html
+- postgresql/src/backend/optimizer/path/costsize.c
 
 
 Logging/Debug Configuration Options
@@ -154,15 +148,15 @@ Configuration, Data And Log Location
 
 .. code-block:: sql
 
-    show config_file;
-    show data_directory;
-    show log_directory;
+    SHOW config_file;
+    SHOW data_directory;
+    SHOW log_directory;
 
 
 Common Options
 --------------
 
-.. code-block::
+.. code-block:: text
 
     jit
     jit_debugging_support
@@ -234,10 +228,10 @@ Show Or Set Option In A Session
 
 .. code-block:: sql
 
-    show <option>;
+    SHOW <option>;
 
-    set <option> to <value>;
-    set <option> to default;
+    SET <option> TO <value>;
+    SET <option> TO default;
 
 To make changes persistent, update options in ``config_file``, then restart postgres service.
 
@@ -247,10 +241,10 @@ Enable Logging Internal Backend Data Flow
 
 .. code-block:: sql
 
-    set debug_print_parse to 'on';
-    set debug_print_rewritten to 'on';
-    set debug_print_plan to 'on';
-    set debug_pretty_print to 'on';
+    SET debug_print_parse to 'on';
+    SET debug_print_rewritten to 'on';
+    SET debug_print_plan to 'on';
+    SET debug_pretty_print to 'on';
 
 - Log file is placed in ``data_directory/log/``
 
@@ -260,13 +254,13 @@ Enable LLVM JIT Compiler To Inspect Generated Expression
 
 .. code-block:: sql
 
-    set jit to on;
-    set jit_dump_bitcode to on;
-    set jit_expressions to on;
-    set jit_above_cost to 10;
-    set jit_optimize_above_cost to -1;
-    set jit_inline_above_cost to -1;
-    set jit_tuple_deforming to off;
+    SET jit to on;
+    SET jit_dump_bitcode to on;
+    SET jit_expressions to on;
+    SET jit_above_cost to 10;
+    SET jit_optimize_above_cost to -1;
+    SET jit_inline_above_cost to -1;
+    SET jit_tuple_deforming to off;
 
 - Bitcode file is placed in ``data_directory``, to decompile bitcode or print CFG, use
 
@@ -279,8 +273,209 @@ Enable LLVM JIT Compiler To Inspect Generated Expression
 References
 ----------
 
-- postgresql/src/backend/utils/misc/guc.c
 - https://llvm.org/docs/LangRef.html
+- postgresql/src/backend/utils/misc/guc.c
+
+
+Indexes
+=======
+
+Show Index Properties
+---------------------
+
+.. code-block:: sql
+
+    -- Show all index types.
+    SELECT oid, amname FROM pg_am;
+
+    -- Show index properties.
+    -- pg_indexam_has_property(am_oid, prop_name)
+    SELECT amname,
+           pg_indexam_has_property(oid, 'can_order') as can_order,
+           pg_indexam_has_property(oid, 'can_unique') as can_unique,
+           pg_indexam_has_property(oid, 'can_multi_col') as can_multi_col,
+           pg_indexam_has_property(oid, 'can_exclude') as can_exclude,
+           pg_indexam_has_property(oid, 'can_include') as can_include
+    FROM pg_am;
+
+    -- Show specific index properties.
+    -- pg_index_has_property(index_oid, prop_name)
+    SELECT indexname, tablename,
+           pg_index_has_property(indexname::regclass, 'clusterable') as clusterable,
+           pg_index_has_property(indexname::regclass, 'index_scan') as index_scan,
+           pg_index_has_property(indexname::regclass, 'bitmap_scan') as bitmap_scan,
+           pg_index_has_property(indexname::regclass, 'backward_scan') as backward_scan
+    FROM pg_indexes;
+
+    -- Show index column properties.
+    -- pg_index_column_has_property(index_oid, column_no, prop_name)
+    SELECT indexname,
+           pg_index_column_has_property(indexname::regclass, colno, 'asc') as asc,
+           pg_index_column_has_property(indexname::regclass, colno, 'desc') as desc,
+           pg_index_column_has_property(indexname::regclass, colno, 'nulls_first') as nulls_first,
+           pg_index_column_has_property(indexname::regclass, colno, 'nulls_last') as nulls_last,
+           pg_index_column_has_property(indexname::regclass, colno, 'orderable') as orderable,
+           pg_index_column_has_property(indexname::regclass, colno, 'distance_orderable') as distance_orderable,
+           pg_index_column_has_property(indexname::regclass, colno, 'returnable') as returnable,
+           pg_index_column_has_property(indexname::regclass, colno, 'search_array') as search_array,
+           pg_index_column_has_property(indexname::regclass, colno, 'search_nulls') as search_nulls
+    FROM unnest(
+        array['members_pkey'],
+        array[1]
+    ) p(indexname, colno);
+
+
+References
+~~~~~~~~~~
+
+- https://www.postgresql.org/docs/11/functions-info.html
+- https://www.postgresql.org/docs/11/indexes-types.html
+
+
+Index-Related Scanning Techniques
+---------------------------------
+
+- ``IndexScan``
+    - Example
+
+        .. code-block:: sql
+
+            EXPLAIN
+            SELECT * FROM bookings
+            WHERE bookid = 1;
+            /*
+                                            QUERY PLAN
+            -------------------------------------------------------------------------------
+             Index Scan using bookings_pkey on bookings  (cost=0.28..8.30 rows=1 width=36)
+               Index Cond: (bookid = 1)
+            */
+
+            EXPLAIN
+            SELECT * FROM bookings
+            ORDER BY bookid;
+            /*
+                                                QUERY PLAN
+            ------------------------------------------------------------------------------------
+             Index Scan using bookings_pkey on bookings  (cost=0.28..149.94 rows=4044 width=36)
+            */
+
+- ``IndexOnlyScan`` (covering indexes)
+    - Condition
+        - ``IndexScan`` is applicable.
+        - **AND** requested columns are already in the index.
+    - Example
+
+        .. code-block:: sql
+
+            EXPLAIN
+            SELECT bookid FROM bookings
+            WHERE bookid = 1;
+            /*
+                                                QUERY PLAN
+            -----------------------------------------------------------------------------------
+             Index Only Scan using bookings_pkey on bookings  (cost=0.28..8.30 rows=1 width=8)
+               Index Cond: (bookid = 1)
+            */
+
+    - Covering indexes can be created by adding ``INCLUDE`` in ``CREATE INDEX`` command.
+
+- ``BitmapIndexScan``
+    - Condition
+        - ``IndexScan`` is applicable.
+        - **AND** the optimizer predicts ``IndexScan`` will lead to too many duplicated page loads .
+            - ``BitmapIndexScan`` builds a bipmap of pages that need to be loaded.
+
+
+Multicolumn Indexes
+-------------------
+
+With multicolumn index, data is sorted from left to right (like string sorting). For example
+
++----+----+----+
+| a  | b  | c  |
++====+====+====+
+| 1  | 9  | 5  |
++----+----+----+
+| 2  | -1 | 1  |
++----+----+----+
+| 2  | 5  | 6  |
++----+----+----+
+| 2  | 11 | 7  |
++----+----+----+
+| 3  | 3  | 6  |
++----+----+----+
+| 5  | 4  | 9  |
++----+----+----+
+| 5  | 4  | 10 |
++----+----+----+
+| 5  | 5  | 4  |
++----+----+----+
+
+
+References
+~~~~~~~~~~
+
+- https://www.postgresql.org/docs/11/indexes-multicolumn.html
+
+
+Indexes On Expressions
+----------------------
+
+If the criteria in query use functions that are different from the indexing expression, index scan cannot be utilized.
+
+.. code-block:: sql
+
+    \d members
+
+    SET enable_seqscan=false;
+
+    EXPLAIN
+    SELECT * FROM members WHERE telephone = '1';
+    /*
+                                    QUERY PLAN
+    --------------------------------------------------------------------------------
+     Index Scan using telephone_idx on members  (cost=0.14..8.15 rows=1 width=1438)
+       Index Cond: ((telephone)::text = '1'::text)
+    */
+
+    EXPLAIN
+    SELECT * FROM members WHERE lower(telephone) = '1';
+    /* Seq Scan is picked because of lower function.
+                                    QUERY PLAN
+    ------------------------------------------------------------------------------
+     Seq Scan on members  (cost=10000000000.00..10000000001.47 rows=1 width=1438)
+       Filter: (lower((telephone)::text) = '1'::text)
+    */
+
+    EXPLAIN
+    SELECT * FROM members WHERE lower(firstname) = '1';
+    /*
+                                    QUERY PLAN
+    --------------------------------------------------------------------------------
+     Index Scan using firstname_idx on members  (cost=0.14..8.15 rows=1 width=1438)
+       Index Cond: (lower((firstname)::text) = '1'::text)
+    */
+
+    EXPLAIN
+    SELECT * FROM members WHERE firstname = '1';
+    /* Seq Scan is picked because index expression uses lower function.
+                                      QUERY PLAN
+    ------------------------------------------------------------------------------
+     Seq Scan on members  (cost=10000000000.00..10000000001.39 rows=1 width=1438)
+       Filter: ((firstname)::text = '1'::text)
+    */
+
+
+References
+~~~~~~~~~~
+
+- https://www.postgresql.org/docs/11/indexes-expressional.html
+
+
+References
+----------
+
+- https://www.postgresql.org/docs/11/indexes.html
 
 
 References

@@ -78,6 +78,10 @@ CREATE TABLE members (
     joindate TIMESTAMP WITHOUT TIME ZONE NOT NULL
 );
 
+-- For testing purpose.
+CREATE INDEX telephone_idx ON members(telephone);
+CREATE INDEX firstname_idx ON members(lower(firstname));
+
 CREATE TABLE bookings (
     bookid BIGSERIAL PRIMARY KEY,
     facid BIGINT NOT NULL REFERENCES facilities(facid),
