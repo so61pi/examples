@@ -294,6 +294,7 @@ References
     - `Genetic Query Optimizer <https://www.postgresql.org/docs/11/geqo.html>`_
     - `Parallel Query <https://www.postgresql.org/docs/11/parallel-query.html>`_
     - `Performance Tips <https://www.postgresql.org/docs/11/performance-tips.html>`_
+
 - External
     - http://www.interdb.jp/pg/
     - https://momjian.us/main/presentations/internals.html
@@ -359,6 +360,7 @@ Index-Related Scanning Techniques
 ---------------------------------
 
 - ``IndexScan``
+
     - Example
 
         .. code-block:: sql
@@ -383,9 +385,12 @@ Index-Related Scanning Techniques
             */
 
 - ``IndexOnlyScan`` (covering indexes)
+
     - Condition
+
         - ``IndexScan`` is applicable.
         - **AND** requested columns are already in the index.
+
     - Example
 
         .. code-block:: sql
@@ -400,13 +405,36 @@ Index-Related Scanning Techniques
                Index Cond: (bookid = 1)
             */
 
-    - Covering indexes can be created by adding ``INCLUDE`` in ``CREATE INDEX`` command.
+    - Note:
+
+        - Covering indexes can be created by adding ``INCLUDE`` in ``CREATE INDEX`` command.
+        - The additional data is stored only in the leaf nodes of B-Tree.
 
 - ``BitmapIndexScan``
+
     - Condition
+
         - ``IndexScan`` is applicable.
         - **AND** the optimizer predicts ``IndexScan`` will lead to too many duplicated page loads.
             - ``BitmapIndexScan`` builds a bipmap of pages that need to be loaded.
+
+    - Example
+
+        .. code-block:: sql
+
+            SET enable_indexscan=false;
+
+            EXPLAIN
+            SELECT memid FROM members
+            WHERE memid = 1;
+            /*
+                                            QUERY PLAN
+            ---------------------------------------------------------------------------
+             Bitmap Heap Scan on members  (cost=4.15..8.16 rows=1 width=8)
+               Recheck Cond: (memid = 1)
+               ->  Bitmap Index Scan on members_pkey  (cost=0.00..4.15 rows=1 width=0)
+                     Index Cond: (memid = 1)
+            */
 
 
 Multicolumn Indexes
@@ -414,25 +442,25 @@ Multicolumn Indexes
 
 With multicolumn index, data is sorted from left to right (like string sorting). For example
 
-+----+----+----+
-| a  | b  | c  |
-+====+====+====+
-| 1  | 9  | 5  |
-+----+----+----+
-| 2  | -1 | 1  |
-+----+----+----+
-| 2  | 5  | 6  |
-+----+----+----+
-| 2  | 11 | 7  |
-+----+----+----+
-| 3  | 3  | 6  |
-+----+----+----+
-| 5  | 4  | 9  |
-+----+----+----+
-| 5  | 4  | 10 |
-+----+----+----+
-| 5  | 5  | 4  |
-+----+----+----+
++---+---+---+
+| a | b | c |
++===+===+===+
+| 1 | 9 | 5 |
++---+---+---+
+| 2 | 0 | 1 |
++---+---+---+
+| 2 | 5 | 6 |
++---+---+---+
+| 2 | 9 | 7 |
++---+---+---+
+| 3 | 3 | 6 |
++---+---+---+
+| 5 | 4 | 8 |
++---+---+---+
+| 5 | 4 | 9 |
++---+---+---+
+| 5 | 5 | 4 |
++---+---+---+
 
 
 References
@@ -499,4 +527,5 @@ References
 ----------
 
 - https://www.postgresql.org/docs/11/indexes.html
-
+- https://use-the-index-luke.com
+- https://habr.com/en/company/postgrespro/blog/441962/

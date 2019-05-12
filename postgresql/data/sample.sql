@@ -1,6 +1,3 @@
-CREATE DATABASE test;
-\c test
-
 /***
 EXPLAIN ANALYZE VERBOSE
 SELECT * FROM members;
