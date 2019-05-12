@@ -529,3 +529,13 @@ References
 - https://www.postgresql.org/docs/11/indexes.html
 - https://use-the-index-luke.com
 - https://habr.com/en/company/postgrespro/blog/441962/
+
+
+Security
+========
+
+References
+----------
+
+- https://info.enterprisedb.com/rs/069-ALB-339/images/security-best-practices-for-postgres.pdf
+- https://momjian.us/main/writings/pgsql/securing.pdf
