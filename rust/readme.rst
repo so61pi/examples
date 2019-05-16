@@ -4,8 +4,8 @@
 Lifetime
 ========
 
-Some Notes
-----------
+Notes
+-----
 
 - Lifetimes are only relevant to references because we can have more than one references pointing to a same variable.
 
@@ -124,8 +124,8 @@ References
 Trait
 =====
 
-Some Notes
-----------
+Notes
+-----
 
 - Traits are for shared behaviors.
 
@@ -302,8 +302,8 @@ References
 Subtyping and Variance
 ======================
 
-Some Notes
-----------
+Notes
+-----
 
 - if ``'big: 'small`` ("big contains small" or "big outlives small"), then ``'big`` is a subtype of ``'small``.
 - ``'static`` is a subtype of every lifetime because by definition it outlives everything
