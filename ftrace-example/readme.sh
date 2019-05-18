@@ -16,12 +16,14 @@ echo 0 > tracing_on
 echo > trace
 
 # Enable function graph.
+# To get available tracers, use `cat available_tracers`
 echo function_graph > current_tracer
 
 # Display process that calls the monitored function (unnecessary in case we only monitor one process).
 echo funcgraph-proc > trace_options
 
 # Set monitored function.
+# To get available functions, use `cat available_filter_functions`
 # echo SyS_write > set_ftrace_filter
 echo SyS_write > set_graph_function
 
