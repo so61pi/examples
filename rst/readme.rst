@@ -1,26 +1,74 @@
-.. contents::
+==================================
+ reStructuredText Simple Template
+==================================
 
-Chapter-1
+.. contents:: Table of Contents
+.. section-numbering::
+
+Chapter 1
 =========
 
-Section-1
----------
+Normal text.
 
-Subsection-1
-~~~~~~~~~~~~
+*Italic text.*
 
-Subsubsection-1
-```````````````
+**Bold text.**
 
-Subsubsubsection-1
-''''''''''''''''''
+``inline code``.
 
-.. code-block:: shell
+    Quoted text.
 
-    cat /dev/null
+Subscript :sub:`subscript`.
 
-Subsubsubsection-2
-''''''''''''''''''
+Superscript :sup:`superscript`.
+
+.. code-block:: c
+
+    int main(int argc, char* argv[] {
+        return 0;
+    }
+
+Literal block starts with double-colon at the end of the preceding pararaph::
+
+    int main(int argc, char* argv[] {
+        return 0;
+    }
+
+::
+
+    Preceding paragraph doesn't have to have any text, but must end with double-colon to start a literal block.
+
+- A bullet list
+
+  Paragraph.
+
+  * Nested bullet list.
+  * Nested item 2.
+
+    + Third level.
+    + Item 2.
+
+  * Nested item 3.
+
+#. Auto-enumerated 1.
+
+#. Auto-enumerated 2.
+
+5. List can start at arbitrary number.
+
+#. Subsequent auto-enumerated items still work correctly.
+
+
+=====  =====  ======
+   Inputs     Output
+------------  ------
+  A      B    A or B
+=====  =====  ======
+False  False  False
+True   False  True
+False  True   True
+True   True   True
+=====  =====  ======
 
 +------------------------+------------+----------+----------+
 | Header row, column 1   | Header 2   | Header 3 | Header 4 |
@@ -38,71 +86,34 @@ Subsubsubsection-2
 |                        | empty: ``-->``        |          |
 +------------------------+-----------------------+----------+
 
-Subsubsection-2
-```````````````
+See `References`_ for more complex structures.
 
-=====  =====  ======
-   Inputs     Output
-------------  ------
-  A      B    A or B
-=====  =====  ======
-False  False  False
-True   False  True
-False  True   True
-True   True   True
-=====  =====  ======
-
-Subsection-2
-~~~~~~~~~~~~
-
-- A bullet list
-
-  + Nested bullet list.
-  + Nested item 2.
-
-- Item 2.
-
-  Paragraph 2 of item 2.
-
-  * Nested bullet list.
-  * Nested item 2.
-
-    - Third level.
-    - Item 2.
-
-  * Nested item 3.
-
-Section-2
+Section 1
 ---------
 
-1. Arabic numerals.
+Sub-section 1
+~~~~~~~~~~~~~
 
-   a) lower alpha)
+Sub-sub-section 1
+`````````````````
 
-      (i) (lower roman)
+Sub-sub-sub-section 1
+'''''''''''''''''''''
 
-          A. upper alpha.
+Sub-sub-sub-section 2
+'''''''''''''''''''''
 
-             I) upper roman)
+Sub-sub-section 2
+`````````````````
 
-2. Lists that don't start at 1:
+Sub-section 2
+~~~~~~~~~~~~~
 
-   3. Three
-
-   4. Four
-
-   C. C
-
-   D. D
-
-   iii. iii
-
-   iv. iv
-
-#. List items may also be auto-enumerated.
+Section 2
+---------
 
 References
 ==========
 
-- http://docutils.sourceforge.net/docs/user/rst/demo.html and `Source <http://docutils.sourceforge.net/docs/user/rst/demo.txt>`__
+- http://docutils.sourceforge.net/docs/user/rst/demo.html and `source <http://docutils.sourceforge.net/docs/user/rst/demo.txt>`__
 - `Quickstart <http://docutils.sourceforge.net/docs/user/rst/quickstart.html>`__
