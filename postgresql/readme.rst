@@ -1,5 +1,4 @@
-.. contents::
-
+.. contents:: Table of Contents
 
 Softwares
 =========
@@ -7,7 +6,6 @@ Softwares
 - postgresql
     - Tag: ``REL_11_2``
     - Hash: ``6cd404b344f7e27f4d64555bb133f18a758fe851``
-
 
 Internals
 =========
@@ -76,7 +74,6 @@ Query string -> ``RawStmt`` -> ``Query`` -> ``PlannedStmt{Plan}`` -> ``Plan`` + 
                 |- ExecutorFinish(QueryDesc)
                 `- ExecutorEnd(QueryDesc)
 
-
 References
 ~~~~~~~~~~
 
@@ -85,7 +82,6 @@ References
 - postgresql/src/backend/optimizer/README
 - postgresql/src/backend/executor/README
 - http://patshaughnessy.net/2014/10/13/following-a-select-statement-through-postgres-internals
-
 
 Query Plan
 ----------
@@ -126,7 +122,6 @@ Query plan is carried out inside out, as follows
 #. Scan ``bookings`` table sequentially.
 #. Do a hash join on 2 tables above.
 
-
 Notes
 ~~~~~
 
@@ -144,7 +139,6 @@ References
 - https://www.postgresql.org/docs/11/using-explain.html
 - postgresql/src/backend/optimizer/path/costsize.c
 
-
 Logging/Debug Configuration Options
 -----------------------------------
 
@@ -156,7 +150,6 @@ Configuration, Data And Log Location
     SHOW config_file;
     SHOW data_directory;
     SHOW log_directory;
-
 
 Common Options
 ~~~~~~~~~~~~~~
@@ -227,7 +220,6 @@ Common Options
     trace_lock_table
     trace_recovery_messages
 
-
 Show Or Set Option In A Session
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -240,7 +232,6 @@ Show Or Set Option In A Session
 
 To make changes persistent, update options in ``config_file``, then restart postgres service.
 
-
 Enable Logging Internal Backend Data Flow
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -252,7 +243,6 @@ Enable Logging Internal Backend Data Flow
     SET debug_pretty_print TO 'on';
 
 - Log file is placed in ``data_directory/log/``
-
 
 Enable LLVM JIT Compiler To Inspect Generated Expression
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -274,13 +264,11 @@ Enable LLVM JIT Compiler To Inspect Generated Expression
         llvm-dis -o file.ll file.bc
         opt -dot-cfg -o /dev/null file.bc
 
-
 References
 ~~~~~~~~~~
 
 - https://llvm.org/docs/LangRef.html
 - postgresql/src/backend/utils/misc/guc.c
-
 
 References
 ----------
@@ -299,7 +287,6 @@ References
     - http://www.interdb.jp/pg/
     - https://momjian.us/main/presentations/internals.html
     - https://brandur.org/postgres-atomicity
-
 
 Indexes
 =======
@@ -348,13 +335,11 @@ Show Index Properties
         array[1]
     ) p(indexname, colno);
 
-
 References
 ~~~~~~~~~~
 
 - https://www.postgresql.org/docs/11/functions-info.html
 - https://www.postgresql.org/docs/11/indexes-types.html
-
 
 Index-Related Scanning Techniques
 ---------------------------------
@@ -436,7 +421,6 @@ Index-Related Scanning Techniques
                      Index Cond: (memid = 1)
             */
 
-
 Multicolumn Indexes
 -------------------
 
@@ -461,7 +445,6 @@ With multicolumn index, data is sorted from left to right (like string sorting).
 +---+---+---+
 | 5 | 5 | 4 |
 +---+---+---+
-
 
 References
 ~~~~~~~~~~
@@ -516,12 +499,10 @@ If the criteria in query use functions that are different from the indexing expr
        Filter: ((firstname)::text = '1'::text)
     */
 
-
 References
 ~~~~~~~~~~
 
 - https://www.postgresql.org/docs/11/indexes-expressional.html
-
 
 References
 ----------
@@ -529,7 +510,6 @@ References
 - https://www.postgresql.org/docs/11/indexes.html
 - https://use-the-index-luke.com
 - https://habr.com/en/company/postgrespro/blog/441962/
-
 
 Security
 ========
