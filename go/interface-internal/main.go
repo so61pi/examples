@@ -12,6 +12,12 @@ type Test struct {
 	}
 }
 
+// The code for copying a Test instance is placed right above the code of VeryLongFunctionName.
+// So the function below becomes something like this
+//     func (t *Test) VeryLongFunctionName() {
+//         newt := *t
+//         // Use newt now.
+//     }
 func (t Test) VeryLongFunctionName() {}
 
 // Wrap size is 40 bytes
