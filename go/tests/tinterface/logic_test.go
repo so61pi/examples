@@ -3,8 +3,8 @@ package tinterface_test
 import (
 	"testing"
 
-	"examples/go/test/tinterface"
-	"examples/go/test/tinterface/db"
+	"examples/go/tests/tinterface"
+	"examples/go/tests/tinterface/db"
 )
 
 func TestWithMockInterface(t *testing.T) {

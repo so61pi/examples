@@ -1,6 +1,6 @@
 package tinterface
 
-import "examples/go/test/tinterface/db"
+import "examples/go/tests/tinterface/db"
 
 type logic struct {
 	db db.DBInterface

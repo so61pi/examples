@@ -3,7 +3,7 @@ package tfuncparam_test
 import (
 	"testing"
 
-	"examples/go/test/tfuncparam"
+	"examples/go/tests/tfuncparam"
 )
 
 func TestWithFuncParam(t *testing.T) {
