@@ -111,6 +111,39 @@ Generic items can use other traits as bounds. We can put traits where the generi
     trait A { type B: Copy; }
     trait A where Self::B: Copy { type B; }
 
+Default Generic Type Parameters
+-------------------------------
+
+.. code-block:: rust
+
+    trait Add<RHS=Self> {
+        type Output;
+
+        fn add(self, rhs: RHS) -> Self::Output;
+    }
+
+    impl Add for Point {
+        type Output = Point;
+
+        fn add(self, other: Point) -> Point {
+            Point {
+                x: self.x + other.x,
+                y: self.y + other.y,
+            }
+        }
+    }
+
+    struct Millimeters(u32);
+    struct Meters(u32);
+
+    impl Add<Meters> for Millimeters {
+        type Output = Millimeters;
+
+        fn add(self, other: Meters) -> Millimeters {
+            Millimeters(self.0 + (other.0 * 1000))
+        }
+    }
+
 References
 ----------
 
@@ -361,39 +394,6 @@ Use associated types by default to keep things simple and in check.
 |               |                                                 |   }                                         |
 |               |                                                 |                                             |
 +---------------+-------------------------------------------------+---------------------------------------------+
-
-Default Generic Type Parameters
--------------------------------
-
-.. code-block:: rust
-
-    trait Add<RHS=Self> {
-        type Output;
-
-        fn add(self, rhs: RHS) -> Self::Output;
-    }
-
-    impl Add for Point {
-        type Output = Point;
-
-        fn add(self, other: Point) -> Point {
-            Point {
-                x: self.x + other.x,
-                y: self.y + other.y,
-            }
-        }
-    }
-
-    struct Millimeters(u32);
-    struct Meters(u32);
-
-    impl Add<Meters> for Millimeters {
-        type Output = Millimeters;
-
-        fn add(self, other: Meters) -> Millimeters {
-            Millimeters(self.0 + (other.0 * 1000))
-        }
-    }
 
 References
 ----------

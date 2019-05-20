@@ -1,0 +1,7 @@
+[package]
+name = "docs"
+version = "0.1.0"
+authors = ["Thi Huynh <so61pi.re@gmail.com>"]
+edition = "2018"
+
+[dependencies]
