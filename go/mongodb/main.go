@@ -19,6 +19,10 @@ func NewPerson(id int64, name string) Person {
 	}
 }
 
+func UseCollection(col *mgo.Collection) error {
+	return col.Insert(NewPerson(1, "1"))
+}
+
 func main() {
 	dialInfo := &mgo.DialInfo{
 		Addrs:    []string{"127.0.0.1:27017"},
@@ -42,8 +46,4 @@ func main() {
 	} else {
 		fmt.Println("Success.")
 	}
-}
-
-func UseCollection(col *mgo.Collection) error {
-	return col.Insert(NewPerson(1, "1"))
 }
