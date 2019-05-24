@@ -639,12 +639,12 @@ fn kafka_topic_download_notify_stop(
             let item = item.clone();
             move |(workspaceid, parenturl)| -> Box<dyn Future<Item = (), Error = HandlerError>> {
                 let urljobid = item.urljobid;
-                match item.result {
+                match &item.result {
                     DownloadResult::Error => Box::new(futures::future::ok(())),
-                    DownloadResult::Media(ref v) => {
+                    DownloadResult::Media(v) => {
                         process_media_result(state.clone(), urljobid, v)
                     }
-                    DownloadResult::Html(ref v) => {
+                    DownloadResult::Html(v) => {
                         process_html_result(state.clone(), urljobid, workspaceid, &parenturl, v)
                     }
                 }

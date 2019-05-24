@@ -28,10 +28,10 @@ pub fn produce(producer: &FutureProducer, topic: &str, key: &str, message: &str)
         0, /* do not wait when the queue is full */
     )
     // .then(|v| {
-    //     match v {
-    //         Err(ref e) => log::error!("{}", e),
-    //         Ok(Err((ref e, ref _message))) => log::error!("{}", e),
-    //         Ok(Ok((ref partition, ref offset))) => {
+    //     match &v {
+    //         Err(e) => log::error!("{}", e),
+    //         Ok(Err((e, _message))) => log::error!("{}", e),
+    //         Ok(Ok((partition, offset))) => {
     //             log::info!("partition = {}, offset = {}", partition, offset)
     //         }
     //     }
@@ -134,7 +134,7 @@ fn handle_message(
         }
     }
 
-    if let Err(ref e) = m {
+    if let Err(e) = &m {
         log::warn!("kafka error occurred {}", e);
         return Box::new(futures::future::ok(()));
     }

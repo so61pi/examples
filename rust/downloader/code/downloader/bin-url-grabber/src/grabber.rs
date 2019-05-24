@@ -69,11 +69,10 @@ fn walkhtml(
 ) {
     let node = handle;
     if let html5ever::rcdom::NodeData::Element {
-        ref name,
-        ref attrs,
+        name,
+        attrs,
         ..
-    } = node.data
-    {
+    } = &node.data {
         fn getattr(attr: &html5ever::interface::Attribute, name: &str) -> Option<String> {
             // The type of `local` is `Atom<LocalNameStaticSet>` which only implements
             // `PartialEq<str>` but not `PartialEq<&str>`. Therefore, instead of writing

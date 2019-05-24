@@ -9,7 +9,7 @@ where
         .map(|c| c.get(url).ok())
         .unwrap_or(None);
 
-    if let Some(ref _v) = s {
+    if let Some(_v) = &s {
         log::info!("cache hit for '{}'", url);
     }
 
