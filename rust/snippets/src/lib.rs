@@ -1,3 +1,6 @@
+pub mod implref;
+pub mod nonone;
+
 pub fn proxy_enum_for_trait(positive: bool) -> impl Iterator<Item = i64> {
     enum ProxyIterator<T, U> {
         Range(T),
@@ -54,7 +57,8 @@ pub fn matching() {
     // match
     //
     {
-        {// match value
+        {
+            // match value
             let number = 13;
             match number {
                 // Match a single value.
@@ -85,22 +89,24 @@ pub fn matching() {
             }
         }
 
-        {// match tuple
+        {
+            // match tuple
             let pair = (0, -2);
             match pair {
                 (0, y) => println!("First is `0` and `y` is `{:?}`", y),
                 (x, 0) => println!("`x` is `{:?}` and last is `0`", x),
-                _      => println!("It doesn't matter what they are"),
+                _ => println!("It doesn't matter what they are"),
                 // `_` means don't bind the value to a variable
             }
             match pair {
                 (0, _) => println!("First is `0`"),
                 (_, _) => println!("Both are something..."),
-                _      => println!("Impossible to get this case"),
+                _ => println!("Impossible to get this case"),
             }
         }
 
-        {// match enum
+        {
+            // match enum
             enum Color {
                 // These 3 are specified solely by their name.
                 Red,
@@ -117,30 +123,24 @@ pub fn matching() {
 
             let color = Color::RGB(122, 17, 40);
             match color {
-                Color::Red   => println!("The color is Red!"),
-                Color::Blue  => println!("The color is Blue!"),
+                Color::Red => println!("The color is Red!"),
+                Color::Blue => println!("The color is Blue!"),
                 Color::Green => println!("The color is Green!"),
 
-                Color::RGB(r, g, b) =>
-                    println!("Red: {}, green: {}, and blue: {}!", r, g, b),
-
-                Color::HSV(h, s, v) =>
-                    println!("Hue: {}, saturation: {}, value: {}!", h, s, v),
-
-                Color::HSL(h, s, l) =>
-                    println!("Hue: {}, saturation: {}, lightness: {}!", h, s, l),
-
-                Color::CMY(c, m, y) =>
-                    println!("Cyan: {}, magenta: {}, yellow: {}!", c, m, y),
-
-                Color::CMYK(c, m, y, k) =>
-                    println!("Cyan: {}, magenta: {}, yellow: {}, key (black): {}!", c, m, y, k),
-
+                Color::RGB(r, g, b) => println!("Red: {}, green: {}, and blue: {}!", r, g, b),
+                Color::HSV(h, s, v) => println!("Hue: {}, saturation: {}, value: {}!", h, s, v),
+                Color::HSL(h, s, l) => println!("Hue: {}, saturation: {}, lightness: {}!", h, s, l),
+                Color::CMY(c, m, y) => println!("Cyan: {}, magenta: {}, yellow: {}!", c, m, y),
+                Color::CMYK(c, m, y, k) => println!(
+                    "Cyan: {}, magenta: {}, yellow: {}, key (black): {}!",
+                    c, m, y, k
+                ),
                 // Don't need another arm because all variants have been examined
             }
         }
 
-        {// match pointer/ref
+        {
+            // match pointer/ref
             let number = 4;
             let reference = &number;
             match reference {
@@ -158,8 +158,8 @@ pub fn matching() {
 
             let mut value = Some(5);
             match &mut value {
-                Some(val) => *val = 6,
                 // val is &mut
+                Some(val) => *val = 6,
 
                 _ => (),
             }
@@ -168,14 +168,21 @@ pub fn matching() {
             struct Foo(i32, i32);
             let mut foo = Foo(7, 8);
             match &mut foo {
-                Foo(val0, val1) => {*val0 = 9; *val1 = 10;},
                 // val0 and val1 are &mut
+                Foo(val0, val1) => {
+                    *val0 = 9;
+                    *val1 = 10;
+                }
             }
             println!("New value is {} and {}", foo.0, foo.1);
         }
 
-        {// match struct
-            struct Foo { x: (u32, u32), y: u32 }
+        {
+            // match struct
+            struct Foo {
+                x: (u32, u32),
+                y: u32,
+            }
 
             let foo = Foo { x: (1, 2), y: 3 };
 
@@ -193,7 +200,7 @@ pub fn matching() {
 
             // We can do the same for match.
             match foo {
-                Foo {x, y} => println!("x = {:?}, y = {} ", x, y),
+                Foo { x, y } => println!("x = {:?}, y = {} ", x, y),
             }
         }
     }
