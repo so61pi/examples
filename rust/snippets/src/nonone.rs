@@ -1,3 +1,9 @@
+// We shouldn't use this anyway. It's quite compilcated than normal. Instead we
+// can use bitflags to mark which field has value (or not). The only benefit of
+// presented code is we cannot in anyway set all the fields to None and get away
+// with that, even when we add new field and forget to add new check for it in
+// new function.
+
 #[derive(Debug)]
 pub enum NoNone<U, V> {
 	Some { val: U, next: Option<V> },
