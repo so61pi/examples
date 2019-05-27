@@ -16,21 +16,33 @@ Normal text.
 
 ``inline code``.
 
-    Quoted text.
+    Quoted text starts with 4-space indentation.
+
+    --- Anonymous.
 
 Subscript :sub:`subscript`.
 
 Superscript :sup:`superscript`.
 
+Code blocks should use 4-space indentation:
+
 .. code-block:: c
 
-    int main(int argc, char* argv[] {
+    int main(int argc, char* argv[]) {
         return 0;
     }
 
+Indented code block starts with 2-space:
+
+  .. code-block:: c
+
+      int main(int argc, char* argv[]) {
+          return 0;
+      }
+
 Literal block starts with double-colon at the end of the preceding pararaph::
 
-    int main(int argc, char* argv[] {
+    int main(int argc, char* argv[]) {
         return 0;
     }
 
@@ -38,15 +50,35 @@ Literal block starts with double-colon at the end of the preceding pararaph::
 
     Preceding paragraph doesn't have to have any text, but must end with double-colon to start a literal block.
 
+Separator ahead!!!
+
+-----
+
 - A bullet list
 
   Paragraph.
 
-  * Nested bullet list.
+  * Nested bullet list must use 2-space indentation.
   * Nested item 2.
 
     + Third level.
-    + Item 2.
+    + Item 2 with same level code block.
+
+      .. code-block:: c
+
+          int main(int argc, char* argv[] {
+              return 0;
+          }
+
+    + Item 3 with indented code block.
+
+        .. code-block:: c
+
+            int main(int argc, char* argv[] {
+                return 0;
+            }
+
+    + Item 4.
 
   * Nested item 3.
 
@@ -57,7 +89,6 @@ Literal block starts with double-colon at the end of the preceding pararaph::
 5. List can start at arbitrary number.
 
 #. Subsequent auto-enumerated items still work correctly.
-
 
 =====  =====  ======
    Inputs     Output
@@ -88,8 +119,8 @@ True   True   True
 
 See `References`_ for more complex structures.
 
-Section 1
----------
+Section 1 [`ref <http://docutils.sourceforge.net/docs/user/rst/demo.html>`__]
+-----------------------------------------------------------------------------
 
 Sub-section 1
 ~~~~~~~~~~~~~
