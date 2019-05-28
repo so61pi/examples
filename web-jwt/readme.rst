@@ -6,7 +6,7 @@ JSON Web Signature
 Basic Elements
 --------------
 
-.. code-block::
+.. code-block:: text
 
     <JOSE Header> = <JWS Protected Header> U <JWS Unprotected Header>
     <JWS Payload>
@@ -18,7 +18,7 @@ Serialization
 JWS Compact Serialization [`ref <https://tools.ietf.org/html/rfc7515#section-7.1>`__]
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. code-block::
+.. code-block:: text
 
     BASE64URL(UTF8(JWS Protected Header)) || '.' ||
     BASE64URL(JWS Payload) || '.' ||
@@ -99,7 +99,7 @@ Example [`ref <https://tools.ietf.org/html/rfc7515#appendix-A.1.1>`__]
 
 - JWS Signature
 
-  .. code-block::
+  .. code-block:: text
 
       HMAC SHA-256 Key = AyM1SysPpbyDfgZld3umj1qzKObwVMkoqQ-EstJQLr_T-1qS0gZH75aKtMN3Yj0iPS4hcgUuTwjAzZr1Z9CAow
 
@@ -107,7 +107,7 @@ Example [`ref <https://tools.ietf.org/html/rfc7515#appendix-A.1.1>`__]
 
   Result in JWS Compact Serialization
 
-  .. code-block::
+  .. code-block:: text
 
       eyJ0eXAiOiJKV1QiLA0KICJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJqb2UiLA0KICJleHAiOjEzMDA4MTkzODAsDQogImh0dHA6Ly9leGFtcGxlLmNvbS9pc19yb290Ijp0cnVlfQ.dBjftJeZ4CVP-mB92K27uhbUJU1p1r_wW1gFWFOEjXk
                                               ^                                                                                              ^
@@ -118,7 +118,7 @@ JSON Web Encryption
 Basic Elements
 --------------
 
-.. code-block::
+.. code-block:: text
 
     <JOSE Header> = <JWE Protected Header> U <JWE Shared Unprotected Header> U <JWE Per-Recipient Unprotected Header>
     <JWE Encrypted Key>
@@ -133,7 +133,7 @@ Serialization
 JWS Compact Serialization [`ref <https://tools.ietf.org/html/rfc7516#section-3.1>`__]
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. code-block::
+.. code-block:: text
 
     BASE64URL(UTF8(JWE Protected Header)) || '.' ||
     BASE64URL(JWE Encrypted Key) || '.' ||
@@ -186,7 +186,7 @@ Example [`ref <https://tools.ietf.org/html/rfc7516#appendix-A.1>`__]
 JSON Web Token
 ==============
 
-.. code-block::
+.. code-block:: text
 
     JWT = JWS with <JWS Payload = JWT Claims Set>
         = JWE with <Plaintext = JWT Claims Set>
