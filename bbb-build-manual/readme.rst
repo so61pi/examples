@@ -129,7 +129,7 @@ Create ``initramfs.cpio``
 Create ``initramfs.uImage``
 ---------------------------
 
-- If we want to boot with initramfs in uImage, we can create `initramfs.uImage` with the following command.
+- If we want to boot with initramfs in uImage, we can create ``initramfs.uImage`` with the following command.
 
 .. code-block:: shell
 
