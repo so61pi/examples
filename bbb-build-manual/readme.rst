@@ -34,10 +34,10 @@ Flash
 
 - Replace ``<disk>`` with your correspond device file (e.g. ``sdc``).
 
-.. code-block:: shell
+  .. code-block:: shell
 
-    dd if=MLO of=/dev/<disk> bs=512 seek=256 count=256 conv=notrunc
-    dd if=u-boot.img of=/dev/<disk> bs=512 seek=768 count=1024 conv=notrunc
+      dd if=MLO of=/dev/<disk> bs=512 seek=256 count=256 conv=notrunc
+      dd if=u-boot.img of=/dev/<disk> bs=512 seek=768 count=1024 conv=notrunc
 
 Copy To FAT16/FAT32 Instead Of Flashing
 ---------------------------------------
@@ -59,16 +59,16 @@ Compile
 
 - We compile busybox with static library option.
 
-.. code-block:: shell
+  .. code-block:: shell
 
-    make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- distclean
-    make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- defconfig
+      make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- distclean
+      make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- defconfig
 
-    make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- menuconfig
-        # Busybox Settings -> Build Options -> Build BusyBox as a static library (no shared libs)
+      make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- menuconfig
+          # Busybox Settings -> Build Options -> Build BusyBox as a static library (no shared libs)
 
-    make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf-
-    make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- install CONFIG_PREFIX=/tmp/busybox
+      make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf-
+      make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- install CONFIG_PREFIX=/tmp/busybox
 
 Prepare ``initramfs``
 =====================
@@ -97,26 +97,26 @@ Create ``/init``
 
 - Below is the content of ``/tmp/initramfs/init`` file.
 
-.. code-block:: shell
+  .. code-block:: shell
 
-    #!/bin/sh
+      #!/bin/sh
 
-    mount -t devtmpfs none /dev
+      mount -t devtmpfs none /dev
 
-    [ -d /sys ]  || mkdir /sys
-    [ -d /proc ] || mkdir /proc
-    [ -d /tmp ]  || mkdir /tmp
-    mount -t sysfs sysfs /sys
-    mount -t proc proc /proc
-    mount -t tmpfs tmpfs /tmp
+      [ -d /sys ]  || mkdir /sys
+      [ -d /proc ] || mkdir /proc
+      [ -d /tmp ]  || mkdir /tmp
+      mount -t sysfs sysfs /sys
+      mount -t proc proc /proc
+      mount -t tmpfs tmpfs /tmp
 
-    /bin/sh
+      /bin/sh
 
 - Make it executable.
 
-.. code-block:: shell
+  .. code-block:: shell
 
-    chmod +x /tmp/initramfs/init
+      chmod +x /tmp/initramfs/init
 
 Create ``initramfs.cpio``
 -------------------------
@@ -131,9 +131,9 @@ Create ``initramfs.uImage``
 
 - If we want to boot with initramfs in uImage, we can create ``initramfs.uImage`` with the following command.
 
-.. code-block:: shell
+  .. code-block:: shell
 
-    mkimage -A arm -O linux -T ramdisk -C none -d initramfs.cpio initramfs.uImage
+      mkimage -A arm -O linux -T ramdisk -C none -d initramfs.cpio initramfs.uImage
 
 Compile Linux Kernel
 ====================
@@ -198,47 +198,47 @@ Load Files To RAM
 
 - From micro SD.
 
-.. code-block:: shell
+  .. code-block:: shell
 
-    # interface : mmc
-    # device    : 0
-    # partition : 2
+      # interface : mmc
+      # device    : 0
+      # partition : 2
 
-    ext4load mmc 0:2 0x82000000 /uImage
-    ext4load mmc 0:2 0x88000000 /am335x-boneblack.dtb
-    ext4load mmc 0:2 0x88080000 /initramfs.cpio # initramfs.uImage if U-Boot image initramfs is used.
+      ext4load mmc 0:2 0x82000000 /uImage
+      ext4load mmc 0:2 0x88000000 /am335x-boneblack.dtb
+      ext4load mmc 0:2 0x88080000 /initramfs.cpio # initramfs.uImage if U-Boot image initramfs is used.
 
 - From TFTP server.
 
-.. code-block:: shell
+  .. code-block:: shell
 
-    setenv autoload no
-    setenv serverip 192.168.1.10
-    dhcp
-    tftp 0x82000000 uImage
-    tftp 0x88000000 am335x-boneblack.dtb
-    tftp 0x88080000 initramfs.cpio # initramfs.uImage if U-Boot image initramfs is used.
+      setenv autoload no
+      setenv serverip 192.168.1.10
+      dhcp
+      tftp 0x82000000 uImage
+      tftp 0x88000000 am335x-boneblack.dtb
+      tftp 0x88080000 initramfs.cpio # initramfs.uImage if U-Boot image initramfs is used.
 
 Boot
 ----
 
 - Kernel with internal ``initramfs.cpio``.
 
-.. code-block:: shell
+  .. code-block:: shell
 
-    setenv bootargs console=ttyO0,115200n8
-    bootm 0x82000000 - 0x88000000
+      setenv bootargs console=ttyO0,115200n8
+      bootm 0x82000000 - 0x88000000
 
 - Kernel with external ``initramfs.uImage``.
 
-.. code-block:: shell
+  .. code-block:: shell
 
-    setenv bootargs console=ttyO0,115200n8
-    bootm 0x82000000 0x88080000 0x88000000
+      setenv bootargs console=ttyO0,115200n8
+      bootm 0x82000000 0x88080000 0x88000000
 
 - Kernel with external ``initramfs.cpio``.
 
-.. code-block:: shell
+  .. code-block:: shell
 
-    setenv bootargs console=ttyO0,115200n8 initrd=0x88080000,<initramfs.cpio-size>
-    bootm 0x82000000 - 0x88000000
+      setenv bootargs console=ttyO0,115200n8 initrd=0x88080000,<initramfs.cpio-size>
+      bootm 0x82000000 - 0x88000000
