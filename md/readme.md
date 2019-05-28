@@ -23,6 +23,7 @@ Code block.
 ```
 
 - A bullet list
+
     Paragraph.
 
     * Nested bullet list.
