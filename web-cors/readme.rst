@@ -5,23 +5,23 @@ How Do Browsers Send Requests In Regard To CORS?
 
 - Simple requests [`ref <https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS#Simple_requests>`__]
 
-    - Send request directly to web server **without** sending OPTIONS request first.
+  * Send request directly to web server **without** sending OPTIONS request first.
 
 - Preflighted requests [`ref <https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS#Preflighted_requests>`__]
 
-    * Send ``OPTIONS`` request first to get ``Access-Control-Allow-Origin``.
+  * Send ``OPTIONS`` request first to get ``Access-Control-Allow-Origin``.
 
-      + This request is called preflight request.
+    + This request is called preflight request.
 
-    * Base on the received value, decide to actually send the request or display an error.
+  * Base on the received value, decide to actually send the request or display an error.
 
 Import Headers
 ==============
 
-Assume that
+- Assume that
 
-  - ``http://example.com`` wants to call ``http://example.net``.
-  - ``http://example.com`` is in the allowed origin list of ``http://example.net``.
+  * ``http://example.com`` wants to call ``http://example.net``.
+  * ``http://example.com`` is in the allowed origin list of ``http://example.net``.
 
 - ``OPTIONS`` request (preflight request)
 
