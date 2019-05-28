@@ -1,11 +1,11 @@
 .. contents:: Table of Contents
 
-How Do Browsers Send Requests In Regard To CORS?
-================================================
+How Do Browsers Send Requests In Regard To CORS (Cross-Origin Resource Sharing)?
+================================================================================
 
 - Simple requests [`ref <https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS#Simple_requests>`__]
 
-  * Send request directly to web server **without** sending OPTIONS request first.
+  * Send request directly to web server **without** sending ``OPTIONS`` request first.
 
 - Preflighted requests [`ref <https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS#Preflighted_requests>`__]
 
@@ -76,9 +76,9 @@ Server Side Handling Considerations
 Security Implications
 =====================
 
-CORS is for protecting clients, not web servers because only allows trusted ogirins to make requests.
+CORS is for protecting clients, not web servers because only allows trusted ogirins to make requests (somewhat related to CSRF).
 
-  - Note that some requests will still be sent without preflight request.
+- Note that some requests will still be sent without preflight request.
 
 References
 ==========
