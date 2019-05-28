@@ -8,6 +8,30 @@
 Chapter 1
 =========
 
+Section 1 ``code``
+------------------
+
+Sub-section 1 [`ref <http://docutils.sourceforge.net/docs/user/rst/demo.html>`__]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Sub-sub-section 1
+`````````````````
+
+Sub-sub-sub-section 1
+'''''''''''''''''''''
+
+Sub-sub-sub-section 2
+'''''''''''''''''''''
+
+Sub-sub-section 2
+`````````````````
+
+Sub-section 2
+~~~~~~~~~~~~~
+
+Section 2
+---------
+
 Normal text.
 
 *Italic text.*
@@ -54,7 +78,9 @@ Separator ahead!!!
 
 -----
 
-- A bullet list
+Normal text.
+
+- A bullet list, which is a child of ``Normal text``.
 
   Paragraph.
 
@@ -118,30 +144,6 @@ True   True   True
 +------------------------+-----------------------+----------+
 
 See `References`_ for more complex structures.
-
-Section 1 [`ref <http://docutils.sourceforge.net/docs/user/rst/demo.html>`__]
------------------------------------------------------------------------------
-
-Sub-section 1
-~~~~~~~~~~~~~
-
-Sub-sub-section 1
-`````````````````
-
-Sub-sub-sub-section 1
-'''''''''''''''''''''
-
-Sub-sub-sub-section 2
-'''''''''''''''''''''
-
-Sub-sub-section 2
-`````````````````
-
-Sub-section 2
-~~~~~~~~~~~~~
-
-Section 2
----------
 
 References
 ==========
