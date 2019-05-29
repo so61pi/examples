@@ -1,0 +1,12 @@
+[package]
+name = "callc"
+version = "0.1.0"
+authors = ["Thi Huynh <so61pi.re@gmail.com>"]
+edition = "2018"
+build = "build.rs"
+
+[dependencies]
+
+[build-dependencies]
+bindgen = "0.49.2"
+cc = "1.0.37"
