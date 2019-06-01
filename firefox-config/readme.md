@@ -47,24 +47,30 @@
 
 ## Add-ons
 
-- HTTPS Everywhere
-- Mute Tab (WebExtension)
+- Dark Reader
+- Download all Images
 - Facebook Container
-- To Google Translate
+- HTTPS Everywhere
+- KeePassXC-Browser
 - LeechBlock
-- uBlock Origin
 - Mate Translate
+- Mute sites by default
+- To Google Translate
+- uBlock Origin
 
 ## desktop file `~/.local/share/applications/firefox-nightly.desktop`
 
 ```
 [Desktop Entry]
-Version=1.0
-Name=Nightly
-Comment=Browse the World Wide Web
+Categories=Network;WebBrowser;
+Encoding=UTF-8
+Name=Firefox Nightly
+GenericName=Web Browser
+Comment=Web Browser
 Icon=/opt/firefox/browser/chrome/icons/default/default128.png
 Exec=/opt/firefox/firefox %u
 Terminal=false
+StartupNotify=true
+MimeType=text/html;text/xml;application/xhtml+xml;application/vnd.mozilla.xul+xml;text/mml;application/x-xpinstall;x-scheme-handler/http;x-scheme-handler/https;x-scheme-handler/ftp;
 Type=Application
-Categories=Network;WebBrowser;
 ```
