@@ -21,7 +21,7 @@ Raw Image With GPT
     Output=opensuse-leap.raw
 
     [Packages]
-    Packages=git iproute2 iputils vim
+    Packages=ca-certificates curl git iproute2 iputils vim
 
     [Validation]
     Password=root
@@ -40,7 +40,7 @@ btrfs subvolume
     Output=opensuse-leap-template
 
     [Packages]
-    Packages=git iproute2 iputils vim
+    Packages=ca-certificates curl git iproute2 iputils vim
 
     [Validation]
     Password=root
