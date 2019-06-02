@@ -125,13 +125,13 @@ Importing ``rootfs``
 .. code-block:: shell
 
     # Copying a directory to /var/lib/machines/
-    machinectl import-fs <directory> <machine-name>
+    sudo machinectl import-fs <directory> <machine-name>
 
     # Copying a file to /var/lib/machines/
-    machinectl import-raw <file> <machine-name>
+    sudo machinectl import-raw <file> <machine-name>
 
     # Extracting a file to a directory /var/lib/machines/
-    machinectl import-tar <file> <machine-name>
+    sudo machinectl import-tar <file> <machine-name>
 
 Starting Container
 ------------------
@@ -139,25 +139,25 @@ Starting Container
 .. code-block:: shell
 
     # Starting a machine, this uses systemd-nspawn underneath
-    machinectl start <machine-name>
+    sudo machinectl start <machine-name>
 
     # Open a login shell to a machine
-    machinectl login <machine-name>
+    sudo machinectl login <machine-name>
 
 Stopping Container
 ------------------
 
 .. code-block:: shell
 
-    machinectl stop <machine-name>
+    sudo machinectl stop <machine-name>
 
 Enabling/Disabling Container To Start At Startup
 ------------------------------------------------
 
 .. code-block:: shell
 
-    machinectl enable <machine-name>
-    machinectl disable <machine-name>
+    sudo machinectl enable <machine-name>
+    sudo machinectl disable <machine-name>
 
 Networking
 ----------
