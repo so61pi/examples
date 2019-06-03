@@ -209,3 +209,14 @@ References
 - https://www.freedesktop.org/software/systemd/man/machinectl.html
 - https://www.freedesktop.org/software/systemd/man/systemd.nspawn.html
 - https://www.freedesktop.org/software/systemd/man/systemd.nspawn.html#.nspawn%20File%20Discovery
+
+Bonus
+=====
+
+Adding User
+-----------
+
+.. code-block:: shell
+
+    useradd -g users -m -s /bin/bash -u 1000 opensuse
+    passwd opensuse
