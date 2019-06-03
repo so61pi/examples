@@ -188,6 +188,8 @@ And here the content of the override file::
 
     ExecStart=/usr/bin/systemd-nspawn --quiet --keep-unit --boot --link-journal=try-guest --settings=override --machine=%i
 
+To remove the override file, use ``sudo systemctl revert systemd-nspawn@<machine-name>.service``.
+
 Additional Options
 ------------------
 
