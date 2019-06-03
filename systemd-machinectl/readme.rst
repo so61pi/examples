@@ -6,10 +6,13 @@ Creating ``rootfs``
 Configuration File
 ------------------
 
-Raw Image With GPT
-~~~~~~~~~~~~~~~~~~
+``mkosi.default``
+~~~~~~~~~~~~~~~~~
 
-``mkosi.default``::
+Raw Image With GPT
+``````````````````
+
+.. code-block:: ini
 
     [Distribution]
     Distribution=opensuse
@@ -27,9 +30,9 @@ Raw Image With GPT
     Password=root
 
 btrfs subvolume
-~~~~~~~~~~~~~~~
+```````````````
 
-``mkosi.default``::
+.. code-block:: ini
 
     [Distribution]
     Distribution=opensuse
@@ -46,7 +49,7 @@ btrfs subvolume
     Password=root
 
 Other Useful Options
-~~~~~~~~~~~~~~~~~~~~
+````````````````````
 
 - Set ``rootfs`` to read-only
 
@@ -59,6 +62,19 @@ Other Useful Options
 - Output to ``QEMU`` image format
 
   * Adding ``QCow2=true`` to ``[Output]`` section.
+
+``mkosi.postinst``
+~~~~~~~~~~~~~~~~~~
+
+.. code-block:: shell
+
+    #!/bin/sh
+
+    # Generate hash password by
+    #     python3 -c 'import crypt; print(crypt.crypt("opensuse", crypt.mksalt(crypt.METHOD_SHA512)))'
+    useradd -g users -m -s /bin/bash -u 1000 -p '$6$KOQkMxMqSDppB2QB$Tl3usIqM.lymKexE0d33cnZbKyOCCSzENiTU5afYfzE8U2lkHmp3BgTx.Wxql6GBREDTd1PEVDz3YXREQgHQa/' opensuse
+
+Don't forget to make this file executable.
 
 Building ``rootfs``
 -------------------
@@ -89,7 +105,7 @@ References
 - https://github.com/systemd/mkosi/blob/master/mkosi.md
 - https://wiki.archlinux.org/index.php/Mkosi
 
-Booting with ``systemd-nspawn``
+Booting With ``systemd-nspawn``
 ===============================
 
 .. code-block:: shell
@@ -106,6 +122,8 @@ Booting with ``systemd-nspawn``
     # Snapshot template to a new directory, then boot from that
     sudo systemd-nspawn -b -D opensuse-leap --template=opensuse-leap-template
 
+To mount a directory or file from host, we add ``--bind=<host-path>:<container-path>`` option to ``systemd-nspawn``.
+
 *Note*: We could put the command line options to a ``.nspawn`` file, but due to the way ``systemd-nspawn`` treat privilege settings in ``.nspawn`` file base on its location, we should just run ``systemd-nspawn`` directly.
 
 References
@@ -114,7 +132,7 @@ References
 - https://www.freedesktop.org/software/systemd/man/systemd-nspawn.html
 - https://www.freedesktop.org/software/systemd/man/systemd.nspawn.html#.nspawn%20File%20Discovery
 
-Booting with ``machinectl``
+Booting With ``machinectl``
 ===========================
 
 ``machinectl`` uses template unit ``systemd-nspawn@.service`` for creating containers.
@@ -159,12 +177,12 @@ Enabling/Disabling Container To Start At Startup
     sudo machinectl enable <machine-name>
     sudo machinectl disable <machine-name>
 
-Mounting Host's Directory Into Container
-----------------------------------------
+Mounting Host's Directory/File Into Container
+---------------------------------------------
 
 .. code-block:: shell
 
-    sudo machinectl bind <machine-name> <host-path> <container-path>
+    sudo machinectl --mkdir bind <machine-name> <host-path> <container-path>
 
 Networking
 ----------
@@ -179,13 +197,16 @@ Therefore, we will edit container's specific unit.
 
     sudo systemctl edit systemd-nspawn@<machine-name>.service
 
-And here the content of the override file::
+And here the content of the override file:
 
-    [Service]
+.. code-block:: ini
+
+    # cat /usr/lib/systemd/system/systemd-nspawn@.service
+    #
     # Empty ExecStart= is to reset ExecStart list.
     # https://www.freedesktop.org/software/systemd/man/systemd.service.html#ExecStart=
+    [Service]
     ExecStart=
-
     ExecStart=/usr/bin/systemd-nspawn --quiet --keep-unit --boot --link-journal=try-guest --settings=override --machine=%i
 
 To remove the override file, use ``sudo systemctl revert systemd-nspawn@<machine-name>.service``.
@@ -195,10 +216,11 @@ Additional Options
 
 We could specify additional options for ``systemd-nspawn`` in a ``.nspawn`` file and place it at ``/etc/systemd/nspawn/<machine-name>.nspawn``.
 
-Example ``/etc/systemd/nspawn/opensuse-leap.nspawn``::
+Example ``/etc/systemd/nspawn/opensuse-leap.nspawn``:
+
+.. code-block:: ini
 
     # https://www.freedesktop.org/software/systemd/man/systemd.nspawn.html
-
     [Network]
     Private=no
     VirtualEthernet=no
@@ -209,14 +231,3 @@ References
 - https://www.freedesktop.org/software/systemd/man/machinectl.html
 - https://www.freedesktop.org/software/systemd/man/systemd.nspawn.html
 - https://www.freedesktop.org/software/systemd/man/systemd.nspawn.html#.nspawn%20File%20Discovery
-
-Bonus
-=====
-
-Adding User
------------
-
-.. code-block:: shell
-
-    useradd -g users -m -s /bin/bash -u 1000 opensuse
-    passwd opensuse
