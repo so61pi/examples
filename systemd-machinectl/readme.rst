@@ -21,7 +21,7 @@ Raw Image With GPT
     Output=opensuse-leap.raw
 
     [Packages]
-    Packages=ca-certificates curl git iproute2 iputils vim
+    Packages=ca-certificates curl git iproute2 iputils sudo vim
 
     [Validation]
     Password=root
@@ -40,7 +40,7 @@ btrfs subvolume
     Output=opensuse-leap-template
 
     [Packages]
-    Packages=ca-certificates curl git iproute2 iputils vim
+    Packages=ca-certificates curl git iproute2 iputils sudo vim
 
     [Validation]
     Password=root
@@ -95,16 +95,16 @@ Booting with ``systemd-nspawn``
 .. code-block:: shell
 
     # Boot a raw image
-    sudo systemd-nspawn -b -U -i opensuse-leap.raw
+    sudo systemd-nspawn -b -i opensuse-leap.raw
 
     # Boot from a rootfs directory
-    sudo systemd-nspawn -b -U -D opensuse-leap-template
+    sudo systemd-nspawn -b -D opensuse-leap-template
 
     # Run container in a temporary snapshot, remove it after shutting down
-    sudo systemd-nspawn -b -U -D opensuse-leap-template --ephemeral
+    sudo systemd-nspawn -b -D opensuse-leap-template --ephemeral
 
     # Snapshot template to a new directory, then boot from that
-    sudo systemd-nspawn -b -U -D opensuse-leap --template=opensuse-leap-template
+    sudo systemd-nspawn -b -D opensuse-leap --template=opensuse-leap-template
 
 *Note*: We could put the command line options to a ``.nspawn`` file, but due to the way ``systemd-nspawn`` treat privilege settings in ``.nspawn`` file base on its location, we should just run ``systemd-nspawn`` directly.
 
@@ -159,6 +159,13 @@ Enabling/Disabling Container To Start At Startup
     sudo machinectl enable <machine-name>
     sudo machinectl disable <machine-name>
 
+Mounting Host's Directory Into Container
+----------------------------------------
+
+.. code-block:: shell
+
+    sudo machinectl bind <machine-name> <host-path> <container-path>
+
 Networking
 ----------
 
@@ -179,7 +186,7 @@ And here the content of the override file::
     # https://www.freedesktop.org/software/systemd/man/systemd.service.html#ExecStart=
     ExecStart=
 
-    ExecStart=/usr/bin/systemd-nspawn --quiet --keep-unit --boot --link-journal=try-guest -U --settings=override --machine=%i
+    ExecStart=/usr/bin/systemd-nspawn --quiet --keep-unit --boot --link-journal=try-guest --settings=override --machine=%i
 
 Additional Options
 ------------------
