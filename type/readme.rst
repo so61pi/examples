@@ -74,6 +74,7 @@ Transitive
 ----------
 
 ::
+
     r(a, b) && r(b, c) => r(a, c)
 
 Example:
@@ -86,6 +87,7 @@ Strict
 ------
 
 ::
+
     !r(a, a)
 
 Example:
