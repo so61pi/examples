@@ -31,7 +31,7 @@ func parseRequestURI(uris []string) {
 }
 
 func main() {
-    // https://tools.ietf.org/html/rfc3986#appendix-A
+	// https://tools.ietf.org/html/rfc3986#appendix-A
 	uris := []string{
 		"example.com",         "example.com/v1",
 		"mailto:example.com",  "mailto:example.com/v1",
