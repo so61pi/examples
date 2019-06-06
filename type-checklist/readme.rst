@@ -3,6 +3,9 @@
 Concepts
 ========
 
+Basic
+-----
+
 +-------------------+---------------------------------------------------------------------------+-------------------+---------------------+
 | Concept           | Definition                                                                | Example           | Represented by      |
 +===================+===========================================================================+===================+=====================+
@@ -28,14 +31,133 @@ Concepts
 | Value             | Datum + its interpretation                                                |                   |                     |
 +-------------------+---------------------------------------------------------------------------+-------------------+---------------------+
 
-Type
-====
+Whole-Part Relationship
+-----------------------
+
+    A whole-part relationship is connected, non-circular, logically disjoint, and owned.
+
+    Connected means any part is reachable from the object's starting address.
+
+    Non-circular means that no part is a part of itself.
+
+    Logically disjoint means that if two objects share a subpart where modifications to
+    the subpart affect the value of both objects, then one of the objects must be a subpart
+    of the other.
+
+    Owned means that copying the object copies its parts, and destroying the object destroys
+    its parts.
+
+Logically disjoint means if A and B both point to C and we are able to change C then A must contain B or vice versa.
+In other words, we cannot have 2 independent objects sharing a same modifiable object. (Note that if the shared object
+is immutable, then the relationship of the pointee is always logically disjoint.)
+
+Relations
+---------
+
+``r(a: T, b: T) -> bool``
+
+Transitive
+~~~~~~~~~~
+
+::
+
+    r(a, b) && r(b, c) => r(a, c)
+
+Example:
+
+- equal
+- less
+- greater
+
+Strict
+~~~~~~
+
+::
+
+    !r(a, a)
+
+Example:
+
+- less
+- greater
+
+Reflexive
+~~~~~~~~~
+
+::
+
+    r(a, a)
+
+Example:
+
+- equal
+
+Symmetric
+~~~~~~~~~
+
+::
+
+    r(a, b) => r(b, a)
+
+Example:
+
+- equal
+
+Asymmetric
+~~~~~~~~~~
+
+::
+
+    r(a, b) => !r(b, a)
+
+Example:
+
+- less
+
+Equivalence
+~~~~~~~~~~~
+
+::
+
+    Transitive + Reflexive + Symmetric
+
+Example:
+
+- equal
+
+Total Ordering
+~~~~~~~~~~~~~~
+
+::
+
+    Transitive && only one of {r(a, b); r(b, a); a == b}
+
+Example:
+
+- less
+- greater
+
+Weak Ordering
+~~~~~~~~~~~~~
+
+::
+
+    Transitive && only one of {r(a, b); r(b, a); !r(a, b) && !r(b, a)}
+
+Properties:
+
+- Total ordering is weak ordering
+- Weak ordering is asymmetric
+- Weak ordering is strict
+
+General Checks For Types
+========================
 
 +---------------------------+---------------------------------------------------------------------------+---------------------------+
 | Property / *inverse*      |                                                                           | Example / *inverse*       |
 +===========================+===========================================================================+===========================+
-| properly partial /        | if all of its values represent a proper subset of the abstract entities   | int / *bool*              |
-| *total*                   |                                                                           |                           |
+| properly partial /        | **if** all of its values represent a proper subset of the abstract        | int / *bool*              |
+| *total*                   | entities                                                                  |                           |
 +---------------------------+---------------------------------------------------------------------------+---------------------------+
 | uniquely represented      | **if and only if** at most one value corresponds to each abstract entity  | int / *bool represented   |
 |                           |                                                                           | by a byte*                |
@@ -52,11 +174,18 @@ Type
 |                           | - copy constructor                                                        |                           |
 |                           | - total ordering                                                          |                           |
 +---------------------------+---------------------------------------------------------------------------+---------------------------+
-| complete                  | if the set of provided basis operations allows us to construct and        |                           |
+| complete                  | **if** the set of provided basis operations allows us to construct and    |                           |
 |                           | operate on any representable value                                        |                           |
 |                           |                                                                           |                           |
 |                           |     A computational basis for a type is a finite set of procedures that   |                           |
 |                           |     enable the construction of any other procedure on the type.           |                           |
++---------------------------+---------------------------------------------------------------------------+---------------------------+
+| conform to whole-part     | **if and only if** it is                                                  |                           |
+| relationship              |                                                                           |                           |
+|                           | - connected                                                               |                           |
+|                           | - non-circular                                                            |                           |
+|                           | - logically disjoint                                                      |                           |
+|                           | - owned                                                                   |                           |
 +---------------------------+---------------------------------------------------------------------------+---------------------------+
 
 - Two values are equal <=> they represent a same abstract entity (e.g. blue).
@@ -64,105 +193,6 @@ Type
 
   * A type is uniquely represented => equality implies representational equality
   * A type is unambiguous => representational equality implies equality
-
-Relation
-========
-
-``r(a: T, b: T) -> bool``
-
-Transitive
-----------
-
-::
-
-    r(a, b) && r(b, c) => r(a, c)
-
-Example:
-
-- equal
-- less
-- greater
-
-Strict
-------
-
-::
-
-    !r(a, a)
-
-Example:
-
-- less
-- greater
-
-Reflexive
----------
-
-::
-
-    r(a, a)
-
-Example:
-
-- equal
-
-Symmetric
----------
-
-::
-
-    r(a, b) => r(b, a)
-
-Example:
-
-- equal
-
-Asymmetric
-----------
-
-::
-
-    r(a, b) => !r(b, a)
-
-Example:
-
-- less
-
-Equivalence
------------
-
-::
-
-    Transitive + Reflexive + Symmetric
-
-Example:
-
-- equal
-
-Total Ordering
---------------
-
-::
-
-    Transitive && only one of {r(a, b); r(b, a); a == b}
-
-Example:
-
-- less
-- greater
-
-Weak Ordering
--------------
-
-::
-
-    Transitive && only one of {r(a, b); r(b, a); !r(a, b) && !r(b, a)}
-
-Properties:
-
-- Total ordering is weak ordering
-- Weak ordering is asymmetric
-- Weak ordering is strict
 
 References
 ==========
