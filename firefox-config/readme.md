@@ -55,6 +55,7 @@
 - LeechBlock
 - Mate Translate
 - Mute sites by default
+- Privacy Badger
 - To Google Translate
 - uBlock Origin
 
