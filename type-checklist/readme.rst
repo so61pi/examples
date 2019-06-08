@@ -169,9 +169,7 @@ General Checks For Type ``T``
 =============================
 
 #. Does ``T`` have only one single purpose?
-
 #. What is ``T``'s invariant?
-
 #. Does ``T``'s **set of valid values** equal to **the product of all sets of valid values of T's components**?
 
    - How are the undesirable combinations kept out?
@@ -187,9 +185,7 @@ General Checks For Type ``T``
    - Whole-part relationship
 
 #. What is the precondition of each method?
-
 #. Is there any special order for method invocation (e.g. ``method_a`` must be called before ``method_b``)?
-
 #. Does ``T``'s computational basis have all of the below properties?
 
    - Efficient
