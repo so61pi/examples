@@ -4,7 +4,9 @@ Security
 ========
 
 - Don't log sensitive information
-- Check SQL injection
+- Validate client's inputs
+  * SQL injection
+  * ...
 - Check CORS list
 - Check/Disable directory access
 - Enable HTTPS
