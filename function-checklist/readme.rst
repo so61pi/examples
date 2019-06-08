@@ -12,7 +12,7 @@ General Checks For Function ``F``
 #. Do ``F``'s inputs have any special combination?
 #. Does ``F`` invoke global components (e.g. time, filesystem, database...)?
 
-   - Can those invocations be moved outside to make ``F`` functional?
+   - Can those invocations be moved outside to make ``F`` **functional**?
 
 #. Is ``F`` written in favor of readability instead of performance?
 #. Are ``F``'s inputs placed in **(in, in-out, out)** order?
