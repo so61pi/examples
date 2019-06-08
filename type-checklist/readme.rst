@@ -178,8 +178,6 @@ General Checks For Type ``T``
 
    - How are they handled?
 
-#. Does ``T`` have a default value?
-
 #. What is ``T``'s invariant?
 
    - Can the responsibility of handling ``T``'s invariant be moved to a more fundamental data structure?
