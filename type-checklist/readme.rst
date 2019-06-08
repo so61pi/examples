@@ -170,17 +170,16 @@ General Checks For Type ``T``
 
 #. Does ``T`` have only one single purpose?
 
+#. What is ``T``'s invariant?
+
 #. Does ``T``'s **set of valid values** equal to **the product of all sets of valid values of T's components**?
 
    - How are the undesirable combinations kept out?
+   - Can types that are more specialized/fundamental be used for ``T``'s components instead?
 
 #. Does ``T`` have any special value (e.g. when all of its components are zero or null)?
 
    - How are they handled?
-
-#. What is ``T``'s invariant?
-
-   - Can the responsibility of handling ``T``'s invariant be moved to a more fundamental data structure?
 
 #. Does ``T`` have all of the below properties?
 
