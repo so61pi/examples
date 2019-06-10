@@ -5,7 +5,7 @@ Concerns
 
 - Different parts of the system use different time systems.
 - Timezone can be changed in the future.
-- DST.
+- DST (DST can be thought of as a timezone change event).
 
   * DST rules can be changed in the future.
   * Different countries have different transition time.
@@ -28,6 +28,9 @@ Concerns
 - Time is stored without sufficient information for future usage.
 
   * Convert local time to UTC, then time zone/DST rules change, cannot convert stored time back to local time easily.
+
+- Leap seconds.
+- System time is adjusted forwards/backwards (due to NTP or user).
 
 References
 ==========
