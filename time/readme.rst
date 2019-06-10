@@ -4,20 +4,21 @@ Concerns
 ========
 
 - Different parts of the system use different time systems.
-- Timezone will be changed in the future.
+- Timezone can be changed in the future.
 - DST.
 
-  * It will be changed in the future.
+  * DST rules can be changed in the future.
   * Different countries have different transition time.
 
     + ``01:59:59`` + 1s = ``03:00:00``
     + ``23:59:59`` + 1s = ``01:00:00``
 
-  * Time sorting.
+  * Handling of duplicated hour (e.g. time sorting).
+  * Handling of missing hour (e.g. cron job).
 
 - Textual representation is misunderstood by programmers.
 
-  * In ``2019-06-10T17:15:00-08:00``, ``-08:00`` represents time offset to UTC, not timezone.
+  * In ``2019-06-10T17:15:00-08:00`` (`RFC-3339 <https://tools.ietf.org/html/rfc3339#section-5.6>`__), ``-08:00`` represents time offset to UTC, not timezone.
 
 - User expectations about date time arithmetic.
 
