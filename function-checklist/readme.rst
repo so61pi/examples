@@ -15,8 +15,8 @@ General Checks For Function ``F``
    - Can those invocations be moved outside to make ``F`` **functional**?
 
 #. Is ``F`` written in favor of readability instead of performance?
-#. Are ``F``'s inputs placed in **(in, in-out, out)** order?
-#. Are ``F``'s outputs placed in **(result, error)** order?
+#. Are ``F``'s inputs placed in **(in, in-out)** order?
+#. Are ``F``'s outputs placed in **(out, error)** order?
 #. Variables
 
    - Does each variable have only one single purpose?
