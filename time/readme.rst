@@ -3,7 +3,12 @@
 Concerns
 ========
 
-- Different parts of the system use different time systems.
+- Different parts of a system use different time systems.
+- Different parts of a system use unsynced time.
+
+  * Front-end on multiple devices.
+  * Back-end on multiple nodes.
+
 - Timezone can be changed in the future.
 - DST (DST can be thought of as a timezone change event).
 
@@ -30,7 +35,7 @@ Concerns
   * Convert local time to UTC, then time zone/DST rules change, cannot convert stored time back to local time easily.
 
 - Leap seconds.
-- System time is adjusted forwards/backwards (due to NTP or user).
+- System time is adjusted forwards/backwards (due to NTP or human intervention).
 
 References
 ==========
