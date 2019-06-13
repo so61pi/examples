@@ -1,4 +1,4 @@
-__go_td_I20_VeryLongFunctionNameFee$gc:
+__go_td_I19_AnotherLongFunctionFe20_VeryLongFunctionNameFee$gc:
         .quad   16
         .quad   9
         .quad   0
@@ -61,11 +61,11 @@ __go_td_pN15_main.XInterface:
         .quad   0
         .quad   __go_tdn_main.XInterface
 .LC4:
-        .ascii  "VeryLongFunctionName"
+        .ascii  "AnotherLongFunction"
         .zero   1
 C6:
         .quad   .LC4
-        .quad   20
+        .quad   19
 __go_td_Fe$gc:
         .quad   8
         .quad   2
@@ -101,8 +101,17 @@ __go_td_Fe:
         .quad   C9
         .quad   0
         .quad   0
+.LC6:
+        .ascii  "VeryLongFunctionName"
+        .zero   1
 C10:
+        .quad   .LC6
+        .quad   20
+C11:
         .quad   C6
+        .quad   0
+        .quad   __go_td_Fe
+        .quad   C10
         .quad   0
         .quad   __go_td_Fe
 __go_tdn_main.XInterface:
@@ -115,48 +124,48 @@ __go_tdn_main.XInterface:
         .zero   4
         .quad   runtime.interhash$descriptor
         .quad   runtime.interequal$descriptor
-        .quad   __go_td_I20_VeryLongFunctionNameFee$gc
+        .quad   __go_td_I19_AnotherLongFunctionFe20_VeryLongFunctionNameFee$gc
         .quad   C0
         .quad   C4
         .quad   __go_td_pN15_main.XInterface
-        .quad   C10
-        .quad   1
-        .quad   1
+        .quad   C11
+        .quad   2
+        .quad   2
 __go_td_S7_.main.aN3_int7_.main.bS7_.main.cN3_intee$gc:
         .quad   16
         .quad   0
-.LC6:
-        .ascii  "\tmain\tmain.Test"
-        .zero   1
-C11:
-        .quad   .LC6
-        .quad   15
 .LC7:
-        .ascii  "Test"
+        .ascii  "\tmain\tmain.Test"
         .zero   1
 C12:
         .quad   .LC7
-        .quad   4
+        .quad   15
+.LC8:
+        .ascii  "Test"
+        .zero   1
 C13:
-        .quad   .LC2
+        .quad   .LC8
         .quad   4
 C14:
+        .quad   .LC2
+        .quad   4
+C15:
         .quad   .LC4
-        .quad   20
+        .quad   19
 __go_td_FpN9_main.Testee$gc:
         .quad   8
         .quad   2
         .quad   0
         .quad   0
-.LC8:
+.LC9:
         .ascii  "func(\tmain\tmain.Test)"
         .zero   1
-C15:
-        .quad   .LC8
-        .quad   21
 C16:
-        .quad   __go_tdn_main.Test
+        .quad   .LC9
+        .quad   21
 C17:
+        .quad   __go_tdn_main.Test
+C18:
 __go_td_FpN9_main.Testee:
         .byte   19
         .byte   8
@@ -168,57 +177,65 @@ __go_td_FpN9_main.Testee:
         .quad   0
         .quad   0
         .quad   __go_td_FpN9_main.Testee$gc
-        .quad   C15
+        .quad   C16
         .quad   0
         .quad   0
         .byte   0
         .zero   7
-        .quad   C16
-        .quad   1
-        .quad   1
         .quad   C17
+        .quad   1
+        .quad   1
+        .quad   C18
         .quad   0
         .quad   0
-C18:
-        .quad   C14
+C19:
+        .quad   .LC6
+        .quad   20
+C20:
+        .quad   C15
+        .quad   0
+        .quad   __go_td_Fe
+        .quad   __go_td_FpN9_main.Testee
+        .quad   main.AnotherLongFunction.N9_main.Test
+        .quad   C19
         .quad   0
         .quad   __go_td_Fe
         .quad   __go_td_FpN9_main.Testee
         .quad   main.VeryLongFunctionName.N9_main.Test
-C19:
-        .quad   C12
+C21:
         .quad   C13
-        .quad   C18
-        .quad   1
-        .quad   1
+        .quad   C14
+        .quad   C20
+        .quad   2
+        .quad   2
 __go_td_pN9_main.Test$gc:
         .quad   8
         .quad   2
         .quad   0
         .quad   0
-.LC9:
+.LC10:
         .ascii  "*\tmain\tmain.Test"
         .zero   1
-C20:
-        .quad   .LC9
+C22:
+        .quad   .LC10
         .quad   16
-C21:
+C23:
         .quad   .LC4
-        .quad   20
+        .quad   19
 __go_td_FppN9_main.Testee$gc:
         .quad   8
         .quad   2
         .quad   0
         .quad   0
-.LC10:
+.LC11:
         .ascii  "func(*\tmain\tmain.Test)"
         .zero   1
-C22:
-        .quad   .LC10
-        .quad   22
-C23:
-        .quad   __go_td_pN9_main.Test
 C24:
+        .quad   .LC11
+        .quad   22
+C25:
+        .quad   __go_td_pN9_main.Test
+C26:
 __go_td_FppN9_main.Testee:
         .byte   19
         .byte   8
@@ -230,40 +247,48 @@ __go_td_FppN9_main.Testee:
         .quad   0
         .quad   0
         .quad   __go_td_FppN9_main.Testee$gc
-        .quad   C22
+        .quad   C24
         .quad   0
         .quad   0
         .byte   0
         .zero   7
+        .quad   C25
+        .quad   1
+        .quad   1
+        .quad   C26
+        .quad   0
+        .quad   0
+C27:
+        .quad   .LC6
+        .quad   20
+C28:
         .quad   C23
-        .quad   1
-        .quad   1
-        .quad   C24
         .quad   0
-        .quad   0
-C25:
-        .quad   C21
+        .quad   __go_td_Fe
+        .quad   __go_td_FppN9_main.Testee
+        .quad   main.AnotherLongFunction.N9_main.Test
+        .quad   C27
         .quad   0
         .quad   __go_td_Fe
         .quad   __go_td_FppN9_main.Testee
         .quad   main.VeryLongFunctionName.N9_main.Test
-C26:
+C29:
         .quad   0
         .quad   0
-        .quad   C25
-        .quad   1
-        .quad   1
+        .quad   C28
+        .quad   2
+        .quad   2
 __go_td_ppN9_main.Test$gc:
         .quad   8
         .quad   1
         .quad   0
         .quad   __go_td_pN9_main.Test$gc
         .quad   0
-.LC11:
+.LC12:
         .ascii  "**\tmain\tmain.Test"
         .zero   1
-C27:
-        .quad   .LC11
+C30:
+        .quad   .LC12
         .quad   17
 __go_td_ppN9_main.Test:
         .byte   54
@@ -276,7 +301,7 @@ __go_td_ppN9_main.Test:
         .quad   runtime.memhash64$descriptor
         .quad   runtime.memequal64$descriptor
         .quad   __go_td_ppN9_main.Test$gc
-        .quad   C27
+        .quad   C30
         .quad   0
         .quad   0
         .quad   __go_td_pN9_main.Test
@@ -291,36 +316,36 @@ __go_td_pN9_main.Test:
         .quad   runtime.memhash64$descriptor
         .quad   runtime.memequal64$descriptor
         .quad   __go_td_pN9_main.Test$gc
-        .quad   C20
-        .quad   C26
+        .quad   C22
+        .quad   C29
         .quad   __go_td_ppN9_main.Test
         .quad   __go_tdn_main.Test
-.LC12:
+.LC13:
         .ascii  "a"
         .zero   1
-C28:
-        .quad   .LC12
+C31:
+        .quad   .LC13
         .quad   1
-C29:
+C32:
         .quad   .LC2
         .quad   4
 __go_td_i64e$gc:
         .quad   8
         .quad   0
-.LC13:
+.LC14:
         .ascii  "int"
         .zero   1
-C30:
-        .quad   .LC13
-        .quad   3
-C31:
-        .quad   .LC13
-        .quad   3
-C32:
 C33:
-        .quad   C31
+        .quad   .LC14
+        .quad   3
+C34:
+        .quad   .LC14
+        .quad   3
+C35:
+C36:
+        .quad   C34
         .quad   0
-        .quad   C32
+        .quad   C35
         .quad   0
         .quad   0
 __go_td_pN3_int$gc:
@@ -328,11 +353,11 @@ __go_td_pN3_int$gc:
         .quad   2
         .quad   0
         .quad   0
-.LC14:
+.LC15:
         .ascii  "*int"
         .zero   1
-C34:
-        .quad   .LC14
+C37:
+        .quad   .LC15
         .quad   4
 __go_td_pN3_int:
         .byte   54
@@ -345,7 +370,7 @@ __go_td_pN3_int:
         .quad   runtime.memhash64$descriptor
         .quad   runtime.memequal64$descriptor
         .quad   __go_td_pN3_int$gc
-        .quad   C34
+        .quad   C37
         .quad   0
         .quad   0
         .quad   __go_tdn_int
@@ -360,39 +385,39 @@ __go_tdn_int:
         .quad   runtime.memhash64$descriptor
         .quad   runtime.memequal64$descriptor
         .quad   __go_td_i64e$gc
-        .quad   C30
         .quad   C33
+        .quad   C36
         .quad   __go_td_pN3_int
-.LC15:
+.LC16:
         .ascii  "b"
         .zero   1
-C35:
-        .quad   .LC15
+C38:
+        .quad   .LC16
         .quad   1
-C36:
+C39:
         .quad   .LC2
         .quad   4
 __go_td_S7_.main.cN3_inte$gc:
         .quad   8
         .quad   0
-.LC16:
+.LC17:
         .ascii  "struct { c int }"
         .zero   1
-C37:
-        .quad   .LC16
+C40:
+        .quad   .LC17
         .quad   16
-.LC17:
+.LC18:
         .ascii  "c"
         .zero   1
-C38:
-        .quad   .LC17
+C41:
+        .quad   .LC18
         .quad   1
-C39:
+C42:
         .quad   .LC2
         .quad   4
-C40:
-        .quad   C38
-        .quad   C39
+C43:
+        .quad   C41
+        .quad   C42
         .quad   __go_tdn_int
         .quad   0
         .quad   0
@@ -407,20 +432,20 @@ __go_td_S7_.main.cN3_inte:
         .quad   runtime.memhash64$descriptor
         .quad   runtime.memequal64$descriptor
         .quad   __go_td_S7_.main.cN3_inte$gc
-        .quad   C37
-        .quad   0
-        .quad   0
         .quad   C40
+        .quad   0
+        .quad   0
+        .quad   C43
         .quad   1
         .quad   1
-C41:
-        .quad   C28
-        .quad   C29
+C44:
+        .quad   C31
+        .quad   C32
         .quad   __go_tdn_int
         .quad   0
         .quad   0
-        .quad   C35
-        .quad   C36
+        .quad   C38
+        .quad   C39
         .quad   __go_td_S7_.main.cN3_inte
         .quad   0
         .quad   8
@@ -435,10 +460,10 @@ __go_tdn_main.Test:
         .quad   runtime.memhash128$descriptor
         .quad   runtime.memequal128$descriptor
         .quad   __go_td_S7_.main.aN3_int7_.main.bS7_.main.cN3_intee$gc
-        .quad   C11
-        .quad   C19
+        .quad   C12
+        .quad   C21
         .quad   __go_td_pN9_main.Test
-        .quad   C41
+        .quad   C44
         .quad   2
         .quad   2
 __go_tdn_main.Test$gc:
@@ -455,26 +480,26 @@ __go_td_S7_.main.xN3_int7_.main.yIe7_.main.zN15_main.XInterfacee$gc:
         .quad   9
         .quad   24
         .quad   0
-.LC18:
+.LC19:
         .ascii  "\tmain\tmain.Wrap"
         .zero   1
-C42:
-        .quad   .LC18
+C45:
+        .quad   .LC19
         .quad   15
-.LC19:
+.LC20:
         .ascii  "Wrap"
         .zero   1
-C43:
-        .quad   .LC19
+C46:
+        .quad   .LC20
         .quad   4
-C44:
+C47:
         .quad   .LC2
         .quad   4
-C45:
-C46:
-        .quad   C43
-        .quad   C44
-        .quad   C45
+C48:
+C49:
+        .quad   C46
+        .quad   C47
+        .quad   C48
         .quad   0
         .quad   0
 __go_tdn_main.Wrap$gc:
@@ -490,11 +515,11 @@ __go_td_pN9_main.Wrap$gc:
         .quad   0
         .quad   __go_tdn_main.Wrap$gc
         .quad   0
-.LC20:
+.LC21:
         .ascii  "*\tmain\tmain.Wrap"
         .zero   1
-C47:
-        .quad   .LC20
+C50:
+        .quad   .LC21
         .quad   16
 __go_td_pN9_main.Wrap:
         .byte   54
@@ -507,26 +532,26 @@ __go_td_pN9_main.Wrap:
         .quad   runtime.memhash64$descriptor
         .quad   runtime.memequal64$descriptor
         .quad   __go_td_pN9_main.Wrap$gc
-        .quad   C47
+        .quad   C50
         .quad   0
         .quad   0
         .quad   __go_tdn_main.Wrap
-.LC21:
+.LC22:
         .ascii  "x"
         .zero   1
-C48:
-        .quad   .LC21
-        .quad   1
-C49:
-        .quad   .LC2
-        .quad   4
-.LC22:
-        .ascii  "y"
-        .zero   1
-C50:
+C51:
         .quad   .LC22
         .quad   1
-C51:
+C52:
+        .quad   .LC2
+        .quad   4
+.LC23:
+        .ascii  "y"
+        .zero   1
+C53:
+        .quad   .LC23
+        .quad   1
+C54:
         .quad   .LC2
         .quad   4
 __go_td_Ie$gc:
@@ -534,13 +559,13 @@ __go_td_Ie$gc:
         .quad   8
         .quad   0
         .quad   0
-.LC23:
+.LC24:
         .ascii  "interface {}"
         .zero   1
-C52:
-        .quad   .LC23
+C55:
+        .quad   .LC24
         .quad   12
-C53:
+C56:
 __go_td_Ie:
         .byte   20
         .byte   8
@@ -552,34 +577,34 @@ __go_td_Ie:
         .quad   runtime.nilinterhash$descriptor
         .quad   runtime.nilinterequal$descriptor
         .quad   __go_td_Ie$gc
-        .quad   C52
+        .quad   C55
         .quad   0
         .quad   0
-        .quad   C53
+        .quad   C56
         .quad   0
         .quad   0
-.LC24:
+.LC25:
         .ascii  "z"
         .zero   1
-C54:
-        .quad   .LC24
+C57:
+        .quad   .LC25
         .quad   1
-C55:
+C58:
         .quad   .LC2
         .quad   4
-C56:
-        .quad   C48
-        .quad   C49
+C59:
+        .quad   C51
+        .quad   C52
         .quad   __go_tdn_int
         .quad   0
         .quad   0
-        .quad   C50
-        .quad   C51
+        .quad   C53
+        .quad   C54
         .quad   __go_td_Ie
         .quad   0
         .quad   8
-        .quad   C54
-        .quad   C55
+        .quad   C57
+        .quad   C58
         .quad   __go_tdn_main.XInterface
         .quad   0
         .quad   24
@@ -594,17 +619,19 @@ __go_tdn_main.Wrap:
         .quad   main.Wrap$hash$descriptor
         .quad   main.Wrap$equal$descriptor
         .quad   __go_td_S7_.main.xN3_int7_.main.yIe7_.main.zN15_main.XInterfacee$gc
-        .quad   C42
-        .quad   C46
+        .quad   C45
+        .quad   C49
         .quad   __go_td_pN9_main.Wrap
-        .quad   C56
+        .quad   C59
         .quad   3
         .quad   3
-__go_imt_I20_VeryLongFunctionNameFee__N9_main.Test:
+__go_imt_I19_AnotherLongFunctionFe20_VeryLongFunctionNameFee__N9_main.Test:
         .quad   __go_tdn_main.Test
+        .quad   main.AnotherLongFunction.N9_main.Test
         .quad   main.VeryLongFunctionName.N9_main.Test
-__go_pimt__I20_VeryLongFunctionNameFee__N9_main.Test:
+__go_pimt__I19_AnotherLongFunctionFe20_VeryLongFunctionNameFee__N9_main.Test:
         .quad   __go_td_pN9_main.Test
+        .quad   main.AnotherLongFunction.N9_main.Test
         .quad   main.VeryLongFunctionName.N9_main.Test
 main.Call$descriptor:
         .quad   main.Call
@@ -644,14 +671,32 @@ main.VeryLongFunctionName.N9_main.Test:
         mov     QWORD PTR [rbp-8], rdx
         pop     rbp
         ret
-main.main:
+main.AnotherLongFunction.N9_main.Test:
         cmp     rsp, QWORD PTR %fs:112
         jnb     .L4
-        mov     r10d, 72
+        mov     r10d, 8
         mov     r11d, 0
         call    __morestack
         ret
 .L4:
+        push    rbp
+        mov     rbp, rsp
+        mov     QWORD PTR [rbp-24], rdi
+        mov     rax, QWORD PTR [rbp-24]
+        mov     rdx, QWORD PTR [rax+8]
+        mov     rax, QWORD PTR [rax]
+        mov     QWORD PTR [rbp-16], rax
+        mov     QWORD PTR [rbp-8], rdx
+        pop     rbp
+        ret
+main.main:
+        cmp     rsp, QWORD PTR %fs:112
+        jnb     .L6
+        mov     r10d, 72
+        mov     r11d, 0
+        call    __morestack
+        ret
+.L6:
         push    rbp
         mov     rbp, rsp
         sub     rsp, 64
@@ -699,7 +744,7 @@ main.main:
         mov     QWORD PTR [rcx+8], rdx
         mov     rdx, QWORD PTR [rbp-32]
         mov     rax, QWORD PTR [rbp-16]
-        mov     QWORD PTR [rax+24], OFFSET FLAT:__go_imt_I20_VeryLongFunctionNameFee__N9_main.Test
+        mov     QWORD PTR [rax+24], OFFSET FLAT:__go_imt_I19_AnotherLongFunctionFe20_VeryLongFunctionNameFee__N9_main.Test
         mov     rax, QWORD PTR [rbp-16]
         mov     QWORD PTR [rax+32], rdx
         mov     rax, QWORD PTR [rbp-16]
@@ -722,7 +767,7 @@ main.main:
         mov     rdx, QWORD PTR [rbp-8]
         mov     QWORD PTR [rax+16], rdx
         mov     rax, QWORD PTR [rbp-24]
-        mov     QWORD PTR [rax+24], OFFSET FLAT:__go_pimt__I20_VeryLongFunctionNameFee__N9_main.Test
+        mov     QWORD PTR [rax+24], OFFSET FLAT:__go_pimt__I19_AnotherLongFunctionFe20_VeryLongFunctionNameFee__N9_main.Test
         mov     rax, QWORD PTR [rbp-24]
         mov     rdx, QWORD PTR [rbp-8]
         mov     QWORD PTR [rax+32], rdx
@@ -743,12 +788,12 @@ main.main:
         ret
 main.Call:
         cmp     rsp, QWORD PTR %fs:112
-        jnb     .L9
+        jnb     .L11
         mov     r10d, 152
         mov     r11d, 0
         call    __morestack
         ret
-.L9:
+.L11:
         push    rbp
         mov     rbp, rsp
         sub     rsp, 144
@@ -777,13 +822,13 @@ main.Call:
         mov     QWORD PTR [rbp-120], rdx
         mov     BYTE PTR [rbp-1], cl
         cmp     BYTE PTR [rbp-1], 0
-        je      .L6
+        je      .L8
         mov     rax, QWORD PTR [rbp-128]
-        mov     rax, QWORD PTR [rax+8]
+        mov     rax, QWORD PTR [rax+16]
         mov     rdx, QWORD PTR [rbp-120]
         mov     rdi, rdx
         call    rax
-.L6:
+.L8:
         mov     esi, 16
         mov     edi, OFFSET FLAT:__go_tdn_main.Test
         call    __go_new
@@ -804,11 +849,11 @@ main.Call:
         mov     QWORD PTR [rcx], rax
         mov     QWORD PTR [rcx+8], rdx
         cmp     BYTE PTR [rbp-17], 0
-        je      .L7
+        je      .L9
         mov     rax, QWORD PTR [rbp-16]
         mov     rdi, rax
         call    main.VeryLongFunctionName.N9_main.Test
-.L7:
+.L9:
         mov     QWORD PTR [rbp-32], 0
         mov     rax, QWORD PTR [rbp-136]
         mov     rdx, QWORD PTR [rax+8]
@@ -821,21 +866,21 @@ main.Call:
         mov     QWORD PTR [rbp-32], rax
         mov     BYTE PTR [rbp-17], cl
         cmp     BYTE PTR [rbp-17], 0
-        je      .L5
+        je      .L7
         mov     rax, QWORD PTR [rbp-32]
         mov     rdi, rax
         call    main.VeryLongFunctionName.N9_main.Test
-.L5:
+.L7:
         leave
         ret
 main.CallEmpty:
         cmp     rsp, QWORD PTR %fs:112
-        jnb     .L11
+        jnb     .L13
         mov     r10d, 8
         mov     r11d, 0
         call    __morestack
         ret
-.L11:
+.L13:
         push    rbp
         mov     rbp, rsp
         mov     rax, rdi
@@ -847,12 +892,12 @@ main.CallEmpty:
         ret
 main.Wrap$hash:
         cmp     rsp, QWORD PTR %fs:112
-        jnb     .L14
+        jnb     .L16
         mov     r10d, 56
         mov     r11d, 0
         call    __morestack
         ret
-.L14:
+.L16:
         push    rbp
         mov     rbp, rsp
         push    rbx
@@ -884,12 +929,12 @@ main.Wrap$hash:
         ret
 main.Wrap$equal:
         cmp     rsp, QWORD PTR %fs:112
-        jnb     .L20
+        jnb     .L22
         mov     r10d, 56
         mov     r11d, 0
         call    __morestack
         ret
-.L20:
+.L22:
         push    rbp
         mov     rbp, rsp
         push    r12
@@ -903,11 +948,11 @@ main.Wrap$equal:
         mov     rdx, QWORD PTR [rbx]
         mov     rax, QWORD PTR [r12]
         cmp     rdx, rax
-        je      .L16
+        je      .L18
         mov     BYTE PTR [rbp-17], 0
         movzx   eax, BYTE PTR [rbp-17]
-        jmp     .L17
-.L16:
+        jmp     .L19
+.L18:
         mov     rax, QWORD PTR [r12+8]
         mov     rdx, QWORD PTR [r12+16]
         mov     rdi, QWORD PTR [rbx+8]
@@ -917,11 +962,11 @@ main.Wrap$equal:
         call    runtime.efaceeq
         xor     eax, 1
         test    al, al
-        je      .L18
+        je      .L20
         mov     BYTE PTR [rbp-17], 0
         movzx   eax, BYTE PTR [rbp-17]
-        jmp     .L17
-.L18:
+        jmp     .L19
+.L20:
         mov     rax, QWORD PTR [r12+24]
         mov     rdx, QWORD PTR [r12+32]
         mov     rdi, QWORD PTR [rbx+24]
@@ -931,14 +976,14 @@ main.Wrap$equal:
         call    runtime.ifaceeq
         xor     eax, 1
         test    al, al
-        je      .L19
+        je      .L21
         mov     BYTE PTR [rbp-17], 0
         movzx   eax, BYTE PTR [rbp-17]
-        jmp     .L17
-.L19:
+        jmp     .L19
+.L21:
         mov     BYTE PTR [rbp-17], 1
         movzx   eax, BYTE PTR [rbp-17]
-.L17:
+.L19:
         add     rsp, 32
         pop     rbx
         pop     r12
@@ -946,12 +991,12 @@ main.Wrap$equal:
         ret
 main.AN7_uintptr32e$hash:
         cmp     rsp, QWORD PTR %fs:112
-        jnb     .L23
+        jnb     .L25
         mov     r10d, 40
         mov     r11d, 0
         call    __morestack
         ret
-.L23:
+.L25:
         push    rbp
         mov     rbp, rsp
         sub     rsp, 32
@@ -970,12 +1015,12 @@ main.AN7_uintptr32e$hash:
         ret
 main.AN7_uintptr32e$equal:
         cmp     rsp, QWORD PTR %fs:112
-        jnb     .L26
+        jnb     .L28
         mov     r10d, 40
         mov     r11d, 0
         call    __morestack
         ret
-.L26:
+.L28:
         push    rbp
         mov     rbp, rsp
         sub     rsp, 32
@@ -994,12 +1039,12 @@ main.AN7_uintptr32e$equal:
         ret
 main.AN6_uint64256e$hash:
         cmp     rsp, QWORD PTR %fs:112
-        jnb     .L29
+        jnb     .L31
         mov     r10d, 40
         mov     r11d, 0
         call    __morestack
         ret
-.L29:
+.L31:
         push    rbp
         mov     rbp, rsp
         sub     rsp, 32
@@ -1018,12 +1063,12 @@ main.AN6_uint64256e$hash:
         ret
 main.AN6_uint64256e$equal:
         cmp     rsp, QWORD PTR %fs:112
-        jnb     .L32
+        jnb     .L34
         mov     r10d, 40
         mov     r11d, 0
         call    __morestack
         ret
-.L32:
+.L34:
         push    rbp
         mov     rbp, rsp
         sub     rsp, 32
@@ -1042,12 +1087,12 @@ main.AN6_uint64256e$equal:
         ret
 main.AS4_SizeN6_uint327_MallocsN6_uint645_FreesN6_uint64e61e$hash:
         cmp     rsp, QWORD PTR %fs:112
-        jnb     .L40
+        jnb     .L42
         mov     r10d, 72
         mov     r11d, 0
         call    __morestack
         ret
-.L40:
+.L42:
         push    rbp
         mov     rbp, rsp
         push    r13
@@ -1061,17 +1106,17 @@ main.AS4_SizeN6_uint327_MallocsN6_uint645_FreesN6_uint64e61e$hash:
         mov     r12, QWORD PTR [rbp-56]
         mov     r13d, 61
         mov     ebx, 0
-        jmp     .L34
-.L39:
+        jmp     .L36
+.L41:
         nop
         mov     rdx, r12
         mov     rsi, rax
         mov     rdi, rdx
         call    main.S4_SizeN6_uint327_MallocsN6_uint645_FreesN6_uint64e$hash
         add     rbx, 1
-.L34:
+.L36:
         cmp     rbx, r13
-        jl      .L39
+        jl      .L41
         mov     QWORD PTR [rbp-40], rax
         mov     rax, QWORD PTR [rbp-40]
         add     rsp, 40
@@ -1082,12 +1127,12 @@ main.AS4_SizeN6_uint327_MallocsN6_uint645_FreesN6_uint64e61e$hash:
         ret
 main.AS4_SizeN6_uint327_MallocsN6_uint645_FreesN6_uint64e61e$equal:
         cmp     rsp, QWORD PTR %fs:112
-        jnb     .L56
+        jnb     .L58
         mov     r10d, 152
         mov     r11d, 0
         call    __morestack
         ret
-.L56:
+.L58:
         push    rbp
         mov     rbp, rsp
         push    r15
@@ -1103,20 +1148,20 @@ main.AS4_SizeN6_uint327_MallocsN6_uint645_FreesN6_uint64e61e$equal:
         mov     r15, QWORD PTR [rbp-128]
         mov     QWORD PTR [rbp-144], 61
         mov     ebx, 0
-        jmp     .L42
-.L55:
+        jmp     .L44
+.L57:
         nop
         cmp     rbx, 60
-        jg      .L43
+        jg      .L45
         test    rbx, rbx
-        jns     .L44
-.L43:
+        jns     .L46
+.L45:
         mov     edi, 1
         call    __go_runtime_error
-        jmp     .L45
-.L44:
+        jmp     .L47
+.L46:
         mov     r12, rbx
-.L45:
+.L47:
         mov     rax, r12
         add     rax, rax
         add     rax, r12
@@ -1131,16 +1176,16 @@ main.AS4_SizeN6_uint327_MallocsN6_uint645_FreesN6_uint64e61e$equal:
         mov     eax, DWORD PTR [rbp-112]
         mov     DWORD PTR [rbp-132], eax
         cmp     rbx, 60
-        jg      .L46
+        jg      .L48
         test    rbx, rbx
-        jns     .L47
-.L46:
+        jns     .L49
+.L48:
         mov     edi, 1
         call    __go_runtime_error
-        jmp     .L48
-.L47:
+        jmp     .L50
+.L49:
         mov     r13, rbx
-.L48:
+.L50:
         mov     rax, r13
         add     rax, rax
         add     rax, r13
@@ -1154,27 +1199,27 @@ main.AS4_SizeN6_uint327_MallocsN6_uint645_FreesN6_uint64e61e$equal:
         mov     QWORD PTR [rbp-64], rax
         mov     eax, DWORD PTR [rbp-80]
         cmp     DWORD PTR [rbp-132], eax
-        jne     .L49
+        jne     .L51
         mov     rdx, QWORD PTR [rbp-104]
         mov     rax, QWORD PTR [rbp-72]
         cmp     rdx, rax
-        jne     .L49
+        jne     .L51
         mov     rdx, QWORD PTR [rbp-96]
         mov     rax, QWORD PTR [rbp-64]
         cmp     rdx, rax
-        je      .L50
-.L49:
+        je      .L52
+.L51:
         mov     BYTE PTR [rbp-49], 0
         movzx   eax, BYTE PTR [rbp-49]
-        jmp     .L51
-.L50:
+        jmp     .L53
+.L52:
         add     rbx, 1
-.L42:
+.L44:
         cmp     rbx, QWORD PTR [rbp-144]
-        jl      .L55
+        jl      .L57
         mov     BYTE PTR [rbp-49], 1
         movzx   eax, BYTE PTR [rbp-49]
-.L51:
+.L53:
         add     rsp, 104
         pop     rbx
         pop     r12
@@ -1185,12 +1230,12 @@ main.AS4_SizeN6_uint327_MallocsN6_uint645_FreesN6_uint64e61e$equal:
         ret
 main.S4_SizeN6_uint327_MallocsN6_uint645_FreesN6_uint64e$hash:
         cmp     rsp, QWORD PTR %fs:112
-        jnb     .L59
+        jnb     .L61
         mov     r10d, 56
         mov     r11d, 0
         call    __morestack
         ret
-.L59:
+.L61:
         push    rbp
         mov     rbp, rsp
         push    rbx
@@ -1222,12 +1267,12 @@ main.S4_SizeN6_uint327_MallocsN6_uint645_FreesN6_uint64e$hash:
         ret
 main.S4_SizeN6_uint327_MallocsN6_uint645_FreesN6_uint64e$equal:
         cmp     rsp, QWORD PTR %fs:112
-        jnb     .L65
+        jnb     .L67
         mov     r10d, 8
         mov     r11d, 0
         call    __morestack
         ret
-.L65:
+.L67:
         push    rbp
         mov     rbp, rsp
         mov     QWORD PTR [rbp-24], rdi
@@ -1238,40 +1283,40 @@ main.S4_SizeN6_uint327_MallocsN6_uint645_FreesN6_uint64e$equal:
         mov     esi, DWORD PTR [rdx]
         mov     ecx, DWORD PTR [rax]
         cmp     esi, ecx
-        je      .L61
-        mov     BYTE PTR [rbp-1], 0
-        movzx   eax, BYTE PTR [rbp-1]
-        jmp     .L62
-.L61:
-        mov     rsi, QWORD PTR [rdx+8]
-        mov     rcx, QWORD PTR [rax+8]
-        cmp     rsi, rcx
         je      .L63
         mov     BYTE PTR [rbp-1], 0
         movzx   eax, BYTE PTR [rbp-1]
-        jmp     .L62
+        jmp     .L64
 .L63:
+        mov     rsi, QWORD PTR [rdx+8]
+        mov     rcx, QWORD PTR [rax+8]
+        cmp     rsi, rcx
+        je      .L65
+        mov     BYTE PTR [rbp-1], 0
+        movzx   eax, BYTE PTR [rbp-1]
+        jmp     .L64
+.L65:
         mov     rdx, QWORD PTR [rdx+16]
         mov     rax, QWORD PTR [rax+16]
         cmp     rdx, rax
-        je      .L64
+        je      .L66
         mov     BYTE PTR [rbp-1], 0
         movzx   eax, BYTE PTR [rbp-1]
-        jmp     .L62
-.L64:
+        jmp     .L64
+.L66:
         mov     BYTE PTR [rbp-1], 1
         movzx   eax, BYTE PTR [rbp-1]
-.L62:
+.L64:
         pop     rbp
         ret
 __go_init_main:
         cmp     rsp, QWORD PTR %fs:112
-        jnb     .L67
+        jnb     .L69
         mov     r10d, 8
         mov     r11d, 0
         call    __morestack
         ret
-.L67:
+.L69:
         push    rbp
         mov     rbp, rsp
         call    runtime..import
