@@ -16,6 +16,15 @@ General Checks For Function ``F``
 
 #. Is ``F`` written in favor of readability instead of performance?
 #. Are ``F``'s inputs placed in **(in, in-out)** order?
+#. Do ``F``'s inputs follow below convention?
+
+   - In inputs that ``F`` consumes are passed by value.
+   - In inputs that ``F`` does not consume are passed by const reference.
+   - In-out inputs are passed by non-const reference.
+   - Optional inputs should use ``Optional`` class (or something similar) instead of pointer.
+
+     * Except for string or vector as their empty state can be treated as optional, but it should be documented.
+
 #. Are ``F``'s outputs placed in **(out, error)** order?
 #. Variables
 
