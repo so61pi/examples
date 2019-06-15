@@ -75,3 +75,28 @@ StartupNotify=true
 MimeType=text/html;text/xml;application/xhtml+xml;application/vnd.mozilla.xul+xml;text/mml;application/x-xpinstall;x-scheme-handler/http;x-scheme-handler/https;x-scheme-handler/ftp;
 Type=Application
 ```
+
+## PAC
+
+PAC file should be named `proxy.pac`
+
+```js
+function FindProxyForURL(url, host) {
+    url = url.toLowerCase();
+    host = host.toLowerCase();
+
+    let patterns =
+    [
+        "*example.com",
+        "*example.net"
+    ];
+
+    for (let p of patterns) {
+        if (shExpMatch(host, p)) {
+            return "SOCKS5 <proxy-server>:<proxy-port>; DIRECT";
+        }
+    }
+
+    return "DIRECT";
+}
+```
