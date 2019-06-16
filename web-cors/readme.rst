@@ -15,6 +15,8 @@ How Do Browsers Send Requests In Regard To CORS (Cross-Origin Resource Sharing)?
 
   * Base on the received value, decide to actually send the request or display an error.
 
+In simple terms, the web server says "This request is from an unknown ``Origin``, I don't accept it.".
+
 Import Headers
 ==============
 
