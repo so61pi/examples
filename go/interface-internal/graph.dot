@@ -1,0 +1,416 @@
+// dot -Tsvg graph.dot > graph.svg
+digraph structs {
+    
+    compound = true;
+    splines = polyline;
+    rankdir=LR;
+    concentrate=true;
+
+    node [shape=plaintext, color=black];
+
+    subgraph sg_strings {
+        node [shape=box];
+        node [style=filled, fillcolor=lightgray];
+
+        structLC1 [label="\"XInterface\""];
+        structLC2 [label="\"main\""];
+        structLC4 [label="\"AnotherLongFunction\""];
+        structLC6 [label="\"VeryLongFunctionName\""];
+        structLC8 [label="\"Test\""];
+        structLC13 [label="\"a\""];
+        structLC16 [label="\"b\""];
+    }
+
+    subgraph sg_code {
+        node [shape=box];
+        node [style=filled, fillcolor=lightgreen];
+
+        codeAnotherLongFunction [label="main.AnotherLongFunction.N9_main.Test code"];
+        codeVeryLongFunctionName [label="main.VeryLongFunctionName.N9_main.Test code"];
+    }
+
+    subgraph sg_data {
+        node [style=filled, fillcolor=lightblue];
+
+        struct_data_w1 [label=<
+            <table border="0" cellborder="1" cellspacing="0">
+                <tr>
+                    <td colspan="2"><b>w1 <i>Wrap</i></b></td>
+                </tr>
+                <tr>
+                    <td colspan="2">x</td>
+                </tr>
+                <tr>
+                    <td rowspan="2">y <i>iface</i></td>
+                    <td port="py">tab <i>unsafe.Pointer</i></td>
+                </tr>
+                <tr>
+                    <td>data <i>unsafe.Pointer</i></td>
+                </tr>
+                <tr>
+                    <td rowspan="2">z</td>
+                    <td port="pz">tab <i>unsafe.Pointer</i></td>
+                </tr>
+                <tr>
+                    <td>data <i>unsafe.Pointer</i></td>
+                </tr>
+            </table>>];
+
+        struct_data_w2 [label=<
+            <table border="0" cellborder="1" cellspacing="0">
+                <tr>
+                    <td colspan="2"><b>w2 <i>Wrap</i></b></td>
+                </tr>
+                <tr>
+                    <td colspan="2">x</td>
+                </tr>
+                <tr>
+                    <td rowspan="2">y <i>iface</i></td>
+                    <td port="py">tab <i>unsafe.Pointer</i></td>
+                </tr>
+                <tr>
+                    <td>data <i>unsafe.Pointer</i></td>
+                </tr>
+                <tr>
+                    <td rowspan="2">z <i>iface</i></td>
+                    <td port="pz">tab <i>unsafe.Pointer</i></td>
+                </tr>
+                <tr>
+                    <td>data <i>unsafe.Pointer</i></td>
+                </tr>
+            </table>>];
+    }
+
+    subgraph sg_value_interface {
+        node [style=filled, fillcolor=lightpink];
+
+        struct_value_interface_itab [label=<
+            <table border="0" cellborder="1" cellspacing="0">
+                <tr>
+                    <td port="header" colspan="2"><b>__go_imt_I19_AnotherLongFunctionFe20_VeryLongFunctionNameFee__N9_main.Test <i>itab</i></b></td>
+                </tr>
+                <tr>
+                    <td>[0]</td>
+                    <td port="p">__go_tdn_main.Test</td>
+                </tr>
+                <tr>
+                    <td>[1]</td>
+                    <td port="codeAnotherLongFunction"></td>
+                </tr>
+                <tr>
+                    <td>[2]</td>
+                    <td port="codeVeryLongFunctionName"></td>
+                </tr>
+            </table>>];
+
+        struct_value_interface_typeinfo [label=<
+            <table border="0" cellborder="1" cellspacing="0">
+                <tr>
+                    <td port="header" colspan="2"><b>__go_tdn_main.Test <i>structtype</i></b></td>
+                </tr>
+                <tr>
+                    <td rowspan="3">typ <i>_type</i></td>
+                    <td>...</td>
+                </tr>
+                <tr>
+                    <td port="C21"><i>*uncommontype</i></td>
+                </tr>
+                <tr>
+                    <td port="ptrToThis">ptrToThis <i>*_type</i></td>
+                </tr>
+                <tr>
+                    <td port="C44" colspan="2">fields <i>[]structfield</i></td>
+                </tr>
+            </table>>];
+
+        structC21 [label=<
+            <table border="0" cellborder="1" cellspacing="0">
+                <tr>
+                    <td port="C13">name <i>*string</i> = C13</td>
+                </tr>
+                <tr>
+                    <td port="C14">pkgPath <i>*string</i> = C14</td>
+                </tr>
+                <tr>
+                    <td port="C20">methods <i>[]method</i> = C20</td>
+                </tr>
+            </table>>];
+
+        structC20 [label=<
+            <table border="0" cellborder="1" cellspacing="0">
+                <tr>
+                    <td rowspan="5">0</td>
+                    <td port="C15">name <i>*string</i> = C15</td>
+                </tr>
+                <tr>
+                    <td>pkgPath <i>*string</i> = nil</td>
+                </tr>
+                <tr>
+                    <td>mtyp <i>*_type</i> = __go_td_Fe</td>
+                </tr>
+                <tr>
+                    <td>typ <i>*_type</i> = __go_td_FpN9_main.Testee</td>
+                </tr>
+                <tr>
+                    <td port="codeAnotherLongFunction">tfn <i>unsafe.Pointer</i></td>
+                </tr>
+                <tr>
+                    <td rowspan="5">1</td>
+                    <td port="C19">name <i>*string</i> = C19</td>
+                </tr>
+                <tr>
+                    <td>pkgPath <i>*string</i> = nil</td>
+                </tr>
+                <tr>
+                    <td>mtyp <i>*_type</i> = __go_td_Fe</td>
+                </tr>
+                <tr>
+                    <td>typ <i>*_type</i> = __go_td_FpN9_main.Testee</td>
+                </tr>
+                <tr>
+                    <td port="codeVeryLongFunctionName">tfn <i>unsafe.Pointer</i></td>
+                </tr>
+            </table>>];
+
+        structC44 [label=<
+            <table border="0" cellborder="1" cellspacing="0">
+                <tr>
+                    <td rowspan="5">0</td>
+                    <td port="C31">name <i>*string</i> = C31</td>
+                </tr>
+                <tr>
+                    <td port="C32">pkgPath <i>*string</i> = C32</td>
+                </tr>
+                <tr>
+                    <td>typ <i>*_type</i> = __go_tdn_int</td>
+                </tr>
+                <tr>
+                    <td>tag <i>*string</i> = 0</td>
+                </tr>
+                <tr>
+                    <td>offset <i>uintptr</i> = 0</td>
+                </tr>
+                <tr>
+                    <td rowspan="5">1</td>
+                    <td port="C38">name <i>*string</i> = C38</td>
+                </tr>
+                <tr>
+                    <td port="C39">pkgPath <i>*string</i> = C39</td>
+                </tr>
+                <tr>
+                    <td>typ <i>*_type</i> = __go_td_S7_.main.cN3_inte</td>
+                </tr>
+                <tr>
+                    <td>tag <i>*string</i> = 0</td>
+                </tr>
+                <tr>
+                    <td>offset <i>uintptr</i> = 8</td>
+                </tr>
+            </table>>];
+    }
+
+    subgraph sg_pointer_interface {
+        node [style=filled, fillcolor=orange];
+
+        struct_pointer_interface_itab [label=<
+            <table border="0" cellborder="1" cellspacing="0">
+                <tr>
+                    <td port="header" colspan="2"><b>__go_pimt__I19_AnotherLongFunctionFe20_VeryLongFunctionNameFee__N9_main.Test <i>itab</i></b></td>
+                </tr>
+                <tr>
+                    <td>[0]</td>
+                    <td port="p">__go_td_pN9_main.Test</td>
+                </tr>
+                <tr>
+                    <td>[1]</td>
+                    <td port="codeAnotherLongFunction"></td>
+                </tr>
+                <tr>
+                    <td>[2]</td>
+                    <td port="codeVeryLongFunctionName"></td>
+                </tr>
+            </table>>];
+
+        struct_pointer_interface_typeinfo [label=<
+            <table border="0" cellborder="1" cellspacing="0">
+                <tr>
+                    <td port="header" colspan="2"><b>__go_td_pN9_main.Test <i>ptrtype</i></b></td>
+                </tr>
+                <tr>
+                    <td rowspan="3">typ <i>_type</i></td>
+                    <td>...</td>
+                </tr>
+                <tr>
+                    <td port="C29"><i>*uncommontype</i></td>
+                </tr>
+                <tr>
+                    <td>ptrToThis <i>*_type</i></td>
+                </tr>
+                <tr>
+                    <td port ="elem" colspan="2">elem <i>*_type</i></td>
+                </tr>
+            </table>>];
+
+        structC29 [label=<
+            <table border="0" cellborder="1" cellspacing="0">
+                <tr>
+                    <td>name <i>*string</i> = nil</td>
+                </tr>
+                <tr>
+                    <td>pkgPath <i>*string</i> = nil</td>
+                </tr>
+                <tr>
+                    <td port="C28">methods <i>[]method</i> = C28</td>
+                </tr>
+            </table>>];
+
+        structC28 [label=<
+            <table border="0" cellborder="1" cellspacing="0">
+                <tr>
+                    <td rowspan="5">0</td>
+                    <td port="C23">name <i>*string</i> = C23</td>
+                </tr>
+                <tr>
+                    <td>pkgPath <i>*string</i> = nil</td>
+                </tr>
+                <tr>
+                    <td>mtyp <i>*_type</i> = __go_td_Fe</td>
+                </tr>
+                <tr>
+                    <td>typ <i>*_type</i> = __go_td_FppN9_main.Testee</td>
+                </tr>
+                <tr>
+                    <td port="codeAnotherLongFunction">tfn <i>unsafe.Pointer</i></td>
+                </tr>
+                <tr>
+                    <td rowspan="5">1</td>
+                    <td port="C27">name <i>*string</i> = C27</td>
+                </tr>
+                <tr>
+                    <td>pkgPath <i>*string</i> = nil</td>
+                </tr>
+                <tr>
+                    <td>mtyp <i>*_type</i> = __go_td_Fe</td>
+                </tr>
+                <tr>
+                    <td>typ <i>*_type</i> = __go_td_FppN9_main.Testee</td>
+                </tr>
+                <tr>
+                    <td port="codeVeryLongFunctionName">tfn <i>unsafe.Pointer</i></td>
+                </tr>
+            </table>>];
+    }
+
+    subgraph sg_interface {
+        node [style=filled, fillcolor=yellow];
+
+        struct_interface_typeinfo [label=<
+            <table border="0" cellborder="1" cellspacing="0">
+                <tr>
+                    <td port="header" colspan="2"><b>__go_tdn_main.XInterface <i>interfacetype</i></b></td>
+                </tr>
+                <tr>
+                    <td rowspan="3">typ <i>_type</i></td>
+                    <td>...</td>
+                </tr>
+                <tr>
+                    <td port="C4"><i>*uncommontype</i></td>
+                </tr>
+                <tr>
+                    <td>ptrToThis <i>*_type</i></td>
+                </tr>
+                <tr>
+                    <td port="C11" colspan="2">methods <i>[]imethod</i></td>
+                </tr>
+            </table>>];
+
+        structC4 [label=<
+            <table border="0" cellborder="1" cellspacing="0">
+                <tr>
+                    <td port="C1">name <i>*string</i> = C1</td>
+                </tr>
+                <tr>
+                    <td port="C2">pkgPath <i>*string</i> = C2</td>
+                </tr>
+                <tr>
+                    <td>methods <i>[]method</i> = nil</td>
+                </tr>
+            </table>>];
+
+        structC11 [label=<
+            <table border="0" cellborder="1" cellspacing="0">
+                <tr>
+                    <td rowspan="3">0</td>
+                    <td port="C6">name <i>*string</i> = C6</td>
+                </tr>
+                <tr>
+                    <td>pkgPath <i>*string</i> = nil</td>
+                </tr>
+                <tr>
+                    <td>typ <i>*_type</i> = __go_td_Fe</td>
+                </tr>
+                <tr>
+                    <td rowspan="3">1</td>
+                    <td port="C10">name <i>*string</i> = C10</td>
+                </tr>
+                <tr>
+                    <td>pkgPath <i>*string</i> = nil</td>
+                </tr>
+                <tr>
+                    <td>typ <i>*_type</i> = __go_td_Fe</td>
+                </tr>
+            </table>
+            >];
+    }
+
+    struct_data_w1:py -> struct_value_interface_typeinfo:header;
+    struct_data_w1:pz -> struct_value_interface_itab:header;
+
+    struct_data_w2:py -> struct_pointer_interface_typeinfo:header;
+    struct_data_w2:pz -> struct_pointer_interface_itab:header;
+
+    struct_interface_typeinfo:C11 -> structC11;
+    struct_interface_typeinfo:C4 -> structC4;
+
+    struct_pointer_interface_itab:codeAnotherLongFunction -> codeAnotherLongFunction;
+    struct_pointer_interface_itab:codeVeryLongFunctionName -> codeVeryLongFunctionName;
+    struct_pointer_interface_itab:p -> struct_pointer_interface_typeinfo:header;
+
+    struct_pointer_interface_typeinfo:C29 -> structC29;
+    struct_pointer_interface_typeinfo:elem -> struct_value_interface_typeinfo:header;
+
+    struct_value_interface_itab:codeAnotherLongFunction -> codeAnotherLongFunction;
+    struct_value_interface_itab:codeVeryLongFunctionName -> codeVeryLongFunctionName;
+    struct_value_interface_itab:p -> struct_value_interface_typeinfo:header;
+
+    struct_value_interface_typeinfo:C21 -> structC21;
+    struct_value_interface_typeinfo:C44 -> structC44;
+    struct_value_interface_typeinfo:ptrToThis -> struct_pointer_interface_typeinfo:header;
+
+    structC11:C10 -> structLC6;
+    structC11:C6 -> structLC4;
+
+    structC20:C15 -> structLC4;
+    structC20:C19 -> structLC6;
+    structC20:codeAnotherLongFunction -> codeAnotherLongFunction;
+    structC20:codeVeryLongFunctionName -> codeVeryLongFunctionName;
+
+    structC21:C13 -> structLC8;
+    structC21:C14 -> structLC2;
+    structC21:C20 -> structC20;
+
+    structC28:C23 -> structLC4;
+    structC28:C27 -> structLC6;
+    structC28:codeAnotherLongFunction -> codeAnotherLongFunction;
+    structC28:codeVeryLongFunctionName -> codeVeryLongFunctionName;
+
+    structC29:C28 -> structC28;
+
+    structC4:C1 -> structLC1;
+    structC4:C2 -> structLC2;
+
+    structC44:C31 -> structLC13;
+    structC44:C32 -> structLC2;
+    structC44:C38 -> structLC16;
+    structC44:C39 -> structLC2;
+}
