@@ -61,3 +61,5 @@ General Checks For Function ``F``
 #. Recursion
 
    - What is the terminating case for this recursive function?
+
+#. Does ``F`` use error messages (stating errors without providing any hint to fix) or help messages?
