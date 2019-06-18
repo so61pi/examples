@@ -1,0 +1,51 @@
+use lalrpop_util::ErrorRecovery;
+use crate::lexer;
+use crate::ast;
+
+grammar<'err>(errors: &'err mut Vec<ErrorRecovery<usize, lexer::Tok, lexer::LexicalError>>);
+
+// Expr = Expr "+" Factor
+//      | Expr "-" Factor
+//      | Factor
+//
+// Factor = Factor "*" Term
+//        | Factor "/" Term
+//        | Term
+//
+// Term = Num
+//      | "(" <Expr> ")"
+//
+// Num = [0-9]+
+
+pub Expr: Box<ast::Expr> = {
+    <l:Expr> "+" <r:Factor> => Box::new(ast::Expr::Op(l, ast::Operator::Add, r)),
+    <l:Expr> "-" <r:Factor> => Box::new(ast::Expr::Op(l, ast::Operator::Sub, r)),
+    <l:Factor> => l,
+};
+
+Factor: Box<ast::Expr> = {
+    <l:Factor> "*" <r:Term> => Box::new(ast::Expr::Op(l, ast::Operator::Mul, r)),
+    <l:Factor> "/" <r:Term> => Box::new(ast::Expr::Op(l, ast::Operator::Div, r)),
+    <l:Term> => l,
+};
+
+Term: Box<ast::Expr> = {
+    <n:Num> => Box::new(ast::Expr::Number(n)),
+    "(" <e:Expr> ")" => e,
+    ! => { errors.push(<>); Box::new(ast::Expr::Error) },
+};
+
+extern {
+    type Location = usize;
+    type Error = lexer::LexicalError;
+
+    enum lexer::Tok {
+        "(" => lexer::Tok::OParen,
+        ")" => lexer::Tok::CParen,
+        "*" => lexer::Tok::Mul,
+        "/" => lexer::Tok::Div,
+        "+" => lexer::Tok::Add,
+        "-" => lexer::Tok::Sub,
+        Num => lexer::Tok::Num(<i32>),
+    }
+}
