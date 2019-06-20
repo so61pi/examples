@@ -192,7 +192,7 @@ General Checks For Type ``T``
    - Expressive
    - Complete (able to construct and operate on any representable value)
 
-#. Are ``T``'s members organized in a way has the following properties?
+#. Are ``T``'s members organized in a way that has the following properties?
 
    - Closely related members are placed together.
    - Total size of ``T`` is smallest.
