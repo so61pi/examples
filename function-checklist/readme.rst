@@ -3,18 +3,20 @@
 General Checks For Function ``F``
 =================================
 
+Overview
+--------
+
 #. Does ``F`` have only one single purpose?
+
+Inputs/Outputs
+--------------
+
 #. Does ``F``'s set of valid values equal to the product of all sets of valid values of ``F``'s inputs?
 
    - How are the undesirable combinations kept out?
    - Can types that are more specialized/fundamental be used for inputs instead?
 
 #. Do ``F``'s inputs have any special combination?
-#. Does ``F`` invoke global components (e.g. time, filesystem, database...)?
-
-   - Can those invocations be moved outside to make ``F`` **functional**?
-
-#. Is ``F`` written in favor of readability instead of performance?
 #. Are ``F``'s inputs placed in **(in, in-out)** order?
 #. Do ``F``'s inputs follow below convention?
 
@@ -26,6 +28,15 @@ General Checks For Function ``F``
      * Except for string or vector as their empty state can be treated as optional, but it should be documented.
 
 #. Are ``F``'s outputs placed in **(out, error)** order?
+
+Code
+----
+
+#. Is ``F`` written in favor of readability instead of performance?
+#. Does ``F`` invoke global components (e.g. time, filesystem, database...)?
+
+   - Can those invocations be moved outside to make ``F`` **functional**?
+
 #. Variables
 
    - Does each variable have only one single purpose?
@@ -61,5 +72,14 @@ General Checks For Function ``F``
 #. Recursion
 
    - What is the terminating case for this recursive function?
+
+Users POV
+---------
+
+#. How easy is it for users to use ``F`` incorrectly?
+#. Can users know and understand all possible errors that can be returned from ``F`` by doing below actions?
+
+   - Reading ``F``'s document.
+   - Or reading ``F``'s source code (without reading any other code).
 
 #. Does ``F`` use error messages (stating errors without providing any hint to fix) or help messages?
