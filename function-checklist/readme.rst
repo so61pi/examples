@@ -40,6 +40,10 @@ Code
 #. Variables
 
    - Does each variable have only one single purpose?
+   - Can any variable have smaller scope?
+
+     * How many lines are there between a variable's declaration and its last usage?
+
    - Is there any mutable variable that can be replaced with an immutable one?
 
 #. Loops
