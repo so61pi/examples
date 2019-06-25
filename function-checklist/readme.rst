@@ -13,8 +13,8 @@ Inputs/Outputs
 
 #. Does ``F``'s set of valid values equal to the product of all sets of valid values of ``F``'s inputs?
 
-   - How are the undesirable combinations kept out?
-   - Can types that are more specialized/fundamental be used for inputs instead?
+   - How are undesirable combinations avoided?
+   - Can types that are more abstract be used for inputs instead?
 
 #. Do ``F``'s inputs have any special combination?
 #. Are ``F``'s inputs placed in **(in, in-out)** order?
