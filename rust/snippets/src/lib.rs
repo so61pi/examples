@@ -1,5 +1,6 @@
 pub mod implref;
 pub mod nonone;
+pub mod traitmethodconflict;
 
 pub fn proxy_enum_for_trait(positive: bool) -> impl Iterator<Item = i64> {
     enum ProxyIterator<T, U> {
