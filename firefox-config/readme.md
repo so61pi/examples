@@ -25,7 +25,7 @@
 
 | Field                                         | Value |
 | --------------------------------------------- | ----- |
-| browser.tabs.closeWindowWithLastTab           | false`|
+| browser.tabs.closeWindowWithLastTab           | false |
 
 ### Open new tab after current tab
 
@@ -69,7 +69,7 @@ Name=Firefox Nightly
 GenericName=Web Browser
 Comment=Web Browser
 Icon=/opt/firefox/browser/chrome/icons/default/default128.png
-Exec=/opt/firefox/firefox %u
+Exec=/opt/firefox/firefox-bin %u
 Terminal=false
 StartupNotify=true
 MimeType=text/html;text/xml;application/xhtml+xml;application/vnd.mozilla.xul+xml;text/mml;application/x-xpinstall;x-scheme-handler/http;x-scheme-handler/https;x-scheme-handler/ftp;
