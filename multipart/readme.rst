@@ -237,3 +237,28 @@ A Complex Multipart Example [`ref <https://tools.ietf.org/html/rfc2049#page-15>`
       ... Additional text in ISO-8859-1 goes here ...
 
     --unique-boundary-1--
+
+Form-Data [`ref <https://tools.ietf.org/html/rfc7578>`__]
+=========================================================
+
+- `"Boundary" Parameter of multipart/form-data <https://tools.ietf.org/html/rfc7578#section-4.1>`__
+- `Content-Disposition Header Field for Each Part <https://tools.ietf.org/html/rfc7578#section-4.2>`__
+- `Content-Type Header Field for Each Part (optional) <https://tools.ietf.org/html/rfc7578#section-4.4>`__
+- `Multiple Files for One Form Field (deprecated) <https://tools.ietf.org/html/rfc7578#section-4.3>`__
+- `The _charset_ Field for Default Charset <https://tools.ietf.org/html/rfc7578#section-4.6>`__
+
+.. code-block:: text
+
+    POST /test.html HTTP/1.1
+    Host: example.org
+    Content-Type: multipart/form-data;boundary="boundary"
+
+    --boundary
+    Content-Disposition: form-data; name="field1"
+
+    value1
+    --boundary
+    Content-Disposition: form-data; name="field2"; filename="example.txt"
+
+    value2
+    --boundary--
