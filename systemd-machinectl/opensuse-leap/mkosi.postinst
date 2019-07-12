@@ -1,0 +1,5 @@
+#!/bin/sh
+
+# Generate hash password by
+#     python3 -c 'import crypt; print(crypt.crypt("opensuse", crypt.mksalt(crypt.METHOD_SHA512)))'
+useradd -g users -m -s /bin/bash -u 1000 -p '$6$KOQkMxMqSDppB2QB$Tl3usIqM.lymKexE0d33cnZbKyOCCSzENiTU5afYfzE8U2lkHmp3BgTx.Wxql6GBREDTd1PEVDz3YXREQgHQa/' opensuse

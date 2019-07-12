@@ -1,0 +1,13 @@
+[Distribution]
+Distribution=opensuse
+Release=15.1
+
+[Output]
+Format=subvolume
+Output=opensuse-leap-template
+
+[Packages]
+Packages=ca-certificates curl git iproute2 iputils sudo vim
+
+[Validation]
+Password=root

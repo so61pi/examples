@@ -3,6 +3,8 @@
 Creating ``rootfs``
 ===================
 
+Before running commands in this section, ``mkosi`` package should already be installed.
+
 Configuration File
 ------------------
 
