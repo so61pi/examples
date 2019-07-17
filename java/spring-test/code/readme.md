@@ -1,0 +1,1 @@
+Use `mvn spring-boot:run` to run this web application.
