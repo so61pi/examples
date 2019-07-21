@@ -11,11 +11,11 @@ Overview
     - a message queue is like a mailbox;
     - a consumer is like a mail client that fetches and deletes email;
     - a exchange is like a MTA (mail transfer agent) that inspects email and decides, on the basis of routing keys and tables, how to send the email to one or more mailboxes;
-    - a routing key corresponds to an email To: or Cc: or Bcc: address, without the server information(routing is entirely internal to an AMQP server);
-    - each exchange instance is like a separate MTA process, handling some email sub-domain, or particulartype of email traffic;
+    - a routing key corresponds to an email To: or Cc: or Bcc: address, without the server information (routing is entirely internal to an AMQP server);
+    - each exchange instance is like a separate MTA process, handling some email sub-domain, or particular type of email traffic;
     - a binding is like an entry in a MTA routing table.
 
-    The power of AMQP comes from our ability to create queues (mailboxes), exchanges (MTA processes),and bindings (routing entries), at runtime, and to chain these together in ways that go far beyond a simplemapping from "to" address to mailbox name.
+    The power of AMQP comes from our ability to create queues (mailboxes), exchanges (MTA processes), and bindings (routing entries), at runtime, and to chain these together in ways that go far beyond a simple mapping from "to" address to mailbox name.
 
 Exchange Types
 ==============
@@ -52,11 +52,11 @@ Topic
 Headers
 -------
 
-    1. A message queue is bound to the exchange with a table of arguments containing the headers to bematched for that binding and optionally the values they should hold. The routing key is not used.
+    1. A message queue is bound to the exchange with a table of arguments containing the headers to be matched for that binding and optionally the values they should hold. The routing key is not used.
     2. A publisher sends a message to the exchange where the ``'headers'`` property contains a table ofnames and values.
-    3. The message is passed to the queue if the headers property matches the arguments with which thequeue was bound.
+    3. The message is passed to the queue if the headers property matches the arguments with which the queue was bound.
 
-    The matching algorithm is controlled by a special bind argument passed as a name value pair in thearguments table. The name of this argument is ``'x-match'``. It can take one of two values, dictating how therest of the name value pairs in the table are treated during matching:
+    The matching algorithm is controlled by a special bind argument passed as a name value pair in the arguments table. The name of this argument is ``'x-match'``. It can take one of two values, dictating how the rest of the name value pairs in the table are treated during matching:
 
     - ``'all'`` implies that all the other pairs must match the headers property of a message for that message to berouted (i.e. and AND match)
     - ``'any'`` implies that the message should be routed if any of the fields in the headers property match one ofthe fields in the arguments table (i.e. an OR match)
