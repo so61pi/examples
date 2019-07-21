@@ -69,6 +69,41 @@ System
 
     System services starting with ``"amq."`` are reserved for AMQP usage.
 
+Class Basic's Properties
+========================
+
++-------------------+-----------+---------------------------------------+
+| Name              | Domain    | Short Description                     |
++===================+===========+=======================================+
+| content-type      | shortstr  | MIME content type                     |
++-------------------+-----------+---------------------------------------+
+| content-encoding  | shortstr  | MIME content encoding                 |
++-------------------+-----------+---------------------------------------+
+| headers           | table     | message header field table            |
++-------------------+-----------+---------------------------------------+
+| delivery-mode     | octet     | non-persistent (1) or persistent (2)  |
++-------------------+-----------+---------------------------------------+
+| priority          | octet     | message priority, 0 to 9              |
++-------------------+-----------+---------------------------------------+
+| correlation-id    | shortstr  | application correlation identifier    |
++-------------------+-----------+---------------------------------------+
+| reply-to          | shortstr  | address to reply to                   |
++-------------------+-----------+---------------------------------------+
+| expiration        | shortstr  | message expiration specification      |
++-------------------+-----------+---------------------------------------+
+| message-id        | shortstr  | application message identifier        |
++-------------------+-----------+---------------------------------------+
+| timestamp         | timestamp | message timestamp                     |
++-------------------+-----------+---------------------------------------+
+| type              | shortstr  | message type name                     |
++-------------------+-----------+---------------------------------------+
+| user-id           | shortstr  | creating user id                      |
++-------------------+-----------+---------------------------------------+
+| app-id            | shortstr  | creating application id               |
++-------------------+-----------+---------------------------------------+
+| reserved          | shortstr  | reserved, must be empty               |
++-------------------+-----------+---------------------------------------+
+
 References
 ==========
 
