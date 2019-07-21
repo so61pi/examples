@@ -27,9 +27,9 @@ Direct
     2. A publisher sends the exchange a message with the routing key ``R``.
     3. The message is passed to the message queue if ``K`` = ``R``.
 
-    Note that message queues can bind using any valid routing key value, but most often message queues willbind using their own name as routing key.
+    Note that message queues can bind using any valid routing key value, but most often message queues will bind using their own name as routing key.
 
-    In particular, all message queues MUST BE automatically bound to the nameless exchange using themessage queue's name as routing key.
+    In particular, all message queues **MUST BE** automatically bound to the nameless exchange using the message queue's name as routing key.
 
 Fanout
 ------
@@ -45,7 +45,7 @@ Topic
     2. A publisher sends the exchange a message with the routing key ``R``.
     3. The message is passed to the message queue if ``R`` matches ``P``.
 
-    The routing key used for a topic exchange MUST consist of zero or more words delimited by dots. Eachword may contain the letters ``A-Z`` and ``a-z`` and digits ``0-9``.
+    The routing key used for a topic exchange **MUST** consist of zero or more words delimited by dots. Eachword may contain the letters ``A-Z`` and ``a-z`` and digits ``0-9``.
 
     The routing pattern follows the same rules as the routing key with the addition that ``*`` matches a singleword, and ``#`` matches zero or more words. Thus the routing pattern ``*.stock.#`` matches the routing ``keysusd.stock`` and ``eur.stock.db`` but not ``stock.nasdaq``.
 
