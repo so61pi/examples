@@ -69,8 +69,16 @@ System
 
     System services starting with ``"amq."`` are reserved for AMQP usage.
 
-Class Basic's Properties
-========================
+Queue
+=====
+
+- In a given queue, messages are load balanced across consumers of that queue.
+
+Class Basic
+===========
+
+Properties
+----------
 
 +-------------------+-----------+---------------------------------------+
 | Name              | Domain    | Short Description                     |
@@ -103,6 +111,17 @@ Class Basic's Properties
 +-------------------+-----------+---------------------------------------+
 | reserved          | shortstr  | reserved, must be empty               |
 +-------------------+-----------+---------------------------------------+
+
+Methods
+-------
+
+.. code-block:: text
+
+    basic.publish(reserved-1, exchange: exchange-name, routing-key: shortstr, mandatory: bit, immediate: bit);
+        This method publishes a message to a specific exchange.
+    
+    basic.consume(reserved-1, queue: queue-name, consumer-tag:consumer-tag, no-local: no-local, no-ack: no-ack, exclusive: bit, no-wait: no-wait, arguments: table);
+        This method asks the server to start a "consumer", which is a transient request for messages from a specific queue. 
 
 References
 ==========
