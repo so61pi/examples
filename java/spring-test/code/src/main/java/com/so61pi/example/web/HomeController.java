@@ -1,4 +1,4 @@
-package com.so61pi.example;
+package com.so61pi.example.web;
 
 
 import org.springframework.stereotype.Controller;
