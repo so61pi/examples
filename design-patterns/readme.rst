@@ -133,6 +133,61 @@ Decorate an object with new functionalities while preserving the old ones.
 
     --- https://en.wikipedia.org/wiki/Decorator_pattern
 
+.. code-block:: text
+
+       C
+
+       ^
+       |
+    +--+--+
+    |     |
+
+    C1    C2
+
+    Then we want other layers to wrap C1 and C2 (or in general, wrap another C) but we don't want to change C1 and C2.
+
+          C
+
+          ^
+          |
+    +-----+-----+
+    |     |     |
+
+    C1    C2    D{ p:C }
+
+                ^
+                |
+             +--+--+
+             |     |
+
+             D1    D2
+
+    D1 {
+        p -> D2 {
+            p -> C1
+        }
+    }
+
+    D1 {
+        p -> C2
+    }
+
+    D2 {
+        p -> D1 {
+            p -> C1
+        }
+    }
+
+
+          Node
+
+          ^
+          |
+    +-----+-----+
+    |           |
+
+    EndNode     InternalNode{ p:Node }
+
 Facade
 ------
 
