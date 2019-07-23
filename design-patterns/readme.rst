@@ -313,6 +313,63 @@ When you have an operation that needs to be performed on multiple (but similar) 
 
     --- https://en.wikipedia.org/wiki/Visitor_pattern
 
+.. code-block:: text
+
+    - EA EB EC: Object types that need to be drawn.
+    - VX VY VZ: The ways to draw objects.
+
+    - E.accept(V): Draw object E using way V.
+    - V.visitA(A): Use public methods of A to draw it using way V.
+
+         +-- EA
+    E <--+-- EB
+         +-- EC
+
+         +-- VX
+    V <--+-- VY
+         +-- VZ
+
+    E.accept(V)
+             V.visit
+
+       |---> X.visitA --+
+    A -|---> Y.visitA   |
+       |---> Z.visitA   |
+                        |
+       |---> X.visitB --+
+    B -|---> Y.visitB   |
+       |---> Z.visitB   |
+                        |
+       |---> X.visitC --+
+    C -|---> Y.visitC
+       |---> Z.visitC
+
+
+    struct EA {
+        void accept(V) {
+            V.visitA(this);
+        }
+    }
+
+    struct EB {
+        void accept(V) {
+            V.visitB(this);
+        }
+    }
+
+
+    struct VX {
+        void visitA() { ... }
+        void visitB() { ... }
+        void visitC() { ... }
+    }
+
+    struct VY {
+        void visitA() { ... }
+        void visitB() { ... }
+        void visitC() { ... }
+    }
+
 Concurrency Patterns
 ====================
 
