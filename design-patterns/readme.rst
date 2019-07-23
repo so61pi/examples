@@ -321,6 +321,7 @@ When you have an operation that needs to be performed on multiple (but similar) 
     - E.accept(V): Draw object E using way V.
     - V.visitA(A): Use public methods of A to draw it using way V.
 
+    ////////////////////
          +-- EA
     E <--+-- EB
          +-- EC
@@ -328,6 +329,13 @@ When you have an operation that needs to be performed on multiple (but similar) 
          +-- VX
     V <--+-- VY
          +-- VZ
+
+    ////////////////////
+    void doThing(E, V) {
+        ...
+        E.accept(V);
+        ...
+    }
 
     E.accept(V)
              V.visit
@@ -344,7 +352,7 @@ When you have an operation that needs to be performed on multiple (but similar) 
     C -|---> Y.visitC
        |---> Z.visitC
 
-
+    ////////////////////
     struct EA {
         void accept(V) {
             V.visitA(this);
@@ -356,7 +364,6 @@ When you have an operation that needs to be performed on multiple (but similar) 
             V.visitB(this);
         }
     }
-
 
     struct VX {
         void visitA() { ... }
