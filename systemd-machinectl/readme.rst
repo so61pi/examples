@@ -126,13 +126,24 @@ Booting With ``systemd-nspawn``
 
 To mount a directory or file from host, we add ``--bind=<host-path>:<container-path>`` option to ``systemd-nspawn``.
 
-*Note*: We could put the command line options to a ``.nspawn`` file, but due to the way ``systemd-nspawn`` treat privilege settings in ``.nspawn`` file base on its location, we should just run ``systemd-nspawn`` directly.
+*Note*
+
+- We could put the command line options to a ``.nspawn`` file, but due to the way ``systemd-nspawn`` treat privilege settings in ``.nspawn`` file base on its location, we should just run ``systemd-nspawn`` directly.
+- In case we want to use docker in the machine, we can:
+
+  * Disable ``docker.socket`` unit by ``sudo systemctl mask docker.socket``.
+  * Install ``docker`` package.
+  * Create a group called ``dockerx`` with GID same as ``docker`` group of host (``sudo groupadd -g <GID> dockerx``).
+  * Add ``$USER`` to group ``dockerx`` (``sudo usermod -aG dockerx $USER``) so we can run ``docker`` command without ``sudo``.
+  * Mount host's ``/var/run/docker.sock``.
+  * **Note** that docker inside the machine will talk to docker daemon of host, which increases security risk.
 
 References
 ----------
 
 - https://www.freedesktop.org/software/systemd/man/systemd-nspawn.html
 - https://www.freedesktop.org/software/systemd/man/systemd.nspawn.html#.nspawn%20File%20Discovery
+- https://jpetazzo.github.io/2015/09/03/do-not-use-docker-in-docker-for-ci/
 
 Booting With ``machinectl``
 ===========================
@@ -212,6 +223,11 @@ And here the content of the override file:
     ExecStart=/usr/bin/systemd-nspawn --quiet --keep-unit --boot --link-journal=try-guest --settings=override --machine=%i
 
 To remove the override file, use ``sudo systemctl revert systemd-nspawn@<machine-name>.service``.
+
+DNS
+~~~
+
+You might want to check the DNS settings in case domains cannot be resolved. To do so, we have to edit ``/etc/systemd/resolved.conf`` then run ``sudo systemctl status systemd-resolved`` to reload settings.
 
 Additional Options
 ------------------

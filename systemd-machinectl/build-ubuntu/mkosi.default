@@ -1,0 +1,14 @@
+[Distribution]
+Distribution=ubuntu
+Release=bionic
+Repositories=main,universe
+
+[Output]
+Format=subvolume
+Output=ubuntu-template
+
+[Packages]
+Packages=apt-utils ca-certificates curl git iproute2 iputils-ping sudo vim
+
+[Validation]
+Password=root

@@ -1,0 +1,6 @@
+#!/bin/sh
+
+# Generate hash password by
+#     python3 -c 'import crypt; print(crypt.crypt("ubuntu", crypt.mksalt(crypt.METHOD_SHA512)))'
+useradd -g users -m -s /bin/bash -u 1000 -p '$6$2zNseCgJfvXQfjcQ$ean3jwaAyvKbllF3yh5g8elrUZ4Y/5rejM/jqh1NKz8Igww9OUDcY/Hax4hPsTT8zT8EBRcnjx9Oc0ykqSlba.' ubuntu
+usermod -aG sudo ubuntu
