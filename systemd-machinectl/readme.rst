@@ -132,7 +132,7 @@ To mount a directory or file from host, we add ``--bind=<host-path>:<container-p
 - In case we want to use docker in the machine, we can:
 
   * Disable ``docker.socket`` unit by ``sudo systemctl mask docker.socket``.
-  * Install ``docker`` package.
+  * Install docker.
   * Create a group called ``dockerx`` with GID same as ``docker`` group of host (``sudo groupadd -g <GID> dockerx``).
   * Add ``$USER`` to group ``dockerx`` (``sudo usermod -aG dockerx $USER``) so we can run ``docker`` command without ``sudo``.
   * Mount host's ``/var/run/docker.sock``.
