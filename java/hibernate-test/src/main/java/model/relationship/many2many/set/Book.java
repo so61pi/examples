@@ -1,0 +1,16 @@
+package model.relationship.many2many.set;
+
+import lombok.Data;
+
+import javax.persistence.*;
+
+@Entity
+@Table(name = Book.TABLE_NAME)
+@Data
+public class Book {
+    public final static String TABLE_NAME = "books";
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    private Long id;
+}
