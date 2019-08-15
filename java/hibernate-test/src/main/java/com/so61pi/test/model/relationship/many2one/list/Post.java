@@ -6,16 +6,16 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity(name = Post.TABLE_NAME)
+@Entity
 @Table(name = Post.TABLE_NAME)
 @Data
 public class Post {
-    public final static String TABLE_NAME = "relationship_many2one_list__posts";
+    public final static String TABLE_NAME = "posts";
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
-    @OneToMany(mappedBy = PostComment.COL_POST)
-    private List<PostComment> postComments = new ArrayList<PostComment>();
+    @OneToMany(mappedBy = Comment.COL_POST)
+    private List<Comment> comments = new ArrayList<Comment>();
 }

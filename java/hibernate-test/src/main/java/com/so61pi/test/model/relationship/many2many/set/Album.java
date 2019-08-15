@@ -10,16 +10,16 @@ import java.util.Set;
  * ManyToMany with Set.
  */
 
-@Entity(name = Author.TABLE_NAME)
-@Table(name = Author.TABLE_NAME)
+@Entity
+@Table(name = Album.TABLE_NAME)
 @Data
-public class Author {
-    public final static String TABLE_NAME = "relationship_many2many_set__authors";
+public class Album {
+    public final static String TABLE_NAME = "albums";
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
     @ManyToMany
-    private Set<Book> books = new HashSet<Book>();
+    private Set<Label> labels = new HashSet<Label>();
 }

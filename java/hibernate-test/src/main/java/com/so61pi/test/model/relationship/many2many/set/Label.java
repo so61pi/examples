@@ -4,11 +4,11 @@ import lombok.Data;
 
 import javax.persistence.*;
 
-@Entity(name = Book.TABLE_NAME)
-@Table(name = Book.TABLE_NAME)
+@Entity
+@Table(name = Label.TABLE_NAME)
 @Data
-public class Book {
-    public final static String TABLE_NAME = "relationship_many2many_set__books";
+public class Label {
+    public final static String TABLE_NAME = "labels";
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)

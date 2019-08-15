@@ -4,13 +4,20 @@ import lombok.Data;
 
 import javax.persistence.*;
 
-@Entity(name = Post.TABLE_NAME)
-@Table(name = Post.TABLE_NAME)
+/**
+ * ManyToOne.
+ */
+
+@Entity
+@Table(name = Child.TABLE_NAME)
 @Data
-public class Post {
-    public final static String TABLE_NAME = "relationship_many2one__posts";
+public class Child {
+    public final static String TABLE_NAME = "children";
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
+
+    @ManyToOne
+    private Mother mother;
 }

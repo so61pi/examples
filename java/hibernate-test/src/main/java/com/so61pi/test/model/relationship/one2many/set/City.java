@@ -10,16 +10,16 @@ import java.util.Set;
  * OneToMany with Set.
  */
 
-@Entity(name = Post.TABLE_NAME)
-@Table(name = Post.TABLE_NAME)
+@Entity
+@Table(name = City.TABLE_NAME)
 @Data
-public class Post {
-    public final static String TABLE_NAME = "relationship_one2many_set__posts";
+public class City {
+    public final static String TABLE_NAME = "cities";
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
     @OneToMany
-    private Set<PostComment> postComments = new HashSet<PostComment>();
+    private Set<Apartment> apartments = new HashSet<Apartment>();
 }

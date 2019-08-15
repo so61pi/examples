@@ -8,16 +8,16 @@ import javax.persistence.*;
  * OneToOne.
  */
 
-@Entity(name = Post.TABLE_NAME)
-@Table(name = Post.TABLE_NAME)
+@Entity
+@Table(name = Email.TABLE_NAME)
 @Data
-public class Post {
-    public final static String TABLE_NAME = "relationship_one2one__posts";
+public class Email {
+    public final static String TABLE_NAME = "emails";
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
     @OneToOne
-    private PostDetails postDetails;
+    private Account account;
 }

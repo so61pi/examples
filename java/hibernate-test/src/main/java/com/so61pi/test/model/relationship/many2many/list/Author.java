@@ -10,11 +10,11 @@ import java.util.List;
  * ManyToMany with List.
  */
 
-@Entity(name = Author.TABLE_NAME)
+@Entity
 @Table(name = Author.TABLE_NAME)
 @Data
 public class Author {
-    public final static String TABLE_NAME = "relationship_many2many_list__authors";
+    public final static String TABLE_NAME = "authors";
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)

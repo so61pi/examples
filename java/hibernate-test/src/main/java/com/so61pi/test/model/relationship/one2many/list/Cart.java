@@ -10,16 +10,16 @@ import java.util.List;
  * OneToMany with List.
  */
 
-@Entity(name = Post.TABLE_NAME)
-@Table(name = Post.TABLE_NAME)
+@Entity
+@Table(name = Cart.TABLE_NAME)
 @Data
-public class Post {
-    public final static String TABLE_NAME = "relationship_one2many_list__posts";
+public class Cart {
+    public final static String TABLE_NAME = "carts";
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
     @OneToMany
-    private List<PostComment> postComments = new ArrayList<PostComment>();
+    private List<Product> products = new ArrayList<Product>();
 }
