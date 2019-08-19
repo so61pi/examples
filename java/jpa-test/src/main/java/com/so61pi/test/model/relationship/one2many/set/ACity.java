@@ -27,6 +27,7 @@ public class ACity {
     private Long id;
 
     @OneToMany
+    // @ManyToOne doesn't have mappedBy, JPA says so.
     private Set<BApartment> apartments = new HashSet<>();
 
     @EqualsAndHashCode.Include

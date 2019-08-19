@@ -61,8 +61,8 @@ class TestClassHibernate {
      * </pre>
      */
     @Test
-    void testMakeRelationshipFromAlbumSide() {
-        t.testMakeRelationshipFromAlbumSide();
+    void testMakeRelationshipFromASide() {
+        t.testMakeRelationshipFromASide();
     }
 
     /**
@@ -73,8 +73,8 @@ class TestClassHibernate {
      * </pre>
      */
     @Test
-    void testRemoveLabelFromLabelSide() {
-        t.testRemoveLabelFromLabelSide();
+    void testRemoveB() {
+        t.testRemoveB();
     }
 
     /**
@@ -86,8 +86,8 @@ class TestClassHibernate {
      * </pre>
      */
     @Test
-    void testRemoveLabelFromAlbumSide() {
-        t.testRemoveLabelFromAlbumSide();
+    void testRemoveBFromASide() {
+        t.testRemoveBFromASide();
     }
 
     /**
@@ -97,8 +97,8 @@ class TestClassHibernate {
      * </pre>
      */
     @Test
-    void testRemoveAlbum() {
-        t.testRemoveAlbum();
+    void testRemoveA() {
+        t.testRemoveA();
     }
 
     /**
@@ -111,7 +111,7 @@ class TestClassHibernate {
      * </pre>
      */
     @Test
-    void testAddAlbumWithMultipleSameLabels() {
-        t.testAddAlbumWithMultipleSameLabels();
+    void testAddAWithMultipleSameBs() {
+        t.testAddAWithMultipleSameBs();
     }
 }

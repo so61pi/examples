@@ -23,7 +23,7 @@ public class AMember {
     private Long id;
 
     @ManyToOne
-    // @ManyToOne doesn't have mappedBy.
+    // @ManyToOne doesn't have mappedBy, JPA says so.
     private BFamily family;
 
     @EqualsAndHashCode.Include

@@ -26,7 +26,7 @@ public class AComment {
     private Long id;
 
     @ManyToOne
-    // @ManyToOne doesn't have mappedBy.
+    // @ManyToOne doesn't have mappedBy, JPA says so.
     private BPost post;
 
     @EqualsAndHashCode.Include

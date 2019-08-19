@@ -55,8 +55,8 @@ class TestClassEclipseLink {
      * </pre>
      */
     @Test
-    void testMakeRelationshipFromAlbumSide() {
-        t.testMakeRelationshipFromAlbumSide();
+    void testMakeRelationshipFromASide() {
+        t.testMakeRelationshipFromASide();
     }
 
     /**
@@ -67,8 +67,8 @@ class TestClassEclipseLink {
      * </pre>
      */
     @Test
-    void testRemoveLabelFromLabelSide() {
-        t.testRemoveLabelFromLabelSide();
+    void testRemoveB() {
+        t.testRemoveB();
     }
 
     /**
@@ -80,8 +80,8 @@ class TestClassEclipseLink {
      * </pre>
      */
     @Test
-    void testRemoveLabelFromAlbumSide() {
-        t.testRemoveLabelFromAlbumSide();
+    void testRemoveBFromASide() {
+        t.testRemoveBFromASide();
     }
 
     /**
@@ -91,8 +91,8 @@ class TestClassEclipseLink {
      * </pre>
      */
     @Test
-    void testRemoveAlbum() {
-        t.testRemoveAlbum();
+    void testRemoveA() {
+        t.testRemoveA();
     }
 
     /**
@@ -103,7 +103,7 @@ class TestClassEclipseLink {
      * </pre>
      */
     @Test
-    void testAddAlbumWithMultipleSameLabels() {
-        t.testAddAlbumWithMultipleSameLabels();
+    void testAddAWithMultipleSameBs() {
+        t.testAddAWithMultipleSameBs();
     }
 }

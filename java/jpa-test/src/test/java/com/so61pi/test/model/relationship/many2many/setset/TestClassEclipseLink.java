@@ -55,8 +55,8 @@ class TestClassEclipseLink {
      * </pre>
      */
     @Test
-    void testMakeRelationshipFromProjectSide() {
-        t.testMakeRelationshipFromProjectSide();
+    void testMakeRelationshipFromASide() {
+        t.testMakeRelationshipFromASide();
     }
 
     /**
@@ -66,8 +66,8 @@ class TestClassEclipseLink {
      * </pre>
      */
     @Test
-    void testMakeRelationshipFromLanguageSide() {
-        t.testMakeRelationshipFromLanguageSide();
+    void testMakeRelationshipFromBSide() {
+        t.testMakeRelationshipFromBSide();
     }
 
     /**
@@ -77,8 +77,8 @@ class TestClassEclipseLink {
      * </pre>
      */
     @Test
-    void testRemoveLanguageFromLanguageSide() {
-        t.testRemoveLanguageFromLanguageSide();
+    void testRemoveB() {
+        t.testRemoveB();
     }
 
     /**
@@ -91,8 +91,8 @@ class TestClassEclipseLink {
      * </pre>
      */
     @Test
-    void testRemoveLanguageFromProjectSide() {
-        t.testRemoveLanguageFromProjectSide();
+    void testRemoveBFromASide() {
+        t.testRemoveBFromASide();
     }
 
     /**
@@ -102,8 +102,8 @@ class TestClassEclipseLink {
      * </pre>
      */
     @Test
-    void testRemoveProjectFromLanguageSide() {
-        t.testRemoveProjectFromLanguageSide();
+    void testRemoveA() {
+        t.testRemoveA();
     }
 
     /**
@@ -113,8 +113,8 @@ class TestClassEclipseLink {
      * </pre>
      */
     @Test
-    void testRemoveProjectFromProjectSide() {
-        t.testRemoveProjectFromProjectSide();
+    void testRemoveAFromBSide() {
+        t.testRemoveAFromBSide();
     }
 
     /**
@@ -125,8 +125,8 @@ class TestClassEclipseLink {
      * </pre>
      */
     @Test
-    void testAddProjectWithMultipleSameLanguages() {
-        t.testAddProjectWithMultipleSameLanguages();
+    void testAddAWithMultipleSameBs() {
+        t.testAddAWithMultipleSameBs();
     }
 
     /**
@@ -136,7 +136,7 @@ class TestClassEclipseLink {
      * </pre>
      */
     @Test
-    void testAddLanguageWithMultipleSameProjects() {
-        t.testAddLanguageWithMultipleSameProjects();
+    void testAddBWithMultipleSameAs() {
+        t.testAddBWithMultipleSameAs();
     }
 }

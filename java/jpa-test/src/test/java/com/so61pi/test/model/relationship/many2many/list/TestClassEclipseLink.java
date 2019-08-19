@@ -55,8 +55,8 @@ class TestClassEclipseLink {
      * </pre>
      */
     @Test
-    void testMakeRelationshipFromAuthorSide() {
-        t.testMakeRelationshipFromAuthorSide();
+    void testMakeRelationshipFromASide() {
+        t.testMakeRelationshipFromASide();
     }
 
     /**
@@ -67,8 +67,19 @@ class TestClassEclipseLink {
      * </pre>
      */
     @Test
-    void testRemoveBookFromBookSide() {
-        t.testRemoveBookFromBookSide();
+    void testRemoveB() {
+        t.testRemoveB();
+    }
+
+    /**
+     * <pre>
+     * DELETE FROM aauthors_bbooks WHERE (AAuthor_ID = ?)
+     * DELETE FROM aauthors WHERE (ID = ?)
+     * </pre>
+     */
+    @Test
+    void testRemoveA() {
+        t.testRemoveA();
     }
 
     /**
@@ -80,19 +91,8 @@ class TestClassEclipseLink {
      * </pre>
      */
     @Test
-    void testRemoveBookFromAuthorSide() {
-        t.testRemoveBookFromAuthorSide();
-    }
-
-    /**
-     * <pre>
-     * DELETE FROM aauthors_bbooks WHERE (AAuthor_ID = ?)
-     * DELETE FROM aauthors WHERE (ID = ?)
-     * </pre>
-     */
-    @Test
-    void testRemoveAuthor() {
-        t.testRemoveAuthor();
+    void testRemoveBFromASide() {
+        t.testRemoveBFromASide();
     }
 
     /**
@@ -106,7 +106,7 @@ class TestClassEclipseLink {
      * </pre>
      */
     @Test
-    void testAddAuthorWithMultipleSameBooks() {
-        t.testAddAuthorWithMultipleSameBooks();
+    void testAddAWithMultipleSameBs() {
+        t.testAddAWithMultipleSameBs();
     }
 }

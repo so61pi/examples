@@ -65,8 +65,8 @@ class TestClass {
         log.info("tearDown ends");
     }
 
-    void testMakeRelationshipFromArtistSide() {
-        log.info("testMakeRelationshipFromArtistSide begins");
+    void testMakeRelationshipFromASide() {
+        log.info("testMakeRelationshipFromASide begins");
         final AArtist artist = new AArtist("artist-10");
         em.persist(artist);
 
@@ -74,11 +74,11 @@ class TestClass {
         em.persist(song);
 
         artist.getSongs().add(song);
-        log.info("testMakeRelationshipFromArtistSide ends");
+        log.info("testMakeRelationshipFromASide ends");
     }
 
-    void testMakeRelationshipFromSongSide() {
-        log.info("testMakeRelationshipFromSongSide begins");
+    void testMakeRelationshipFromBSide() {
+        log.info("testMakeRelationshipFromBSide begins");
         final AArtist artist = new AArtist("artist-20");
         em.persist(artist);
 
@@ -86,49 +86,49 @@ class TestClass {
         em.persist(song);
 
         song.getArtists().add(artist);
-        log.info("testMakeRelationshipFromSongSide ends");
+        log.info("testMakeRelationshipFromBSide ends");
     }
 
-    void testRemoveSongFromSongSide() {
-        log.info("testRemoveSongFromSongSide begins");
+    void testRemoveB() {
+        log.info("testRemoveB begins");
         final BSong song = testData.getB().get(0);
         em.remove(song);
-        log.info("testRemoveSongFromSongSide ends");
+        log.info("testRemoveB ends");
     }
 
-    void testRemoveSongFromArtistSide() {
-        log.info("testRemoveSongFromArtistSide begins");
+    void testRemoveBFromASide() {
+        log.info("testRemoveBFromASide begins");
         final BSong song = testData.getB().get(0);
 
-        // Break artist-song relationships for all artists.
+        // A removes B (break A-B relationship).
         testData.getA().forEach(artist -> artist.getSongs().remove(song));
 
-        // Now remove song.
+        // Now remove B.
         em.remove(song);
-        log.info("testRemoveSongFromArtistSide ends");
+        log.info("testRemoveBFromASide ends");
     }
 
-    void testRemoveArtistFromSongSide() {
-        log.info("testRemoveArtistFromSongSide begins");
+    void testRemoveA() {
+        log.info("testRemoveA begins");
+        final AArtist artist = testData.getA().get(0);
+        em.remove(artist);
+        log.info("testRemoveA ends");
+    }
+
+    void testRemoveAFromBSide() {
+        log.info("testRemoveAFromBSide begins");
         final AArtist artist = testData.getA().get(0);
 
-        // Break song-artist relationships for all songs.
+        // B removes A (break A-B relationship).
         testData.getB().forEach(song -> song.getArtists().remove(artist));
 
-        // Now remove artist.
+        // Now remove A.
         em.remove(artist);
-        log.info("testRemoveArtistFromSongSide ends");
+        log.info("testRemoveAFromBSide ends");
     }
 
-    void testRemoveArtistFromArtistSide() {
-        log.info("testRemoveArtistFromArtistSide begins");
-        final AArtist artist = testData.getA().get(0);
-        em.remove(artist);
-        log.info("testRemoveArtistFromArtistSide ends");
-    }
-
-    void testAddArtistWithMultipleSameSongs() {
-        log.info("testAddArtistWithMultipleSameSongs begins");
+    void testAddAWithMultipleSameBs() {
+        log.info("testAddAWithMultipleSameBs begins");
         final BSong song = new BSong("song-30");
         em.persist(song);
 
@@ -136,11 +136,11 @@ class TestClass {
         artist.getSongs().add(song);
         artist.getSongs().add(song);
         em.persist(artist);
-        log.info("testAddArtistWithMultipleSameSongs ends");
+        log.info("testAddAWithMultipleSameBs ends");
     }
 
-    void testAddSongWithMultipleSameArtists() {
-        log.info("testAddSongWithMultipleSameArtists begins");
+    void testAddBWithMultipleSameAs() {
+        log.info("testAddBWithMultipleSameAs begins");
         final AArtist artist = new AArtist("artist-40");
         em.persist(artist);
 
@@ -148,6 +148,6 @@ class TestClass {
         song.getArtists().add(artist);
         song.getArtists().add(artist);
         em.persist(song);
-        log.info("testAddSongWithMultipleSameArtists ends");
+        log.info("testAddBWithMultipleSameAs ends");
     }
 }

@@ -61,8 +61,8 @@ class TestClassHibernate {
      * </pre>
      */
     @Test
-    void testMakeRelationshipFromProjectSide() {
-        t.testMakeRelationshipFromProjectSide();
+    void testMakeRelationshipFromASide() {
+        t.testMakeRelationshipFromASide();
     }
 
     /**
@@ -74,8 +74,8 @@ class TestClassHibernate {
      * </pre>
      */
     @Test
-    void testMakeRelationshipFromLanguageSide() {
-        t.testMakeRelationshipFromLanguageSide();
+    void testMakeRelationshipFromBSide() {
+        t.testMakeRelationshipFromBSide();
     }
 
     /**
@@ -86,8 +86,8 @@ class TestClassHibernate {
      * </pre>
      */
     @Test
-    void testRemoveLanguageFromLanguageSide() {
-        t.testRemoveLanguageFromLanguageSide();
+    void testRemoveB() {
+        t.testRemoveB();
     }
 
     /**
@@ -99,8 +99,8 @@ class TestClassHibernate {
      * </pre>
      */
     @Test
-    void testRemoveLanguageFromProjectSide() {
-        t.testRemoveLanguageFromProjectSide();
+    void testRemoveBFromASide() {
+        t.testRemoveBFromASide();
     }
 
     /**
@@ -110,8 +110,8 @@ class TestClassHibernate {
      * </pre>
      */
     @Test
-    void testRemoveProjectFromLanguageSide() {
-        t.testRemoveProjectFromLanguageSide();
+    void testRemoveA() {
+        t.testRemoveA();
     }
 
     /**
@@ -121,8 +121,8 @@ class TestClassHibernate {
      * </pre>
      */
     @Test
-    void testRemoveProjectFromProjectSide() {
-        t.testRemoveProjectFromProjectSide();
+    void testRemoveAFromBSide() {
+        t.testRemoveAFromBSide();
     }
 
     /**
@@ -135,8 +135,8 @@ class TestClassHibernate {
      * </pre>
      */
     @Test
-    void testAddProjectWithMultipleSameLanguages() {
-        t.testAddProjectWithMultipleSameLanguages();
+    void testAddAWithMultipleSameBs() {
+        t.testAddAWithMultipleSameBs();
     }
 
     /**
@@ -148,7 +148,7 @@ class TestClassHibernate {
      * </pre>
      */
     @Test
-    void testAddLanguageWithMultipleSameProjects() {
-        t.testAddLanguageWithMultipleSameProjects();
+    void testAddBWithMultipleSameAs() {
+        t.testAddBWithMultipleSameAs();
     }
 }

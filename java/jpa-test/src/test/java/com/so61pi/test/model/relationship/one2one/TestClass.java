@@ -9,7 +9,16 @@ import javax.persistence.Persistence;
 
 @Getter
 class TestData {
+    private BAccount b;
+    private AEmail a;
+
     TestData() {
+        // Create data.
+        b = new BAccount("account-0");
+        a = new AEmail("email-0");
+
+        // Link data together.
+        a.setAccount(b);
     }
 }
 
@@ -33,7 +42,8 @@ class TestClass {
 
         // Put data into database.
         em.getTransaction().begin();
-        // TODO
+        em.persist(testData.getA());
+        em.persist(testData.getB());
         em.getTransaction().commit();
 
         em.getTransaction().begin();
@@ -46,5 +56,44 @@ class TestClass {
         em.close();
         emf.close();
         log.info("tearDown ends");
+    }
+
+    void testMakeRelationshipFromASide() {
+        log.info("testMakeRelationshipFromASide begins");
+        final BAccount account = new BAccount("account-10");
+        em.persist(account);
+
+        final AEmail email = new AEmail("email-10");
+        em.persist(email);
+
+        email.setAccount(account);
+        log.info("testMakeRelationshipFromASide ends");
+    }
+
+    void testRemoveB() {
+        log.info("testRemoveB begins");
+        final BAccount account = testData.getB();
+        em.remove(account);
+        log.info("testRemoveB ends");
+    }
+
+    void testRemoveBFromASide() {
+        log.info("testRemoveBFromASide begins");
+        final AEmail email = testData.getA();
+        final BAccount account = email.getAccount();
+
+        // A removes B (break A-B relationship).
+        email.setAccount(null);
+
+        // Now remove B.
+        em.remove(account);
+        log.info("testRemoveBFromASide ends");
+    }
+
+    void testRemoveA() {
+        log.info("testRemoveA begins");
+        final AEmail email = testData.getA();
+        em.remove(email);
+        log.info("testRemoveA ends");
     }
 }

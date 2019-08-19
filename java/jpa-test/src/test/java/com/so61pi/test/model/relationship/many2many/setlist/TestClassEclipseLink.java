@@ -55,8 +55,8 @@ class TestClassEclipseLink {
      * </pre>
      */
     @Test
-    void testMakeRelationshipFromArtistSide() {
-        t.testMakeRelationshipFromArtistSide();
+    void testMakeRelationshipFromASide() {
+        t.testMakeRelationshipFromASide();
     }
 
     /**
@@ -66,8 +66,8 @@ class TestClassEclipseLink {
      * </pre>
      */
     @Test
-    void testMakeRelationshipFromSongSide() {
-        t.testMakeRelationshipFromSongSide();
+    void testMakeRelationshipFromBSide() {
+        t.testMakeRelationshipFromBSide();
     }
 
     /**
@@ -77,8 +77,8 @@ class TestClassEclipseLink {
      * </pre>
      */
     @Test
-    void testRemoveSongFromSongSide() {
-        t.testRemoveSongFromSongSide();
+    void testRemoveB() {
+        t.testRemoveB();
     }
 
     /**
@@ -91,8 +91,8 @@ class TestClassEclipseLink {
      * </pre>
      */
     @Test
-    void testRemoveSongFromArtistSide() {
-        t.testRemoveSongFromArtistSide();
+    void testRemoveBFromASide() {
+        t.testRemoveBFromASide();
     }
 
     /**
@@ -102,8 +102,8 @@ class TestClassEclipseLink {
      * </pre>
      */
     @Test
-    void testRemoveArtistFromSongSide() {
-        t.testRemoveArtistFromSongSide();
+    void testRemoveA() {
+        t.testRemoveA();
     }
 
     /**
@@ -113,8 +113,8 @@ class TestClassEclipseLink {
      * </pre>
      */
     @Test
-    void testRemoveArtistFromArtistSide() {
-        t.testRemoveArtistFromArtistSide();
+    void testRemoveAFromBSide() {
+        t.testRemoveAFromBSide();
     }
 
     /**
@@ -125,8 +125,8 @@ class TestClassEclipseLink {
      * </pre>
      */
     @Test
-    void testAddArtistWithMultipleSameSongs() {
-        t.testAddArtistWithMultipleSameSongs();
+    void testAddAWithMultipleSameBs() {
+        t.testAddAWithMultipleSameBs();
     }
 
     /**
@@ -136,7 +136,7 @@ class TestClassEclipseLink {
      * </pre>
      */
     @Test
-    void testAddSongWithMultipleSameArtists() {
-        t.testAddSongWithMultipleSameArtists();
+    void testAddBWithMultipleSameAs() {
+        t.testAddBWithMultipleSameAs();
     }
 }

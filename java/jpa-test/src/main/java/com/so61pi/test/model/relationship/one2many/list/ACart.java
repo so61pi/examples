@@ -27,6 +27,7 @@ public class ACart {
     private Long id;
 
     @OneToMany
+    // @ManyToOne doesn't have mappedBy, JPA says so.
     private List<BProduct> products = new ArrayList<>();
 
     @EqualsAndHashCode.Include

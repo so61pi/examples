@@ -11,20 +11,20 @@ import java.util.List;
 
 @Getter
 class TestData {
-    private List<BLabel> labels = new ArrayList<>();
-    private List<AAlbum> albums = new ArrayList<>();
+    private List<BLabel> b = new ArrayList<>();
+    private List<AAlbum> a = new ArrayList<>();
 
     TestData() {
         // Create data.
-        labels.add(new BLabel("label-0"));
-        labels.add(new BLabel("label-1"));
-        labels.add(new BLabel("label-2"));
-        albums.add(new AAlbum("album-0"));
-        albums.add(new AAlbum("album-1"));
-        albums.add(new AAlbum("album-2"));
+        b.add(new BLabel("label-0"));
+        b.add(new BLabel("label-1"));
+        b.add(new BLabel("label-2"));
+        a.add(new AAlbum("album-0"));
+        a.add(new AAlbum("album-1"));
+        a.add(new AAlbum("album-2"));
 
         // Link data together.
-        albums.forEach(album -> labels.forEach(label -> album.getLabels().add(label)));
+        a.forEach(album -> b.forEach(label -> album.getLabels().add(label)));
     }
 }
 
@@ -48,8 +48,8 @@ class TestClass {
 
         // Put data into database.
         em.getTransaction().begin();
-        testData.getAlbums().forEach(em::persist);
-        testData.getLabels().forEach(em::persist);
+        testData.getA().forEach(em::persist);
+        testData.getB().forEach(em::persist);
         em.getTransaction().commit();
 
         em.getTransaction().begin();
@@ -64,8 +64,8 @@ class TestClass {
         log.info("tearDown ends");
     }
 
-    void testMakeRelationshipFromAlbumSide() {
-        log.info("testMakeRelationshipFromAlbumSide begins");
+    void testMakeRelationshipFromASide() {
+        log.info("testMakeRelationshipFromASide begins");
         final BLabel label = new BLabel("label-10");
         em.persist(label);
 
@@ -73,37 +73,37 @@ class TestClass {
         em.persist(album);
 
         album.getLabels().add(label);
-        log.info("testMakeRelationshipFromAlbumSide ends");
+        log.info("testMakeRelationshipFromASide ends");
     }
 
-    void testRemoveLabelFromLabelSide() {
-        log.info("testRemoveLabelFromLabelSide begins");
-        final BLabel label = testData.getLabels().get(0);
+    void testRemoveB() {
+        log.info("testRemoveB begins");
+        final BLabel label = testData.getB().get(0);
         em.remove(label);
-        log.info("testRemoveLabelFromLabelSide ends");
+        log.info("testRemoveB ends");
     }
 
-    void testRemoveLabelFromAlbumSide() {
-        log.info("testRemoveLabelFromAlbumSide begins");
-        final BLabel label = testData.getLabels().get(0);
+    void testRemoveBFromASide() {
+        log.info("testRemoveBFromASide begins");
+        final BLabel label = testData.getB().get(0);
 
-        // Break album-label relationships for all albums.
-        testData.getAlbums().forEach(album -> album.getLabels().remove(label));
+        // A removes B (break A-B relationship).
+        testData.getA().forEach(album -> album.getLabels().remove(label));
 
-        // Now remove label.
+        // Now remove B.
         em.remove(label);
-        log.info("testRemoveLabelFromAlbumSide ends");
+        log.info("testRemoveBFromASide ends");
     }
 
-    void testRemoveAlbum() {
-        log.info("testRemoveAlbum begins");
-        final AAlbum album = testData.getAlbums().get(0);
+    void testRemoveA() {
+        log.info("testRemoveA begins");
+        final AAlbum album = testData.getA().get(0);
         em.remove(album);
-        log.info("testRemoveAlbum ends");
+        log.info("testRemoveA ends");
     }
 
-    void testAddAlbumWithMultipleSameLabels() {
-        log.info("testAddAlbumWithMultipleSameLabels begins");
+    void testAddAWithMultipleSameBs() {
+        log.info("testAddAWithMultipleSameBs begins");
         final BLabel label = new BLabel("label-20");
         em.persist(label);
 
@@ -111,6 +111,6 @@ class TestClass {
         album.getLabels().add(label);
         album.getLabels().add(label);
         em.persist(album);
-        log.info("testAddAlbumWithMultipleSameLabels ends");
+        log.info("testAddAWithMultipleSameBs ends");
     }
 }

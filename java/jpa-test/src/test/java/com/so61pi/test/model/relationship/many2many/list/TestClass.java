@@ -11,20 +11,20 @@ import java.util.List;
 
 @Getter
 class TestData {
-    private List<BBook> books = new ArrayList<>();
-    private List<AAuthor> authors = new ArrayList<>();
+    private List<BBook> b = new ArrayList<>();
+    private List<AAuthor> a = new ArrayList<>();
 
     TestData() {
         // Create data.
-        books.add(new BBook("book-0"));
-        books.add(new BBook("book-1"));
-        books.add(new BBook("book-2"));
-        authors.add(new AAuthor("author-0"));
-        authors.add(new AAuthor("author-1"));
-        authors.add(new AAuthor("author-2"));
+        b.add(new BBook("book-0"));
+        b.add(new BBook("book-1"));
+        b.add(new BBook("book-2"));
+        a.add(new AAuthor("author-0"));
+        a.add(new AAuthor("author-1"));
+        a.add(new AAuthor("author-2"));
 
         // Link data together.
-        authors.forEach(author -> books.forEach(book -> author.getBooks().add(book)));
+        a.forEach(author -> b.forEach(book -> author.getBooks().add(book)));
     }
 }
 
@@ -48,8 +48,8 @@ class TestClass {
 
         // Put data into database.
         em.getTransaction().begin();
-        testData.getAuthors().forEach(em::persist);
-        testData.getBooks().forEach(em::persist);
+        testData.getA().forEach(em::persist);
+        testData.getB().forEach(em::persist);
         em.getTransaction().commit();
 
         em.getTransaction().begin();
@@ -64,8 +64,8 @@ class TestClass {
         log.info("tearDown ends");
     }
 
-    void testMakeRelationshipFromAuthorSide() {
-        log.info("testMakeRelationshipFromAuthorSide begins");
+    void testMakeRelationshipFromASide() {
+        log.info("testMakeRelationshipFromASide begins");
         final BBook book = new BBook("book-10");
         em.persist(book);
 
@@ -73,37 +73,37 @@ class TestClass {
         em.persist(author);
 
         author.getBooks().add(book);
-        log.info("testMakeRelationshipFromAuthorSide ends");
+        log.info("testMakeRelationshipFromASide ends");
     }
 
-    void testRemoveBookFromBookSide() {
-        log.info("testRemoveBookFromBookSide begins");
-        final BBook book = testData.getBooks().get(0);
+    void testRemoveB() {
+        log.info("testRemoveB begins");
+        final BBook book = testData.getB().get(0);
         em.remove(book);
-        log.info("testRemoveBookFromBookSide ends");
+        log.info("testRemoveB ends");
     }
 
-    void testRemoveBookFromAuthorSide() {
-        log.info("testRemoveBookFromAuthorSide begins");
-        final BBook book = testData.getBooks().get(0);
+    void testRemoveBFromASide() {
+        log.info("testRemoveBFromASide begins");
+        final BBook book = testData.getB().get(0);
 
-        // Break author-book relationships for all authors.
-        testData.getAuthors().forEach(author -> author.getBooks().remove(book));
+        // A removes B (break A-B relationship).
+        testData.getA().forEach(author -> author.getBooks().remove(book));
 
-        // Now remove book.
+        // Now remove B.
         em.remove(book);
-        log.info("testRemoveBookFromAuthorSide ends");
+        log.info("testRemoveBFromASide ends");
     }
 
-    void testRemoveAuthor() {
-        log.info("testRemoveAuthor begins");
-        final AAuthor author = testData.getAuthors().get(0);
+    void testRemoveA() {
+        log.info("testRemoveA begins");
+        final AAuthor author = testData.getA().get(0);
         em.remove(author);
-        log.info("testRemoveAuthor ends");
+        log.info("testRemoveA ends");
     }
 
-    void testAddAuthorWithMultipleSameBooks() {
-        log.info("testAddAuthorWithMultipleSameBooks begins");
+    void testAddAWithMultipleSameBs() {
+        log.info("testAddAWithMultipleSameBs begins");
         final BBook book = new BBook("book-20");
         em.persist(book);
 
@@ -111,6 +111,6 @@ class TestClass {
         author.getBooks().add(book);
         author.getBooks().add(book);
         em.persist(author);
-        log.info("testAddAuthorWithMultipleSameBooks ends");
+        log.info("testAddAWithMultipleSameBs ends");
     }
 }

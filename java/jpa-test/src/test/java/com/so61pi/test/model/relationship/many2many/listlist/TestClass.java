@@ -65,8 +65,8 @@ class TestClass {
         log.info("tearDown ends");
     }
 
-    void testMakeRelationshipFromEmployeeSide() {
-        log.info("testMakeRelationshipFromEmployeeSide begins");
+    void testMakeRelationshipFromASide() {
+        log.info("testMakeRelationshipFromASide begins");
         final AEmployee employee = new AEmployee("employee-10");
         em.persist(employee);
 
@@ -74,11 +74,11 @@ class TestClass {
         em.persist(tag);
 
         employee.getTags().add(tag);
-        log.info("testMakeRelationshipFromEmployeeSide ends");
+        log.info("testMakeRelationshipFromASide ends");
     }
 
-    void testMakeRelationshipFromTagSide() {
-        log.info("testMakeRelationshipFromTagSide begins");
+    void testMakeRelationshipFromBSide() {
+        log.info("testMakeRelationshipFromBSide begins");
         final AEmployee employee = new AEmployee("employee-20");
         em.persist(employee);
 
@@ -86,49 +86,49 @@ class TestClass {
         em.persist(tag);
 
         tag.getEmployees().add(employee);
-        log.info("testMakeRelationshipFromTagSide ends");
+        log.info("testMakeRelationshipFromBSide ends");
     }
 
-    void testRemoveTagFromTagSide() {
-        log.info("testRemoveTagFromTagSide begins");
+    void testRemoveB() {
+        log.info("testRemoveB begins");
         final BTag tag = testData.getB().get(0);
         em.remove(tag);
-        log.info("testRemoveTagFromTagSide ends");
+        log.info("testRemoveB ends");
     }
 
-    void testRemoveTagFromEmployeeSide() {
-        log.info("testRemoveTagFromEmployeeSide begins");
+    void testRemoveBFromASide() {
+        log.info("testRemoveBFromASide begins");
         final BTag tag = testData.getB().get(0);
 
-        // Break employee-tag relationships for all employees.
+        // A removes B (break A-B relationship).
         testData.getA().forEach(employee -> employee.getTags().remove(tag));
 
-        // Now remove tag.
+        // Now remove B.
         em.remove(tag);
-        log.info("testRemoveTagFromEmployeeSide ends");
+        log.info("testRemoveBFromASide ends");
     }
 
-    void testRemoveEmployeeFromTagSide() {
-        log.info("testRemoveEmployeeFromTagSide begins");
+    void testRemoveA() {
+        log.info("testRemoveA begins");
+        final AEmployee employee = testData.getA().get(0);
+        em.remove(employee);
+        log.info("testRemoveA ends");
+    }
+
+    void testRemoveAFromBSide() {
+        log.info("testRemoveAFromBSide begins");
         final AEmployee employee = testData.getA().get(0);
 
-        // Break tag-employee relationships for all tags.
+        // B removes A (break A-B relationship).
         testData.getB().forEach(tag -> tag.getEmployees().remove(employee));
 
-        // Now remove employee.
+        // Now remove A.
         em.remove(employee);
-        log.info("testRemoveEmployeeFromTagSide ends");
+        log.info("testRemoveAFromBSide ends");
     }
 
-    void testRemoveEmployeeFromEmployeeSide() {
-        log.info("testRemoveEmployeeFromEmployeeSide begins");
-        final AEmployee employee = testData.getA().get(0);
-        em.remove(employee);
-        log.info("testRemoveEmployeeFromEmployeeSide ends");
-    }
-
-    void testAddEmployeeWithMultipleSameTags() {
-        log.info("testAddEmployeeWithMultipleSameTags begins");
+    void testAddAWithMultipleSameBs() {
+        log.info("testAddAWithMultipleSameBs begins");
         final BTag tag = new BTag("tag-30");
         em.persist(tag);
 
@@ -136,11 +136,11 @@ class TestClass {
         employee.getTags().add(tag);
         employee.getTags().add(tag);
         em.persist(employee);
-        log.info("testAddEmployeeWithMultipleSameTags ends");
+        log.info("testAddAWithMultipleSameBs ends");
     }
 
-    void testAddTagWithMultipleSameEmployees() {
-        log.info("testAddTagWithMultipleSameEmployees begins");
+    void testAddBWithMultipleSameAs() {
+        log.info("testAddBWithMultipleSameAs begins");
         final AEmployee employee = new AEmployee("employee-40");
         em.persist(employee);
 
@@ -148,6 +148,6 @@ class TestClass {
         tag.getEmployees().add(employee);
         tag.getEmployees().add(employee);
         em.persist(tag);
-        log.info("testAddTagWithMultipleSameEmployees ends");
+        log.info("testAddBWithMultipleSameAs ends");
     }
 }

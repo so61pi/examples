@@ -61,8 +61,8 @@ class TestClassHibernate {
      * </pre>
      */
     @Test
-    void testMakeRelationshipFromAuthorSide() {
-        t.testMakeRelationshipFromAuthorSide();
+    void testMakeRelationshipFromASide() {
+        t.testMakeRelationshipFromASide();
     }
 
     /**
@@ -73,8 +73,19 @@ class TestClassHibernate {
      * </pre>
      */
     @Test
-    void testRemoveBookFromBookSide() {
-        t.testRemoveBookFromBookSide();
+    void testRemoveB() {
+        t.testRemoveB();
+    }
+
+    /**
+     * <pre>
+     * delete from aauthors_bbooks where AAuthor_id=?
+     * delete from aauthors where id=?
+     * </pre>
+     */
+    @Test
+    void testRemoveA() {
+        t.testRemoveA();
     }
 
     /**
@@ -92,19 +103,8 @@ class TestClassHibernate {
      * </pre>
      */
     @Test
-    void testRemoveBookFromAuthorSide() {
-        t.testRemoveBookFromAuthorSide();
-    }
-
-    /**
-     * <pre>
-     * delete from aauthors_bbooks where AAuthor_id=?
-     * delete from aauthors where id=?
-     * </pre>
-     */
-    @Test
-    void testRemoveAuthor() {
-        t.testRemoveAuthor();
+    void testRemoveBFromASide() {
+        t.testRemoveBFromASide();
     }
 
     /**
@@ -118,7 +118,7 @@ class TestClassHibernate {
      * </pre>
      */
     @Test
-    void testAddAuthorWithMultipleSameBooks() {
-        t.testAddAuthorWithMultipleSameBooks();
+    void testAddAWithMultipleSameBs() {
+        t.testAddAWithMultipleSameBs();
     }
 }

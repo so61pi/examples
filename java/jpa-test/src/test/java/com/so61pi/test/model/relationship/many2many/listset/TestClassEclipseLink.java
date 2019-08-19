@@ -55,8 +55,8 @@ class TestClassEclipseLink {
      * </pre>
      */
     @Test
-    void testMakeRelationshipFromStudentSide() {
-        t.testMakeRelationshipFromStudentSide();
+    void testMakeRelationshipFromASide() {
+        t.testMakeRelationshipFromASide();
     }
 
     /**
@@ -66,8 +66,8 @@ class TestClassEclipseLink {
      * </pre>
      */
     @Test
-    void testMakeRelationshipFromSchoolSide() {
-        t.testMakeRelationshipFromSchoolSide();
+    void testMakeRelationshipFromBSide() {
+        t.testMakeRelationshipFromBSide();
     }
 
     /**
@@ -77,8 +77,8 @@ class TestClassEclipseLink {
      * </pre>
      */
     @Test
-    void testRemoveSchoolFromSchoolSide() {
-        t.testRemoveSchoolFromSchoolSide();
+    void testRemoveB() {
+        t.testRemoveB();
     }
 
     /**
@@ -91,8 +91,8 @@ class TestClassEclipseLink {
      * </pre>
      */
     @Test
-    void testRemoveSchoolFromStudentSide() {
-        t.testRemoveSchoolFromStudentSide();
+    void testRemoveBFromASide() {
+        t.testRemoveBFromASide();
     }
 
     /**
@@ -102,8 +102,8 @@ class TestClassEclipseLink {
      * </pre>
      */
     @Test
-    void testRemoveStudentFromSchoolSide() {
-        t.testRemoveStudentFromSchoolSide();
+    void testRemoveA() {
+        t.testRemoveA();
     }
 
     /**
@@ -113,8 +113,8 @@ class TestClassEclipseLink {
      * </pre>
      */
     @Test
-    void testRemoveStudentFromStudentSide() {
-        t.testRemoveStudentFromStudentSide();
+    void testRemoveAFromBSide() {
+        t.testRemoveAFromBSide();
     }
 
     /**
@@ -128,8 +128,8 @@ class TestClassEclipseLink {
      * </pre>
      */
     @Test
-    void testAddStudentWithMultipleSameSchools() {
-        t.testAddStudentWithMultipleSameSchools();
+    void testAddAWithMultipleSameBs() {
+        t.testAddAWithMultipleSameBs();
     }
 
     /**
@@ -139,7 +139,7 @@ class TestClassEclipseLink {
      * </pre>
      */
     @Test
-    void testAddSchoolWithMultipleSameStudents() {
-        t.testAddSchoolWithMultipleSameStudents();
+    void testAddBWithMultipleSameAs() {
+        t.testAddBWithMultipleSameAs();
     }
 }

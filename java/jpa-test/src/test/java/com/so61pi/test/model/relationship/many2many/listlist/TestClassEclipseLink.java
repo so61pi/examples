@@ -55,8 +55,8 @@ class TestClassEclipseLink {
      * </pre>
      */
     @Test
-    void testMakeRelationshipFromEmployeeSide() {
-        t.testMakeRelationshipFromEmployeeSide();
+    void testMakeRelationshipFromASide() {
+        t.testMakeRelationshipFromASide();
     }
 
     /**
@@ -66,8 +66,8 @@ class TestClassEclipseLink {
      * </pre>
      */
     @Test
-    void testMakeRelationshipFromTagSide() {
-        t.testMakeRelationshipFromTagSide();
+    void testMakeRelationshipFromBSide() {
+        t.testMakeRelationshipFromBSide();
     }
 
     /**
@@ -77,8 +77,8 @@ class TestClassEclipseLink {
      * </pre>
      */
     @Test
-    void testRemoveTagFromTagSide() {
-        t.testRemoveTagFromTagSide();
+    void testRemoveB() {
+        t.testRemoveB();
     }
 
     /**
@@ -91,8 +91,8 @@ class TestClassEclipseLink {
      * </pre>
      */
     @Test
-    void testRemoveTagFromEmployeeSide() {
-        t.testRemoveTagFromEmployeeSide();
+    void testRemoveBFromASide() {
+        t.testRemoveBFromASide();
     }
 
     /**
@@ -102,8 +102,8 @@ class TestClassEclipseLink {
      * </pre>
      */
     @Test
-    void testRemoveEmployeeFromTagSide() {
-        t.testRemoveEmployeeFromTagSide();
+    void testRemoveA() {
+        t.testRemoveA();
     }
 
     /**
@@ -113,8 +113,8 @@ class TestClassEclipseLink {
      * </pre>
      */
     @Test
-    void testRemoveEmployeeFromEmployeeSide() {
-        t.testRemoveEmployeeFromEmployeeSide();
+    void testRemoveAFromBSide() {
+        t.testRemoveAFromBSide();
     }
 
     /**
@@ -128,8 +128,8 @@ class TestClassEclipseLink {
      * </pre>
      */
     @Test
-    void testAddEmployeeWithMultipleSameTags() {
-        t.testAddEmployeeWithMultipleSameTags();
+    void testAddAWithMultipleSameBs() {
+        t.testAddAWithMultipleSameBs();
     }
 
     /**
@@ -139,7 +139,7 @@ class TestClassEclipseLink {
      * </pre>
      */
     @Test
-    void testAddTagWithMultipleSameEmployees() {
-        t.testAddTagWithMultipleSameEmployees();
+    void testAddBWithMultipleSameAs() {
+        t.testAddBWithMultipleSameAs();
     }
 }

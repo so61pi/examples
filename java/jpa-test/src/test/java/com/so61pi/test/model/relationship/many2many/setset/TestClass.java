@@ -65,8 +65,8 @@ class TestClass {
         log.info("tearDown ends");
     }
 
-    void testMakeRelationshipFromProjectSide() {
-        log.info("testMakeRelationshipFromProjectSide begins");
+    void testMakeRelationshipFromASide() {
+        log.info("testMakeRelationshipFromASide begins");
         final AProject project = new AProject("project-10");
         em.persist(project);
 
@@ -74,11 +74,11 @@ class TestClass {
         em.persist(language);
 
         project.getLanguages().add(language);
-        log.info("testMakeRelationshipFromProjectSide ends");
+        log.info("testMakeRelationshipFromASide ends");
     }
 
-    void testMakeRelationshipFromLanguageSide() {
-        log.info("testMakeRelationshipFromLanguageSide begins");
+    void testMakeRelationshipFromBSide() {
+        log.info("testMakeRelationshipFromBSide begins");
         final AProject project = new AProject("project-20");
         em.persist(project);
 
@@ -86,49 +86,49 @@ class TestClass {
         em.persist(language);
 
         language.getProjects().add(project);
-        log.info("testMakeRelationshipFromLanguageSide ends");
+        log.info("testMakeRelationshipFromBSide ends");
     }
 
-    void testRemoveLanguageFromLanguageSide() {
-        log.info("testRemoveLanguageFromLanguageSide begins");
+    void testRemoveB() {
+        log.info("testRemoveB begins");
         final BLanguage language = testData.getB().get(0);
         em.remove(language);
-        log.info("testRemoveLanguageFromLanguageSide ends");
+        log.info("testRemoveB ends");
     }
 
-    void testRemoveLanguageFromProjectSide() {
-        log.info("testRemoveLanguageFromProjectSide begins");
+    void testRemoveBFromASide() {
+        log.info("testRemoveBFromASide begins");
         final BLanguage language = testData.getB().get(0);
 
-        // Break project-language relationships for all projects.
+        // A removes B (break A-B relationship).
         testData.getA().forEach(project -> project.getLanguages().remove(language));
 
-        // Now remove language.
+        // Now remove B.
         em.remove(language);
-        log.info("testRemoveLanguageFromProjectSide ends");
+        log.info("testRemoveBFromASide ends");
     }
 
-    void testRemoveProjectFromLanguageSide() {
-        log.info("testRemoveProjectFromLanguageSide begins");
+    void testRemoveA() {
+        log.info("testRemoveA begins");
+        final AProject project = testData.getA().get(0);
+        em.remove(project);
+        log.info("testRemoveA ends");
+    }
+
+    void testRemoveAFromBSide() {
+        log.info("testRemoveAFromBSide begins");
         final AProject project = testData.getA().get(0);
 
-        // Break language-project relationships for all languages.
+        // B removes A (break A-B relationship).
         testData.getB().forEach(language -> language.getProjects().remove(project));
 
-        // Now remove project.
+        // Now remove A.
         em.remove(project);
-        log.info("testRemoveProjectFromLanguageSide ends");
+        log.info("testRemoveAFromBSide ends");
     }
 
-    void testRemoveProjectFromProjectSide() {
-        log.info("testRemoveProjectFromProjectSide begins");
-        final AProject project = testData.getA().get(0);
-        em.remove(project);
-        log.info("testRemoveProjectFromProjectSide ends");
-    }
-
-    void testAddProjectWithMultipleSameLanguages() {
-        log.info("testAddProjectWithMultipleSameLanguages begins");
+    void testAddAWithMultipleSameBs() {
+        log.info("testAddAWithMultipleSameBs begins");
         final BLanguage language = new BLanguage("language-30");
         em.persist(language);
 
@@ -136,11 +136,11 @@ class TestClass {
         project.getLanguages().add(language);
         project.getLanguages().add(language);
         em.persist(project);
-        log.info("testAddProjectWithMultipleSameLanguages ends");
+        log.info("testAddAWithMultipleSameBs ends");
     }
 
-    void testAddLanguageWithMultipleSameProjects() {
-        log.info("testAddLanguageWithMultipleSameProjects begins");
+    void testAddBWithMultipleSameAs() {
+        log.info("testAddBWithMultipleSameAs begins");
         final AProject project = new AProject("project-40");
         em.persist(project);
 
@@ -148,6 +148,6 @@ class TestClass {
         language.getProjects().add(project);
         language.getProjects().add(project);
         em.persist(language);
-        log.info("testAddLanguageWithMultipleSameProjects ends");
+        log.info("testAddBWithMultipleSameAs ends");
     }
 }

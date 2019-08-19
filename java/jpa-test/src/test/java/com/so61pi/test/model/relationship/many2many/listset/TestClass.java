@@ -65,8 +65,8 @@ class TestClass {
         log.info("tearDown ends");
     }
 
-    void testMakeRelationshipFromStudentSide() {
-        log.info("testMakeRelationshipFromStudentSide begins");
+    void testMakeRelationshipFromASide() {
+        log.info("testMakeRelationshipFromASide begins");
         final AStudent student = new AStudent("student-10");
         em.persist(student);
 
@@ -74,11 +74,11 @@ class TestClass {
         em.persist(school);
 
         student.getSchools().add(school);
-        log.info("testMakeRelationshipFromStudentSide ends");
+        log.info("testMakeRelationshipFromASide ends");
     }
 
-    void testMakeRelationshipFromSchoolSide() {
-        log.info("testMakeRelationshipFromSchoolSide begins");
+    void testMakeRelationshipFromBSide() {
+        log.info("testMakeRelationshipFromBSide begins");
         final AStudent student = new AStudent("student-20");
         em.persist(student);
 
@@ -86,49 +86,49 @@ class TestClass {
         em.persist(school);
 
         school.getStudents().add(student);
-        log.info("testMakeRelationshipFromSchoolSide ends");
+        log.info("testMakeRelationshipFromBSide ends");
     }
 
-    void testRemoveSchoolFromSchoolSide() {
-        log.info("testRemoveSchoolFromSchoolSide begins");
+    void testRemoveB() {
+        log.info("testRemoveB begins");
         final BSchool school = testData.getB().get(0);
         em.remove(school);
-        log.info("testRemoveSchoolFromSchoolSide ends");
+        log.info("testRemoveB ends");
     }
 
-    void testRemoveSchoolFromStudentSide() {
-        log.info("testRemoveSchoolFromStudentSide begins");
+    void testRemoveBFromASide() {
+        log.info("testRemoveBFromASide begins");
         final BSchool school = testData.getB().get(0);
 
-        // Break student-school relationships for all students.
+        // A removes B (break A-B relationship).
         testData.getA().forEach(student -> student.getSchools().remove(school));
 
-        // Now remove school.
+        // Now remove B.
         em.remove(school);
-        log.info("testRemoveSchoolFromStudentSide ends");
+        log.info("testRemoveBFromASide ends");
     }
 
-    void testRemoveStudentFromSchoolSide() {
-        log.info("testRemoveStudentFromSchoolSide begins");
+    void testRemoveA() {
+        log.info("testRemoveA begins");
+        final AStudent student = testData.getA().get(0);
+        em.remove(student);
+        log.info("testRemoveA ends");
+    }
+
+    void testRemoveAFromBSide() {
+        log.info("testRemoveAFromBSide begins");
         final AStudent student = testData.getA().get(0);
 
-        // Break school-student relationships for all schools.
+        // B removes A (break A-B relationship).
         testData.getB().forEach(school -> school.getStudents().remove(student));
 
-        // Now remove student.
+        // Now remove A.
         em.remove(student);
-        log.info("testRemoveStudentFromSchoolSide ends");
+        log.info("testRemoveAFromBSide ends");
     }
 
-    void testRemoveStudentFromStudentSide() {
-        log.info("testRemoveStudentFromStudentSide begins");
-        final AStudent student = testData.getA().get(0);
-        em.remove(student);
-        log.info("testRemoveStudentFromStudentSide ends");
-    }
-
-    void testAddStudentWithMultipleSameSchools() {
-        log.info("testAddStudentWithMultipleSameSchools begins");
+    void testAddAWithMultipleSameBs() {
+        log.info("testAddAWithMultipleSameBs begins");
         final BSchool school = new BSchool("school-30");
         em.persist(school);
 
@@ -136,11 +136,11 @@ class TestClass {
         student.getSchools().add(school);
         student.getSchools().add(school);
         em.persist(student);
-        log.info("testAddStudentWithMultipleSameSchools ends");
+        log.info("testAddAWithMultipleSameBs ends");
     }
 
-    void testAddSchoolWithMultipleSameStudents() {
-        log.info("testAddSchoolWithMultipleSameStudents begins");
+    void testAddBWithMultipleSameAs() {
+        log.info("testAddBWithMultipleSameAs begins");
         final AStudent student = new AStudent("student-40");
         em.persist(student);
 
@@ -148,6 +148,6 @@ class TestClass {
         school.getStudents().add(student);
         school.getStudents().add(student);
         em.persist(school);
-        log.info("testAddSchoolWithMultipleSameStudents ends");
+        log.info("testAddBWithMultipleSameAs ends");
     }
 }
