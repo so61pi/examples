@@ -70,15 +70,33 @@ class TestClass {
         log.info("tearDown ends");
     }
 
+    /**
+     * select aproject0_.id as id1_16_, aproject0_.name as name2_16_ from aprojects aproject0_
+     */
     @Test
-    void test() {
+    void testSelect() {
+        // https://docs.oracle.com/javaee/7/tutorial/persistence-criteria001.htm
+
+        // Use an EntityManager instance to create a CriteriaBuilder object.
         CriteriaBuilder cb = em.getCriteriaBuilder();
 
-        CriteriaQuery<AProject> criteriaQuery = cb.createQuery(AProject.class);
-        Root<AProject> r = criteriaQuery.from(AProject.class);
+        // Create a query object by creating an instance of the CriteriaQuery interface.
+        // This query object's attributes will be modified with the details of the query.
+        // To create a typesafe query, specify the type of the query when you create the CriteriaQuery object.
+        CriteriaQuery<AProject> cq = cb.createQuery(AProject.class);
 
-        CriteriaQuery<AProject> select = criteriaQuery.select(r);
+        // Call the from method of the query object to set the FROM clause of the query and to specify the root of the query.
+        Root<AProject> project = cq.from(AProject.class);
+
+        // Call the select method of the query object, passing in the query root, to set the SELECT clause of the query.
+        CriteriaQuery<AProject> select = cq.select(project);
+
+        // Now, use the query object to create a TypedQuery<T> object that can be executed against the data source.
+        // The modifications to the query object are captured to create a ready-to-execute query
         TypedQuery<AProject> query = em.createQuery(select);
+
+        // Execute the query by calling the getResultList method on the TypedQuery<T> object.
+        // Because this query returns a collection of entities, the result is stored in a List.
         query.getResultList();
     }
 }
