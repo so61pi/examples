@@ -31,9 +31,17 @@ Registered Claim Names
 - "iat" [OPTIONAL]: Issued At
 - "jti" [OPTIONAL]: JWT ID
 
+Creating and Validating JWTs
+----------------------------
+
+- `Creating a JWT <https://tools.ietf.org/html/rfc7519#section-7.1>`__
+- `Validating a JWT <https://tools.ietf.org/html/rfc7519#section-7.2>`__
+
 
 JSON Web Signature
 ==================
+
+    JSON Web Signature (JWS) represents content secured with **digital signatures** or **Message Authentication Codes (MACs)** using JSON-based data structures.
 
 Basic Elements
 --------------
@@ -188,6 +196,8 @@ Example [`ref <https://tools.ietf.org/html/rfc7515#appendix-A.1.1>`__]
 
 JSON Web Encryption
 ===================
+
+    JSON Web Encryption (JWE) represents **encrypted content** using JSON-based data structures.
 
 Basic Elements
 --------------
