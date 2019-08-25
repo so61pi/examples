@@ -1,5 +1,37 @@
 .. contents:: Table of Contents
 
+Abbreviation
+============
+
+- JWA: JSON Web Algorithms
+- JWT: JSON Web Token
+- JWS: JSON Web Signature
+- JWE: JSON Web Encryption
+- JOSE: Javascript Object Signing and Encryption
+
+JSON Web Token
+==============
+
+.. code-block:: text
+
+    JWT = JWS with <JWS Payload = JWT Claims Set>
+        = JWE with <Plaintext = JWT Claims Set>
+
+JWT Claims (JSON) [`ref <https://tools.ietf.org/html/rfc7519#section-4>`__]
+---------------------------------------------------------------------------
+
+Registered Claim Names
+~~~~~~~~~~~~~~~~~~~~~~
+
+- "iss" [OPTIONAL]: Issuer
+- "sub" [OPTIONAL]: Subject
+- "aud" [OPTIONAL]: Audience
+- "exp" [OPTIONAL]: Expiration Time
+- "nbf" [OPTIONAL]: Not Before
+- "iat" [OPTIONAL]: Issued At
+- "jti" [OPTIONAL]: JWT ID
+
+
 JSON Web Signature
 ==================
 
@@ -64,13 +96,55 @@ Registered Header Parameter
 
 - "alg" [MUST]: Digital Signature or MAC Algorithm
 
-  + https://tools.ietf.org/html/rfc7515#section-4.1.1
-  + https://tools.ietf.org/html/rfc7518#section-3.1
+  * https://tools.ietf.org/html/rfc7515#section-4.1.1, refers to Section-3.1 in JWA.
+
+    + JWA Section-3.1: https://tools.ietf.org/html/rfc7518#section-3.1
+
+      +--------------+-------------------------------+--------------------+
+      | "alg" Param  | Digital Signature or MAC      | Implementation     |
+      | Value        | Algorithm                     | Requirements       |
+      +==============+===============================+====================+
+      | HS256        | HMAC using SHA-256            | Required           |
+      +--------------+-------------------------------+--------------------+
+      | HS384        | HMAC using SHA-384            | Optional           |
+      +--------------+-------------------------------+--------------------+
+      | HS512        | HMAC using SHA-512            | Optional           |
+      +--------------+-------------------------------+--------------------+
+      | RS256        | RSASSA-PKCS1-v1_5 using       | Recommended        |
+      |              | SHA-256                       |                    |
+      +--------------+-------------------------------+--------------------+
+      | RS384        | RSASSA-PKCS1-v1_5 using       | Optional           |
+      |              | SHA-384                       |                    |
+      +--------------+-------------------------------+--------------------+
+      | RS512        | RSASSA-PKCS1-v1_5 using       | Optional           |
+      |              | SHA-512                       |                    |
+      +--------------+-------------------------------+--------------------+
+      | ES256        | ECDSA using P-256 and SHA-256 | Recommended+       |
+      +--------------+-------------------------------+--------------------+
+      | ES384        | ECDSA using P-384 and SHA-384 | Optional           |
+      +--------------+-------------------------------+--------------------+
+      | ES512        | ECDSA using P-521 and SHA-512 | Optional           |
+      +--------------+-------------------------------+--------------------+
+      | PS256        | RSASSA-PSS using SHA-256 and  | Optional           |
+      |              | MGF1 with SHA-256             |                    |
+      +--------------+-------------------------------+--------------------+
+      | PS384        | RSASSA-PSS using SHA-384 and  | Optional           |
+      |              | MGF1 with SHA-384             |                    |
+      +--------------+-------------------------------+--------------------+
+      | PS512        | RSASSA-PSS using SHA-512 and  | Optional           |
+      |              | MGF1 with SHA-512             |                    |
+      +--------------+-------------------------------+--------------------+
+      | none         | No digital signature or MAC   | Optional           |
+      |              | performed                     |                    |
+      +--------------+-------------------------------+--------------------+
 
 - "typ" [OPTIONAL]
 
-  + https://tools.ietf.org/html/rfc7515#section-4.1.9
-  + https://tools.ietf.org/html/rfc7519#section-3.1
+  * https://tools.ietf.org/html/rfc7515#section-4.1.9
+
+        If present, it is RECOMMENDED that its value be "JWT" to indicate that this object is a JWT.
+
+  * https://tools.ietf.org/html/rfc7519#section-3.1
 
 Producing and Consuming JWSs [`ref <https://tools.ietf.org/html/rfc7515#section-5>`__]
 --------------------------------------------------------------------------------------
@@ -165,13 +239,162 @@ Registered Header Parameter
 
 - "alg" [MUST]: Digital Signature or MAC Algorithm
 
-  * https://tools.ietf.org/html/rfc7516#section-4.1.1
-  * https://tools.ietf.org/html/rfc7515#section-4.1.1
+  * https://tools.ietf.org/html/rfc7516#section-4.1.1, refers to Section-4.1 in JWA.
+
+    + JWA Section-4.1: https://tools.ietf.org/html/rfc7518#section-4.1
+
+      +--------------------+--------------------+--------+----------------+
+      | "alg" Param Value  | Key Management     | More   | Implementation |
+      |                    | Algorithm          | Header | Requirements   |
+      |                    |                    | Params |                |
+      +====================+====================+========+================+
+      | RSA1_5             | RSAES-PKCS1-v1_5   | (none) | Recommended-   |
+      +--------------------+--------------------+--------+----------------+
+      | RSA-OAEP           | RSAES OAEP using   | (none) | Recommended+   |
+      |                    | default parameters |        |                |
+      +--------------------+--------------------+--------+----------------+
+      | RSA-OAEP-256       | RSAES OAEP using   | (none) | Optional       |
+      |                    | SHA-256 and MGF1   |        |                |
+      |                    | with SHA-256       |        |                |
+      +--------------------+--------------------+--------+----------------+
+      | A128KW             | AES Key Wrap with  | (none) | Recommended    |
+      |                    | default initial    |        |                |
+      |                    | value using        |        |                |
+      |                    | 128-bit key        |        |                |
+      +--------------------+--------------------+--------+----------------+
+      | A192KW             | AES Key Wrap with  | (none) | Optional       |
+      |                    | default initial    |        |                |
+      |                    | value using        |        |                |
+      |                    | 192-bit key        |        |                |
+      +--------------------+--------------------+--------+----------------+
+      | A256KW             | AES Key Wrap with  | (none) | Recommended    |
+      |                    | default initial    |        |                |
+      |                    | value using        |        |                |
+      |                    | 256-bit key        |        |                |
+      +--------------------+--------------------+--------+----------------+
+      | dir                | Direct use of a    | (none) | Recommended    |
+      |                    | shared symmetric   |        |                |
+      |                    | key as the CEK     |        |                |
+      +--------------------+--------------------+--------+----------------+
+      | ECDH-ES            | Elliptic Curve     | "epk", | Recommended+   |
+      |                    | Diffie-Hellman     | "apu", |                |
+      |                    | Ephemeral Static   | "apv"  |                |
+      |                    | key agreement      |        |                |
+      |                    | using Concat KDF   |        |                |
+      +--------------------+--------------------+--------+----------------+
+      | ECDH-ES+A128KW     | ECDH-ES using      | "epk", | Recommended    |
+      |                    | Concat KDF and CEK | "apu", |                |
+      |                    | wrapped with       | "apv"  |                |
+      |                    | "A128KW"           |        |                |
+      +--------------------+--------------------+--------+----------------+
+      | ECDH-ES+A192KW     | ECDH-ES using      | "epk", | Optional       |
+      |                    | Concat KDF and CEK | "apu", |                |
+      |                    | wrapped with       | "apv"  |                |
+      |                    | "A192KW"           |        |                |
+      +--------------------+--------------------+--------+----------------+
+      | ECDH-ES+A256KW     | ECDH-ES using      | "epk", | Recommended    |
+      |                    | Concat KDF and CEK | "apu", |                |
+      |                    | wrapped with       | "apv"  |                |
+      |                    | "A256KW"           |        |                |
+      +--------------------+--------------------+--------+----------------+
+      | A128GCMKW          | Key wrapping with  | "iv",  | Optional       |
+      |                    | AES GCM using      | "tag"  |                |
+      |                    | 128-bit key        |        |                |
+      +--------------------+--------------------+--------+----------------+
+      | A192GCMKW          | Key wrapping with  | "iv",  | Optional       |
+      |                    | AES GCM using      | "tag"  |                |
+      |                    | 192-bit key        |        |                |
+      +--------------------+--------------------+--------+----------------+
+      | A256GCMKW          | Key wrapping with  | "iv",  | Optional       |
+      |                    | AES GCM using      | "tag"  |                |
+      |                    | 256-bit key        |        |                |
+      +--------------------+--------------------+--------+----------------+
+      | PBES2-HS256+A128KW | PBES2 with HMAC    | "p2s", | Optional       |
+      |                    | SHA-256 and        | "p2c"  |                |
+      |                    | "A128KW" wrapping  |        |                |
+      +--------------------+--------------------+--------+----------------+
+      | PBES2-HS384+A192KW | PBES2 with HMAC    | "p2s", | Optional       |
+      |                    | SHA-384 and        | "p2c"  |                |
+      |                    | "A192KW" wrapping  |        |                |
+      +--------------------+--------------------+--------+----------------+
+      | PBES2-HS512+A256KW | PBES2 with HMAC    | "p2s", | Optional       |
+      |                    | SHA-512 and        | "p2c"  |                |
+      |                    | "A256KW" wrapping  |        |                |
+      +--------------------+--------------------+--------+----------------+
+
+  * https://tools.ietf.org/html/rfc7515#section-4.1.1, refers to Section-3.1 in JWA.
+
+    + JWA Section-3.1: https://tools.ietf.org/html/rfc7518#section-3.1
+
+      +--------------+-------------------------------+--------------------+
+      | "alg" Param  | Digital Signature or MAC      | Implementation     |
+      | Value        | Algorithm                     | Requirements       |
+      +==============+===============================+====================+
+      | HS256        | HMAC using SHA-256            | Required           |
+      +--------------+-------------------------------+--------------------+
+      | HS384        | HMAC using SHA-384            | Optional           |
+      +--------------+-------------------------------+--------------------+
+      | HS512        | HMAC using SHA-512            | Optional           |
+      +--------------+-------------------------------+--------------------+
+      | RS256        | RSASSA-PKCS1-v1_5 using       | Recommended        |
+      |              | SHA-256                       |                    |
+      +--------------+-------------------------------+--------------------+
+      | RS384        | RSASSA-PKCS1-v1_5 using       | Optional           |
+      |              | SHA-384                       |                    |
+      +--------------+-------------------------------+--------------------+
+      | RS512        | RSASSA-PKCS1-v1_5 using       | Optional           |
+      |              | SHA-512                       |                    |
+      +--------------+-------------------------------+--------------------+
+      | ES256        | ECDSA using P-256 and SHA-256 | Recommended+       |
+      +--------------+-------------------------------+--------------------+
+      | ES384        | ECDSA using P-384 and SHA-384 | Optional           |
+      +--------------+-------------------------------+--------------------+
+      | ES512        | ECDSA using P-521 and SHA-512 | Optional           |
+      +--------------+-------------------------------+--------------------+
+      | PS256        | RSASSA-PSS using SHA-256 and  | Optional           |
+      |              | MGF1 with SHA-256             |                    |
+      +--------------+-------------------------------+--------------------+
+      | PS384        | RSASSA-PSS using SHA-384 and  | Optional           |
+      |              | MGF1 with SHA-384             |                    |
+      +--------------+-------------------------------+--------------------+
+      | PS512        | RSASSA-PSS using SHA-512 and  | Optional           |
+      |              | MGF1 with SHA-512             |                    |
+      +--------------+-------------------------------+--------------------+
+      | none         | No digital signature or MAC   | Optional           |
+      |              | performed                     |                    |
+      +--------------+-------------------------------+--------------------+
 
 - "enc" [MUST]: Encryption Algorithm
 
-  * https://tools.ietf.org/html/rfc7516#section-4.1.2
-  * https://tools.ietf.org/html/rfc7518#section-5.1
+  * https://tools.ietf.org/html/rfc7516#section-4.1.2, refers to Section-5.1 in JWA.
+
+    + JWA Section-5.1: https://tools.ietf.org/html/rfc7518#section-5.1
+
+      +---------------+----------------------------------+----------------+
+      | "enc" Param   | Content Encryption Algorithm     | Implementation |
+      | Value         |                                  | Requirements   |
+      +===============+==================================+================+
+      | A128CBC-HS256 | AES_128_CBC_HMAC_SHA_256         | Required       |
+      |               | authenticated encryption         |                |
+      |               | algorithm, as defined in Section |                |
+      |               | 5.2.3                            |                |
+      +---------------+----------------------------------+----------------+
+      | A192CBC-HS384 | AES_192_CBC_HMAC_SHA_384         | Optional       |
+      |               | authenticated encryption         |                |
+      |               | algorithm, as defined in Section |                |
+      |               | 5.2.4                            |                |
+      +---------------+----------------------------------+----------------+
+      | A256CBC-HS512 | AES_256_CBC_HMAC_SHA_512         | Required       |
+      |               | authenticated encryption         |                |
+      |               | algorithm, as defined in Section |                |
+      |               | 5.2.5                            |                |
+      +---------------+----------------------------------+----------------+
+      | A128GCM       | AES GCM using 128-bit key        | Recommended    |
+      +---------------+----------------------------------+----------------+
+      | A192GCM       | AES GCM using 192-bit key        | Optional       |
+      +---------------+----------------------------------+----------------+
+      | A256GCM       | AES GCM using 256-bit key        | Recommended    |
+      +---------------+----------------------------------+----------------+
 
 - "zip" [OPTIONAL]: Compression Algorithm
 
@@ -182,28 +405,6 @@ Producing and Consuming JWEs [`ref <https://tools.ietf.org/html/rfc7516#section-
 
 Example [`ref <https://tools.ietf.org/html/rfc7516#appendix-A.1>`__]
 --------------------------------------------------------------------
-
-JSON Web Token
-==============
-
-.. code-block:: text
-
-    JWT = JWS with <JWS Payload = JWT Claims Set>
-        = JWE with <Plaintext = JWT Claims Set>
-
-JWT Claims (JSON) [`ref <https://tools.ietf.org/html/rfc7519#section-4>`__]
----------------------------------------------------------------------------
-
-Registered Claim Names
-~~~~~~~~~~~~~~~~~~~~~~
-
-- "iss" [OPTIONAL]: Issuer
-- "sub" [OPTIONAL]: Subject
-- "aud" [OPTIONAL]: Audience
-- "exp" [OPTIONAL]: Expiration Time
-- "nbf" [OPTIONAL]: Not Before
-- "iat" [OPTIONAL]: Issued At
-- "jti" [OPTIONAL]: JWT ID
 
 Usage
 =====
