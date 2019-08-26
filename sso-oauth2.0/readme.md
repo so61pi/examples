@@ -35,3 +35,7 @@
           * Validate access token, response with 401 Unauthorized if necessary.
 
             + The front-end code will ask for relogging in if it receives 401.
+
+## References
+
+- https://www.haproxy.com/blog/using-haproxy-as-an-api-gateway-part-2-authentication/
