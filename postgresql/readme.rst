@@ -119,6 +119,9 @@ Query plan is carried out inside out, as follows
 
 #. Scan ``members`` table sequentially to retrieve rows
 #. Construct a hash table with retrieved rows.
+
+   * Hash keys are set from outer ``Hash Join``, see postgresql/src/backend/executor/nodeHashjoin.c:744
+
 #. Scan ``bookings`` table sequentially.
 #. Do a hash join on 2 tables above.
 
@@ -127,6 +130,7 @@ Notes
 
 - ``EXPLAIN`` only prints out query plan without executing the query.
 - ``EXPLAIN ANALYZE`` actually executec the query.
+- ``EXPLAIN VERBOSE`` displays more information.
 - Left table is outer table, right table is inner table.
 
     .. code-block:: sql
@@ -137,6 +141,7 @@ References
 ~~~~~~~~~~
 
 - https://www.postgresql.org/docs/11/using-explain.html
+- https://www.postgresql.org/docs/11/sql-explain.html
 - postgresql/src/backend/optimizer/path/costsize.c
 
 Logging/Debug Configuration Options
