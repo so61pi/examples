@@ -33,7 +33,7 @@ Tracking
 
     CREATE TABLE schema_changes (
       id SERIAL PRIMARY KEY,
-      version TEXT NOT NULL, # <YYYY><MM><DD><HH><MM><SS>_<COMMENT>
+      version TEXT NOT NULL, -- <YYYY><MM><DD><HH><MM><SS>_<COMMENT>
       date_applied TIMESTAMP WITH TIME ZONE
     )
 
