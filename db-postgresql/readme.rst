@@ -590,7 +590,7 @@ Not possible in postgresql.
 ``REPEATABLE READ``
 -------------------
 
-  .. code-block:: none
+  .. code-block:: sql
 
       /********************************************************************************************************
       TxA                                                             TxB
