@@ -590,39 +590,39 @@ Not possible in postgresql.
 ``REPEATABLE READ``
 -------------------
 
-  .. code-block:: sql
+.. code-block:: sql
 
-      /********************************************************************************************************
-      TxA                                                             TxB
-      ********************************************************************************************************/
-      /* 1 */
-      BEGIN TRANSACTION ISOLATION LEVEL REPEATABLE READ;
+    /********************************************************************************************************
+    TxA                                                             TxB
+    ********************************************************************************************************/
+    /* 1 */
+    BEGIN TRANSACTION ISOLATION LEVEL REPEATABLE READ;
 
-      /* 2 */
-      SELECT * FROM bookings ORDER BY bookid DESC LIMIT 2;
-      --  bookid | facid | memid |      starttime      | slots
-      -- --------+-------+-------+---------------------+-------
-      --    4042 |     9 |    17 | 2012-09-30 19:00:00 |     1
-      --    4041 |     9 |    20 | 2012-09-30 18:30:00 |     1
-      -- (2 rows)
+    /* 2 */
+    SELECT * FROM bookings ORDER BY bookid DESC LIMIT 2;
+    --  bookid | facid | memid |      starttime      | slots
+    -- --------+-------+-------+---------------------+-------
+    --    4042 |     9 |    17 | 2012-09-30 19:00:00 |     1
+    --    4041 |     9 |    20 | 2012-09-30 18:30:00 |     1
+    -- (2 rows)
 
-                                                                      /* 3 */
-                                                                      DELETE FROM bookings WHERE bookid = 4042;
+                                                                    /* 3 */
+                                                                    DELETE FROM bookings WHERE bookid = 4042;
 
-      /* 4 */
-      SELECT * FROM bookings ORDER BY bookid DESC LIMIT 2;
-      --  bookid | facid | memid |      starttime      | slots
-      -- --------+-------+-------+---------------------+-------
-      --    4042 |     9 |    17 | 2012-09-30 19:00:00 |     1
-      --    4041 |     9 |    20 | 2012-09-30 18:30:00 |     1
-      -- (2 rows)
+    /* 4 */
+    SELECT * FROM bookings ORDER BY bookid DESC LIMIT 2;
+    --  bookid | facid | memid |      starttime      | slots
+    -- --------+-------+-------+---------------------+-------
+    --    4042 |     9 |    17 | 2012-09-30 19:00:00 |     1
+    --    4041 |     9 |    20 | 2012-09-30 18:30:00 |     1
+    -- (2 rows)
 
-      /* 5 */
-      UPDATE bookings SET slots = 2 WHERE bookid = 4042;
-      -- ERROR:  could not serialize access due to concurrent update
+    /* 5 */
+    UPDATE bookings SET slots = 2 WHERE bookid = 4042;
+    -- ERROR:  could not serialize access due to concurrent update
 
-      /* 6 */
-      ROLLBACK;
+    /* 6 */
+    ROLLBACK;
 
 ``SERIALIZABLE``
 ----------------
