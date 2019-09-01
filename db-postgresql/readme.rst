@@ -516,6 +516,122 @@ References
 - https://use-the-index-luke.com
 - https://habr.com/en/company/postgrespro/blog/441962/
 
+Isolation Levels
+================
+
+``READ UNCOMMITTED``
+--------------------
+
+Not possible in postgresql.
+
+``READ COMMITTED``
+------------------
+
+.. code-block:: sql
+
+    /********************************************************************************************************
+    TxA                                                             TxB
+    ********************************************************************************************************/
+    /* 1 */
+    BEGIN;
+
+    /* 2 */
+    SELECT * FROM bookings ORDER BY bookid DESC LIMIT 2;
+    --  bookid | facid | memid |      starttime      | slots
+    -- --------+-------+-------+---------------------+-------
+    --    4044 |     9 |     6 | 2013-01-01 15:30:00 |     1
+    --    4043 |     9 |    26 | 2012-09-30 19:30:00 |     1
+    -- (2 rows)
+
+                                                                    /* 3 */
+                                                                    DELETE FROM bookings WHERE bookid = 4044;
+
+    /* 4 */
+    UPDATE bookings SET slots = 2 WHERE bookid = 4044;
+    -- UPDATE 0
+
+    /* 5 */
+    ROLLBACK;
+
+.. code-block:: sql
+
+    /********************************************************************************************************
+    TxA                                                             TxB
+    ********************************************************************************************************/
+    /* 1 */
+    BEGIN;
+
+                                                                    /* 2 */
+                                                                    BEGIN;
+
+    /* 3 */
+    SELECT * FROM bookings ORDER BY bookid DESC LIMIT 2;
+    --  bookid | facid | memid |      starttime      | slots
+    -- --------+-------+-------+---------------------+-------
+    --    4043 |     9 |    26 | 2012-09-30 19:30:00 |     1
+    --    4042 |     9 |    17 | 2012-09-30 19:00:00 |     1
+    -- (2 rows)
+
+                                                                    /* 4 */
+                                                                    DELETE FROM bookings WHERE bookid = 4043;
+
+    /* 5 */
+    UPDATE bookings SET slots = 2 WHERE bookid = 4043;
+    -- Wait until TxB is done...
+
+                                                                    /* 6 */
+                                                                    COMMIT;
+
+    -- UPDATE 0
+
+    /* 7 */
+    ROLLBACK;
+
+``REPEATABLE READ``
+-------------------
+
+  .. code-block:: none
+
+      /********************************************************************************************************
+      TxA                                                             TxB
+      ********************************************************************************************************/
+      /* 1 */
+      BEGIN TRANSACTION ISOLATION LEVEL REPEATABLE READ;
+
+      /* 2 */
+      SELECT * FROM bookings ORDER BY bookid DESC LIMIT 2;
+      --  bookid | facid | memid |      starttime      | slots
+      -- --------+-------+-------+---------------------+-------
+      --    4042 |     9 |    17 | 2012-09-30 19:00:00 |     1
+      --    4041 |     9 |    20 | 2012-09-30 18:30:00 |     1
+      -- (2 rows)
+
+                                                                      /* 3 */
+                                                                      DELETE FROM bookings WHERE bookid = 4042;
+
+      /* 4 */
+      SELECT * FROM bookings ORDER BY bookid DESC LIMIT 2;
+      --  bookid | facid | memid |      starttime      | slots
+      -- --------+-------+-------+---------------------+-------
+      --    4042 |     9 |    17 | 2012-09-30 19:00:00 |     1
+      --    4041 |     9 |    20 | 2012-09-30 18:30:00 |     1
+      -- (2 rows)
+
+      /* 5 */
+      UPDATE bookings SET slots = 2 WHERE bookid = 4042;
+      -- ERROR:  could not serialize access due to concurrent update
+
+      /* 6 */
+      ROLLBACK;
+
+``SERIALIZABLE``
+----------------
+
+References
+----------
+
+- https://www.postgresql.org/docs/11/transaction-iso.html
+
 Security
 ========
 
