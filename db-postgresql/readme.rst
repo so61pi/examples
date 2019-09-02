@@ -540,29 +540,33 @@ Short Conflicting Transaction
 
     /* 2 */
     SELECT xmin, cmin, xmax, cmax, ctid,
-           bookid, slots
-    FROM bookings ORDER BY bookid DESC LIMIT 2;
-    --  xmin | cmin | xmax | cmax |  ctid   | bookid | slots
-    -- ------+------+------+------+---------+--------+-------
-    --   577 |    0 |    0 |    0 | (33,84) |   4044 |     1
-    --   577 |    0 |    0 |    0 | (33,83) |   4043 |     1
+           slots, bookid
+    FROM bookings
+    WHERE bookid < 4000
+    ORDER BY bookid DESC LIMIT 2;
+    --  xmin | cmin | xmax | cmax |  ctid   | slots | bookid
+    -- ------+------+------+------+---------+-------+--------
+    --   577 |    0 |    0 |    0 | (33,39) |     2 |   3999 <===
+    --   577 |    0 |    0 |    0 | (33,38) |     2 |   3998
     -- (2 rows)
 
                                                                     /* 3 */
-                                                                    DELETE FROM bookings WHERE bookid = 4044;
+                                                                    DELETE FROM bookings WHERE bookid = 3999;
 
     /* 4 */
     SELECT xmin, cmin, xmax, cmax, ctid,
-           bookid, slots
-    FROM bookings ORDER BY bookid DESC LIMIT 2;
-    --  xmin | cmin | xmax | cmax |  ctid   | bookid | slots
-    -- ------+------+------+------+---------+--------+-------
-    --   577 |    0 |    0 |    0 | (33,83) |   4043 |     1
-    --   577 |    0 |    0 |    0 | (33,82) |   4042 |     1
+           slots, bookid
+    FROM bookings
+    WHERE bookid < 4000
+    ORDER BY bookid DESC LIMIT 2;
+    --  xmin | cmin | xmax | cmax |  ctid   | slots | bookid
+    -- ------+------+------+------+---------+-------+--------
+    --   577 |    0 |    0 |    0 | (33,38) |     2 |   3998 <===
+    --   577 |    0 |    0 |    0 | (33,37) |     2 |   3997
     -- (2 rows)
 
     /* 5 */
-    UPDATE bookings SET slots = 2 WHERE bookid = 4044;
+    UPDATE bookings SET slots = 9 WHERE bookid = 3999;
     -- UPDATE 0
 
     /* 6 */
@@ -584,29 +588,33 @@ Long Conflicting Transaction
 
     /* 3 */
     SELECT xmin, cmin, xmax, cmax, ctid,
-           bookid, slots
-    FROM bookings ORDER BY bookid DESC LIMIT 2;
-    --  xmin | cmin | xmax | cmax |  ctid   | bookid | slots
-    -- ------+------+------+------+---------+--------+-------
-    --   577 |    0 |    0 |    0 | (33,83) |   4043 |     1
-    --   577 |    0 |    0 |    0 | (33,82) |   4042 |     1
+           slots, bookid
+    FROM bookings
+    WHERE bookid < 3500
+    ORDER BY bookid DESC LIMIT 2;
+    --  xmin | cmin | xmax | cmax |  ctid   | slots | bookid
+    -- ------+------+------+------+---------+-------+--------
+    --   577 |    0 |    0 |    0 | (29,19) |     3 |   3499 <===
+    --   577 |    0 |    0 |    0 | (29,18) |     3 |   3498
     -- (2 rows)
 
                                                                     /* 4 */
-                                                                    DELETE FROM bookings WHERE bookid = 4043;
+                                                                    DELETE FROM bookings WHERE bookid = 3499;
 
     /* 5 */
     SELECT xmin, cmin, xmax, cmax, ctid,
-           bookid, slots
-    FROM bookings ORDER BY bookid DESC LIMIT 2;
-    --  xmin | cmin | xmax | cmax |  ctid   | bookid | slots
-    -- ------+------+------+------+---------+--------+-------
-    --   577 |    0 |  580 |    0 | (33,83) |   4043 |     1
-    --   577 |    0 |    0 |    0 | (33,82) |   4042 |     1
+           slots, bookid
+    FROM bookings
+    WHERE bookid < 3500
+    ORDER BY bookid DESC LIMIT 2;
+    --  xmin | cmin | xmax | cmax |  ctid   | slots | bookid
+    -- ------+------+------+------+---------+-------+--------
+    --   577 |    0 |  580 |    0 | (29,19) |     3 |   3499 <===
+    --   577 |    0 |    0 |    0 | (29,18) |     3 |   3498
     -- (2 rows)
 
     /* 6 */
-    UPDATE bookings SET slots = 2 WHERE bookid = 4043;
+    UPDATE bookings SET slots = 2 WHERE bookid = 3499;
     -- Wait...
 
                                                                     /* 7 */
@@ -617,16 +625,101 @@ Long Conflicting Transaction
 
     /* 8 */
     SELECT xmin, cmin, xmax, cmax, ctid,
-           bookid, slots
-    FROM bookings ORDER BY bookid DESC LIMIT 2;
-    --  xmin | cmin | xmax | cmax |  ctid   | bookid | slots
-    -- ------+------+------+------+---------+--------+-------
-    --   577 |    0 |    0 |    0 | (33,82) |   4042 |     1
-    --   577 |    0 |    0 |    0 | (33,81) |   4041 |     1
+           slots, bookid
+    FROM bookings
+    WHERE bookid < 3500
+    ORDER BY bookid DESC LIMIT 2;
+    --  xmin | cmin | xmax | cmax |  ctid   | slots | bookid
+    -- ------+------+------+------+---------+-------+--------
+    --   577 |    0 |    0 |    0 | (29,18) |     3 |   3498 <===
+    --   577 |    0 |    0 |    0 | (29,17) |     3 |   3497
     -- (2 rows)
 
     /* 9 */
     ROLLBACK;
+
+.. code-block:: sql
+
+    /******************************************************************************************************************************
+    TxA                                                             TxB
+    *******************************************************************************************************************************/
+    /* 1 */
+    BEGIN;
+
+                                                                    /* 2 */
+                                                                    BEGIN;
+
+    /* 3 */
+    SELECT xmin, cmin, xmax, cmax, ctid,
+           slots, bookid
+    FROM bookings
+    WHERE bookid < 3000
+    ORDER BY bookid DESC LIMIT 2;
+    --  xmin | cmin | xmax | cmax |   ctid   | slots | bookid
+    -- ------+------+------+------+----------+-------+--------
+    --   577 |    0 |    0 |    0 | (24,119) |     2 |   2999 <===
+    --   577 |    0 |    0 |    0 | (24,118) |     2 |   2998
+    -- (2 rows)
+
+                                                                    /* 4 */
+                                                                    DELETE FROM bookings WHERE bookid = 2999;
+
+    /* 5 */
+    SELECT xmin, cmin, xmax, cmax, ctid,
+           slots, bookid
+    FROM bookings
+    WHERE bookid < 3000
+    ORDER BY bookid DESC LIMIT 2;
+    --  xmin | cmin | xmax | cmax |   ctid   | slots | bookid
+    -- ------+------+------+------+----------+-------+--------
+    --   577 |    0 |  582 |    0 | (24,119) |     2 |   2999 <===
+    --   577 |    0 |    0 |    0 | (24,118) |     2 |   2998
+    -- (2 rows)
+
+                                                                    /* 6 */
+                                                                    ROLLBACK;
+
+    /* 7 */
+    SELECT xmin, cmin, xmax, cmax, ctid,
+           slots, bookid
+    FROM bookings
+    WHERE bookid < 3000
+    ORDER BY bookid DESC LIMIT 2;
+    --  xmin | cmin | xmax | cmax |   ctid   | slots | bookid
+    -- ------+------+------+------+----------+-------+--------
+    --   577 |    0 |  582 |    0 | (24,119) |     2 |   2999 <===
+    --   577 |    0 |    0 |    0 | (24,118) |     2 |   2998
+    -- (2 rows)
+
+    /* 8 */
+    ROLLBACK;
+
+    /* 9 */
+    SELECT xmin, cmin, xmax, cmax, ctid,
+           slots, bookid
+    FROM bookings
+    WHERE bookid < 3000
+    ORDER BY bookid DESC LIMIT 2;
+    --  xmin | cmin | xmax | cmax |   ctid   | slots | bookid
+    -- ------+------+------+------+----------+-------+--------
+    --   577 |    0 |  582 |    0 | (24,119) |     2 |   2999 <===
+    --   577 |    0 |    0 |    0 | (24,118) |     2 |   2998
+    -- (2 rows)
+
+    /* 10 */
+    VACUUM FULL;
+
+    /* 11 */
+    SELECT xmin, cmin, xmax, cmax, ctid,
+           slots, bookid
+    FROM bookings
+    WHERE bookid < 3000
+    ORDER BY bookid DESC LIMIT 2;
+    --  xmin | cmin | xmax | cmax |   ctid   | slots | bookid
+    -- ------+------+------+------+----------+-------+--------
+    --   577 |    0 |    0 |    0 | (24,119) |     2 |   2999 <===
+    --   577 |    0 |    0 |    0 | (24,118) |     2 |   2998
+    -- (2 rows)
 
 ``REPEATABLE READ``
 -------------------
@@ -641,29 +734,33 @@ Long Conflicting Transaction
 
     /* 2 */
     SELECT xmin, cmin, xmax, cmax, ctid,
-           bookid, slots
-    FROM bookings ORDER BY bookid DESC LIMIT 2;
-    --  xmin | cmin | xmax | cmax |  ctid   | bookid | slots
-    -- ------+------+------+------+---------+--------+-------
-    --   577 |    0 |    0 |    0 | (33,82) |   4042 |     1
-    --   577 |    0 |    0 |    0 | (33,81) |   4041 |     1
+           slots, bookid
+    FROM bookings
+    WHERE bookid < 2500
+    ORDER BY bookid DESC LIMIT 2;
+    --  xmin | cmin | xmax | cmax |  ctid   | slots | bookid
+    -- ------+------+------+------+---------+-------+--------
+    --   577 |    0 |    0 |    0 | (20,99) |     2 |   2499 <===
+    --   577 |    0 |    0 |    0 | (20,98) |     2 |   2498
     -- (2 rows)
 
                                                                     /* 3 */
-                                                                    DELETE FROM bookings WHERE bookid = 4042;
+                                                                    DELETE FROM bookings WHERE bookid = 2499;
 
     /* 4 */
     SELECT xmin, cmin, xmax, cmax, ctid,
-           bookid, slots
-    FROM bookings ORDER BY bookid DESC LIMIT 2;
-    --  xmin | cmin | xmax | cmax |  ctid   | bookid | slots
-    -- ------+------+------+------+---------+--------+-------
-    --   577 |    0 |  582 |    0 | (33,82) |   4042 |     1
-    --   577 |    0 |    0 |    0 | (33,81) |   4041 |     1
+           slots, bookid
+    FROM bookings
+    WHERE bookid < 2500
+    ORDER BY bookid DESC LIMIT 2;
+    --  xmin | cmin | xmax | cmax |  ctid   | slots | bookid
+    -- ------+------+------+------+---------+-------+--------
+    --   577 |    0 |  659 |    0 | (20,99) |     2 |   2499 <===
+    --   577 |    0 |    0 |    0 | (20,98) |     2 |   2498
     -- (2 rows)
 
     /* 5 */
-    UPDATE bookings SET slots = 2 WHERE bookid = 4042;
+    UPDATE bookings SET slots = 2 WHERE bookid = 2499;
     -- ERROR:  could not serialize access due to concurrent update
 
     /* 6 */
