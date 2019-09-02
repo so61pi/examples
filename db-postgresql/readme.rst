@@ -283,7 +283,7 @@ References
     - https://www.postgresql.org/docs/11/index.html
     - `Internals <https://www.postgresql.org/docs/11/internals.html>`_
     - `Database File Layout <https://www.postgresql.org/docs/11/storage-file-layout.html>`_
-    - `System Column <https://www.postgresql.org/docs/11/ddl-system-columns.html>`_
+    - `System Columns <https://www.postgresql.org/docs/11/ddl-system-columns.html>`_
     - `Genetic Query Optimizer <https://www.postgresql.org/docs/11/geqo.html>`_
     - `Parallel Query <https://www.postgresql.org/docs/11/parallel-query.html>`_
     - `Performance Tips <https://www.postgresql.org/docs/11/performance-tips.html>`_
@@ -527,37 +527,55 @@ Not possible in postgresql.
 ``READ COMMITTED``
 ------------------
 
+Short Conflicting Transaction
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 .. code-block:: sql
 
-    /********************************************************************************************************
+    /******************************************************************************************************************************
     TxA                                                             TxB
-    ********************************************************************************************************/
+    *******************************************************************************************************************************/
     /* 1 */
     BEGIN;
 
     /* 2 */
-    SELECT * FROM bookings ORDER BY bookid DESC LIMIT 2;
-    --  bookid | facid | memid |      starttime      | slots
-    -- --------+-------+-------+---------------------+-------
-    --    4044 |     9 |     6 | 2013-01-01 15:30:00 |     1
-    --    4043 |     9 |    26 | 2012-09-30 19:30:00 |     1
+    SELECT xmin, cmin, xmax, cmax, ctid,
+           bookid, slots
+    FROM bookings ORDER BY bookid DESC LIMIT 2;
+    --  xmin | cmin | xmax | cmax |  ctid   | bookid | slots
+    -- ------+------+------+------+---------+--------+-------
+    --   577 |    0 |    0 |    0 | (33,84) |   4044 |     1
+    --   577 |    0 |    0 |    0 | (33,83) |   4043 |     1
     -- (2 rows)
 
                                                                     /* 3 */
                                                                     DELETE FROM bookings WHERE bookid = 4044;
 
     /* 4 */
+    SELECT xmin, cmin, xmax, cmax, ctid,
+           bookid, slots
+    FROM bookings ORDER BY bookid DESC LIMIT 2;
+    --  xmin | cmin | xmax | cmax |  ctid   | bookid | slots
+    -- ------+------+------+------+---------+--------+-------
+    --   577 |    0 |    0 |    0 | (33,83) |   4043 |     1
+    --   577 |    0 |    0 |    0 | (33,82) |   4042 |     1
+    -- (2 rows)
+
+    /* 5 */
     UPDATE bookings SET slots = 2 WHERE bookid = 4044;
     -- UPDATE 0
 
-    /* 5 */
+    /* 6 */
     ROLLBACK;
+
+Long Conflicting Transaction
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: sql
 
-    /********************************************************************************************************
+    /******************************************************************************************************************************
     TxA                                                             TxB
-    ********************************************************************************************************/
+    *******************************************************************************************************************************/
     /* 1 */
     BEGIN;
 
@@ -565,26 +583,49 @@ Not possible in postgresql.
                                                                     BEGIN;
 
     /* 3 */
-    SELECT * FROM bookings ORDER BY bookid DESC LIMIT 2;
-    --  bookid | facid | memid |      starttime      | slots
-    -- --------+-------+-------+---------------------+-------
-    --    4043 |     9 |    26 | 2012-09-30 19:30:00 |     1
-    --    4042 |     9 |    17 | 2012-09-30 19:00:00 |     1
+    SELECT xmin, cmin, xmax, cmax, ctid,
+           bookid, slots
+    FROM bookings ORDER BY bookid DESC LIMIT 2;
+    --  xmin | cmin | xmax | cmax |  ctid   | bookid | slots
+    -- ------+------+------+------+---------+--------+-------
+    --   577 |    0 |    0 |    0 | (33,83) |   4043 |     1
+    --   577 |    0 |    0 |    0 | (33,82) |   4042 |     1
     -- (2 rows)
 
                                                                     /* 4 */
                                                                     DELETE FROM bookings WHERE bookid = 4043;
 
     /* 5 */
-    UPDATE bookings SET slots = 2 WHERE bookid = 4043;
-    -- Wait until TxB is done...
+    SELECT xmin, cmin, xmax, cmax, ctid,
+           bookid, slots
+    FROM bookings ORDER BY bookid DESC LIMIT 2;
+    --  xmin | cmin | xmax | cmax |  ctid   | bookid | slots
+    -- ------+------+------+------+---------+--------+-------
+    --   577 |    0 |  580 |    0 | (33,83) |   4043 |     1
+    --   577 |    0 |    0 |    0 | (33,82) |   4042 |     1
+    -- (2 rows)
 
-                                                                    /* 6 */
+    /* 6 */
+    UPDATE bookings SET slots = 2 WHERE bookid = 4043;
+    -- Wait...
+
+                                                                    /* 7 */
                                                                     COMMIT;
 
+    -- ... until TxB is done.
     -- UPDATE 0
 
-    /* 7 */
+    /* 8 */
+    SELECT xmin, cmin, xmax, cmax, ctid,
+           bookid, slots
+    FROM bookings ORDER BY bookid DESC LIMIT 2;
+    --  xmin | cmin | xmax | cmax |  ctid   | bookid | slots
+    -- ------+------+------+------+---------+--------+-------
+    --   577 |    0 |    0 |    0 | (33,82) |   4042 |     1
+    --   577 |    0 |    0 |    0 | (33,81) |   4041 |     1
+    -- (2 rows)
+
+    /* 9 */
     ROLLBACK;
 
 ``REPEATABLE READ``
@@ -592,29 +633,33 @@ Not possible in postgresql.
 
 .. code-block:: sql
 
-    /********************************************************************************************************
+    /******************************************************************************************************************************
     TxA                                                             TxB
-    ********************************************************************************************************/
+    *******************************************************************************************************************************/
     /* 1 */
     BEGIN TRANSACTION ISOLATION LEVEL REPEATABLE READ;
 
     /* 2 */
-    SELECT * FROM bookings ORDER BY bookid DESC LIMIT 2;
-    --  bookid | facid | memid |      starttime      | slots
-    -- --------+-------+-------+---------------------+-------
-    --    4042 |     9 |    17 | 2012-09-30 19:00:00 |     1
-    --    4041 |     9 |    20 | 2012-09-30 18:30:00 |     1
+    SELECT xmin, cmin, xmax, cmax, ctid,
+           bookid, slots
+    FROM bookings ORDER BY bookid DESC LIMIT 2;
+    --  xmin | cmin | xmax | cmax |  ctid   | bookid | slots
+    -- ------+------+------+------+---------+--------+-------
+    --   577 |    0 |    0 |    0 | (33,82) |   4042 |     1
+    --   577 |    0 |    0 |    0 | (33,81) |   4041 |     1
     -- (2 rows)
 
                                                                     /* 3 */
                                                                     DELETE FROM bookings WHERE bookid = 4042;
 
     /* 4 */
-    SELECT * FROM bookings ORDER BY bookid DESC LIMIT 2;
-    --  bookid | facid | memid |      starttime      | slots
-    -- --------+-------+-------+---------------------+-------
-    --    4042 |     9 |    17 | 2012-09-30 19:00:00 |     1
-    --    4041 |     9 |    20 | 2012-09-30 18:30:00 |     1
+    SELECT xmin, cmin, xmax, cmax, ctid,
+           bookid, slots
+    FROM bookings ORDER BY bookid DESC LIMIT 2;
+    --  xmin | cmin | xmax | cmax |  ctid   | bookid | slots
+    -- ------+------+------+------+---------+--------+-------
+    --   577 |    0 |  582 |    0 | (33,82) |   4042 |     1
+    --   577 |    0 |    0 |    0 | (33,81) |   4041 |     1
     -- (2 rows)
 
     /* 5 */
@@ -627,10 +672,13 @@ Not possible in postgresql.
 ``SERIALIZABLE``
 ----------------
 
+I don't care about this one.
+
 References
 ----------
 
 - https://www.postgresql.org/docs/11/transaction-iso.html
+- http://www.interdb.jp/pg/pgsql05.html
 
 Security
 ========
