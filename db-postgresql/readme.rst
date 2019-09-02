@@ -614,7 +614,7 @@ Long Conflicting Transaction
     -- (2 rows)
 
     /* 6 */
-    UPDATE bookings SET slots = 2 WHERE bookid = 3499;
+    UPDATE bookings SET slots = 9 WHERE bookid = 3499;
     -- Wait...
 
                                                                     /* 7 */
@@ -760,7 +760,7 @@ Long Conflicting Transaction
     -- (2 rows)
 
     /* 5 */
-    UPDATE bookings SET slots = 2 WHERE bookid = 2499;
+    UPDATE bookings SET slots = 9 WHERE bookid = 2499;
     -- ERROR:  could not serialize access due to concurrent update
 
     /* 6 */
