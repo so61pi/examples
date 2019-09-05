@@ -46,7 +46,9 @@ Versioning
 
     Releases are finalized on release branches.
 
-    In case we need to change the database schema on the release branch, we create a migration script for that on release branch, and also pick it to the dev branch. Note that the picked version on dev must not conflict with the original one, otherwise we cannot upgrade our application from v2 (contains original version) to v3 (contains picked version).
+    In case we need to change the database schema on the release branch, we create a migration script for that on release branch (v2), and also pick it to the dev branch. Note that the picked version on dev must not conflict with the original one, otherwise we cannot upgrade our application from v2 (contains original version) to v3 (contains picked version).
+
+    This is simple, but we cannot remove old migration scripts as all new installations invoke all of those scripts. It can also lead to errors as the number of scripts grows.
 
   * Applying migrations
 
@@ -61,22 +63,23 @@ Versioning
 
     Releases are finalized on release branches.
 
-    When new application version is about to be released, new baseline (v2) is created before release branch (v2). The content of new baseline must be equivalent to all migration scripts plus previous baseline (v1).
+    When new application version is about to be released, new baseline (v2) is created on release branch (v2). The content of new baseline must be equivalent to all migration scripts plus previous baseline (v1). New empty migration script that denotes new schema version (v2) should be checked in to main development branch.
 
-    Old migration scripts must be kept so already installed instances of application can be upgraded to new version. Baselines are for new installs only.
+    Old migration scripts must be kept, so already installed instances of application can be upgraded to new version. Baselines are for new installs only.
 
-    (I don't know if this strategy is better than the first one, while we still have to maintain both all migration scripts and baselines. And we still have the same caution when fixing schema on release branch.)
+    (Note: Baselines can be thought as big initial migration scripts, so they should have versions like normal migration scripts too. This also means each baseline must have a corresponding empty migration script to mark the version so when user upgrade (instead of installing) from old version to new one we still see the correct version number in ``schema_changes``).
 
   * Applying migrations
 
     .. code-block:: none
 
-        if schema_changes table already exists {
-          applicable change scripts = source code - schema_changes
-          apply change scripts
-        } else {
+        if schema_changes table does not exist {
           apply baseline
         }
+        applicable change scripts = source code - schema_changes
+        apply change scripts
+
+When merging migration scripts from feature branch to main development branch, we must make sure the scripts on the source branch have higher versions than the ones in the dest branch.
 
 References
 ----------
