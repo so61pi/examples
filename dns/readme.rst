@@ -1,5 +1,4 @@
 .. contents:: Table of Contents
-.. section-numbering::
 
 Zone File
 =========
