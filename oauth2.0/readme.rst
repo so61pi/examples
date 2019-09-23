@@ -34,6 +34,7 @@ Authorization Code Grant [`ref <https://tools.ietf.org/html/rfc6749#section-4.1>
      +----------+                             .-- response_type[REQ]="code" + client_id[REQ]
           v                                   |   + redirect_uri[OPT] + scope[OPT]
           |                                   |   + state[REC]
+          |                                   |   (Above are obtained from step A, you can see them in URL bar in step B)
          (B)                                  |
      +----|-----+          Client Identifier  |   +---------------+
      |    v   >-+----(A)-- & Redirection URI -+-->|               |
@@ -73,6 +74,7 @@ Implicit Grant [`ref <https://tools.ietf.org/html/rfc6749#section-4.2>`__]
      +----------+                             .-- response_type[REQ]="token" + client_id[REQ]
           v                                   |   + redirect_uri[OPT] + scope[OPT]
           |                                   |   + state[REC]
+          |                                   |   (Above are obtained from step A, you can see them in URL bar in step B)
          (B)                                  |
      +----|-----+          Client Identifier  |  +---------------+
      |    v   >-+----(A)-- & Redirection URI -+->|               |
