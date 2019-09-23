@@ -11,6 +11,9 @@ Authorization Code Grant [`ref <https://tools.ietf.org/html/rfc6749#section-4.1>
 
   - When ``Resource Owner (Human)`` wants to use Google account to log in, ``Resource Owner (Human)`` clicks a button on GitLab web page to send that request to ``Client (GitLab server)``.
   - **A**: ``Client (GitLab server)`` then instructs ``User-Agent (Web browser)`` to redirect to ``Authorization Server (Google server)``.
+
+    * ``Client (GitLab server)`` is responsible for constructing a correct redirecting URL so it contains enough information used in step B (like ``response_type``, ``client_id``, or ``redirect_uri``).
+
   - **B**: ``Resource Owner (Human)`` now authenticates with ``Authorization Server (Google server)`` by logging to their account and grant the access.
   - **C**: ``Authorization Server (Google server)`` then send a response (with ``Authorization Code``) to ask the ``User-Agent (Web browser)`` to redirect to ``redirect_uri`` which points to ``Client (GitLab server)``.
 
