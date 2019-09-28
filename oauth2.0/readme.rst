@@ -9,20 +9,21 @@ Authorization Code Grant [`ref <https://tools.ietf.org/html/rfc6749#section-4.1>
 - The authorization code grant type is used to obtain both **access tokens** and **refresh tokens** and is optimized for **confidential clients**.
 - Example of logging to GitLab with Google account
 
-  - When ``Resource Owner (Human)`` wants to use Google account to log in, ``Resource Owner (Human)`` clicks a button on GitLab web page to send that request to ``Client (GitLab server)``.
-  - **A**: ``Client (GitLab server)`` then instructs ``User-Agent (Web browser)`` to redirect to ``Authorization Server (Google server)``.
+  - When ``Resource Owner`` (Human) wants to use Google account to log in, ``Resource Owner`` (Human) clicks a button on GitLab web page to send that request to ``Client`` (GitLab server).
+  - **A**: ``Client`` (GitLab server) then instructs ``User-Agent`` (Web browser) to redirect to ``Authorization Server`` (Google server).
 
-    * ``Client (GitLab server)`` is responsible for constructing a correct redirecting URL so it contains enough information used in step B (like ``response_type``, ``client_id``, or ``redirect_uri``).
+    * ``Client`` (GitLab server) is responsible for constructing a correct redirecting URL so it contains enough information used in step B (like ``response_type``, ``client_id``, or ``redirect_uri``).
 
-  - **B**: ``Resource Owner (Human)`` now authenticates with ``Authorization Server (Google server)`` by logging to their account and grant the access.
-  - **C**: ``Authorization Server (Google server)`` then send a response (with ``Authorization Code``) to ask the ``User-Agent (Web browser)`` to redirect to ``redirect_uri`` which points to ``Client (GitLab server)``.
+  - **B**: ``Resource Owner`` (Human) now authenticates with ``Authorization Server`` (Google server) by logging to their account and grant the access.
+  - **C**: ``Authorization Server`` (Google server) then send a response (with ``Authorization Code``) to ask the ``User-Agent`` (Web browser) to redirect to ``redirect_uri`` which points to ``Client`` (GitLab server).
 
-    - Basically, this is ``Authorization Server (Google server)`` asking ``User-Agent (Web browser)`` to make a request to ``Client (GitLab server)`` with the generated ``Authorization Code``.
+    - Basically, this is ``Authorization Server`` (Google server) asking ``User-Agent`` (Web browser) to make a request to ``Client`` (GitLab server) with the generated ``Authorization Code``.
 
-  - **D**: ``Client (GitLab server)`` then internally tries to get an **access token** and optionally a **refresh token** by sending a request to ``Authorization Server (Google server)``.
+  - **D**: ``Client`` (GitLab server) then internally tries to get an **access token** and optionally a **refresh token** by sending a request to ``Authorization Server`` (Google server).
 
     - ``redirect_uri`` used in this step is for verification purpose only.
-    - In this example, **access token** may only have one function, that is to get the email address.
+    - In case of Google Identity Platform, beside from **access token**, you also receive ``id_token`` which contains user's email address (but only if ``email`` is in the ``scope``).
+    - Side note for Gitlab: It will auto-register your email with the gitlab system. And if your email is already used with a normal account then gitlab will raise an error.
 
 - Another example is having Twitter posts to your Facebook.
 
@@ -321,10 +322,17 @@ References
 
 - `The OAuth 2.0 Authorization Framework (RFC-6749) <https://tools.ietf.org/html/rfc6749>`__
 
-  - `Client Registration <https://tools.ietf.org/html/rfc6749#section-2>`__
-  - `Issuing an Access Token <https://tools.ietf.org/html/rfc6749#section-5>`__
-  - `Refreshing an Access Token <https://tools.ietf.org/html/rfc6749#section-6>`__
-  - `Accessing Protected Resources <https://tools.ietf.org/html/rfc6749#section-7>`__
+  * `Client Registration <https://tools.ietf.org/html/rfc6749#section-2>`__
+  * `Issuing an Access Token <https://tools.ietf.org/html/rfc6749#section-5>`__
+  * `Refreshing an Access Token <https://tools.ietf.org/html/rfc6749#section-6>`__
+  * `Accessing Protected Resources <https://tools.ietf.org/html/rfc6749#section-7>`__
 
 - `OAuth 2.0 for Native Apps (RFC-8252) <https://tools.ietf.org/html/rfc8252>`__
 - `Proof Key for Code Exchange by OAuth Public Clients (RFC-7636) <https://tools.ietf.org/html/rfc7636>`__
+- Google Identity Plaform
+
+  * https://developers.google.com/identity/protocols/OAuth2
+  * https://developers.google.com/identity/protocols/OpenIDConnect
+  * https://developers.google.com/identity/protocols/OAuth2WebServer
+
+- https://spring.io/blog/2011/11/30/cross-site-request-forgery-and-oauth2
