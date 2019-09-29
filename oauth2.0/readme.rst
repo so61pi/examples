@@ -22,8 +22,6 @@ Authorization Code Grant [`ref <https://tools.ietf.org/html/rfc6749#section-4.1>
   - **D**: ``Client`` (GitLab server) then internally tries to get an **access token** and optionally a **refresh token** by sending a request to ``Authorization Server`` (Google server).
 
     - ``redirect_uri`` used in this step is for verification purpose only.
-    - In case of Google Identity Platform, beside from **access token**, you also receive ``id_token`` which contains user's email address (but only if ``email`` is in the ``scope``).
-    - Side note for Gitlab: It will auto-register your email with the gitlab system. And if your email is already used with a normal account then gitlab will raise an error.
 
 - Another example is having Twitter posts to your Facebook.
 
@@ -194,6 +192,31 @@ Client Types [`ref <https://tools.ietf.org/html/rfc6749#section-2.1>`__]
       might be protected from other applications residing on the same
       device.
 
+Client Authentication [`ref <https://tools.ietf.org/html/rfc6749#section-2.3>`__]
+---------------------------------------------------------------------------------
+
+::
+
+   If the client type is confidential, the client and authorization
+   server establish a client authentication method suitable for the
+   security requirements of the authorization server.  The authorization
+   server MAY accept any form of client authentication meeting its
+   security requirements.
+
+   Confidential clients are typically issued (or establish) a set of
+   client credentials used for authenticating with the authorization
+   server (e.g., password, public/private key pair).
+
+   The authorization server MAY establish a client authentication method
+   with public clients.  However, the authorization server MUST NOT rely
+   on public client authentication for the purpose of identifying the
+   client.
+
+   The client MUST NOT use more than one authentication method in each
+   request.
+
+
+
 Protocol Flow [`ref <https://tools.ietf.org/html/rfc6749#section-1.2>`__]
 -------------------------------------------------------------------------
 
@@ -317,6 +340,25 @@ Refresh Token [`ref <https://tools.ietf.org/html/rfc6749#section-1.5>`__]
         the refresh token, and if valid, issues a new access token (and,
         optionally, a new refresh token).
 
+OpenID Connect
+==============
+
+OAuth 2.0 doesn't specify a standard way to get user identity. All your ``Client`` receives from ``Authorization Server`` are grant code, access token and refresh token.
+OpenID Connect standardizes it so we have a single way to obtain user id regardless of which Identity Provider your ``Client`` is connecting to.
+
+Request parameter ``scope`` must contain ``openid``, otherwise it's not a OpenID Connect request.
+
+References
+----------
+
+- https://docs.microsoft.com/en-us/azure/active-directory/develop/v1-protocols-openid-connect-code
+- https://developers.google.com/identity/protocols/OpenIDConnect
+- https://openid.net/specs/openid-connect-core-1_0.html#AuthorizationExamples
+- Authorization Code Flow
+
+  * https://openid.net/specs/openid-connect-core-1_0.html#AuthRequest
+  * https://openid.net/specs/openid-connect-core-1_0.html#AuthRequestValidation
+
 References
 ==========
 
@@ -329,10 +371,13 @@ References
 
 - `OAuth 2.0 for Native Apps (RFC-8252) <https://tools.ietf.org/html/rfc8252>`__
 - `Proof Key for Code Exchange by OAuth Public Clients (RFC-7636) <https://tools.ietf.org/html/rfc7636>`__
+- Microsoft Platform
+
+  * https://docs.microsoft.com/en-us/azure/active-directory/develop/v1-protocols-oauth-code
+
 - Google Identity Plaform
 
   * https://developers.google.com/identity/protocols/OAuth2
-  * https://developers.google.com/identity/protocols/OpenIDConnect
   * https://developers.google.com/identity/protocols/OAuth2WebServer
 
 - https://spring.io/blog/2011/11/30/cross-site-request-forgery-and-oauth2
