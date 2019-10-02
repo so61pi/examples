@@ -76,6 +76,73 @@ Discoverability is not about the end users, but about the direct users of the AP
 
 The developers, however, can still hardcode the required URIs in their apps as sometimes navigating through serveral layers of links to retrieve a resource is too much overhead. (After all, we still use bookmarks to save specific URLs while browsing websites instead of clicking link by link.)
 
+*Note:*
+
+- HATEOAS can be really useful when the servers also control the UI, and the clients only render that UI by following a spec. (Like HTML is sent by the servers and web browsers only display that HTML code instead of inventing the UI.)
+- In case of API, the servers don't really control the UI. They only give out the URL of APIs (see GitHub APIs below, for instance).
+  Of course we can build a generic client (called API browser) that understands that json and presents it on a screen with all the URLs hidden. However, we will need a spec for interoperability, eventually. And the UI again is tied back to the servers.
+
+.. code-block:: text
+
+    $ curl -i https://api.github.com/                  
+    HTTP/1.1 200 OK
+    Date: Wed, 02 Oct 2019 03:35:49 GMT
+    Content-Type: application/json; charset=utf-8
+    Content-Length: 2165
+    Server: GitHub.com
+    Status: 200 OK
+    X-RateLimit-Limit: 60
+    X-RateLimit-Remaining: 52
+    X-RateLimit-Reset: 1569990949
+    Cache-Control: public, max-age=60, s-maxage=60
+    Vary: Accept
+    ETag: "7dc470913f1fe9bb6c7355b50a0737bc"
+    X-GitHub-Media-Type: github.v3; format=json
+    Access-Control-Expose-Headers: ETag, Link, Location, Retry-After, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Reset, X-OAuth-Scopes, X-Accepted-OAuth-Scopes, X-Poll-Interval, X-GitHub-Media-Type
+    Access-Control-Allow-Origin: *
+    Strict-Transport-Security: max-age=31536000; includeSubdomains; preload
+    X-Frame-Options: deny
+    X-Content-Type-Options: nosniff
+    X-XSS-Protection: 1; mode=block
+    Referrer-Policy: origin-when-cross-origin, strict-origin-when-cross-origin
+    Content-Security-Policy: default-src 'none'
+    Vary: Accept-Encoding
+    X-GitHub-Request-Id: D6A4:42A5:1C6E5D:24F0DD:5D941B14
+    
+    {
+      "current_user_url": "https://api.github.com/user",
+      "current_user_authorizations_html_url": "https://github.com/settings/connections/applications{/client_id}",
+      "authorizations_url": "https://api.github.com/authorizations",
+      "code_search_url": "https://api.github.com/search/code?q={query}{&page,per_page,sort,order}",
+      "commit_search_url": "https://api.github.com/search/commits?q={query}{&page,per_page,sort,order}",
+      "emails_url": "https://api.github.com/user/emails",
+      "emojis_url": "https://api.github.com/emojis",
+      "events_url": "https://api.github.com/events",
+      "feeds_url": "https://api.github.com/feeds",
+      "followers_url": "https://api.github.com/user/followers",
+      "following_url": "https://api.github.com/user/following{/target}",
+      "gists_url": "https://api.github.com/gists{/gist_id}",
+      "hub_url": "https://api.github.com/hub",
+      "issue_search_url": "https://api.github.com/search/issues?q={query}{&page,per_page,sort,order}",
+      "issues_url": "https://api.github.com/issues",
+      "keys_url": "https://api.github.com/user/keys",
+      "notifications_url": "https://api.github.com/notifications",
+      "organization_repositories_url": "https://api.github.com/orgs/{org}/repos{?type,page,per_page,sort}",
+      "organization_url": "https://api.github.com/orgs/{org}",
+      "public_gists_url": "https://api.github.com/gists/public",
+      "rate_limit_url": "https://api.github.com/rate_limit",
+      "repository_url": "https://api.github.com/repos/{owner}/{repo}",
+      "repository_search_url": "https://api.github.com/search/repositories?q={query}{&page,per_page,sort,order}",
+      "current_user_repositories_url": "https://api.github.com/user/repos{?type,page,per_page,sort}",
+      "starred_url": "https://api.github.com/user/starred{/owner}{/repo}",
+      "starred_gists_url": "https://api.github.com/gists/starred",
+      "team_url": "https://api.github.com/teams",
+      "user_url": "https://api.github.com/users/{user}",
+      "user_organizations_url": "https://api.github.com/user/orgs",
+      "user_repositories_url": "https://api.github.com/users/{user}/repos{?type,page,per_page,sort}",
+      "user_search_url": "https://api.github.com/search/users?q={query}{&page,per_page,sort,order}"
+    }
+
 Content Negotiation/Hypermedia Versioning
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
