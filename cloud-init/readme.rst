@@ -3,7 +3,7 @@
 Softwares
 =========
 
-CloudInit
+- CloudInit
 
   +-----------------+----------------------------------------------------------------------------------------+
   | Version         | 19.2                                                                                   |
@@ -23,44 +23,44 @@ Command Line
 
 This command's entry is at `cloud-init/cloudinit/cmd/main.py::main_init <https://github.com/cloud-init/cloud-init/blob/060b1a1ca7b2385aa7f4ed42720063fa557e0671/cloudinit/cmd/main.py#L214>`__
 
-Cloud-init 'init' stage is broken up into the following sub-stages
+    Cloud-init 'init' stage is broken up into the following sub-stages
 
-  1. Ensure that the init object fetches its config without errors
-  2. Setup logging/output redirections with resultant config (if any)
-  3. Initialize the cloud-init filesystem
-  4. Check if we can stop early by looking for various files
-  5. **Fetch the datasource**
+    1. Ensure that the init object fetches its config without errors
+    2. Setup logging/output redirections with resultant config (if any)
+    3. Initialize the cloud-init filesystem
+    4. Check if we can stop early by looking for various files
+    5. **Fetch the datasource**
 
-     - Each cloud vendor has a different way to provide the datasource, so they have separate handler. Handler for EC2 starts at `cloud-init/cloudinit/sources/DataSourceEc2.py::DataSourceEc2._get_data <https://github.com/cloud-init/cloud-init/blob/060b1a1ca7b2385aa7f4ed42720063fa557e0671/cloudinit/sources/DataSourceEc2.py#L76>`__ which downloads relevant data from ``http://169.254.169.254``.
+       - Each cloud vendor has a different way to provide the datasource, so they have separate handler. Handler for EC2 starts at `cloud-init/cloudinit/sources/DataSourceEc2.py::DataSourceEc2._get_data <https://github.com/cloud-init/cloud-init/blob/060b1a1ca7b2385aa7f4ed42720063fa557e0671/cloudinit/sources/DataSourceEc2.py#L76>`__ which downloads relevant data from ``http://169.254.169.254``.
 
-  6. Connect to the current instance location + update the cache
-  7. **Consume the userdata** (handlers get activated here)
-  8. Construct the modules object
-  9. Adjust any subsequent logging/output redirections using the modules objects config as it may be different from init object
-  10. **Run the modules for the 'init' stage**
+    6. Connect to the current instance location + update the cache
+    7. **Consume the userdata** (handlers get activated here)
+    8. Construct the modules object
+    9. Adjust any subsequent logging/output redirections using the modules objects config as it may be different from init object
+    10. **Run the modules for the 'init' stage**
 
-      - ``cloud_init_modules``
+        - ``cloud_init_modules``
 
-  11. Done!
+    11. Done!
 
 ``cloud-init modules --mode=<init,config,final>``
 -------------------------------------------------
 
 This command's entry is at `cloud-init/cloudinit/cmd/main.py::main_modules <https://github.com/cloud-init/cloud-init/blob/060b1a1ca7b2385aa7f4ed42720063fa557e0671/cloudinit/cmd/main.py#L467>`__
 
-Cloud-init 'modules' stages are broken up into the following sub-stages
+    Cloud-init 'modules' stages are broken up into the following sub-stages
 
-  1. Ensure that the init object fetches its config without errors
-  2. Get the datasource from the init object, if it does not exist then that means the main_init stage never worked, and thus this stage can not run.
-  3. Construct the modules object
-  4. Adjust any subsequent logging/output redirections using the modules objects configuration
-  5. **Run the modules for the given stage name**
+    1. Ensure that the init object fetches its config without errors
+    2. Get the datasource from the init object, if it does not exist then that means the main_init stage never worked, and thus this stage can not run.
+    3. Construct the modules object
+    4. Adjust any subsequent logging/output redirections using the modules objects configuration
+    5. **Run the modules for the given stage name**
 
-     - ``cloud_init_modules``
-     - ``cloud_config_modules``
-     - ``cloud_final_modules``
+       - ``cloud_init_modules``
+       - ``cloud_config_modules``
+       - ``cloud_final_modules``
 
-  6. Done!
+    6. Done!
 
 References
 ----------
