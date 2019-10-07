@@ -15,6 +15,18 @@ Softwares
   | Documentation   | https://cloudinit.readthedocs.io/en/19.2/index.html                                    |
   +-----------------+----------------------------------------------------------------------------------------+
 
+Usage
+=====
+
+Cloud providers use cloud-init to quickly setup a machine with custom settings. The procedure is usually as follows:
+
+#. Create a base image of a distro (e.g. Ubuntu, OpenSUSE).
+#. Install cloud-init to that base image with correct configuration for that particular cloud provider.
+   The configuration in this step applies to all future instances of this image.
+#. When users choose to boot up from a base image, the cloud-init will be started in the boot process and find the correct configurations.
+   Because each machine instance has different settings (e.g. hostname), cloud provider must provide a way to retrieve them.
+   For example, EC2 exposes them at link-local address ``http://169.254.169.254``.
+
 Command Line
 ============
 
