@@ -7,7 +7,7 @@ Format=subvolume
 Output=opensuse-leap-template
 
 [Packages]
-Packages=ca-certificates curl git iproute2 iputils sudo vim
+Packages=ca-certificates curl git iproute2 iputils sudo vim dialog
 
 [Validation]
 Password=root

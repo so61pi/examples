@@ -8,7 +8,7 @@ Format=subvolume
 Output=ubuntu-template
 
 [Packages]
-Packages=apt-utils ca-certificates curl git iproute2 iputils-ping sudo vim
+Packages=apt-utils ca-certificates curl git iproute2 iputils-ping sudo vim dialog
 
 [Validation]
 Password=root
