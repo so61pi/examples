@@ -45,6 +45,12 @@
 | --------------------------------------------- | ----- |
 | browser.tabs.drawInTitleBar                   |  true |
 
+### Double-click selects words instead of select all URL
+
+| Field                                         | Value |
+| --------------------------------------------- | ----- |
+| browser.urlbar.doubleClickSelectsAll          |  true |
+
 ## Add-ons
 
 - Dark Reader
