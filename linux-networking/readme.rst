@@ -209,21 +209,23 @@ When adding a physical interface to a bridge, that device's ``rx_handler`` and `
   + `new_nbp <https://github.com/torvalds/linux/blob/4d856f72c10ecb060868ed10ff1b1453943fc6c8/net/bridge/br_if.c#L408>`__
   + `netdev_rx_handler_register <https://github.com/torvalds/linux/blob/4d856f72c10ecb060868ed10ff1b1453943fc6c8/net/core/dev.c#L4728>`__
 
-In `br_handle_frame <https://github.com/torvalds/linux/blob/4d856f72c10ecb060868ed10ff1b1453943fc6c8/net/bridge/br_input.c#L256>`__ function
+When a packet enters the physical interface, it will go into `br_handle_frame <https://github.com/torvalds/linux/blob/4d856f72c10ecb060868ed10ff1b1453943fc6c8/net/bridge/br_input.c#L256>`__ function.
 
-+ ``nf_hook_bridge_pre``
++ `br_handle_frame <https://github.com/torvalds/linux/blob/4d856f72c10ecb060868ed10ff1b1453943fc6c8/net/bridge/br_input.c#L256>`__
 
-  + `br_handle_frame_finish <https://github.com/torvalds/linux/blob/4d856f72c10ecb060868ed10ff1b1453943fc6c8/net/bridge/br_input.c#L70>`__
+  + ``nf_hook_bridge_pre``
 
-    + working with forwarding database
-    + `br_forward <https://github.com/torvalds/linux/blob/4d856f72c10ecb060868ed10ff1b1453943fc6c8/net/bridge/br_forward.c#L138>`__ | ``br_flood`` | ``br_multicast_flood``
-    + `br_pass_frame_up <https://github.com/torvalds/linux/blob/4d856f72c10ecb060868ed10ff1b1453943fc6c8/net/bridge/br_input.c#L32>`__
+    + `br_handle_frame_finish <https://github.com/torvalds/linux/blob/4d856f72c10ecb060868ed10ff1b1453943fc6c8/net/bridge/br_input.c#L70>`__
 
-      + ``NF_HOOK(NF_BR_LOCAL_IN)``
+      + working with forwarding database
+      + `br_forward <https://github.com/torvalds/linux/blob/4d856f72c10ecb060868ed10ff1b1453943fc6c8/net/bridge/br_forward.c#L138>`__ | ``br_flood`` | ``br_multicast_flood``
+      + `br_pass_frame_up <https://github.com/torvalds/linux/blob/4d856f72c10ecb060868ed10ff1b1453943fc6c8/net/bridge/br_input.c#L32>`__
 
-        + ``br_netif_receive_skb``
+        + ``NF_HOOK(NF_BR_LOCAL_IN)``
 
-          + `netif_receive_skb <https://github.com/torvalds/linux/blob/4d856f72c10ecb060868ed10ff1b1453943fc6c8/net/core/dev.c#L5261>`__
+          + ``br_netif_receive_skb``
+
+            + `netif_receive_skb <https://github.com/torvalds/linux/blob/4d856f72c10ecb060868ed10ff1b1453943fc6c8/net/core/dev.c#L5261>`__
 
 Bonded Interface
 ----------------
