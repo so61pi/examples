@@ -132,11 +132,11 @@ Send Packets To Local Processes
 
   + ``NF_HOOK(NF_INET_LOCAL_IN)``
 
-     + ``ip_local_deliver_finish``
+    + ``ip_local_deliver_finish``
 
-       + ``ip_protocol_deliver_rcu``
+      + ``ip_protocol_deliver_rcu``
 
-         + `tcp_v4_rcv <https://github.com/torvalds/linux/blob/4d856f72c10ecb060868ed10ff1b1453943fc6c8/net/ipv4/tcp_ipv4.c#L1786>`__ | ``udp_rcv``
+        + `tcp_v4_rcv <https://github.com/torvalds/linux/blob/4d856f72c10ecb060868ed10ff1b1453943fc6c8/net/ipv4/tcp_ipv4.c#L1786>`__ | ``udp_rcv``
 
 ``tcp_v4_rcv`` and ``udp_rcv`` are set up by `inet_add_protocol <https://github.com/torvalds/linux/blob/4d856f72c10ecb060868ed10ff1b1453943fc6c8/net/ipv4/protocol.c#L32>`__.
 
