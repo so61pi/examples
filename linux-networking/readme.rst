@@ -242,17 +242,77 @@ VXLAN
 MACVLAN
 -------
 
+.. code-block:: text
+
+    +--------------------------------------------+
+    |                                            |
+    |   +---------------+    +---------------+   |
+    |   |    netns-1    |    |    netns-2    |   |
+    |   |               |    |               |   |
+    |   |   +-------+   |    |   +-------+   |   |
+    |   |   | macv1 |   |    |   | macv2 |   |   |
+    |   +---+---+---+---+    +---+---+---+---+   |
+    |           |                    |           |
+    |           +--------+  +--------+           |
+    |                    |  |                    |
+    |                  +-+--+-+                  |
+    |                  | eth0 |                  |
+    +------------------+------+------------------+
+                          ||
+                          ||
+                          ||
+                      +--------+
+                      | switch |
+                      +--------+
+
+When adding an macvlan interface to a lower interface (e.g. ``eth0`` above), `macvlan_port_create <https://github.com/torvalds/linux/blob/4d856f72c10ecb060868ed10ff1b1453943fc6c8/drivers/net/macvlan.c#L1197>`__ change the lower interface's ``rx_handler`` and ``rx_handler_data`` to ``macvlan_handle_frame`` and ``struct macvlan_port``.
+
+There are 5 modes for macvlan:
+
+- Private
+
+  * ``macv1`` and ``macv2`` have random MAC addresses.
+  * They cannot communicate with each other.
+
+- VEPA
+
+  * ``macv1`` and ``macv2`` have random MAC addresses.
+  * They can communicate with each other but ``switch`` must support hairpin mode.
+
+- Bridge
+
+  * ``macv1`` and ``macv2`` have random MAC addresses.
+  * Packet switching between between ``macv1`` and ``macv2`` is done in ``eth0``.
+
+- Passthru
+
+  * ``macv1`` has same MAC address as ``eth0``.
+
+- Source
+
+  * Traffic is filtered based on source MAC addresses.
+
+Some functions:
+
+- `macvlan_handle_frame <https://github.com/torvalds/linux/blob/4d856f72c10ecb060868ed10ff1b1453943fc6c8/drivers/net/macvlan.c#L435>`__
+- `macvlan_start_xmit <https://github.com/torvalds/linux/blob/4d856f72c10ecb060868ed10ff1b1453943fc6c8/drivers/net/macvlan.c#L548>`__
+- `macvlan_newlink <https://github.com/torvalds/linux/blob/4d856f72c10ecb060868ed10ff1b1453943fc6c8/drivers/net/macvlan.c#L1506>`__
+
 IPVLAN
 ------
 
 MACVTAP/IPVTAP
 --------------
 
+TODO
+
 MACsec
 ------
 
 VETH
 ----
+
+TODO
 
 VCAN
 ----
