@@ -213,6 +213,82 @@ iptables
 
                 raw -> mangle -> nat-dst     mangle -> filter        mangle -> nat-src
 
+
+forward chain of filter table = rule-1 -> rule-2 -> rule-3 -> rule-4
+
+  input chain of filter table = rule-1 -> rule-2    rule-3 -> rule-4
+                                            |         ^
+                                            V         |
+           user-defined chain =           rule-a -> rule-b
+
+- IPv4
+
+  * Table
+
+    + ``raw``
+
+      - https://github.com/torvalds/linux/blob/4d856f72c10ecb060868ed10ff1b1453943fc6c8/net/ipv4/netfilter/iptable_raw.c#L21
+
+    + ``mangle``
+
+      - https://github.com/torvalds/linux/blob/4d856f72c10ecb060868ed10ff1b1453943fc6c8/net/ipv4/netfilter/iptable_mangle.c#L30
+
+    + ``nat``
+
+      - https://github.com/torvalds/linux/blob/4d856f72c10ecb060868ed10ff1b1453943fc6c8/net/ipv4/netfilter/iptable_nat.c#L18
+      - https://github.com/torvalds/linux/blob/4d856f72c10ecb060868ed10ff1b1453943fc6c8/net/ipv4/netfilter/iptable_nat.c#L36
+
+    + ``filter``
+
+      - https://github.com/torvalds/linux/blob/4d856f72c10ecb060868ed10ff1b1453943fc6c8/net/ipv4/netfilter/iptable_filter.c
+
+  * Priority
+
+    + https://github.com/torvalds/linux/blob/4d856f72c10ecb060868ed10ff1b1453943fc6c8/include/uapi/linux/netfilter_ipv4.h#L30
+
+  * `ipt_do_table <https://github.com/torvalds/linux/blob/4d856f72c10ecb060868ed10ff1b1453943fc6c8/net/ipv4/netfilter/ip_tables.c#L225>`__
+
+  * `ipt_register_table <https://github.com/torvalds/linux/blob/4d856f72c10ecb060868ed10ff1b1453943fc6c8/net/ipv4/netfilter/ip_tables.c#L1755>`__
+
+    * `nf_register_net_hooks <https://github.com/torvalds/linux/blob/4d856f72c10ecb060868ed10ff1b1453943fc6c8/net/netfilter/core.c#L473>`__
+
+.. code-block: text
+
+  a net namespace
+      ipv4 netns_ipv4
+          iptable_filter *xt_table
+          iptable_mangle *xt_table
+          iptable_raw *xt_table
+          arptable_filter *xt_table
+          nat_table *xt_table
+      nf netns_nf
+          hooks_ipv4 nf_hook_entries*[NF_INET_NUMHOOKS]
+              num_hook_entries u16 
+              hooks nf_hook_entry[]
+                  hook nf_hookfn* // int(void *priv, struct sk_buff *skb, const struct nf_hook_state *state);
+                  priv void*
+
+  ipt_entry
+      ip ipt_ip
+          src          dst           in_addr
+          smsk         dmsk          in_addr
+          iniface      outiface      char[IFNAMSIZ]
+          iniface_mask outiface_mask unsigned char[IFNAMSIZ]
+      target_offset __u16        // Size of ipt_entry + matches
+      next_offset   __u16        // Size of ipt_entry + matches + target
+      comefrom      unsigned int // Back pointer
+      elems                      // The matches (if any), then the target.
+
+  struct xt_match
+      // Return true or false: return FALSE and set *hotdrop = 1 to force immediate packet drop.
+      bool (*match)(const struct sk_buff *skb, struct xt_action_param *);
+
+  struct xt_target
+      // Returns verdict. Modify skb.
+      unsigned int (*target)(struct sk_buff *skb, const struct xt_action_param *);
+
+An iptable is an array of ``ipt_entry`` elements with different sizes. We can jump from one element to the next one by using ``next_offset`` field. Inside ``ipt_do_table``, a ``jumpstack`` is used to save
+
 Virtual Devices
 ===============
 
