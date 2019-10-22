@@ -240,7 +240,7 @@ forward chain of filter table = rule-1 -> rule-2 -> rule-3 -> rule-4
 
     + ``filter``
 
-      - https://github.com/torvalds/linux/blob/4d856f72c10ecb060868ed10ff1b1453943fc6c8/net/ipv4/netfilter/iptable_filter.c
+      - https://github.com/torvalds/linux/blob/4d856f72c10ecb060868ed10ff1b1453943fc6c8/net/ipv4/netfilter/iptable_filter.c#L24
 
   * Priority
 
