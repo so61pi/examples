@@ -186,6 +186,33 @@ Post Routing
 iptables
 ========
 
+.. code-block:: text
+
+                                           +-----------------+
+                                           |                 |
+                                         +>+  local process  +-+
+                                         | |                 | |
+                                         | +-----------------+ |
+                                         |                     |
+                                         |                     |
+                                         |                     v
+                                 +-------+------+      +-------+-------+
+                                 |              |      |               |
+                                 |    input     |      |    output     |
+    mangle -> filter -> nat-src  |  (local in)  |      |  (local out)  |  raw -> mangle -> nat-dst -> filter
+                                 |              |      |               |
+                                 +-------+------+      +-------+-------+
+                                         ^                     |
+                                         |                     |
+                                         |                     |
+                    +---------------+    |    +-----------+    |    +----------------+
+                    |               |    |    |           |    v    |                |
+           +------->+  pre-routing  +----+--->+  forward  +----+--->+  post-routing  +------->
+                    |               |         |           |         |                |
+                    +---------------+         +-----------+         +----------------+
+
+                raw -> mangle -> nat-dst     mangle -> filter        mangle -> nat-src
+
 Virtual Devices
 ===============
 
