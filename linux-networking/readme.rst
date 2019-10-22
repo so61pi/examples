@@ -452,6 +452,20 @@ VCAN
 VXCAN
 -----
 
+Some Terms To Grep
+==================
+
+- ``'netdev_rx_handler_register'``
+- ``'static struct packet_type'``
+- ``'ipt_register_table'``
+- ``'ebt_register_table'``
+- ``'nf_register_net_hook'``
+- ``'static const struct xt_table'``
+- ``'static const struct nf_hook_ops|static struct nf_hook_ops'``
+- ``'static const struct net_device_ops'``
+- ``'static struct rtnl_link_ops'``
+- ``'dev_add_pack'``
+
 References
 ==========
 
