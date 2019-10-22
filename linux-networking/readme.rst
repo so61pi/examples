@@ -304,7 +304,27 @@ IPVLAN
 MACVTAP/IPVTAP
 --------------
 
-TODO
+Put TAP interfaces on top of MACVLAN/IPVLAN.
+
++ `macvtap_newlink <https://github.com/torvalds/linux/blob/4d856f72c10ecb060868ed10ff1b1453943fc6c8/drivers/net/macvtap.c#L81>`__
+
+  + set up ``tap_handle_frame``
+  + `macvlan_common_newlink <https://github.com/torvalds/linux/blob/4d856f72c10ecb060868ed10ff1b1453943fc6c8/drivers/net/macvlan.c#L1391>`__
+
++ `ipvtap_newlink <https://github.com/torvalds/linux/blob/4d856f72c10ecb060868ed10ff1b1453943fc6c8/drivers/net/ipvlan/ipvtap.c#L77>`__
+
+  + set up ``tap_handle_frame``
+  + `ipvlan_link_new <https://github.com/torvalds/linux/blob/4d856f72c10ecb060868ed10ff1b1453943fc6c8/drivers/net/ipvlan/ipvlan_main.c#L514>`__
+
++ `__netif_receive_skb_core <https://github.com/torvalds/linux/blob/4d856f72c10ecb060868ed10ff1b1453943fc6c8/net/core/dev.c#L4807>`__
+
+  + ``rx_handler`` = `macvlan_handle_frame <https://github.com/torvalds/linux/blob/4d856f72c10ecb060868ed10ff1b1453943fc6c8/drivers/net/macvlan.c#L435>`__ | `ipvlan_handle_frame <https://github.com/torvalds/linux/blob/4d856f72c10ecb060868ed10ff1b1453943fc6c8/drivers/net/ipvlan/ipvlan_core.c#L729>`__
+
+    + change ``skb->dev`` to ``vlan->dev`` which is ``tap->dev``
+
+  + ``rx_handler`` = `tap_handle_frame <https://github.com/torvalds/linux/blob/4d856f72c10ecb060868ed10ff1b1453943fc6c8/drivers/net/tap.c#L318>`__
+
+    + put packets into queue, wait for local process to get them.
 
 MACsec
 ------
@@ -312,7 +332,16 @@ MACsec
 VETH
 ----
 
-TODO
+VETH interfaces come in pair, packets come in one end go out at other end.
+
++ `veth_newlink <https://github.com/torvalds/linux/blob/4d856f72c10ecb060868ed10ff1b1453943fc6c8/drivers/net/veth.c#L1236>`__
+
+  + `create peer device <https://github.com/torvalds/linux/blob/4d856f72c10ecb060868ed10ff1b1453943fc6c8/drivers/net/veth.c#L1286>`__
+  + `link two devices together <https://github.com/torvalds/linux/blob/4d856f72c10ecb060868ed10ff1b1453943fc6c8/drivers/net/veth.c#L1339-L1343>`__
+
++ `veth_xmit <https://github.com/torvalds/linux/blob/4d856f72c10ecb060868ed10ff1b1453943fc6c8/drivers/net/veth.c#L236>`__
+
+  + `forward packet to peer <https://github.com/torvalds/linux/blob/4d856f72c10ecb060868ed10ff1b1453943fc6c8/drivers/net/veth.c#L262>`__
 
 VCAN
 ----
@@ -322,3 +351,5 @@ VXCAN
 
 References
 ==========
+
+- https://developers.redhat.com/blog/2018/10/22/introduction-to-linux-interfaces-for-virtual-networking/
