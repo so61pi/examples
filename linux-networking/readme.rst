@@ -214,12 +214,12 @@ iptables
                 raw -> mangle -> nat-dst     mangle -> filter        mangle -> nat-src
 
 
-forward chain of filter table = rule-1 -> rule-2 -> rule-3 -> rule-4
+    forward chain of filter table = rule-1 -> rule-2 -> rule-3 -> rule-4
 
-  input chain of filter table = rule-1 -> rule-2    rule-3 -> rule-4
-                                            |         ^
-                                            V         |
-           user-defined chain =           rule-a -> rule-b
+      input chain of filter table = rule-1 -> rule-2    rule-3 -> rule-4
+                                                |         ^
+                                                V         |
+               user-defined chain =           rule-a -> rule-b
 
 - IPv4
 
