@@ -287,7 +287,7 @@ forward chain of filter table = rule-1 -> rule-2 -> rule-3 -> rule-4
       // Returns verdict. Modify skb.
       unsigned int (*target)(struct sk_buff *skb, const struct xt_action_param *);
 
-An iptable is an array of ``ipt_entry`` elements with different sizes. We can jump from one element to the next one by using ``next_offset`` field. Inside ``ipt_do_table``, a ``jumpstack`` is used to save
+An iptable is an array of ``ipt_entry`` elements with different sizes. We can jump from one element to the next one by using ``next_offset`` field. Inside ``ipt_do_table``, a ``jumpstack`` is used to keep track of where we go after a return.
 
 Virtual Devices
 ===============
