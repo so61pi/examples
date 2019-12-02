@@ -124,7 +124,7 @@ To build a tree, everything is a node and has the same interface.
 Decorator
 ---------
 
-Decorate an object with new functionalities while preserving the old ones.
+Decorate an object with new functionalities while preserving the old ones. Basically a linked list of code.
 
     What problems can it solve?
 
