@@ -1,10 +1,13 @@
 .. contents:: Table of Contents
 
-Security
-========
+General
+=======
+
+**These settings can be on reverse proxy server or the application itself.**
 
 - Put maximum limitation on everything.
 
+  * Rate limiting
   * Turn off all un-used ports (both in and out).
   * Only give accounts minimal level of permission.
   * Run services as non-root user, non-root group.
