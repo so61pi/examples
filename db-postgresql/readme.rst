@@ -809,6 +809,163 @@ Test Data
                (50 * random() - 15) AS temperature /* -15; 35 */
       ) AS sample;
 
-    -- Select 100 million rows randomly.
-    EXPLAIN (ANALYZE, VERBOSE, COSTS, BUFFERS, TIMING, SUMMARY)
-    SELECT * FROM tstdt WHERE id IN (SELECT (generate_series(1, 1000*1000*1000 / 10, 10) * random())::bigint);
+    --
+    -- Database stats
+    --
+    SELECT datname AS dbname, pg_size_pretty(pg_database_size(datname)) AS size FROM pg_database ORDER BY pg_database_size(datname) DESC;
+    /*
+    ╔═══════════════════════╤═════════╗
+    ║        dbname         │  size   ║
+    ╟───────────────────────┼─────────╢
+    ║ postgres              │ 98 GB   ║
+    ╚═══════════════════════╧═════════╝
+    */
+
+
+    SELECT tablename AS table, pg_size_pretty(pg_total_relation_size(tablename)) AS total_size, pg_size_pretty(pg_table_size(tablename)) AS size_without_indexes, pg_size_pretty(pg_indexes_size(tablename)) AS indexes_size FROM (SELECT tablename::regclass FROM pg_tables where schemaname = 'public') AS tablename ORDER BY pg_total_relation_size(tablename) DESC;
+    /*
+    ╔══════════════════════════════╤════════════╤══════════════════════╤══════════════╗
+    ║            table             │ total_size │ size_without_indexes │ indexes_size ║
+    ╟──────────────────────────────┼────────────┼──────────────────────┼──────────────╢
+    ║ tstdt                        │ 98 GB      │ 56 GB                │ 42 GB        ║
+    ╚══════════════════════════════╧════════════╧══════════════════════╧══════════════╝
+    */
+
+
+    SELECT tablename, indexname, pg_size_pretty(pg_table_size(indexname::regclass)) FROM pg_indexes ORDER BY pg_table_size(indexname::regclass) DESC LIMIT 10;
+    /*
+    ╔════════════════╤═════════════════════════════════╤════════════════╗
+    ║   tablename    │            indexname            │ pg_size_pretty ║
+    ╟────────────────┼─────────────────────────────────┼────────────────╢
+    ║ tstdt          │ tstdt_pkey                      │ 21 GB          ║
+    ║ tstdt          │ tstdt_created_at_idx            │ 21 GB          ║
+    ╚════════════════╧═════════════════════════════════╧════════════════╝
+    */
+
+
+    --
+    -- Retrieve data.
+    --
+    EXPLAIN
+    (ANALYZE, VERBOSE, COSTS, BUFFERS, TIMING, SUMMARY)
+    SELECT * FROM tstdt WHERE id < 1000*1000;
+    /*
+    ╔═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
+    ║                                                                QUERY PLAN                                                                 ║
+    ╟───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╢
+    ║ Index Scan using tstdt_pkey on public.tstdt  (cost=0.57..38040.85 rows=1061787 width=32) (actual time=0.028..189.213 rows=999999 loops=1) ║
+    ║   Output: id, created_at, receive_at, temperature                                                                                         ║
+    ║   Index Cond: (tstdt.id < 1000000)                                                                                                        ║
+    ║   Buffers: shared hit=5 read=10084                                                                                                        ║
+    ║ Planning Time: 4.292 ms                                                                                                                   ║
+    ║ Execution Time: 226.604 ms                                                                                                                ║
+    ╚═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
+    */
+
+
+    EXPLAIN
+    (ANALYZE, VERBOSE, COSTS, BUFFERS, TIMING, SUMMARY)
+    SELECT * FROM tstdt WHERE id IN (SELECT generate_series(1, 1000*1000*1000, 1000*1000));
+    /*
+    ╔═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
+    ║                                                            QUERY PLAN                                                             ║
+    ╟───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╢
+    ║ Nested Loop  (cost=18.09..1471.43 rows=500000064 width=32) (actual time=1.288..45.447 rows=1000 loops=1)                          ║
+    ║   Output: tstdt.id, tstdt.created_at, tstdt.receive_at, tstdt.temperature                                                         ║
+    ║   Inner Unique: true                                                                                                              ║
+    ║   Buffers: shared hit=1968 read=3040                                                                                              ║
+    ║   ->  HashAggregate  (cost=17.52..19.52 rows=200 width=4) (actual time=1.147..1.674 rows=1000 loops=1)                            ║
+    ║         Output: (generate_series(1, 1000000000, 1000000))                                                                         ║
+    ║         Group Key: generate_series(1, 1000000000, 1000000)                                                                        ║
+    ║         ->  ProjectSet  (cost=0.00..5.02 rows=1000 width=4) (actual time=0.006..0.264 rows=1000 loops=1)                          ║
+    ║               Output: generate_series(1, 1000000000, 1000000)                                                                     ║
+    ║               ->  Result  (cost=0.00..0.01 rows=1 width=0) (actual time=0.002..0.002 rows=1 loops=1)                              ║
+    ║   ->  Index Scan using tstdt_pkey on public.tstdt  (cost=0.57..8.59 rows=1 width=32) (actual time=0.043..0.043 rows=1 loops=1000) ║
+    ║         Output: tstdt.id, tstdt.created_at, tstdt.receive_at, tstdt.temperature                                                   ║
+    ║         Index Cond: (tstdt.id = (generate_series(1, 1000000000, 1000000)))                                                        ║
+    ║         Buffers: shared hit=1968 read=3040                                                                                        ║
+    ║ Planning Time: 2.801 ms                                                                                                           ║
+    ║ Execution Time: 45.853 ms                                                                                                         ║
+    ╚═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
+    */
+
+
+    EXPLAIN
+    (ANALYZE, VERBOSE, COSTS, BUFFERS, TIMING, SUMMARY)
+    SELECT * FROM tstdt WHERE id IN (SELECT generate_series(1, 1000*1000*1000,  100*1000));
+    /*
+    ╔════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
+    ║                                                             QUERY PLAN                                                             ║
+    ╟────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╢
+    ║ Nested Loop  (cost=18.09..1471.43 rows=500000064 width=32) (actual time=2.986..164.805 rows=10000 loops=1)                         ║
+    ║   Output: tstdt.id, tstdt.created_at, tstdt.receive_at, tstdt.temperature                                                          ║
+    ║   Inner Unique: true                                                                                                               ║
+    ║   Buffers: shared hit=21881 read=28173                                                                                             ║
+    ║   ->  HashAggregate  (cost=17.52..19.52 rows=200 width=4) (actual time=2.939..5.295 rows=10000 loops=1)                            ║
+    ║         Output: (generate_series(1, 1000000000, 100000))                                                                           ║
+    ║         Group Key: generate_series(1, 1000000000, 100000)                                                                          ║
+    ║         ->  ProjectSet  (cost=0.00..5.02 rows=1000 width=4) (actual time=0.001..0.694 rows=10000 loops=1)                          ║
+    ║               Output: generate_series(1, 1000000000, 100000)                                                                       ║
+    ║               ->  Result  (cost=0.00..0.01 rows=1 width=0) (actual time=0.000..0.000 rows=1 loops=1)                               ║
+    ║   ->  Index Scan using tstdt_pkey on public.tstdt  (cost=0.57..8.59 rows=1 width=32) (actual time=0.016..0.016 rows=1 loops=10000) ║
+    ║         Output: tstdt.id, tstdt.created_at, tstdt.receive_at, tstdt.temperature                                                    ║
+    ║         Index Cond: (tstdt.id = (generate_series(1, 1000000000, 100000)))                                                          ║
+    ║         Buffers: shared hit=21881 read=28173                                                                                       ║
+    ║ Planning Time: 0.106 ms                                                                                                            ║
+    ║ Execution Time: 165.296 ms                                                                                                         ║
+    ╚════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
+    */
+
+
+    EXPLAIN
+    (ANALYZE, VERBOSE, COSTS, BUFFERS, TIMING, SUMMARY)
+    SELECT * FROM tstdt WHERE id IN (SELECT generate_series(1, 1000*1000*1000,   10*1000));
+    /*
+    ╔═════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
+    ║                                                             QUERY PLAN                                                              ║
+    ╟─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╢
+    ║ Nested Loop  (cost=18.09..1471.43 rows=500000064 width=32) (actual time=43.537..1261.919 rows=100000 loops=1)                       ║
+    ║   Output: tstdt.id, tstdt.created_at, tstdt.receive_at, tstdt.temperature                                                           ║
+    ║   Inner Unique: true                                                                                                                ║
+    ║   Buffers: shared hit=244051 read=256495                                                                                            ║
+    ║   ->  HashAggregate  (cost=17.52..19.52 rows=200 width=4) (actual time=43.492..70.140 rows=100000 loops=1)                          ║
+    ║         Output: (generate_series(1, 1000000000, 10000))                                                                             ║
+    ║         Group Key: generate_series(1, 1000000000, 10000)                                                                            ║
+    ║         ->  ProjectSet  (cost=0.00..5.02 rows=1000 width=4) (actual time=0.002..9.717 rows=100000 loops=1)                          ║
+    ║               Output: generate_series(1, 1000000000, 10000)                                                                         ║
+    ║               ->  Result  (cost=0.00..0.01 rows=1 width=0) (actual time=0.000..0.001 rows=1 loops=1)                                ║
+    ║   ->  Index Scan using tstdt_pkey on public.tstdt  (cost=0.57..8.59 rows=1 width=32) (actual time=0.012..0.012 rows=1 loops=100000) ║
+    ║         Output: tstdt.id, tstdt.created_at, tstdt.receive_at, tstdt.temperature                                                     ║
+    ║         Index Cond: (tstdt.id = (generate_series(1, 1000000000, 10000)))                                                            ║
+    ║         Buffers: shared hit=244051 read=256495                                                                                      ║
+    ║ Planning Time: 0.125 ms                                                                                                             ║
+    ║ Execution Time: 1266.595 ms                                                                                                         ║
+    ╚═════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
+    */
+
+
+    EXPLAIN
+    (ANALYZE, VERBOSE, COSTS, BUFFERS, TIMING, SUMMARY)
+    SELECT * FROM tstdt WHERE id IN (SELECT generate_series(1, 1000*1000*1000,      1000));
+    /*
+    ╔══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
+    ║                                                              QUERY PLAN                                                              ║
+    ╟──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╢
+    ║ Nested Loop  (cost=18.09..1471.43 rows=500000064 width=32) (actual time=386.902..433628.191 rows=1000000 loops=1)                    ║
+    ║   Output: tstdt.id, tstdt.created_at, tstdt.receive_at, tstdt.temperature                                                            ║
+    ║   Inner Unique: true                                                                                                                 ║
+    ║   Buffers: shared hit=2467591 read=2537873 dirtied=886781 written=671170                                                             ║
+    ║   ->  HashAggregate  (cost=17.52..19.52 rows=200 width=4) (actual time=384.995..1211.601 rows=1000000 loops=1)                       ║
+    ║         Output: (generate_series(1, 1000000000, 1000))                                                                               ║
+    ║         Group Key: generate_series(1, 1000000000, 1000)                                                                              ║
+    ║         ->  ProjectSet  (cost=0.00..5.02 rows=1000 width=4) (actual time=0.001..69.475 rows=1000000 loops=1)                         ║
+    ║               Output: generate_series(1, 1000000000, 1000)                                                                           ║
+    ║               ->  Result  (cost=0.00..0.01 rows=1 width=0) (actual time=0.000..0.001 rows=1 loops=1)                                 ║
+    ║   ->  Index Scan using tstdt_pkey on public.tstdt  (cost=0.57..8.59 rows=1 width=32) (actual time=0.431..0.431 rows=1 loops=1000000) ║
+    ║         Output: tstdt.id, tstdt.created_at, tstdt.receive_at, tstdt.temperature                                                      ║
+    ║         Index Cond: (tstdt.id = (generate_series(1, 1000000000, 1000)))                                                              ║
+    ║         Buffers: shared hit=2467591 read=2537873 dirtied=886781 written=671170                                                       ║
+    ║ Planning Time: 0.193 ms                                                                                                              ║
+    ║ Execution Time: 433836.285 ms                                                                                                        ║
+    ╚══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
+    */
