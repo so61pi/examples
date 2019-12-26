@@ -808,6 +808,7 @@ Test Data
         SELECT '2020-01-01T00:00:00Z'::timestamptz + generate_series(1, 1000*1000*1000) * interval '0.1 second' AS randtime,
                (50 * random() - 15) AS temperature /* -15; 35 */
       ) AS sample;
+    /* Time: 5342925.845 ms (01:29:02.926) */
 
     --
     -- Database stats
