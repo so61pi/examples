@@ -1,4 +1,4 @@
-version: '3.1'
+version: '3.7'
 
 services:
   # https://hub.docker.com/r/fluent/fluentd
@@ -13,6 +13,8 @@ services:
     ports:
       - 24224:24224
       - 24224:24224/udp
+    depends_on:
+      - elasticsearch
 
   # https://hub.docker.com/_/elasticsearch
   #
@@ -20,7 +22,9 @@ services:
   # Run `sudo sysctl -w vm.max_map_count=262144` in the host system
   # to increase `vm.max_map_count` to correct value.
   elasticsearch:
-    image: elasticsearch:6.6.2
+    image: elasticsearch:7.5.1
+    environment:
+      - discovery.type=single-node
 
   # https://hub.docker.com/_/kibana
   #
@@ -30,7 +34,7 @@ services:
   # environment:
   #   ELASTICSEARCH_HOSTS: http://elasticsearch:9200
   kibana:
-    image: kibana:6.6.2
+    image: kibana:7.5.1
     ports:
       - 5601:5601
     depends_on:
@@ -57,7 +61,7 @@ services:
     command: sh -c "while true; do wget -q -O /dev/null http://web; sleep 1; done;"
 
   elasticsearch-hq:
-    image: elastichq/elasticsearch-hq:release-v3.5.0
+    image: elastichq/elasticsearch-hq:release-v3.5.12
     depends_on:
       - elasticsearch
     ports:
