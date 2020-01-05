@@ -15,6 +15,8 @@ EXTENDS Integers, TLC, Sequences
 CONSTANTS Workers, Books
 ASSUME Books /= {<<>>}
 
+SumSeq(seq) == 4
+
 (* --algorithm mapreduce
 variables
     books \in Books,
@@ -52,7 +54,7 @@ begin
     end while;
 
     Finish:
-    assert totalWordCount = 4;
+    assert totalWordCount = SumSeq(books);
 end process;
 
 process worker \in Workers
@@ -129,8 +131,8 @@ Reduce == /\ pc[1] = "Reduce"
           /\ UNCHANGED << books, jobQueue, mapResult, total >>
 
 Finish == /\ pc[1] = "Finish"
-          /\ Assert(totalWordCount = 4, 
-                    "Failure of assertion at line 55, column 5.")
+          /\ Assert(totalWordCount = SumSeq(books),
+                    "Failure of assertion at line 57, column 5.")
           /\ pc' = [pc EXCEPT ![1] = "Done"]
           /\ UNCHANGED << books, jobQueue, mapResult, assignedWorkers, 
                           totalWordCount, total >>
@@ -175,8 +177,9 @@ Termination == <>(\A self \in ProcSet: pc[self] = "Done")
 \* END TRANSLATION
 
 Invariant == TRUE
+Liveness == <>[](totalWordCount = SumSeq(books))
 
 =============================================================================
 \* Modification History
-\* Last modified Sat Jan 04 23:04:50 ICT 2020 by so61pi
+\* Last modified Sun Jan 05 21:52:31 ICT 2020 by so61pi
 \* Created Sat Jan 04 19:13:39 ICT 2020 by so61pi

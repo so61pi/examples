@@ -3,7 +3,10 @@
 Syntax Overview
 ===============
 
-TODO: Extract from TLA+ Cheat Sheet from TLA+ Toolbox and put here.
+TODO:
+
+- Extract from TLA+ Cheat Sheet from TLA+ Toolbox and put here.
+- Chapter 3 and 5 from P-Syntax.
 
 PlusCal Template
 ================
