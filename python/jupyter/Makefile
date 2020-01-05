@@ -29,7 +29,7 @@ init:
 ## run-jupyter                  : Run jupyter.
 .PHONY: run-jupyter
 run-jupyter:
-	@echo https://jupyter.readthedocs.io/en/latest/running.html
-	jupyter notebook
+	jupyter lab
+# 	jupyter notebook
 # 	jupyter notebook --port 9999
 # 	jupyter notebook --no-browser
