@@ -16,20 +16,13 @@ venv-activate:
 
 
 #-------------------------------
-## init-again                   : Install all python requirements.
-.PHONY: init-again
-init-again:
-	pip install -r requirements.txt
-
-
-#-------------------------------
-## init                         : Initialize environment for the first time.
+## init                         : Install all python requirements.
 .PHONY: init
 init:
-	@echo More information about jupyter can be found at https://jupyter.org/install
-	pip install jupyterlab
-
-	pip install seaborn
+# 	@echo https://jupyter.org/install
+# 	pip install jupyterlab
+# 	pip install seaborn
+	pip install -r requirements.txt
 
 
 #-------------------------------
