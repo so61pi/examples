@@ -112,15 +112,15 @@ Liveness
 
 A behavior is a sequence of states (``<<s1, s2, ...>>``).
 
-============================ =======
-Expression                   Meaning
-============================ =======
-``[]Predicate``              ``Predicate`` is TRUE for every state of a behavior (always)
-``<>Predicate``              ``Predicate`` is TRUE for at least one state of a behavior (eventually)
-``Predicate1 ~> Predicate2`` ``Predicate1`` becoming TRUE leads to ``Predicate2`` becoming TRUE at current or some later state
-``<>[]Predicate``            ``Predicate`` becomes TRUE at some state and stays TRUE afterwards up until the end of a behavior
-``[]<>Predicate``
-============================ =======
+================== =======
+Expression         Meaning
+================== =======
+``[]Expr``         ``Expr`` is TRUE for every state of a behavior (always)
+``<>Expr``         ``Expr`` is TRUE for at least one state of a behavior (eventually)
+``Expr1 ~> Expr2`` ``Expr1`` becoming TRUE leads to ``Expr2`` becoming TRUE at current or some later state
+``<>[]Expr``       ``Expr`` becomes TRUE at some state and stays TRUE afterwards up until the end of a behavior
+``[]<>Expr``
+================== =======
 
 Definitions
 ~~~~~~~~~~~
@@ -138,15 +138,119 @@ Definitions
 
 	a operator b == a + b
 
-PlusCal
--------
+PlusCal (P-Syntax)
+------------------
 
-TODO:
+- Each label is an atomic action.
+- Expressions in PlusCal can be any TLA+ expression.
 
-- Chapter 3 P-Syntax.
+Assignment::
+
+    y := a + b
+    a := b || b := a
+
+``if``::
+
+    if test then
+        t_clause
+    else
+        e_clause
+    end if;
+
+``either`` arbitrarily chooses a clause to run::
+
+    either
+        clause1
+    or
+        clause2
+    or
+        clause3
+    end either;
+
+``while``::
+
+    label:
+    while test do
+        body
+    end while;
+
+``await`` blocks waiting for ``expr`` to become TRUE::
+
+    await expr;
+
+``with`` run ``body`` by choosing an ``id`` from ``set`` nondeterministically::
+
+    with id \in set do
+        body
+    end with;
+
+``process``::
+
+    [fair[+]] process ProcName \in IdSet
+    [fair[+]] process ProcName = Id
+
+``print`` and ``assert``::
+
+    print expr;
+    assert expr;
+
+``define`` defines operators using global algorithm's variables using TLA+ expressions::
+
+    variables x \in 1..10, y;
+    define
+        zy == y * (x + y)
+        zx(a) == x * (y - a)
+    end define;
 
 PlusCal Template
 ================
+
+TLA+ Standard Modules:
+
+- Bags
+- FiniteSets
+- Integers
+- Naturals
+- RealTime
+- Reals
+- Sequences
+- TLC
+
+::
+
+    ---- MODULE modname ----
+    EXTENDS Integers, TLC, Sequences
+    CONSTANTS Workers
+    ASSUME Workers /= {}
+
+    set ++ value == set \union {value}
+    set -- value == set \ {value}
+    Sum(seq) == 1
+
+    (* --algorithm modname
+    variables
+        w \in Workers,
+        x = 2;
+
+    define
+        X2 == x * 2
+    end define;
+
+    process procname \in Workers
+    variables
+        processLocalVariable = 0,
+    begin
+        skip;
+    end process;
+
+    end algorithm; *)
+    \* BEGIN TRANSLATION
+    \* END TRANSLATION
+
+    Invariant == TRUE
+    Liveness == <>[](TRUE)
+
+    ====
 
 References
 ==========
