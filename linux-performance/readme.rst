@@ -88,11 +88,12 @@ System Logs
 
   * This can shed some light on where the bottleneck is (application code, kernel code, disk/network latency).
 
-``S_COLORS=auto mpstat -P ALL 1``
+``mpstat -P ALL 1``
 ---------------------------------
 
 ::
 
+    $ S_COLORS=auto mpstat -P ALL 1
                            #               #       #       #       #
 
                                                            +- Percentage of time spent to service hardware interrupts.
@@ -122,11 +123,12 @@ System Logs
 
   * Yes means the culprit can be network, disk, or other device drivers.
 
-``S_COLORS=auto pidstat 1``
+``pidstat 1``
 ---------------------------
 
 ::
 
+    $ S_COLORS=auto pidstat 1
                                       #       #               #       #
 
     08:50:57 PM   UID       PID    %usr %system  %guest   %wait    %CPU   CPU  Command
@@ -150,11 +152,12 @@ System Logs
 
   * Yes means that process can be the offender.
 
-``S_COLORS=auto iostat -xz 1``
+``iostat -xz 1``
 ------------------------------
 
 ::
 
+    $ S_COLORS=auto iostat -xz 1
                         #         #                       #                #         #                       #                                                                   #      #
 
                         +- Completed read/write requests/sec. -------------+                           The average queue length of the requests that were issued to the device. -+
@@ -190,11 +193,12 @@ System Logs
 - Is ``available`` low?
 - Is swap memory used a lot?
 
-``S_COLORS=auto sar -n DEV 1``
+``sar -n DEV 1``
 ------------------------------
 
 ::
 
+    $ S_COLORS=auto sar -n DEV 1
                                   #         #         #         #                                       #
 
     08:52:08 PM     IFACE   rxpck/s   txpck/s    rxkB/s    txkB/s   rxcmp/s   txcmp/s  rxmcst/s   %ifutil
@@ -206,11 +210,12 @@ System Logs
     08:52:09 PM    wlp2s0      0.00      0.00      0.00      0.00      0.00      0.00      0.00      0.00
     08:52:09 PM        lo      0.00      0.00      0.00      0.00      0.00      0.00      0.00      0.00
 
-``S_COLORS=auto sar -n TCP,ETCP 1``
+``sar -n TCP,ETCP 1``
 -----------------------------------
 
 ::
 
+    $ S_COLORS=auto sar -n TCP,ETCP 1
                         #         #
 
                         +- Out connections.
