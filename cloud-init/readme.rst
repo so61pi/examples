@@ -227,6 +227,70 @@ Quick Look At Source Code
              security: http://ports.ubuntu.com/ubuntu-ports
        ssh_svcname: ssh
 
+Ubuntu Cloud Image With KVM
+===========================
+
+Ubuntu cloud image comes with cloud-init pre-installed, we can use it with customized configuration to practice.
+
+#. Go to https://cloud-images.ubuntu.com/ and download an image.
+
+   After downloading, we can check its info by ``qemu-img info bionic-server-cloudimg-amd64.img``. The output should look like this::
+
+       image: bionic-server-cloudimg-amd64.img
+       file format: qcow2
+       virtual size: 2.2 GiB (2361393152 bytes)
+       disk size: 329 MiB
+       cluster_size: 65536
+       Format specific information:
+           compat: 0.10
+           refcount bits: 16
+
+#. Prepare test image.
+
+   If the downloaded image is not in qcow2 format, we can run the following command to do the conversion:
+
+   .. code-block:: shell
+
+       qemu-img convert -O qcow2 bionic-server-cloudimg-amd64.img testvm.qcow2
+
+   Increase the size of the image by 10G (or whatever size you want):
+
+   .. code-block:: shell
+
+       qemu-img resize testvm.qcow2 +10G
+
+   Move prepared image to proper location:
+
+   .. code-block:: shell
+
+       sudo mv testvm.qcow2 /var/lib/libvirt/images/
+
+#. Prepare cloud-init config ISO:
+
+   .. code-block:: shell
+
+       mkisofs -volid cidata -joliet -rock -output testvm-cidata.iso user-data meta-data
+       sudo mv testvm-cidata.iso /var/lib/libvirt/images/
+
+#. Create new virtual machine.
+
+   We can create new virtual machine from drafted files via Virtual Machine Manager (GUI) or virt-install (CLI).
+
+   .. code-block:: shell
+
+       # Remember to replace with suitable configs.
+       sudo virt-install \
+           --name testvm \
+           --memory 2048 \
+           --disk /var/lib/libvirt/images/testvm.qcow2,device=disk,bus=virtio \
+           --disk /var/lib/libvirt/images/testvm-cidata.iso,device=cdrom \
+           --os-type linux \
+           --os-variant ubuntu18.04 \
+           --virt-type kvm \
+           --graphics none \
+           --network network=default,model=virtio \
+           --import
+
 References
 ==========
 
