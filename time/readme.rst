@@ -1,5 +1,42 @@
 .. contents:: Table of Contents
 
+UTC/UT/TAI
+==============
+
+TAI - International Atomic Time
+-------------------------------
+
+    The International System of Units (SI) defines one second as the time it takes a Cesium-133 atom at the ground state to oscillate exactly 9,192,631,770 times.
+
+    --- https://www.timeanddate.com/time/international-atomic-time.html
+
+We can think TAI as an absolute way to measure time (not in the sense of any physics theory). It doesn't depend on earth or sun's movements.
+
+UT/UT1 - Universal Time
+-----------------------
+
+In UT, a day is defined as the amount of time for the Earth to complete a rotation around its axis.
+
+As the Earth's angular velocity is getting slower, and people want to keep the length of a day 24 hours, conceptually a day is a little bit longer than **86400** (24 * 60 * 60) seconds.
+
+You can go to https://www.timeanddate.com/time/earth-rotation.html to see how long currently a day is.
+
+UTC
+---
+
+Imagine we have a TAI clock running for a few years, we will realize that it counts more than 86400 seconds a day.
+
+In order to use this clock, and keep the number of seconds in a day stable at 86400, once in a while we add a leap second to it so the next day we are back to having 86400 seconds a day. (The concept is similar to leap years.) Consequently, there will be days when we have **86400 + 1** seconds.
+
+With all that said, we cannot modify TAI to accomondate leap seconds, so people invented a new clock system for this, which is called **Coordinated Universal Time**.
+
+References
+----------
+
+- https://www.timeanddate.com/time/international-atomic-time.html
+- https://www.timeanddate.com/time/universal-time.html
+- https://www.timeanddate.com/time/aboututc.html
+
 Concerns
 ========
 
