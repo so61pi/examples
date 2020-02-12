@@ -1,5 +1,11 @@
 .. contents:: Table of Contents
 
+Cheat Sheet
+===========
+
+- https://cheats.rs
+- https://cheats.rs/#links-services
+
 Generic
 =======
 
