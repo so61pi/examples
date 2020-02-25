@@ -36,6 +36,9 @@ localhost:3000 <--------------------> server:9000 <--------------------> interne
                       |                                          |
                       | All packets from internet to server:9000 |
                       |    are transferred to localhost:3000     |
+                      |------------------------------------------|
+                      |      Service localhost:3000 can be       |
+                      |        accessible at server:9000         |
                       |__________________________________________|
 
 
@@ -47,6 +50,9 @@ address:3000 <--------------------> server:9000 <--------------------> internet
                     |                                          |
                     | All packets from internet to server:9000 |
                     |     are transferred to address:3000      |
+                    |------------------------------------------|
+                    |       Service address:3000 can be        |
+                    |        accessible at server:9000         |
                     |__________________________________________|
 
 #
