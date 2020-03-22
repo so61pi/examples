@@ -1,0 +1,37 @@
+version: '3.4'
+
+services:
+  grafana:
+    image: "grafana/grafana:6.6.2"
+    restart: always
+    volumes:
+      - grafana-storage:/var/lib/grafana
+    network_mode: "host"
+    depends_on:
+      - prometheus
+
+  prometheus:
+    image: "prom/prometheus:v2.16.0"
+    restart: always
+    command:
+      - --config.file=/etc/prometheus/prometheus.yml
+    volumes:
+      - prometheus-storage:/prometheus
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
+    network_mode: "host"
+
+  blackbox-exporter:
+    image: "prom/blackbox-exporter:v0.16.0"
+    restart: always
+    ports:
+      - 9115:9115
+    cap_add:
+      - CAP_NET_RAW
+    command:
+      - --config.file=/blackbox.yml
+    volumes:
+      - ./blackbox.yml:/blackbox.yml:ro
+
+volumes:
+  grafana-storage:
+  prometheus-storage:

@@ -1,0 +1,131 @@
+global:
+  scrape_interval:     15s
+  evaluation_interval: 15s
+
+scrape_configs:
+  # The job name is added as a label `job=<job_name>` to any timeseries scraped from this config.
+  - job_name: 'prometheus'
+    # metrics_path defaults to '/metrics'
+    # scheme defaults to 'http'.
+    static_configs:
+      - targets: ['localhost:9090']
+
+  - job_name: 'node'
+    static_configs:
+    - targets: ['localhost:9100']
+
+  - job_name: 'netdata'
+    metrics_path: /api/v1/allmetrics
+    params:
+      format: [prometheus]
+    static_configs:
+      - targets: ['localhost:19999']
+
+  - job_name: 'ebpf'
+    metrics_path: /metrics
+    static_configs:
+      - targets: ['localhost:9435']
+
+  - job_name: 'blackbox-http'
+    metrics_path: /probe
+    params:
+      module: [http_2xx]
+    static_configs:
+      - targets:
+        - https://9gag.com
+        - https://aws.amazon.com
+        - https://bing.com
+        - https://discordapp.com
+        - https://drive.google.com
+        - https://duckduckgo.com
+        - https://fptshop.com.vn
+        - https://github.com
+        - https://gitlab.com
+        - https://hub.docker.com
+        - https://instagram.com
+        - https://letsencrypt.org
+        - https://linkedin.com
+        - https://live.com
+        - https://mail.google.com
+        - https://mp3.zing.vn
+        - https://news.zing.vn
+        - https://office.com
+        - https://slack.com
+        - https://stackoverflow.com
+        - https://twitter.com
+        - https://vk.com
+        - https://vnexpress.net
+        - https://whatsapp.com
+        - https://wikipedia.org
+        - https://www.akamai.com
+        - https://www.baidu.com
+        - https://www.cloudflare.com
+        - https://www.facebook.com
+        - https://www.fastly.com
+        - https://www.google.com
+        - https://www.microsoft.com
+        - https://www.mozilla.org
+        - https://www.reddit.com
+        - https://www.vietteltelecom.vn
+        - https://www.youtube.com
+        - https://yahoo.co.jp
+        - https://yandex.ru
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: localhost:9115 # Blackbox exporter.
+
+  - job_name: 'blackbox-icmp'
+    metrics_path: /probe
+    params:
+      module: [icmp]
+    static_configs:
+      - targets:
+        - 9gag.com
+        - aws.amazon.com
+        - bing.com
+        - discordapp.com
+        - drive.google.com
+        - duckduckgo.com
+        - fptshop.com.vn
+        - github.com
+        - gitlab.com
+        - hub.docker.com
+        - instagram.com
+        - letsencrypt.org
+        - linkedin.com
+        - live.com
+        - mail.google.com
+        - mp3.zing.vn
+        - news.zing.vn
+        - office.com
+        - slack.com
+        - stackoverflow.com
+        - twitter.com
+        - vk.com
+        - vnexpress.net
+        - whatsapp.com
+        - wikipedia.org
+        - www.akamai.com
+        - www.baidu.com
+        - www.cloudflare.com
+        - www.facebook.com
+        - www.fastly.com
+        - www.google.com
+        - www.microsoft.com
+        - www.mozilla.org
+        - www.reddit.com
+        - www.vietteltelecom.vn
+        - www.youtube.com
+        - yahoo.co.jp
+        - yandex.ru
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: localhost:9115 # Blackbox exporter.

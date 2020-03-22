@@ -1,0 +1,11 @@
+[Unit]
+Description=node exporter
+
+[Service]
+Type=simple
+Restart=always
+RestartSec=1
+ExecStart=/usr/local/bin/node-exporter --collector.interrupts --collector.processes --collector.qdisc --collector.systemd --collector.tcpstat --collector.perf --no-collector.mdadm
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,11 @@
+[Unit]
+Description=eBPF Prometheus exporter
+
+[Service]
+Type=simple
+Restart=always
+RestartSec=1
+ExecStart=/usr/local/bin/ebpf-exporter --config.file=/etc/ebpf-exporter.yml
+
+[Install]
+WantedBy=multi-user.target
