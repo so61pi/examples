@@ -58,7 +58,7 @@
   "gnetId": null,
   "graphTooltip": 0,
   "id": null,
-  "iteration": 1584862529402,
+  "iteration": 1585822320093,
   "links": [],
   "panels": [
     {
@@ -474,9 +474,9 @@
       "color": {
         "cardColor": "#b4ff00",
         "colorScale": "linear",
-        "colorScheme": "interpolateOranges",
+        "colorScheme": "interpolateSpectral",
         "exponent": 0.5,
-        "mode": "opacity"
+        "mode": "spectrum"
       },
       "dataFormat": "tsbuckets",
       "datasource": "${DS_PROMETHEUS}",
@@ -1226,5 +1226,5 @@
   "timezone": "",
   "title": "ebpf-exporter",
   "uid": "YRiZEBXWk",
-  "version": 21
+  "version": 22
 }

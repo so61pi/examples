@@ -15,6 +15,7 @@ services:
     restart: always
     command:
       - --config.file=/etc/prometheus/prometheus.yml
+      - --storage.tsdb.retention.time=10y
     volumes:
       - prometheus-storage:/prometheus
       - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
