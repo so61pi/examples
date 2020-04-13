@@ -200,23 +200,34 @@ pub fn fn_11() {
        i
        |
        v
-    j->  0 1 2 ... n 0 1 2
+    j->  0 1 2 ... n
+       0
+       1
+       2
        .
        n
     */
-    // (b) Have a binary tree that each node contains min value of its child
-    // nodes and the index range the min value covers.
+    // (b) Have a binary tree that each node contains
+    // - min value of its child nodes
+    // - index of that min value
+    // - index range that the min value covers
+    // Note: min(a0, a1, a2, a3) is a2 => min(a1, a2) is a2
     /*
-               0
-              0:7
-          ___/   \___
-         0           4
-        0:3         4:7
-       /   \       /   \
-      0     2     4     6
-     0:1   2:3   4:5   6:7
-     / \   / \   / \   / \
-    0   1 2   3 4   5 6   7
+                  0
+                 [0]
+                 0:7
+           _____/   \_____
+          0               8
+         [0]             [4]
+         0:3             4:7
+       _/   \_         _/   \_
+      0       4       8       C
+     [0]     [2]     [4]     [6]
+     0:1     2:3     4:5     6:7
+     / \     / \     / \     / \
+    0   2   4   6   8   A   C   E
+   [0] [1] [2] [3] [4] [5] [6] [7]
+    :   :   :   :   :   :   :   :
     */
 }
 
@@ -293,6 +304,7 @@ pub fn fn_13() {
     // subtraction like [0:6] - array[6].
 }
 
+// TODO
 pub fn fn_14() {
     // [8] Extend the data structure of the previous problem to support
     // insertions and deletions. Each element now has both a key and a value. An
@@ -311,12 +323,6 @@ pub fn fn_14() {
     //
     // The worst case running time should still be O(n log n) for any sequence
     // of O(n) operations.
-
-    // To keep the worst case running time O(n log n), we use a height-balanced
-    // tree. This case we utilize AVL tree and the sort criterion is the key.
-    // Each node still contains the sum of its children like previous exercise.
-    // The implementations of Insert and Delete must update sum value before
-    // rebalance the tree.
 }
 
 // TODO
@@ -356,7 +362,7 @@ pub fn fn_18() {
     // [3] What method would you use to look up a word in a dictionary?
 
     // As words in dictionary are alphabetically sorted, we can use binary
-    // seach.
+    // search.
 }
 
 pub fn fn_19() {
@@ -369,6 +375,7 @@ pub fn fn_19() {
 pub fn fn_20() {
     // [4] Write a function to find the middle node of a singly-linked list.
 
+    // Pointer racing.
     /*
     Node {
         value
@@ -391,7 +398,7 @@ pub fn fn_21() {
     // Identical trees have the same key value at each position and the same
     // structure.
 
-    // Basically do tree traversal for 2 trees at once.
+    // Basically do tree traversal for 2 trees at the same time.
 }
 
 pub fn fn_22() {
@@ -400,13 +407,13 @@ pub fn fn_22() {
     /*
     TreeToLList(tnode, llist) {
         if tnode->left {
-            TreeToList(tnode->left, llist)
+            TreeToLList(tnode->left, llist)
         }
 
         Add(llist, tnode->value)
 
         if tnode->right {
-            TreeToList(tnode->right, llist)
+            TreeToLList(tnode->right, llist)
         }
     }
     */
@@ -415,6 +422,26 @@ pub fn fn_22() {
 pub fn fn_23() {
     // [4] Implement an algorithm to reverse a linked list. Now do it without
     // recursion.
+
+    /*
+    newlist
+    for node = list.pop_front_node(); node != null; node = list.pop_front_node() {
+        newlist.push_front_node(node)
+    }
+    list = newlist
+
+    pop_front_node() {
+        if head == nullptr return nullptr
+        node, head = head, head->next
+        node->next = nullptr
+        return node
+    }
+
+    push_front_node(node) {
+        node->next = head
+        head = node
+    }
+    */
 
     /*
     new *Node = nullptr
@@ -433,8 +460,8 @@ pub fn fn_24() {
     // has already been visited, optimizing both space and time.
 
     // We can use a tree (below), each node of it holds a part of URL. To
-    // achieve more space efficiency, Bloom filter is a suitable choice but we
-    // need to take care of saturation problem.
+    // achieve more space efficiency, Bloom filter on hash of strings is
+    // a suitable choice but we need to take care of saturation problem.
     /*
     http://example.com/page-1
     http://example.com/page-2
@@ -445,7 +472,7 @@ pub fn fn_24() {
                 |
                 "example.com"
                 |           |
-         "page-1"           "page-1"
+         "page-1"           "page-2"
     */
 }
 
