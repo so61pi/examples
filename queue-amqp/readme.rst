@@ -17,6 +17,20 @@ Overview
 
     The power of AMQP comes from our ability to create queues (mailboxes), exchanges (MTA processes), and bindings (routing entries), at runtime, and to chain these together in ways that go far beyond a simple mapping from "to" address to mailbox name.
 
+.. code-block::
+
+                                                   +---------+         +------------+
+                                              +--->+  Queue  +-------->+  Consumer  |
+    +-------------+                           |    +---------+         +------------+
+    |  Publisher  +----+                      |
+    +-------------+    |    +------------+    |    +---------+
+                       +--->+  Exchange  +-------->+  Queue  +----+
+    +-------------+    |    +------------+    |    +---------+    |    +------------+
+    |  Publisher  +----+                      |                   +--->+  Consumer  |
+    +-------------+                           |    +---------+    |    +------------+
+                                              +--->+  Queue  +----+
+                                                   +---------+
+
 Exchange Types
 ==============
 
