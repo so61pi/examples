@@ -214,6 +214,25 @@ pub fn fn_10(numbers: &mut [i32], t: i32, k: usize) -> bool {
     // [5] Given a set S of n integers and an integer T , give an O(n^(k−1) log n)
     // algorithm to test whether k of the integers in S add up to T .
 
+    // The strategy is to break this down to a smaller problem. The general idea is
+    // we pick a number from the given array, and test the rest of the array (sub array)
+    // with k - 1 and T - picked number, until we only have to pick one value (which
+    // means k = 1).
+    //
+    // For example, with k = 3, T = 36, and array is [10, 11, 12, 13], we pick the
+    // first element of result set initially assume the first element 10 is in the
+    // result set, then we check sub problem which has k = 2, T = 36 - 10, and array
+    // = [11, 12, 13]. If choosing 10 doesn't work out, we pick to the next value, 11,
+    // as our first value of result set, and repeat the cycle.
+    //
+    // Note that we don't need to consider 10 in this second try, as it is proven that
+    // 10 cannot be in the result from first run. Consequently, we have [10, 11, 12, 13]
+    // on first run, but [11, 12, 13] on second run, and so on.
+    //
+    // Another way to solve this is to construct a matrix of k-1 dimensions, each element
+    // is the sum of k-1 values selected from input array. Then we loop through the matrix,
+    // and do binary searches with T-value.
+
     assert!(k > 0);
     assert!(numbers.len() >= k);
     numbers.sort_unstable();
@@ -242,8 +261,8 @@ pub fn fn_11() {
 
     // We can use O(n) selection algorithm (like nth_element in C++).
     //
-    // Note that nth_element in C++ not only get the nth smallest element, but
-    // also partition the array at nth so that "All of the elements before this
+    // Note that nth_element in C++ not only gets the nth smallest element, but
+    // also partitions the array at nth so that "All of the elements before this
     // new nth element are less than or equal to the elements after the new nth
     // element.".
     //
