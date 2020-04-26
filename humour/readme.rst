@@ -1,0 +1,2 @@
+- "Hurry up, we are late."
+- "Sure, I'm as a bus stop so I will wait faster."
