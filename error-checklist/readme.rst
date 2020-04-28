@@ -48,3 +48,5 @@
           SystemError,
           ApplicationError,
       }
+
+- Putting a narrow error enum on an interface/trait can backfire later when a new implementation has a new type of error.
