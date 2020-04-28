@@ -4,7 +4,7 @@
 
 - Don't create a gigantic error enum and use it everywhere. Instead, we should have multiple error enums and do mapping/grouping between them. Mapping/grouping usually happens when an error from lower layers is passed to higher layers.
 
-  Usually we can group fatal errors that users cannot really do anything about without making changes outside of our system into one enum variant. Other types of errors. each can be mapped to a seperate variant.
+  Usually we can group fatal errors that users cannot really do anything about without making changes outside of our system (e.g. db or io errors) into one enum variant. Other types of errors. each can be mapped to a seperate variant (e.g. missing input, invalid input).
 
 - Nesting errors is also an option.
 
