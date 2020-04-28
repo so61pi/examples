@@ -49,4 +49,4 @@
           ApplicationError,
       }
 
-- Putting a narrow error enum on an interface/trait can backfire later when a new implementation has a new type of error.
+- Errors should be considered as part of function's signature. Putting a narrow error enum on an interface/trait can backfire later when a new implementation has a new type of error.
