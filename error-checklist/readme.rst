@@ -6,7 +6,7 @@
 
   Usually we can group fatal errors that users cannot really do anything about without making changes outside of our system (e.g. db or io errors) into one enum variant. Other types of errors. each can be mapped to a seperate variant (e.g. missing input, invalid input).
 
-- Nesting errors is also an option.
+  Nesting errors is also an option.
 
   .. code-block:: text
 
