@@ -9,7 +9,7 @@
 
 - All errors of a given function should be enclosed in an enum instead of being implicitly formed by a set of independent constants.
 
-  .. code-block:: text
+  .. code-block:: rust
 
       // Bad (but sometimes required)
       const ERROR_INVALID_INPUT: i32 = 1;
@@ -35,7 +35,7 @@
 
   Nesting low level error enums into higher ones is also an option.
 
-  .. code-block:: text
+  .. code-block:: rust
 
       enum SystemError {
           IoError(io::Error), // external enum
@@ -63,7 +63,7 @@
 
   So if we use ``Result<Config, MyError>`` as the return type, the caller would look like this
 
-    .. code-block:: text
+    .. code-block:: rust
 
         let config = match get_config() {
             Ok(config) => config,
@@ -73,9 +73,9 @@
 
   Instead, we can separate the errors, using ``Result<Result<Config, FileNotFoundError>, IoError>``. It looks more cumbersome, but now we can pass the unexpected error to upper level easier.
 
-    .. code-block:: text
+    .. code-block:: rust
 
-        let config = match get_config()?; // pass IoError up the stack
+        let config = get_config()?; // pass IoError up the stack, may add some context like "reading config from file"
         let config = config.unwrap_or_else(|_| get_default_config());
 
 - Function calls and errors flow
