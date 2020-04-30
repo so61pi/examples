@@ -588,8 +588,8 @@ Inputs/Outputs
 
 #. Are ``F``'s outputs placed in **(out, error)** order?
 
-Code
-~~~~
+Implementation
+~~~~~~~~~~~~~~
 
 #. Is ``F`` written in favor of readability instead of performance?
 #. Does ``F`` invoke global components (e.g. time, filesystem, database...)?
